@@ -5,6 +5,7 @@
 //#include <ClosedLoopConfig.h>
 #include <rev/SparkMax.h>
 #include <rev/SparkBase.h>
+#include <rev/SparkClosedLoopController.h>
 //#include <SparkBaseConfig.h> 
 //template <typename t>
 
@@ -14,6 +15,7 @@ class SparkMaxMotor : public Motor {
         rev::spark::SparkMax motor; 
         rev::spark::SparkAbsoluteEncoder AbsoluteEncoder = motor.GetAbsoluteEncoder(); 
         rev::spark::SparkRelativeEncoder RelativeEncoder = motor.GetEncoder(); 
+        rev::spark::SparkClosedLoopController closedLoopController = motor.GetClosedLoopController(); 
         rev::spark::SparkBaseConfig config; 
         rev::spark::ClosedLoopConfig closedLoopConfig; 
         rev::spark::SoftLimitConfig softLimitConfig; 
@@ -29,7 +31,7 @@ class SparkMaxMotor : public Motor {
         }
 
         // rev::spark::SparkBaseConfig::SparkBaseConfig name{}
-
+        
         void SetPercent(double percent) override;
         void StopMotor() override; 
 
@@ -56,10 +58,11 @@ class SparkMaxMotor : public Motor {
         void setMinOutput(double min) override;
         void setMaxOutput(double max) override;
         void setOutputRange(double min, double max) override;
-        void setPositionWrapingEnabled(bool enabled) override;
+        void setPositionWrappingEnabled(bool enabled) override;
         void setPositionWrapingMinInput(double minInput) override;
         void setPositionWrappingMaxInput(double maxInput) override;
         void setPositionWrappingMaxRange(double minInput, double maxInput) override; 
+        void setReference(double ref, controlType ctrl) override; 
 
 
 

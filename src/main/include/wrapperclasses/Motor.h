@@ -12,6 +12,11 @@ class Motor {
             absolute,
             relative
         }; 
+
+        enum controlType {
+            position,
+            velocity
+        }; 
        
 
         virtual void SetPercent(double percent) = 0;
@@ -42,10 +47,11 @@ class Motor {
         virtual void setMinOutput(double min) = 0;
         virtual void setMaxOutput(double max) = 0;
         virtual void setOutputRange(double min, double max) = 0; 
-        virtual void setPositionWrapingEnabled(bool enabled) = 0;
+        virtual void setPositionWrappingEnabled(bool enabled) = 0;
         virtual void setPositionWrapingMinInput(double minInput) = 0; 
         virtual void setPositionWrappingMaxInput(double maxInput) = 0; 
         virtual void setPositionWrappingMaxRange(double minInput, double maxInput) = 0; 
+        virtual void setReference(double ref, controlType ctrl) = 0; 
 
         /*
         PositionWrappingEnabled (bool enabled)

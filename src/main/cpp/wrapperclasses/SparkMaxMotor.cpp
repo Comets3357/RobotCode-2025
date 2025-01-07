@@ -60,6 +60,24 @@ void SparkMaxMotor::setPositionWrappingMaxRange(double minInput, double maxInput
     closedLoopConfig.PositionWrappingInputRange(minInput, maxInput); 
 }
 
+void SparkMaxMotor::setPositionWrappingEnabled(bool enab)
+{
+    closedLoopConfig.PositionWrappingEnabled(enab); 
+}
+
+void SparkMaxMotor::setReference(double ref, controlType ctrl)
+{
+    if (ctrl == Motor::controlType::position)
+    {
+        closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kPosition); 
+    }
+    else if (ctrl == Motor::controlType::velocity)
+    {
+        closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kVelocity); 
+    }
+
+        
+}
 
 
 

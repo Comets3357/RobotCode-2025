@@ -2,6 +2,7 @@
 
 #include <rev/config/SparkMaxConfig.h>
 
+
 #include "Constants.h"
 
 using namespace rev::spark;

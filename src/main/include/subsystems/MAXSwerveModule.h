@@ -14,7 +14,7 @@
 #include <rev/SparkRelativeEncoder.h>
 
 #include "wrapperclasses/SparkMaxMotor.h"
-
+#include "Constants.h"
 using namespace rev::spark;
 
 class MAXSwerveModule {
@@ -33,14 +33,14 @@ class MAXSwerveModule {
    *
    * @return The current state of the module.
    */
-  frc::SwerveModuleState GetState() const;
+  frc::SwerveModuleState GetState();
 
   /**
    * Returns the current position of the module.
    *
    * @return The current position of the module.
    */
-  frc::SwerveModulePosition GetPosition() const;
+  frc::SwerveModulePosition GetPosition();
 
   /**
    * Sets the desired state for the module.
