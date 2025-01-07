@@ -2,7 +2,8 @@
 
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/SubsystemBase.h>
-#include <rev/CANSparkMax.h>
+#include "wrapperclasses/Motor.h"
+#include "wrapperclasses/SparkMaxMotor.h"
 
 class ElevatorSubsystem : public frc2::SubsystemBase
 {
@@ -13,8 +14,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase
         void ElevatorStop();
         void ElevatorLower();
     private:
-         rev::CANSparkMax MainElevatorMotor {11, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
-         rev::CANSparkMax FollowElevatorMotor {12, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
-         rev::SparkMaxLimitSwitch ElevatorMax = MainElevatorMotor.GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyClosed);
-         rev::SparkRelativeEncoder encoder = MainElevatorMotor.GetEncoder();
+        //  rev::SparkMaxLimitSwitch ElevatorMax = MainElevatorMotor.GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyClosed);
+        SparkMaxMotor MainElevatorMotor{11};
+        SparkMaxMotor FollowElevatorMotor{12};
+
 };
