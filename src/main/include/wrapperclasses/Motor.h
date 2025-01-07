@@ -6,13 +6,13 @@ class Motor {
     private: 
 
     public:
-        Motor(); 
+        Motor() {}; 
        
 
         virtual void SetPercent(double percent) = 0;
         virtual void StopMotor() = 0; 
 
-        virtual void Configure() = 0; 
+       // virtual void Configure() = 0; 
 
         // ENCODER FUNCTIONS // 
 
