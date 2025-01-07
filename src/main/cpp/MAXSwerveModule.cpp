@@ -6,7 +6,7 @@
 
 #include <frc/geometry/Rotation2d.h>
 
-#include "Configs.h"
+// #include "Configs.h"
 
 using namespace rev::spark;
 
@@ -48,7 +48,7 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
     m_turningSpark.setFeedbackSensor(Motor::encoderType::absolute); 
     m_turningSpark.setPID(1, 0, 0);
     m_turningSpark.setOutputRange(-1, 1);
-    m_turningSpark.setPositionWrapingEnabled(true);
+    m_turningSpark.setPositionWrappingEnabled(true);
     m_turningSpark.setPositionWrappingMaxRange(0, turningFactor); 
     
 
@@ -68,15 +68,15 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
 */
 
 
-frc::SwerveModuleState MAXSwerveModule::GetState() const {
+frc::SwerveModuleState MAXSwerveModule::GetState()  {
   return {units::meters_per_second_t{m_drivingSpark.GetRelativeVelocity()},
           units::radian_t{m_turningSpark.GetAbsolutePosition() -
                           m_chassisAngularOffset}};
 }
 
-frc::SwerveModulePosition MAXSwerveModule::GetPosition() const {
-  return {units::meter_t{m_drivingEncoder.GetPosition()},
-          units::radian_t{m_turningAbsoluteEncoder.GetPosition() -
+frc::SwerveModulePosition MAXSwerveModule::GetPosition()  {
+  return {units::meter_t{m_drivingSpark.GetRelativePosition()},
+          units::radian_t{m_turningSpark.GetAbsolutePosition() -
                           m_chassisAngularOffset}};
 }
 
@@ -91,13 +91,13 @@ void MAXSwerveModule::SetDesiredState(
 
   // Optimize the reference state to avoid spinning further than 90 degrees.
   correctedDesiredState.Optimize(
-      frc::Rotation2d(units::radian_t{m_turningAbsoluteEncoder.GetPosition()}));
+      frc::Rotation2d(units::radian_t{m_turningSpark.GetAbsolutePosition()}));
 
-  m_drivingClosedLoopController.SetReference(
-      (double)correctedDesiredState.speed, SparkMax::ControlType::kVelocity);
-  m_turningClosedLoopController.SetReference(
+  m_drivingSpark.setReference(
+      (double)correctedDesiredState.speed, Motor::controlType::velocity);
+  m_turningSpark.setReference(
       correctedDesiredState.angle.Radians().value(),
-      SparkMax::ControlType::kPosition);
+      Motor::controlType::position);
 
   m_desiredState = desiredState;
 }
