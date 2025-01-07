@@ -1,0 +1,105 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+#include "subsystems/MAXSwerveModule.h"
+
+#include <frc/geometry/Rotation2d.h>
+
+#include "Configs.h"
+
+using namespace rev::spark;
+
+MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
+                                 const double chassisAngularOffset)
+    : m_drivingSpark(drivingCANId),
+      m_turningSpark(turningCANId) {
+  // Apply the respective configurations to the SPARKS. Reset parameters before
+  // applying the configuration to bring the SPARK to a known good state.
+  // Persist the settings to the SPARK to avoid losing them on a power cycle.
+//   m_drivingSpark.Configure(Configs::MAXSwerveModule::DrivingConfig(),
+//                            SparkBase::ResetMode::kResetSafeParameters,
+//                            SparkBase::PersistMode::kPersistParameters);
+//   m_turningSpark.Configure(Configs::MAXSwerveModule::TurningConfig(),
+                        //    SparkBase::ResetMode::kResetSafeParameters,
+                        //    SparkBase::PersistMode::kPersistParameters);
+
+    double drivingFactor = ModuleConstants::kWheelDiameter.value() *
+                           std::numbers::pi /
+                           ModuleConstants::kDrivingMotorReduction;
+    double drivingVelocityFeedForward =
+        1 / ModuleConstants::kDriveWheelFreeSpeedRps;
+
+            // configurations for the driving spark max // 
+    m_drivingSpark.setPID(0.004, 0, 0);
+    m_drivingSpark.setAbsoluteVelocityConversionFactor(drivingFactor / 60.0); // meters per second
+    m_drivingSpark.setAbsolutePositionConversionFactor(drivingFactor); // meters
+    m_drivingSpark.SetSmartCurrentLimit(50); 
+    m_drivingSpark.setFeedbackSensor(Motor::encoderType::relative); 
+
+    // configurations for the turning spark max // 
+
+    double turningFactor = 2 * std::numbers::pi;
+
+    m_turningSpark.SetSmartCurrentLimit(50);
+    m_turningSpark.setInverted(true); 
+    m_turningSpark.setAbsolutePositionConversionFactor(turningFactor); //radians 
+    m_turningSpark.setAbsoluteVelocityConversionFactor(turningFactor / 60.0); // radians per second
+    m_turningSpark.setFeedbackSensor(Motor::encoderType::absolute); 
+    m_turningSpark.setPID(1, 0, 0);
+    m_turningSpark.setOutputRange(-1, 1);
+    m_turningSpark.setPositionWrapingEnabled(true);
+    m_turningSpark.setPositionWrappingMaxRange(0, turningFactor); 
+    
+
+
+
+  m_chassisAngularOffset = chassisAngularOffset;
+  m_desiredState.angle =
+      frc::Rotation2d(units::radian_t{m_turningSpark.GetAbsolutePosition()});
+  m_drivingSpark.SetRelativePosition(0);
+
+  // m_drivingSpark.GetRelativeVelocity()
+ // m_turningSpark.GetAbsolutePosition()
+}
+
+/*
+    these two methods below do not work and I have no idea why. 
+*/
+
+
+frc::SwerveModuleState MAXSwerveModule::GetState() const {
+  return {units::meters_per_second_t{m_drivingSpark.GetRelativeVelocity()},
+          units::radian_t{m_turningSpark.GetAbsolutePosition() -
+                          m_chassisAngularOffset}};
+}
+
+frc::SwerveModulePosition MAXSwerveModule::GetPosition() const {
+  return {units::meter_t{m_drivingEncoder.GetPosition()},
+          units::radian_t{m_turningAbsoluteEncoder.GetPosition() -
+                          m_chassisAngularOffset}};
+}
+
+void MAXSwerveModule::SetDesiredState(
+    const frc::SwerveModuleState& desiredState) {
+  // Apply chassis angular offset to the desired state.
+  frc::SwerveModuleState correctedDesiredState{};
+  correctedDesiredState.speed = desiredState.speed;
+  correctedDesiredState.angle =
+      desiredState.angle +
+      frc::Rotation2d(units::radian_t{m_chassisAngularOffset});
+
+  // Optimize the reference state to avoid spinning further than 90 degrees.
+  correctedDesiredState.Optimize(
+      frc::Rotation2d(units::radian_t{m_turningAbsoluteEncoder.GetPosition()}));
+
+  m_drivingClosedLoopController.SetReference(
+      (double)correctedDesiredState.speed, SparkMax::ControlType::kVelocity);
+  m_turningClosedLoopController.SetReference(
+      correctedDesiredState.angle.Radians().value(),
+      SparkMax::ControlType::kPosition);
+
+  m_desiredState = desiredState;
+}
+
+void MAXSwerveModule::ResetEncoders() { m_drivingSpark.SetRelativePosition(0);} //m_drivingEncoder.SetPosition(0); }

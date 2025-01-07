@@ -19,7 +19,7 @@ void SparkFlexMotor::StopMotor()
 
 double SparkFlexMotor::GetRelativeVelocity() 
 {
-    RelativeEncoder.GetVelocity(); 
+    return RelativeEncoder.GetVelocity(); 
 }
 
 double SparkFlexMotor::GetRelativePosition()

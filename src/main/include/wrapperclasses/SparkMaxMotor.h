@@ -25,6 +25,7 @@ class SparkMaxMotor : public Motor {
         SparkMaxMotor(int id) : motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless} 
         {
             setPID(0, 0, 0); 
+            config.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake); // default idle mode to break
         }
 
         // rev::spark::SparkBaseConfig::SparkBaseConfig name{}
@@ -42,13 +43,29 @@ class SparkMaxMotor : public Motor {
 
         void configure() override; 
 
-        // CLOSED LOOP CONFIG // 
+        void SetSmartCurrentLimit(double lim) override; 
+
+        void setFeedbackSensor(encoderType encoder) override; 
+
+
+
+                // CLOSED LOOP CONFIG // 
         void setPID(double p, double i, double d, double ff) override; 
         void setPID(double p, double i, double d) override; 
 
-        // ABSOLUTE ENCODER CONFIG // 
+        void setMinOutput(double min) override;
+        void setMaxOutput(double max) override;
+        void setOutputRange(double min, double max) override;
+        void setPositionWrapingEnabled(bool enabled) override;
+        void setPositionWrapingMinInput(double minInput) override;
+        void setPositionWrappingMaxInput(double maxInput) override;
+        void setPositionWrappingMaxRange(double minInput, double maxInput) override; 
 
-        void setAbsolutePositionConversionFacotr(double factor) override; 
+
+
+                // ABSOLUTE ENCODER CONFIG // 
+
+        void setAbsolutePositionConversionFactor(double factor) override; 
         void zeroOffset(double offset) override; 
         void setAbsoluteVelocityConversionFactor(double factor) override; 
 
@@ -59,7 +76,7 @@ class SparkMaxMotor : public Motor {
         void enableForwardSoftLimit(bool enab) override; 
         void enableReverseSoftLimit(bool enab) override; 
 
-        virtual void setInverted(bool b) override; 
+        void setInverted(bool b) override; 
 
         //SparkMotor.Configure(struct 1, enum 2, enum 3); 
 }; 
