@@ -11,6 +11,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase
         void ElevatorExtend();
         bool ElevatorMax();
         void ElevatorStop();
+        void ElevatorLower();
     private:
          rev::CANSparkMax MainElevatorMotor {11, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
          rev::CANSparkMax FollowElevatorMotor {12, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
