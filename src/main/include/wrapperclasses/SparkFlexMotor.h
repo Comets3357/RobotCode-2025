@@ -29,7 +29,7 @@ class SparkFlexMotor : public Motor
 
         double GetRelativeVelocity() override; 
         double GetRelativePosition() override;
-        double SetRelativePosition(double pos) override;
+        void SetRelativePosition(double pos) override;
 
         // CONFIGURE SETTINGS // 
 

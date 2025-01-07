@@ -34,7 +34,7 @@ class SparkMaxMotor : public Motor {
 
         double GetRelativeVelocity() override; 
         double GetRelativePosition() override;
-        double SetRelativePosition(double pos) override;
+        void SetRelativePosition(double pos) override;
         double GetAbsolutePosition() override;
         double GetAbsoluteVelocity() override; 
 
