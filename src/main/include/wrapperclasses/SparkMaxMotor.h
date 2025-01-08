@@ -22,6 +22,10 @@ class SparkMaxMotor : public Motor {
         rev::spark::LimitSwitchConfig limitSwitchConfig; 
         rev::spark::AbsoluteEncoderConfig absoluteEncoderConfig; 
         rev::spark::EncoderConfig encoderConfig; 
+
+        
+    protected:
+        void configure(configType c) override; 
     
     public: 
         SparkMaxMotor(int id) : motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless} 
@@ -43,7 +47,7 @@ class SparkMaxMotor : public Motor {
 
         // CONFIGURE SETTINGS // 
 
-        void configure() override; 
+        
 
         void SetSmartCurrentLimit(double lim) override; 
 

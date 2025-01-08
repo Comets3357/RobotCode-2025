@@ -5,6 +5,17 @@
 class Motor {
     private: 
 
+    protected:
+        enum configType {
+            kClosedLoop,
+            kSoftLimit,
+            kLimitSwitch,
+            kAbsoluteEncoder,
+            kEncoderConfig
+        }; 
+
+        virtual void configure(configType c) = 0; 
+
     public:
         Motor() {}; 
 
@@ -39,7 +50,7 @@ class Motor {
         virtual void setFeedbackSensor(encoderType encoder) = 0; 
 
 
-        virtual void configure() = 0; 
+        //
 
         // all closed loop configure settings // 
         virtual void setPID(double p, double i, double d, double ff) = 0; 
@@ -52,17 +63,6 @@ class Motor {
         virtual void setPositionWrappingMaxInput(double maxInput) = 0; 
         virtual void setPositionWrappingMaxRange(double minInput, double maxInput) = 0; 
         virtual void setReference(double ref, controlType ctrl) = 0; 
-
-        /*
-        PositionWrappingEnabled (bool enabled)
- 
-ClosedLoopConfig & 	PositionWrappingMinInput (double minInput)
- 
-ClosedLoopConfig & 	PositionWrappingMaxInput (double maxInput)
- 
-ClosedLoopConfig & 	PositionWrappingInputRange (double minInput, double maxInput)
-        
-        */
         
 
         virtual void setForwardSoftLimit(double limit) = 0; 
@@ -77,18 +77,18 @@ ClosedLoopConfig & 	PositionWrappingInputRange (double minInput, double maxInput
         virtual void setInverted(bool b) = 0; 
 
 
-        struct ConfigParamDataType {
-            double P; 
-            double I; 
-            double D; 
-            double ff; 
-            double forwardSoftLimit; 
-            double reverseSoftLimit; 
-            bool isForwardSoftLimitEnabled; 
-            bool isReverseSoftLimitEnabled; 
-            bool isInverted; 
-        }; 
+        // struct ConfigParamDataType {
+        //     double P; 
+        //     double I; 
+        //     double D; 
+        //     double ff; 
+        //     double forwardSoftLimit; 
+        //     double reverseSoftLimit; 
+        //     bool isForwardSoftLimitEnabled; 
+        //     bool isReverseSoftLimitEnabled; 
+        //     bool isInverted; 
+        // }; 
 
-        ConfigParamDataType ConfigParam; 
+        //ConfigParamDataType ConfigParam; 
 
 }; 
