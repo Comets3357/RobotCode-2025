@@ -87,7 +87,7 @@ void SparkMaxMotor::setInverted(bool b)
     config.Inverted(b); 
 }
 
-void SparkMaxMotor::setAbsolutePositionConversionFacotr(double factor)
+void SparkMaxMotor::setAbsolutePositionConversionFactor(double factor)
 {
     absoluteEncoderConfig.PositionConversionFactor(factor); 
 }

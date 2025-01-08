@@ -10,7 +10,15 @@ RobotContainer::RobotContainer() {
   ConfigureBindings();
 }
 
-void RobotContainer::ConfigureBindings() {}
+void RobotContainer::ConfigureBindings() {
+
+  elbowSubsystem.SetDefaultCommand(DefaultElbowCommand(&elbowSubsystem, 
+  [this] { return m_driverController.GetPOV(); 
+  }).ToPtr());
+
+
+
+}
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   return frc2::cmd::Print("No autonomous command configured");

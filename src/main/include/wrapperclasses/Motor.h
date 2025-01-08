@@ -6,13 +6,11 @@ class Motor {
     private: 
 
     public:
-        Motor(); 
+        Motor() {}; 
        
 
         virtual void SetPercent(double percent) = 0;
         virtual void StopMotor() = 0; 
-
-        virtual void Configure() = 0; 
 
         // ENCODER FUNCTIONS // 
 
@@ -37,7 +35,7 @@ class Motor {
         virtual void enableForwardSoftLimit(bool enab) = 0; 
         virtual void enableReverseSoftLimit(bool enab) = 0; 
 
-        virtual void setAbsolutePositionConversionFacotr(double factor) = 0; 
+        virtual void setAbsolutePositionConversionFactor(double factor) = 0; 
         virtual void zeroOffset(double offset) = 0; 
         virtual void setAbsoluteVelocityConversionFactor(double factor) = 0; 
 
