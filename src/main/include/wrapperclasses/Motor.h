@@ -5,16 +5,16 @@
 class Motor {
     private: 
 
-    protected:
-        enum configType {
-            kClosedLoop,
-            kSoftLimit,
-            kLimitSwitch,
-            kAbsoluteEncoder,
-            kEncoderConfig
-        }; 
+    // protected:
+    //     enum configType {
+    //         kClosedLoop,
+    //         kSoftLimit,
+    //         kLimitSwitch,
+    //         kAbsoluteEncoder,
+    //         kEncoderConfig
+    //     }; 
 
-        virtual void configure(configType c) = 0; 
+        
 
     public:
         Motor() {}; 
@@ -32,6 +32,7 @@ class Motor {
 
         virtual void SetPercent(double percent) = 0;
         virtual void StopMotor() = 0; 
+        virtual void configure() = 0; 
 
         // ENCODER FUNCTIONS // 
 

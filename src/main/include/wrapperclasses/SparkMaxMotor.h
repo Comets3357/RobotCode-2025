@@ -17,27 +17,29 @@ class SparkMaxMotor : public Motor {
         rev::spark::SparkRelativeEncoder RelativeEncoder = motor.GetEncoder(); 
         rev::spark::SparkClosedLoopController closedLoopController = motor.GetClosedLoopController(); 
         rev::spark::SparkBaseConfig config; 
-        rev::spark::ClosedLoopConfig closedLoopConfig; 
-        rev::spark::SoftLimitConfig softLimitConfig; 
-        rev::spark::LimitSwitchConfig limitSwitchConfig; 
-        rev::spark::AbsoluteEncoderConfig absoluteEncoderConfig; 
-        rev::spark::EncoderConfig encoderConfig; 
+        // rev::spark::ClosedLoopConfig closedLoopConfig; 
+        // rev::spark::SoftLimitConfig softLimitConfig; 
+        // rev::spark::LimitSwitchConfig limitSwitchConfig; 
+        // rev::spark::AbsoluteEncoderConfig absoluteEncoderConfig; 
+        // rev::spark::EncoderConfig encoderConfig; 
 
         
-    protected:
-        void configure(configType c) override; 
+    
+        
     
     public: 
+            // CONSTURCTOR // 
         SparkMaxMotor(int id) : motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless} 
         {
             setPID(0, 0, 0); 
             config.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake); // default idle mode to break
         }
 
-        // rev::spark::SparkBaseConfig::SparkBaseConfig name{}
+        
         
         void SetPercent(double percent) override;
         void StopMotor() override; 
+        void configure() override; 
 
         double GetRelativeVelocity() override; 
         double GetRelativePosition() override;
@@ -52,6 +54,7 @@ class SparkMaxMotor : public Motor {
         void SetSmartCurrentLimit(double lim) override; 
 
         void setFeedbackSensor(encoderType encoder) override; 
+        void setInverted(bool b) override; 
 
 
 
@@ -83,8 +86,6 @@ class SparkMaxMotor : public Motor {
         void enableForwardSoftLimit(bool enab) override; 
         void enableReverseSoftLimit(bool enab) override; 
 
-        void setInverted(bool b) override; 
-
-        //SparkMotor.Configure(struct 1, enum 2, enum 3); 
+        
 }; 
  

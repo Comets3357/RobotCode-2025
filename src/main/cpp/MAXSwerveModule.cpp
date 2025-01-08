@@ -59,6 +59,9 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
       frc::Rotation2d(units::radian_t{m_turningSpark.GetAbsolutePosition()});
   m_drivingSpark.SetRelativePosition(0);
 
+  m_drivingSpark.configure(); 
+  m_turningSpark.configure();
+
   // m_drivingSpark.GetRelativeVelocity()
  // m_turningSpark.GetAbsolutePosition()
 }

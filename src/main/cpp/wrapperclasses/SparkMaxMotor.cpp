@@ -19,14 +19,14 @@ void SparkMaxMotor::setFeedbackSensor(encoderType encoder)
 {
     if (encoder == Motor::encoderType::absolute) // sets feedback sensor to absolute
     {
-        closedLoopConfig.SetFeedbackSensor(rev::spark::ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder); 
+        config.closedLoop.SetFeedbackSensor(rev::spark::ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder); 
     }
     else // sets feedback sensor to relative
     {
-        closedLoopConfig.SetFeedbackSensor(rev::spark::ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder);
+        config.closedLoop.SetFeedbackSensor(rev::spark::ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder);
     }
 
-    configure(configType::kClosedLoop); 
+
 }
 
 // For all of these closed loop functions do I need to call the configure function to apply them
@@ -34,44 +34,44 @@ void SparkMaxMotor::setFeedbackSensor(encoderType encoder)
 
 void SparkMaxMotor::setMinOutput(double min) 
 {
-    closedLoopConfig.MinOutput(min);
-    configure(configType::kClosedLoop); 
+    config.closedLoop.MinOutput(min);
+    
 }
 
 void SparkMaxMotor::setMaxOutput(double max)
 {
-    closedLoopConfig.MaxOutput(max); 
-    configure(configType::kClosedLoop); 
+    config.closedLoop.MaxOutput(max); 
+    
 }
 
 void SparkMaxMotor::setOutputRange(double min, double max) 
 {
-    closedLoopConfig.OutputRange(min, max); 
-    configure(configType::kClosedLoop); 
+    config.closedLoop.OutputRange(min, max); 
+    
 }
 
 void SparkMaxMotor::setPositionWrapingMinInput(double minInput) 
 {
-    closedLoopConfig.PositionWrappingMinInput(minInput);
-    configure(configType::kClosedLoop); 
+    config.closedLoop.PositionWrappingMinInput(minInput);
+    
 }
 
 void SparkMaxMotor::setPositionWrappingMaxInput(double maxInput)
 {
-    closedLoopConfig.PositionWrappingMaxInput(maxInput);
-    configure(configType::kClosedLoop); 
+    config.closedLoop.PositionWrappingMaxInput(maxInput);
+    
 }
 
 void SparkMaxMotor::setPositionWrappingMaxRange(double minInput, double maxInput)
 {
-    closedLoopConfig.PositionWrappingInputRange(minInput, maxInput); 
-    configure(configType::kClosedLoop); 
+    config.closedLoop.PositionWrappingInputRange(minInput, maxInput); 
+    
 }
 
 void SparkMaxMotor::setPositionWrappingEnabled(bool enab)
 {
-    closedLoopConfig.PositionWrappingEnabled(enab); 
-    configure(configType::kClosedLoop); 
+    config.closedLoop.PositionWrappingEnabled(enab); 
+    
 }
 
 void SparkMaxMotor::setReference(double ref, controlType ctrl)
@@ -121,9 +121,9 @@ void SparkMaxMotor::setPID(double p, double i, double d, double ff)
     // ConfigParam.I = i; 
     // ConfigParam.D = d; 
     // ConfigParam.ff = ff; 
-    closedLoopConfig.Pidf(p, i, d, ff); // add slot 
+    config.closedLoop.Pidf(p, i, d, ff); // add slot 
     
-    configure(configType::kClosedLoop); 
+    
 }
 
 void SparkMaxMotor::setPID(double p, double i, double d)
@@ -132,36 +132,36 @@ void SparkMaxMotor::setPID(double p, double i, double d)
     // ConfigParam.I = i; 
     // ConfigParam.D = d; 
     // ConfigParam.ff = 0; 
-    closedLoopConfig.Pidf(p, i, d, 0); // add slot 
-    configure(configType::kClosedLoop); 
+    config.closedLoop.Pidf(p, i, d, 0); // add slot 
+    
 }
 
 void SparkMaxMotor::setForwardSoftLimit(double limit)
 {
     //ConfigParam.forwardSoftLimit = limit; 
-    softLimitConfig.ForwardSoftLimit(limit); 
-    configure(configType::kSoftLimit); 
+    config.softLimit.ForwardSoftLimit(limit); 
+   
 }
 
 void SparkMaxMotor::setReverseSoftLimit(double limit)
 {
     //ConfigParam.reverseSoftLimit = limit; 
-    softLimitConfig.ReverseSoftLimit(limit); 
-    configure(configType::kSoftLimit); 
+    config.softLimit.ReverseSoftLimit(limit); 
+    
 }
 
 void SparkMaxMotor::enableForwardSoftLimit(bool enab)
 {
    // ConfigParam.isForwardSoftLimitEnabled = enab; 
-    softLimitConfig.ForwardSoftLimitEnabled(enab); 
-    configure(configType::kSoftLimit); 
+    config.softLimit.ForwardSoftLimitEnabled(enab); 
+    
 }
 
 void SparkMaxMotor::enableReverseSoftLimit(bool enab)
 {
    // ConfigParam.isReverseSoftLimitEnabled = enab; 
-    softLimitConfig.ReverseSoftLimitEnabled(enab); 
-    configure(configType::kSoftLimit); 
+    config.softLimit.ReverseSoftLimitEnabled(enab); 
+    
 }
 
 void SparkMaxMotor::setInverted(bool b)
@@ -171,20 +171,20 @@ void SparkMaxMotor::setInverted(bool b)
 
 void SparkMaxMotor::setAbsolutePositionConversionFactor(double factor)
 {
-    absoluteEncoderConfig.PositionConversionFactor(factor); 
-    configure(configType::kAbsoluteEncoder); 
+    config.absoluteEncoder.PositionConversionFactor(factor); 
+     
 }
 
 void SparkMaxMotor::zeroOffset(double offset)
 {
-    absoluteEncoderConfig.ZeroOffset(offset); 
-    configure(configType::kAbsoluteEncoder); 
+    config.absoluteEncoder.ZeroOffset(offset); 
+    
 }
 
 void SparkMaxMotor::setAbsoluteVelocityConversionFactor(double factor)
 {
-    absoluteEncoderConfig.VelocityConversionFactor(factor); 
-    configure(configType::kAbsoluteEncoder); 
+    config.absoluteEncoder.VelocityConversionFactor(factor); 
+    
 }
 
 void SparkMaxMotor::SetSmartCurrentLimit(double lim)
@@ -192,20 +192,8 @@ void SparkMaxMotor::SetSmartCurrentLimit(double lim)
     config.SmartCurrentLimit(lim); 
 }
 
-void SparkMaxMotor::configure(configType c) 
+void SparkMaxMotor::configure() 
 {
-    if (c == configType::kClosedLoop)
-    {
-        config.Apply(closedLoopConfig); 
-    }
-    else if (c == configType::kSoftLimit)
-    {
-        config.Apply(softLimitConfig); 
-    }
-    else if (c = configType::kAbsoluteEncoder)
-    {
-        config.Apply(absoluteEncoderConfig); 
-    }
-    
+    motor.Configure(config, rev::spark::SparkBase::ResetMode::kNoResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters); 
 }
 
