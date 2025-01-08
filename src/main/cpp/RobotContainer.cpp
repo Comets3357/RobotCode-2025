@@ -4,6 +4,7 @@
 
 #include "RobotContainer.h"
 
+#include "Commands/DefaultElbowCommand.h"
 #include <frc2/command/Commands.h>
 
 RobotContainer::RobotContainer() {
@@ -13,7 +14,7 @@ RobotContainer::RobotContainer() {
 void RobotContainer::ConfigureBindings() {
 
   elbowSubsystem.SetDefaultCommand(DefaultElbowCommand(&elbowSubsystem, 
-  [this] { return m_driverController.GetPOV(); 
+  [this] { return driverController.GetRightX(); 
   }).ToPtr());
 
 
