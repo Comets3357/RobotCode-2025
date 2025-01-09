@@ -8,6 +8,9 @@ public:
     void Intake();
     void Eject();
     void Stop();
+    void Intake(double percent);
+    void Eject(double percent);
+    void Stop();
 private:
     SparkMaxMotor AlgaeIntake{21};
     SparkMaxMotor AlgaeDeploy{22};
