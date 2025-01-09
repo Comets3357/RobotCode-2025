@@ -20,5 +20,5 @@ void ElevatorSubsystem::ElevatorStop()
 
 bool ElevatorSubsystem::ElevatorMax()
 {
-    MainElevatorMotor.GetAbsolutePosition();  
+    MainElevatorMotor.GetAbsolutePosition();
 }
