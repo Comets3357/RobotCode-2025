@@ -8,6 +8,7 @@ class ElevatorCommand : public frc2::CommandHelper<frc2::Command, ElevatorComman
 {
     public:
         explicit ElevatorCommand(ElevatorSubsystem* ElevatorSubsystem);
+        void Execute();
     private:
         ElevatorSubsystem* elevator;
 };
