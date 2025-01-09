@@ -109,7 +109,7 @@ double SparkMaxMotor::GetAbsoluteVelocity()
     return AbsoluteEncoder.GetVelocity(); 
 }
 
-double SparkMaxMotor::SetRelativePosition(double pos)
+void SparkMaxMotor::SetRelativePosition(double pos)
 {
     RelativeEncoder.SetPosition(pos); 
 }

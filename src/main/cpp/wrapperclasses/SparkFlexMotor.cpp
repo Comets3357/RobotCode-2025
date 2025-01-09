@@ -27,7 +27,7 @@ double SparkFlexMotor::GetRelativePosition()
     return RelativeEncoder.GetPosition(); 
 }
 
-double SparkFlexMotor::SetRelativePosition(double pos)
+void SparkFlexMotor::SetRelativePosition(double pos)
 {
     RelativeEncoder.SetPosition(pos); 
 }
