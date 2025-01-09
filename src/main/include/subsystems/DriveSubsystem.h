@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <frc/ADIS16470_IMU.h>
+//#include <frc/ADIS16470_IMU.h>
 #include <frc/filter/SlewRateLimiter.h>
 #include <frc/geometry/Pose2d.h>
 #include <frc/geometry/Rotation2d.h>
@@ -110,7 +110,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
   MAXSwerveModule m_rearRight;
 
   // The gyro sensor
-  frc::ADIS16470_IMU m_gyro;
+  //frc::ADIS16470_IMU m_gyro;
 
   // Odometry class for tracking robot pose
   // 4 defines the number of modules

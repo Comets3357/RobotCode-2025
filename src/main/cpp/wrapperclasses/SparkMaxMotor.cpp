@@ -84,8 +84,7 @@ void SparkMaxMotor::setReference(double ref, controlType ctrl)
     {
         closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kVelocity); 
     }
-
-        
+   
 }
 
 
