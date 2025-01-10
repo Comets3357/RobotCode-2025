@@ -1,24 +1,7 @@
 #include "Commands/ElevatorCommand.h"
 
-ElevatorCommand::ElevatorCommand(ElevatorSubsystem* elevator) : elevator{elevator}
-{
+frc2::CommandPtr ExtendElevator(ElevatorSubsystem* elevator) {return frc2::cmd::Run([elevator] {elevator->ElevatorExtend();});}
 
-}
+frc2::CommandPtr RetractElevator(ElevatorSubsystem* elevator) {return frc2::cmd::Run([elevator] {elevator->ElevatorRetract();});}
 
-void ElevatorCommand::Execute()
-{
-    /*if(random button)
-    {
-       do stuff
-    }
-    else if(other button)
-    {
-        other stuff
-    }
-    else
-    {
-        stop
-    }
-    */
-   
-}
+frc2::CommandPtr StopElevator(ElevatorSubsystem* elevator) {return frc2::cmd::Run([elevator] {elevator->ElevatorStop();});}
