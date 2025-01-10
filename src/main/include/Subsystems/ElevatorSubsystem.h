@@ -13,7 +13,6 @@ class ElevatorSubsystem : public frc2::SubsystemBase
         bool ElevatorMax();
         void ElevatorRetract();
         void ElevatorStop();
-        void ElevatorLower();
     private:
         //  rev::SparkMaxLimitSwitch ElevatorMax = MainElevatorMotor.GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyClosed);
         SparkMaxMotor MainElevatorMotor{11};
