@@ -5,6 +5,9 @@
 #pragma once
 
 #include <frc2/command/CommandPtr.h>
+#include <frc2/command/button/CommandXboxController.h>
+#include "Subsystems/ElevatorSubsystem.h"
+
 
 class RobotContainer {
  public:
@@ -14,4 +17,8 @@ class RobotContainer {
 
  private:
   void ConfigureBindings();
+
+    frc2::CommandXboxController controller{0};
+
+    ElevatorSubsystem* elevator;
 };
