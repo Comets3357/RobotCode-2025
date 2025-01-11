@@ -31,9 +31,12 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
         1 / ModuleConstants::kDriveWheelFreeSpeedRps;
 
             // configurations for the driving spark max // 
-    m_drivingSpark.setPID(0.004, 0, 0);
-    m_drivingSpark.setAbsoluteVelocityConversionFactor(drivingFactor / 60.0); // meters per second
-    m_drivingSpark.setAbsolutePositionConversionFactor(drivingFactor); // meters
+    m_drivingSpark.setPID(0.05, 0, 0, 0.21);
+    // m_drivingSpark.setAbsoluteVelocityConversionFactor(drivingFactor / 60.0); // meters per second
+    // m_drivingSpark.setAbsolutePositionConversionFactor(drivingFactor); // meters
+    m_drivingSpark.setRelativeVelocityConversionFactor(drivingFactor / 60.0); // meters per second
+    m_drivingSpark.setRelativePositionConversionFactor(drivingFactor); // meters
+
     m_drivingSpark.SetSmartCurrentLimit(50); 
     m_drivingSpark.setFeedbackSensor(Motor::encoderType::relative); 
 

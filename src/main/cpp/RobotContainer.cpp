@@ -95,7 +95,14 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_driverController,
                        frc::XboxController::Button::kRightBumper)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
+
+      
 }
+
+// void RobotContainer::ConfigureBindings()
+// {
+//     m_driverController.
+// }
 
 // frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 //   return //frc2::cmd::Print("No autonomous command configured");

@@ -16,13 +16,13 @@ using namespace DriveConstants;
 
 DriveSubsystem::DriveSubsystem()
     : m_frontLeft{kFrontLeftDrivingCanId, kFrontLeftTurningCanId,
-                  kFrontLeftChassisAngularOffset},
+                  -kFrontLeftChassisAngularOffset},
       m_rearLeft{kRearLeftDrivingCanId, kRearLeftTurningCanId,
                  kRearLeftChassisAngularOffset},
       m_frontRight{kFrontRightDrivingCanId, kFrontRightTurningCanId,
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
-                  kRearRightChassisAngularOffset},
+                  -kRearRightChassisAngularOffset},
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::radian_t{
                     0}),
@@ -46,6 +46,23 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
+                            double deadZone = 0.1; 
+                            
+
+                            if (xSpeed < units::meters_per_second_t{deadZone} && xSpeed > units::meters_per_second_t{-deadZone})
+                            {
+                              xSpeed = units::meters_per_second_t{0};
+                            }
+                            if (ySpeed < units::meters_per_second_t{deadZone} && ySpeed > units::meters_per_second_t{-deadZone})
+                            {
+                              ySpeed = units::meters_per_second_t{0};
+                            }
+                            if (rot < units::radians_per_second_t{deadZone} && rot > units::radians_per_second_t{-deadZone})
+                            {
+                              rot = units::radians_per_second_t{0.00};
+                            }
+
+
   // Convert the commanded speeds into the correct units for the drivetrain
   units::meters_per_second_t xSpeedDelivered =
       xSpeed.value() * DriveConstants::kMaxSpeed;
@@ -70,6 +87,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   m_frontRight.SetDesiredState(fr);
   m_rearLeft.SetDesiredState(bl);
   m_rearRight.SetDesiredState(br);
+  
 }
 
 void DriveSubsystem::SetX() {

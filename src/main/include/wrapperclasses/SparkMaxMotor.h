@@ -56,6 +56,9 @@ class SparkMaxMotor : public Motor {
         void setFeedbackSensor(encoderType encoder) override; 
         void setInverted(bool b) override; 
 
+        void setRelativeVelocityConversionFactor(double fac) override;
+        void setRelativePositionConversionFactor(double fac) override;
+
 
 
                 // CLOSED LOOP CONFIG // 

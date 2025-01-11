@@ -91,13 +91,13 @@ class DriveSubsystem : public frc2::SubsystemBase {
   void ResetOdometry(frc::Pose2d pose);
 
   frc::SwerveDriveKinematics<4> kDriveKinematics{
-      frc::Translation2d{DriveConstants::kWheelBase / 2,
+      frc::Translation2d{-DriveConstants::kWheelBase / 2,
                          DriveConstants::kTrackWidth / 2},
-      frc::Translation2d{DriveConstants::kWheelBase / 2,
+      frc::Translation2d{-DriveConstants::kWheelBase / 2,
                          -DriveConstants::kTrackWidth / 2},
-      frc::Translation2d{-DriveConstants::kWheelBase / 2,
+      frc::Translation2d{DriveConstants::kWheelBase / 2,
                          DriveConstants::kTrackWidth / 2},
-      frc::Translation2d{-DriveConstants::kWheelBase / 2,
+      frc::Translation2d{DriveConstants::kWheelBase / 2,
                          -DriveConstants::kTrackWidth / 2}};
 
  private:

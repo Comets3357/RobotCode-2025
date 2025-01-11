@@ -50,6 +50,9 @@ class Motor {
         virtual void SetSmartCurrentLimit(double lim) = 0; 
         virtual void setFeedbackSensor(encoderType encoder) = 0; 
 
+        virtual void setRelativeVelocityConversionFactor(double fac) = 0;
+        virtual void setRelativePositionConversionFactor(double fac) = 0; 
+
 
         //
 
