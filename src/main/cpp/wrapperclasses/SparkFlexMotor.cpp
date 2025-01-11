@@ -1,6 +1,5 @@
 #include "wrapperclasses/SparkFlexMotor.h"
 
-#include "wrapperclasses/SparkMaxMotor.h"
 
 // // SparkMaxMotor::SparkMaxMotor(int id) //: motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless} 
 // // {
@@ -78,57 +77,62 @@ void SparkFlexMotor::configure()
     motor.Configure(config, rev::spark::SparkBase::ResetMode::kNoResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters); 
 }
 
-// void SparkMaxMotor::setMinOutput(double min) 
-// {
-//     config.closedLoop.MinOutput(min);
+void SparkFlexMotor::setMinOutput(double min) 
+{
+    config.closedLoop.MinOutput(min);
     
-// }
+}
 
-// void SparkMaxMotor::setMaxOutput(double max)
-// {
-//     config.closedLoop.MaxOutput(max); 
+void SparkFlexMotor::setMaxOutput(double max)
+{
+    config.closedLoop.MaxOutput(max); 
     
-// }
+}
 
-// void SparkMaxMotor::setOutputRange(double min, double max) 
-// {
-//     config.closedLoop.OutputRange(min, max); 
+void SparkFlexMotor::setOutputRange(double min, double max) 
+{
+    config.closedLoop.OutputRange(min, max); 
     
-// }
+}
 
-// void SparkMaxMotor::setPositionWrapingMinInput(double minInput) 
-// {
-//     config.closedLoop.PositionWrappingMinInput(minInput);
+void SparkFlexMotor::setPositionWrapingMinInput(double minInput) 
+{
+    config.closedLoop.PositionWrappingMinInput(minInput);
     
-// }
+}
 
-// void SparkMaxMotor::setPositionWrappingMaxInput(double maxInput)
-// {
-//     config.closedLoop.PositionWrappingMaxInput(maxInput);
+void SparkFlexMotor::setPositionWrappingMaxInput(double maxInput)
+{
+    config.closedLoop.PositionWrappingMaxInput(maxInput);
     
-// }
+}
 
-// void SparkMaxMotor::setPositionWrappingMaxRange(double minInput, double maxInput)
-// {
-//     config.closedLoop.PositionWrappingInputRange(minInput, maxInput); 
+void SparkFlexMotor::setPositionWrappingMaxRange(double minInput, double maxInput)
+{
+    config.closedLoop.PositionWrappingInputRange(minInput, maxInput); 
     
-// }
+}
 
-// void SparkMaxMotor::setPositionWrappingEnabled(bool enab)
-// {
-//     config.closedLoop.PositionWrappingEnabled(enab); 
+void SparkFlexMotor::setPositionWrappingEnabled(bool enab)
+{
+    config.closedLoop.PositionWrappingEnabled(enab); 
     
-// }
+}
 
-// void SparkMaxMotor::setReference(double ref, controlType ctrl)
-// {
-//     if (ctrl == Motor::controlType::position)
-//     {
-//         closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kPosition); 
-//     }
-//     else if (ctrl == Motor::controlType::velocity)
-//     {
-//         closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kVelocity); 
-//     }
+void SparkFlexMotor::setReference(double ref, controlType ctrl)
+{
+    if (ctrl == Motor::controlType::position)
+    {
+        closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kPosition); 
+    }
+    else if (ctrl == Motor::controlType::velocity)
+    {
+        closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kVelocity); 
+    }
    
-// }
+}
+
+void SparkFlexMotor::SetSmartCurrentLimit(double lim)
+{
+    config.SmartCurrentLimit(lim); 
+}

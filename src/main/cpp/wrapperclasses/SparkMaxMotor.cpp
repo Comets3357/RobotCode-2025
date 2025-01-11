@@ -29,9 +29,6 @@ void SparkMaxMotor::setFeedbackSensor(encoderType encoder)
 
 }
 
-// For all of these closed loop functions do I need to call the configure function to apply them
-// or is that done automatically? 
-
 void SparkMaxMotor::setMinOutput(double min) 
 {
     config.closedLoop.MinOutput(min);
@@ -116,51 +113,32 @@ void SparkMaxMotor::SetRelativePosition(double pos)
 
 void SparkMaxMotor::setPID(double p, double i, double d, double ff)
 {
-    // ConfigParam.P = p; 
-    // ConfigParam.I = i; 
-    // ConfigParam.D = d; 
-    // ConfigParam.ff = ff; 
-    config.closedLoop.Pidf(p, i, d, ff); // add slot 
-    
-    
+    config.closedLoop.Pidf(p, i, d, ff); // add slot    
 }
 
 void SparkMaxMotor::setPID(double p, double i, double d)
 {
-    // ConfigParam.P = p; 
-    // ConfigParam.I = i; 
-    // ConfigParam.D = d; 
-    // ConfigParam.ff = 0; 
-    config.closedLoop.Pidf(p, i, d, 0); // add slot 
-    
+    config.closedLoop.Pidf(p, i, d, 0); // add slot    
 }
 
 void SparkMaxMotor::setForwardSoftLimit(double limit)
 {
-    //ConfigParam.forwardSoftLimit = limit; 
-    config.softLimit.ForwardSoftLimit(limit); 
-   
+    config.softLimit.ForwardSoftLimit(limit);   
 }
 
 void SparkMaxMotor::setReverseSoftLimit(double limit)
 {
-    //ConfigParam.reverseSoftLimit = limit; 
-    config.softLimit.ReverseSoftLimit(limit); 
-    
+    config.softLimit.ReverseSoftLimit(limit);    
 }
 
 void SparkMaxMotor::enableForwardSoftLimit(bool enab)
-{
-   // ConfigParam.isForwardSoftLimitEnabled = enab; 
-    config.softLimit.ForwardSoftLimitEnabled(enab); 
-    
+{ 
+    config.softLimit.ForwardSoftLimitEnabled(enab);    
 }
 
 void SparkMaxMotor::enableReverseSoftLimit(bool enab)
 {
-   // ConfigParam.isReverseSoftLimitEnabled = enab; 
-    config.softLimit.ReverseSoftLimitEnabled(enab); 
-    
+    config.softLimit.ReverseSoftLimitEnabled(enab);    
 }
 
 void SparkMaxMotor::setInverted(bool b)
@@ -171,19 +149,16 @@ void SparkMaxMotor::setInverted(bool b)
 void SparkMaxMotor::setAbsolutePositionConversionFactor(double factor)
 {
     config.absoluteEncoder.PositionConversionFactor(factor); 
-     
 }
 
 void SparkMaxMotor::zeroOffset(double offset)
 {
     config.absoluteEncoder.ZeroOffset(offset); 
-    
 }
 
 void SparkMaxMotor::setAbsoluteVelocityConversionFactor(double factor)
 {
     config.absoluteEncoder.VelocityConversionFactor(factor); 
-    
 }
 
 void SparkMaxMotor::SetSmartCurrentLimit(double lim)

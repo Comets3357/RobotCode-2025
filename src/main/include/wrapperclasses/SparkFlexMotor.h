@@ -37,15 +37,15 @@ class SparkFlexMotor : public Motor
 
         // CONFIGURE SETTINGS // 
         
-            // void SetSmartCurrentLimit(double lim) override; 
-            // void setMinOutput(double min) override;
-            // void setMaxOutput(double max) override;
-            // void setOutputRange(double min, double max) override;
-            // void setPositionWrappingEnabled(bool enabled) override;
-            // void setPositionWrapingMinInput(double minInput) override;
-            // void setPositionWrappingMaxInput(double maxInput) override;
-            // void setPositionWrappingMaxRange(double minInput, double maxInput) override; 
-            // void setReference(double ref, controlType ctrl) override; 
+            void SetSmartCurrentLimit(double lim) override; 
+            void setMinOutput(double min) override;
+            void setMaxOutput(double max) override;
+            void setOutputRange(double min, double max) override;
+            void setPositionWrappingEnabled(bool enabled) override;
+            void setPositionWrapingMinInput(double minInput) override;
+            void setPositionWrappingMaxInput(double maxInput) override;
+            void setPositionWrappingMaxRange(double minInput, double maxInput) override; 
+            void setReference(double ref, controlType ctrl) override; 
         
 
         
