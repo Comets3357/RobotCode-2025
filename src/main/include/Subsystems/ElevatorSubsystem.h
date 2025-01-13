@@ -8,7 +8,7 @@
 class ElevatorSubsystem : public frc2::SubsystemBase
 {
     public:
-        ElevatorSubsystem(ElevatorSubsystem* elevator);
+        ElevatorSubsystem();
         void ElevatorExtend();
         bool ElevatorMax();
         void ElevatorRetract();

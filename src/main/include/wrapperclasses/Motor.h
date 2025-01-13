@@ -10,9 +10,7 @@ class Motor {
        
 
         virtual void SetPercent(double percent) = 0;
-        virtual void StopMotor() = 0; 
-
-       // virtual void Configure() = 0; 
+        virtual void StopMotor() = 0;  
 
         // ENCODER FUNCTIONS // 
 
@@ -21,7 +19,7 @@ class Motor {
         virtual double GetAbsoluteVelocity() = 0; 
         virtual double GetAbsolutePosition() = 0; 
 
-        virtual double SetRelativePosition(double pos) = 0; 
+        virtual void SetRelativePosition(double pos) = 0; 
 
         // END ENCODER FUNCTIONS // 
 

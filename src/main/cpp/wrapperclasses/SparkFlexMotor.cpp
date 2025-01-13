@@ -19,7 +19,7 @@ void SparkFlexMotor::StopMotor()
 
 double SparkFlexMotor::GetRelativeVelocity() 
 {
-    RelativeEncoder.GetVelocity(); 
+    return RelativeEncoder.GetVelocity(); 
 }
 
 double SparkFlexMotor::GetRelativePosition()
@@ -27,7 +27,7 @@ double SparkFlexMotor::GetRelativePosition()
     return RelativeEncoder.GetPosition(); 
 }
 
-double SparkFlexMotor::SetRelativePosition(double pos)
+void SparkFlexMotor::SetRelativePosition(double pos)
 {
     RelativeEncoder.SetPosition(pos); 
 }
@@ -84,4 +84,3 @@ void SparkFlexMotor::configure()
     config.Apply(closedLoopConfig); 
     config.Apply(softLimitConfig); 
 }
-

@@ -1,5 +1,7 @@
 #include "Subsystems/ElevatorSubsystem.h"
 
+ElevatorSubsystem::ElevatorSubsystem() {}
+
 void ElevatorSubsystem::ElevatorExtend()
 {
     MainElevatorMotor.SetPercent(0.2);
@@ -18,7 +20,7 @@ void ElevatorSubsystem::ElevatorStop()
     FollowElevatorMotor.StopMotor();
 }
 
-bool ElevatorSubsystem::ElevatorMax()
-{
-    MainElevatorMotor.GetAbsolutePosition();
-}
+// bool ElevatorSubsystem::ElevatorMax()
+// {
+//     MainElevatorMotor.GetAbsolutePosition();
+// }

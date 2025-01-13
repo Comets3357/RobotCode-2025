@@ -17,7 +17,7 @@ void SparkMaxMotor::StopMotor()
 
 double SparkMaxMotor::GetRelativeVelocity() 
 {
-    RelativeEncoder.GetVelocity(); 
+    return RelativeEncoder.GetVelocity(); 
 }
 
 double SparkMaxMotor::GetRelativePosition()
@@ -35,7 +35,7 @@ double SparkMaxMotor::GetAbsoluteVelocity()
     return AbsoluteEncoder.GetVelocity(); 
 }
 
-double SparkMaxMotor::SetRelativePosition(double pos)
+void SparkMaxMotor::SetRelativePosition(double pos)
 {
     RelativeEncoder.SetPosition(pos); 
 }
@@ -108,4 +108,3 @@ void SparkMaxMotor::configure()
     config.Apply(softLimitConfig); 
     config.Apply(absoluteEncoderConfig); 
 }
-
