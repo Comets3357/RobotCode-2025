@@ -1,11 +1,5 @@
 #include "wrapperclasses/SparkFlexMotor.h"
 
-#include "wrapperclasses/SparkMaxMotor.h"
-
-// SparkMaxMotor::SparkMaxMotor(int id) //: motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless} 
-// {
-//     //motor.Configure(config, rev::spark::SparkBase::ResetMode::kResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters); 
-// }
 
 void SparkFlexMotor::SetPercent(double percent)
 {
@@ -19,7 +13,7 @@ void SparkFlexMotor::StopMotor()
 
 double SparkFlexMotor::GetRelativeVelocity() 
 {
-    RelativeEncoder.GetVelocity(); 
+    return RelativeEncoder.GetVelocity(); 
 }
 
 double SparkFlexMotor::GetRelativePosition()
@@ -27,51 +21,58 @@ double SparkFlexMotor::GetRelativePosition()
     return RelativeEncoder.GetPosition(); 
 }
 
-double SparkFlexMotor::SetRelativePosition(double pos)
+void SparkFlexMotor::SetRelativePosition(double pos)
 {
     RelativeEncoder.SetPosition(pos); 
 }
 
 void SparkFlexMotor::setPID(double p, double i, double d, double ff)
 {
-    ConfigParam.P = p; 
-    ConfigParam.I = i; 
-    ConfigParam.D = d; 
-    ConfigParam.ff = ff; 
-    closedLoopConfig.Pidf(p, i, d, ff); // add slot 
+    config.closedLoop.Pidf(p, i, d, ff); 
 }
 
 void SparkFlexMotor::setPID(double p, double i, double d)
 {
-    ConfigParam.P = p; 
-    ConfigParam.I = i; 
-    ConfigParam.D = d; 
-    ConfigParam.ff = 0; 
-    closedLoopConfig.Pidf(p, i, d, 0); // add slot 
+    config.closedLoop.Pidf(p, i, d, 0); 
+}
+
+void SparkFlexMotor::setPID(double p, double i, double d, double ff, int slot)
+{
+    switch(slot)
+    {
+        case 1:
+            config.closedLoop.Pidf(p, i, d, ff, rev::spark::kSlot1);
+            break;
+        case 2:
+            config.closedLoop.Pidf(p, i, d, ff, rev::spark::kSlot2);
+            break;
+        case 3:
+            config.closedLoop.Pidf(p, i, d, ff, rev::spark::kSlot3);
+            break; 
+         default:
+            config.closedLoop.Pidf(p, i, d, ff, rev::spark::kSlot0);
+    }
+    
 }
 
 void SparkFlexMotor::setForwardSoftLimit(double limit)
 {
-    ConfigParam.forwardSoftLimit = limit; 
-    softLimitConfig.ForwardSoftLimit(limit); 
+    config.softLimit.ForwardSoftLimit(limit); 
 }
 
 void SparkFlexMotor::setReverseSoftLimit(double limit)
 {
-    ConfigParam.reverseSoftLimit = limit; 
-    softLimitConfig.ReverseSoftLimit(limit); 
+    config.softLimit.ReverseSoftLimit(limit); 
 }
 
 void SparkFlexMotor::enableForwardSoftLimit(bool enab)
 {
-    ConfigParam.isForwardSoftLimitEnabled = enab; 
-    softLimitConfig.ForwardSoftLimitEnabled(enab); 
+    config.softLimit.ForwardSoftLimitEnabled(enab); 
 }
 
 void SparkFlexMotor::enableReverseSoftLimit(bool enab)
 {
-    ConfigParam.isReverseSoftLimitEnabled = enab; 
-    softLimitConfig.ReverseSoftLimitEnabled(enab); 
+    config.softLimit.ReverseSoftLimitEnabled(enab); 
 }
 
 void SparkFlexMotor::setInverted(bool b)
@@ -81,7 +82,57 @@ void SparkFlexMotor::setInverted(bool b)
 
 void SparkFlexMotor::configure() 
 {
-    config.Apply(closedLoopConfig); 
-    config.Apply(softLimitConfig); 
+    motor.Configure(config, rev::spark::SparkBase::ResetMode::kNoResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters); 
 }
 
+void SparkFlexMotor::setMinOutput(double min) 
+{
+    config.closedLoop.MinOutput(min);
+}
+
+void SparkFlexMotor::setMaxOutput(double max)
+{
+    config.closedLoop.MaxOutput(max);  
+}
+
+void SparkFlexMotor::setOutputRange(double min, double max) 
+{
+    config.closedLoop.OutputRange(min, max); 
+}
+
+void SparkFlexMotor::setPositionWrapingMinInput(double minInput) 
+{
+    config.closedLoop.PositionWrappingMinInput(minInput);
+}
+
+void SparkFlexMotor::setPositionWrappingMaxInput(double maxInput)
+{
+    config.closedLoop.PositionWrappingMaxInput(maxInput);   
+}
+
+void SparkFlexMotor::setPositionWrappingMaxRange(double minInput, double maxInput)
+{
+    config.closedLoop.PositionWrappingInputRange(minInput, maxInput);  
+}
+
+void SparkFlexMotor::setPositionWrappingEnabled(bool enab)
+{
+    config.closedLoop.PositionWrappingEnabled(enab); 
+}
+
+void SparkFlexMotor::setReference(double ref, controlType ctrl)
+{
+    if (ctrl == Motor::controlType::position)
+    {
+        closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kPosition); 
+    }
+    else if (ctrl == Motor::controlType::velocity)
+    {
+        closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kVelocity); 
+    }
+}
+
+void SparkFlexMotor::SetSmartCurrentLimit(double lim)
+{
+    config.SmartCurrentLimit(lim); 
+}

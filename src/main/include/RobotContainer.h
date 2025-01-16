@@ -5,9 +5,11 @@
 #pragma once
 
 #include <frc2/command/CommandPtr.h>
-#include <frc2/command/button/CommandXboxController.h>
+#include <frc/XboxController.h>
+#include <frc2/command/RunCommand.h>
 
-#include "Subsystems/ElbowSubsystem.h"
+#include "Constants.h"
+#include "subsystems/DriveSubsystem.h"
 
 
 class RobotContainer {
@@ -17,10 +19,17 @@ class RobotContainer {
   frc2::CommandPtr GetAutonomousCommand();
 
  private:
-  frc2::CommandXboxController driverController{0};
 
-  //subsystems
-  ElbowSubsystem elbowSubsystem;
+ // The driver's controller
+  frc::XboxController m_driverController{OIConstants::kDriverControllerPort};
 
+  // The robot's subsystems and commands are defined here...
+
+  // The robot's subsystems
+  DriveSubsystem m_drive;
+
+  // The chooser for the autonomous routines
+  //frc::SendableChooser<frc2::Command*> m_chooser;
+  void ConfigureButtonBindings(); 
   void ConfigureBindings();
 };
