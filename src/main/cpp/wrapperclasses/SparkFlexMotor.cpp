@@ -1,11 +1,6 @@
 #include "wrapperclasses/SparkFlexMotor.h"
 
 
-// // SparkMaxMotor::SparkMaxMotor(int id) //: motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless} 
-// // {
-// //     //motor.Configure(config, rev::spark::SparkBase::ResetMode::kResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters); 
-// // }
-
 void SparkFlexMotor::SetPercent(double percent)
 {
     motor.Set(percent); 

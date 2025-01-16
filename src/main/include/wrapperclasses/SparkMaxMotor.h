@@ -16,16 +16,7 @@ class SparkMaxMotor : public Motor {
         rev::spark::SparkAbsoluteEncoder AbsoluteEncoder = motor.GetAbsoluteEncoder(); 
         rev::spark::SparkRelativeEncoder RelativeEncoder = motor.GetEncoder(); 
         rev::spark::SparkClosedLoopController closedLoopController = motor.GetClosedLoopController(); 
-        rev::spark::SparkBaseConfig config; 
-        // rev::spark::ClosedLoopConfig closedLoopConfig; 
-        // rev::spark::SoftLimitConfig softLimitConfig; 
-        // rev::spark::LimitSwitchConfig limitSwitchConfig; 
-        // rev::spark::AbsoluteEncoderConfig absoluteEncoderConfig; 
-        // rev::spark::EncoderConfig encoderConfig; 
-
-        
-    
-        
+        rev::spark::SparkBaseConfig config;     
     
     public: 
             // CONSTURCTOR // 
@@ -81,8 +72,6 @@ class SparkMaxMotor : public Motor {
         void setAbsolutePositionConversionFactor(double factor) override; 
         void zeroOffset(double offset) override; 
         void setAbsoluteVelocityConversionFactor(double factor) override; 
-
-
 
         void setForwardSoftLimit(double limit) override; 
         void setReverseSoftLimit(double limit) override; 

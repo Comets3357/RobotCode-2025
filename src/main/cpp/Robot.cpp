@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #include "Robot.h"
 
 #include <frc2/command/CommandScheduler.h>
@@ -19,11 +15,11 @@ void Robot::DisabledPeriodic() {}
 void Robot::DisabledExit() {}
 
 void Robot::AutonomousInit() {
-  // m_autonomousCommand = m_container.GetAutonomousCommand();
+  m_autonomousCommand = m_container.GetAutonomousCommand();
 
-  // if (m_autonomousCommand) {
-  //   m_autonomousCommand->Schedule();
-  // }
+  if (m_autonomousCommand) {
+    m_autonomousCommand->Schedule();
+  }
 }
 
 void Robot::AutonomousPeriodic() {}

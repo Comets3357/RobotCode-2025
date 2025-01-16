@@ -5,17 +5,6 @@
 class Motor {
     private: 
 
-    // protected:
-    //     enum configType {
-    //         kClosedLoop,
-    //         kSoftLimit,
-    //         kLimitSwitch,
-    //         kAbsoluteEncoder,
-    //         kEncoderConfig
-    //     }; 
-
-        
-
     public:
         Motor() {}; 
 
@@ -54,8 +43,6 @@ class Motor {
         virtual void setRelativePositionConversionFactor(double fac) = 0; 
 
 
-        //
-
         // all closed loop configure settings // 
         virtual void setPID(double p, double i, double d, double ff) = 0; 
         virtual void setPID(double p, double i, double d) = 0; 
@@ -79,20 +66,5 @@ class Motor {
         virtual void setAbsoluteVelocityConversionFactor(double factor) = 0; 
 
         virtual void setInverted(bool b) = 0; 
-
-
-        // struct ConfigParamDataType {
-        //     double P; 
-        //     double I; 
-        //     double D; 
-        //     double ff; 
-        //     double forwardSoftLimit; 
-        //     double reverseSoftLimit; 
-        //     bool isForwardSoftLimitEnabled; 
-        //     bool isReverseSoftLimitEnabled; 
-        //     bool isInverted; 
-        // }; 
-
-        //ConfigParamDataType ConfigParam; 
 
 }; 

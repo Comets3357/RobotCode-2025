@@ -6,7 +6,7 @@
 
 #include <frc/geometry/Rotation2d.h>
 
-// #include "Configs.h"
+
 
 using namespace rev::spark;
 
@@ -14,16 +14,7 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
                                  const double chassisAngularOffset)
     : m_drivingSpark(drivingCANId),
       m_turningSpark(turningCANId) {
-  // Apply the respective configurations to the SPARKS. Reset parameters before
-  // applying the configuration to bring the SPARK to a known good state.
-  // Persist the settings to the SPARK to avoid losing them on a power cycle.
-//   m_drivingSpark.Configure(Configs::MAXSwerveModule::DrivingConfig(),
-//                            SparkBase::ResetMode::kResetSafeParameters,
-//                            SparkBase::PersistMode::kPersistParameters);
-//   m_turningSpark.Configure(Configs::MAXSwerveModule::TurningConfig(),
-                        //    SparkBase::ResetMode::kResetSafeParameters,
-                        //    SparkBase::PersistMode::kPersistParameters);
-
+  
     double drivingFactor = ModuleConstants::kWheelDiameter.value() *
                            std::numbers::pi /
                            ModuleConstants::kDrivingMotorReduction;
@@ -32,8 +23,6 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
 
             // configurations for the driving spark max // 
     m_drivingSpark.setPID(0.05, 0, 0, 0.21);
-    // m_drivingSpark.setAbsoluteVelocityConversionFactor(drivingFactor / 60.0); // meters per second
-    // m_drivingSpark.setAbsolutePositionConversionFactor(drivingFactor); // meters
     m_drivingSpark.setRelativeVelocityConversionFactor(drivingFactor / 60.0); // meters per second
     m_drivingSpark.setRelativePositionConversionFactor(drivingFactor); // meters
 
@@ -64,14 +53,7 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
 
   m_drivingSpark.configure(); 
   m_turningSpark.configure();
-
-  // m_drivingSpark.GetRelativeVelocity()
- // m_turningSpark.GetAbsolutePosition()
 }
-
-/*
-    these two methods below do not work and I have no idea why. 
-*/
 
 
 frc::SwerveModuleState MAXSwerveModule::GetState()  {
@@ -108,4 +90,4 @@ void MAXSwerveModule::SetDesiredState(
   m_desiredState = desiredState;
 }
 
-void MAXSwerveModule::ResetEncoders() { m_drivingSpark.SetRelativePosition(0);} //m_drivingEncoder.SetPosition(0); }
+void MAXSwerveModule::ResetEncoders() { m_drivingSpark.SetRelativePosition(0);} 
