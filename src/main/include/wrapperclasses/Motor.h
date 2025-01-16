@@ -45,6 +45,7 @@ class Motor {
 
         // all closed loop configure settings // 
         virtual void setPID(double p, double i, double d, double ff) = 0; 
+        virtual void setPID(double p, double i, double d, double ff, int slot) = 0; 
         virtual void setPID(double p, double i, double d) = 0; 
         virtual void setMinOutput(double min) = 0;
         virtual void setMaxOutput(double max) = 0;

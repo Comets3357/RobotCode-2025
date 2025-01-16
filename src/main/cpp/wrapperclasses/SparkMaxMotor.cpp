@@ -113,12 +113,31 @@ void SparkMaxMotor::SetRelativePosition(double pos)
 
 void SparkMaxMotor::setPID(double p, double i, double d, double ff)
 {
-    config.closedLoop.Pidf(p, i, d, ff); // add slot    
+    config.closedLoop.Pidf(p, i, d, ff);     
 }
 
 void SparkMaxMotor::setPID(double p, double i, double d)
 {
-    config.closedLoop.Pidf(p, i, d, 0); // add slot    
+    config.closedLoop.Pidf(p, i, d, 0);    
+}
+
+void SparkMaxMotor::setPID(double p, double i, double d, double ff, int slot)
+{
+    switch(slot)
+    {
+        case 1:
+            config.closedLoop.Pidf(p, i, d, ff, rev::spark::kSlot1);
+            break;
+        case 2:
+            config.closedLoop.Pidf(p, i, d, ff, rev::spark::kSlot2);
+            break;
+        case 3:
+            config.closedLoop.Pidf(p, i, d, ff, rev::spark::kSlot3);
+            break; 
+         default:
+            config.closedLoop.Pidf(p, i, d, ff, rev::spark::kSlot0);
+    }
+    
 }
 
 void SparkMaxMotor::setForwardSoftLimit(double limit)

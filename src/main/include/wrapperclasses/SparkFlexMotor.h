@@ -51,6 +51,7 @@ class SparkFlexMotor : public Motor
         
         void setPID(double p, double i, double d, double ff) override; 
         void setPID(double p, double i, double d) override; 
+        void setPID(double p, double i, double d, double ff, int slot) override;
 
         void setForwardSoftLimit(double limit) override; 
         void setReverseSoftLimit(double limit) override; 
