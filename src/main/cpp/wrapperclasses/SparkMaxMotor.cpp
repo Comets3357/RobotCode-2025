@@ -1,10 +1,5 @@
 #include "wrapperclasses/SparkMaxMotor.h"
 
-// SparkMaxMotor::SparkMaxMotor(int id) //: motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless} 
-// {
-//     //motor.Configure(config, rev::spark::SparkBase::ResetMode::kResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters); 
-// }
-
 void SparkMaxMotor::SetPercent(double percent)
 {
     motor.Set(percent); 
@@ -38,37 +33,31 @@ void SparkMaxMotor::setMinOutput(double min)
 void SparkMaxMotor::setMaxOutput(double max)
 {
     config.closedLoop.MaxOutput(max); 
-    
 }
 
 void SparkMaxMotor::setOutputRange(double min, double max) 
 {
     config.closedLoop.OutputRange(min, max); 
-    
 }
 
 void SparkMaxMotor::setPositionWrapingMinInput(double minInput) 
 {
     config.closedLoop.PositionWrappingMinInput(minInput);
-    
 }
 
 void SparkMaxMotor::setPositionWrappingMaxInput(double maxInput)
 {
     config.closedLoop.PositionWrappingMaxInput(maxInput);
-    
 }
 
 void SparkMaxMotor::setPositionWrappingMaxRange(double minInput, double maxInput)
 {
     config.closedLoop.PositionWrappingInputRange(minInput, maxInput); 
-    
 }
 
 void SparkMaxMotor::setPositionWrappingEnabled(bool enab)
 {
     config.closedLoop.PositionWrappingEnabled(enab); 
-    
 }
 
 void SparkMaxMotor::setReference(double ref, controlType ctrl)
@@ -81,10 +70,7 @@ void SparkMaxMotor::setReference(double ref, controlType ctrl)
     {
         closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kVelocity); 
     }
-   
 }
-
-
 
 double SparkMaxMotor::GetRelativeVelocity() 
 {
@@ -136,8 +122,7 @@ void SparkMaxMotor::setPID(double p, double i, double d, double ff, int slot)
             break; 
          default:
             config.closedLoop.Pidf(p, i, d, ff, rev::spark::kSlot0);
-    }
-    
+    }  
 }
 
 void SparkMaxMotor::setForwardSoftLimit(double limit)
