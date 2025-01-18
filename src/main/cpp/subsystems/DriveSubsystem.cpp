@@ -5,6 +5,8 @@
 #include <units/angle.h>
 #include <units/angular_velocity.h>
 #include <units/velocity.h>
+#include <redux/canand/CanandEventLoop.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include "Constants.h"
 
@@ -12,13 +14,13 @@ using namespace DriveConstants;
 
 DriveSubsystem::DriveSubsystem()
     : m_frontLeft{kFrontLeftDrivingCanId, kFrontLeftTurningCanId,
-                  -kFrontLeftChassisAngularOffset},
+                  kFrontLeftChassisAngularOffset},
       m_rearLeft{kRearLeftDrivingCanId, kRearLeftTurningCanId,
                  kRearLeftChassisAngularOffset},
       m_frontRight{kFrontRightDrivingCanId, kFrontRightTurningCanId,
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
-                  -kRearRightChassisAngularOffset},
+                  kRearRightChassisAngularOffset},
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::radian_t{
                     0}),
@@ -28,21 +30,33 @@ DriveSubsystem::DriveSubsystem()
   // Usage reporting for MAXSwerve template
   HAL_Report(HALUsageReporting::kResourceType_RobotDrive,
              HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
+             
+             redux::canand::EnsureCANLinkServer();
+             m_gyro.SetPartyMode(0); 
+}
+
+frc::Rotation2d DriveSubsystem::GetGyroHeading()
+{
+  return m_gyro.GetRotation2d(); 
 }
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  m_odometry.Update(frc::Rotation2d(units::radian_t{
-                        0}),
+  m_odometry.Update(GetGyroHeading(),
                     {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
                      m_frontRight.GetPosition(), m_rearRight.GetPosition()});
+
+  frc::SmartDashboard::PutNumber("Gyro GetRotation2D", (double)GetGyroHeading().Degrees()); 
+  frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value()); 
+  frc::SmartDashboard::PutBoolean("Is Gyro Connected", m_gyro.IsConnected()); 
+  
 }
 
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
-                            double deadZone = 0.1; 
+                            double deadZone = 0.05; 
                             
 
                             if (xSpeed < units::meters_per_second_t{deadZone} && xSpeed > units::meters_per_second_t{-deadZone})
@@ -55,7 +69,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                             }
                             if (rot < units::radians_per_second_t{deadZone} && rot > units::radians_per_second_t{-deadZone})
                             {
-                              rot = units::radians_per_second_t{0.00};
+                              rot = units::radians_per_second_t{0};
                             }
 
 
@@ -71,8 +85,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
       fieldRelative
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                 xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                frc::Rotation2d(units::radian_t{
-                    0}))
+                GetGyroHeading())
           : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
 
   kDriveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);
@@ -83,6 +96,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   m_frontRight.SetDesiredState(fr);
   m_rearLeft.SetDesiredState(bl);
   m_rearRight.SetDesiredState(br);
+
   
 }
 
@@ -114,23 +128,22 @@ void DriveSubsystem::ResetEncoders() {
   m_rearRight.ResetEncoders();
 }
 
-units::degree_t DriveSubsystem::GetHeading() const {
-  return frc::Rotation2d(
-             units::radian_t{0})
-      .Degrees();
-}
+// units::degree_t DriveSubsystem::GetHeading()  {
+//   return m_gyro.GetRotation2d().Degrees();
+// }
 
-void DriveSubsystem::ZeroHeading() {} //m_gyro.Reset(); }
+
+void DriveSubsystem::ZeroHeading() { m_gyro.SetYaw(units::angle::turn_t{0});} 
 
 double DriveSubsystem::GetTurnRate() {
-  return 0; //-m_gyro.GetRate(frc::ADIS16470_IMU::IMUAxis::kZ).value();
+  return m_gyro.GetAngularVelocityYaw().value(); //-m_gyro.GetRate(frc::ADIS16470_IMU::IMUAxis::kZ).value();
 }
 
 frc::Pose2d DriveSubsystem::GetPose() { return m_odometry.GetPose(); }
 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
   m_odometry.ResetPosition(
-      GetHeading(),
+      GetGyroHeading(),
       {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
        m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
       pose);

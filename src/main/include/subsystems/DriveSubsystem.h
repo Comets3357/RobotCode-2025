@@ -12,6 +12,7 @@
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
+#include <redux/sensors/Canandgyro.h>
 
 #include "Constants.h"
 #include "MAXSwerveModule.h"
@@ -62,7 +63,10 @@ class DriveSubsystem : public frc2::SubsystemBase {
    *
    * @return the robot's heading in degrees, from 180 to 180
    */
-  units::degree_t GetHeading() const;
+  //units::degree_t GetHeading();
+
+  frc::Rotation2d GetGyroHeading(); 
+
 
   /**
    * Zeroes the heading of the robot.
@@ -108,6 +112,12 @@ class DriveSubsystem : public frc2::SubsystemBase {
   MAXSwerveModule m_frontRight;
   MAXSwerveModule m_rearRight;
 
+  redux::sensors::canandgyro::Canandgyro m_gyro{9}; 
+  
+  
+  
+
+  
   // The gyro sensor
   //frc::ADIS16470_IMU m_gyro;
 

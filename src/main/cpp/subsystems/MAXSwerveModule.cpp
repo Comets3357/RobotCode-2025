@@ -18,26 +18,28 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
         1 / ModuleConstants::kDriveWheelFreeSpeedRps;
 
             // configurations for the driving spark max // 
-    m_drivingSpark.setPID(0.05, 0, 0, 0.21);
+    m_drivingSpark.setPID(0, 0, 0, 0.21); // 0.0025
     m_drivingSpark.setRelativeVelocityConversionFactor(drivingFactor / 60.0); // meters per second
     m_drivingSpark.setRelativePositionConversionFactor(drivingFactor); // meters
 
     m_drivingSpark.SetSmartCurrentLimit(50); 
     m_drivingSpark.setFeedbackSensor(Motor::encoderType::relative); 
+    m_drivingSpark.setInverted(true); 
 
     // configurations for the turning spark max // 
 
     double turningFactor = 2 * std::numbers::pi;
 
     m_turningSpark.SetSmartCurrentLimit(50);
-    m_turningSpark.setInverted(true); 
+    m_turningSpark.setInverted(false); 
     m_turningSpark.setAbsolutePositionConversionFactor(turningFactor); //radians 
     m_turningSpark.setAbsoluteVelocityConversionFactor(turningFactor / 60.0); // radians per second
     m_turningSpark.setFeedbackSensor(Motor::encoderType::absolute); 
-    m_turningSpark.setPID(1, 0, 0);
+    m_turningSpark.setPID(0.025, 0, 0);
     m_turningSpark.setOutputRange(-1, 1);
     m_turningSpark.setPositionWrappingEnabled(true);
     m_turningSpark.setPositionWrappingMaxRange(0, turningFactor); 
+    m_turningSpark.setAbsoluteEncoderInverted(true);
     
 
 

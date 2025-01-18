@@ -73,6 +73,7 @@ class SparkMaxMotor : public Motor {
         void setAbsolutePositionConversionFactor(double factor) override; 
         void zeroOffset(double offset) override; 
         void setAbsoluteVelocityConversionFactor(double factor) override; 
+        void setAbsoluteEncoderInverted(bool inverted);
 
         void setForwardSoftLimit(double limit) override; 
         void setReverseSoftLimit(double limit) override; 

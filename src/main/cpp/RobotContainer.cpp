@@ -16,6 +16,12 @@
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
 
+
+//...
+
+// This will start Redux CANLink manually for C++
+
+
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer() {

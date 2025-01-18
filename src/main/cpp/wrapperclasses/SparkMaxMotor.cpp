@@ -20,8 +20,11 @@ void SparkMaxMotor::setFeedbackSensor(encoderType encoder)
     {
         config.closedLoop.SetFeedbackSensor(rev::spark::ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder);
     }
+}
 
-
+void SparkMaxMotor::setAbsoluteEncoderInverted(bool inverted)
+{
+    config.absoluteEncoder.Inverted(inverted);
 }
 
 void SparkMaxMotor::setMinOutput(double min) 
