@@ -70,6 +70,7 @@ class SparkMaxMotor : public Motor {
 
                 // ABSOLUTE ENCODER CONFIG // 
 
+        void setAbsoluteEncoderInverted(bool inverted);
         void setAbsolutePositionConversionFactor(double factor) override; 
         void zeroOffset(double offset) override; 
         void setAbsoluteVelocityConversionFactor(double factor) override; 

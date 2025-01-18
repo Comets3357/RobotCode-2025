@@ -30,7 +30,7 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
     double turningFactor = 2 * std::numbers::pi;
 
     m_turningSpark.SetSmartCurrentLimit(50);
-    m_turningSpark.setInverted(true); 
+    m_turningSpark.setInverted(false); 
     m_turningSpark.setAbsolutePositionConversionFactor(turningFactor); //radians 
     m_turningSpark.setAbsoluteVelocityConversionFactor(turningFactor / 60.0); // radians per second
     m_turningSpark.setFeedbackSensor(Motor::encoderType::absolute); 
@@ -38,7 +38,7 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
     m_turningSpark.setOutputRange(-1, 1);
     m_turningSpark.setPositionWrappingEnabled(true);
     m_turningSpark.setPositionWrappingMaxRange(0, turningFactor); 
-    
+    m_turningSpark.setAbsoluteEncoderInverted(true);
 
 
 
