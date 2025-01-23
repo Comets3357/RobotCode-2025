@@ -14,6 +14,7 @@
 #include <rev/SparkRelativeEncoder.h>
 
 #include "wrapperclasses/SparkMaxMotor.h"
+#include "wrapperclasses/SparkFlexMotor.h"
 #include "Constants.h"
 using namespace rev::spark;
 
@@ -55,7 +56,7 @@ class MAXSwerveModule {
   void ResetEncoders();
 
  private:
-  SparkMaxMotor m_drivingSpark;
+  SparkFlexMotor m_drivingSpark;
   SparkMaxMotor m_turningSpark;
 
   double m_chassisAngularOffset = 0;

@@ -35,6 +35,12 @@ class SparkFlexMotor : public Motor
         double GetRelativePosition() override;
         void SetRelativePosition(double pos) override;
 
+        // new functions // 
+
+        double GetAbsolutePosition() override;
+        double GetAbsoluteVelocity() override; 
+
+
         // CONFIGURE SETTINGS // 
         
             void SetSmartCurrentLimit(double lim) override; 
@@ -46,12 +52,22 @@ class SparkFlexMotor : public Motor
             void setPositionWrappingMaxInput(double maxInput) override;
             void setPositionWrappingMaxRange(double minInput, double maxInput) override; 
             void setReference(double ref, controlType ctrl) override; 
+            void setFeedbackSensor(encoderType encoder) override; 
+
+            void setRelativeVelocityConversionFactor(double fac) override;
+            void setRelativePositionConversionFactor(double fac) override;
         
 
         
         void setPID(double p, double i, double d, double ff) override; 
         void setPID(double p, double i, double d) override; 
         void setPID(double p, double i, double d, double ff, int slot) override;
+
+        // absolute encoder configs // also new functions 
+        void setAbsolutePositionConversionFactor(double factor) override; 
+        void zeroOffset(double offset) override; 
+        void setAbsoluteVelocityConversionFactor(double factor) override; 
+        void setAbsoluteEncoderInverted(bool inverted);
 
         void setForwardSoftLimit(double limit) override; 
         void setReverseSoftLimit(double limit) override; 
