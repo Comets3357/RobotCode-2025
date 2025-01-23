@@ -13,15 +13,19 @@ class SparkFlexMotor : public Motor
         rev::spark::SparkRelativeEncoder RelativeEncoder = motor.GetEncoder(); 
         rev::spark::SparkFlexExternalEncoder ExternalRelativeEncoder = motor.GetExternalEncoder(); 
         rev::spark::SparkBaseConfig config; 
-        rev::spark::ClosedLoopConfig closedLoopConfig; 
-        rev::spark::SoftLimitConfig softLimitConfig; 
+        rev::spark::SparkClosedLoopController closedLoopController = motor.GetClosedLoopController();
+
+            
 
     public: 
+
+        // CONSTURCTOR // 
         SparkFlexMotor(int id) : motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless} 
         {
             setPID(0, 0, 0); 
         }
 
+        void configure() override;
         
 
         void SetPercent(double percent) override;
@@ -29,13 +33,25 @@ class SparkFlexMotor : public Motor
 
         double GetRelativeVelocity() override; 
         double GetRelativePosition() override;
-        double SetRelativePosition(double pos) override;
+        void SetRelativePosition(double pos) override;
 
         // CONFIGURE SETTINGS // 
+        
+            void SetSmartCurrentLimit(double lim) override; 
+            void setMinOutput(double min) override;
+            void setMaxOutput(double max) override;
+            void setOutputRange(double min, double max) override;
+            void setPositionWrappingEnabled(bool enabled) override;
+            void setPositionWrapingMinInput(double minInput) override;
+            void setPositionWrappingMaxInput(double maxInput) override;
+            void setPositionWrappingMaxRange(double minInput, double maxInput) override; 
+            void setReference(double ref, controlType ctrl) override; 
+        
 
-        void configure() override; 
+        
         void setPID(double p, double i, double d, double ff) override; 
         void setPID(double p, double i, double d) override; 
+        void setPID(double p, double i, double d, double ff, int slot) override;
 
         void setForwardSoftLimit(double limit) override; 
         void setReverseSoftLimit(double limit) override; 
