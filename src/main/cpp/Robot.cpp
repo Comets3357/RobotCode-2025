@@ -6,6 +6,10 @@ Robot::Robot() {}
 
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
+  // Do this in either robot or subsystem init
+frc::SmartDashboard::PutData("Field", &m_field);
+// Do this in either robot periodic or subsystem periodic
+m_field.SetRobotPose(m_container.m_drive.GetPose());
 }
 
 void Robot::DisabledInit() {}

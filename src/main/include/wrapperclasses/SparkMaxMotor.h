@@ -16,7 +16,8 @@ class SparkMaxMotor : public Motor {
         rev::spark::SparkAbsoluteEncoder AbsoluteEncoder = motor.GetAbsoluteEncoder(); 
         rev::spark::SparkRelativeEncoder RelativeEncoder = motor.GetEncoder(); 
         rev::spark::SparkClosedLoopController closedLoopController = motor.GetClosedLoopController(); 
-        rev::spark::SparkBaseConfig config;     
+        rev::spark::SparkBaseConfig config;
+        
     
     public: 
             // CONSTURCTOR // 
@@ -24,6 +25,7 @@ class SparkMaxMotor : public Motor {
         {
             setPID(0, 0, 0); 
             config.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake); // default idle mode to break
+            
         }
 
         

@@ -11,7 +11,7 @@ class SparkFlexMotor : public Motor
         rev::spark::SparkFlex motor; 
         rev::spark::SparkAbsoluteEncoder AbsoluteEncoder = motor.GetAbsoluteEncoder(); 
         rev::spark::SparkRelativeEncoder RelativeEncoder = motor.GetEncoder(); 
-        rev::spark::SparkFlexExternalEncoder ExternalRelativeEncoder = motor.GetExternalEncoder(); 
+       // rev::spark::SparkFlexExternalEncoder ExternalRelativeEncoder = motor.GetExternalEncoder(); 
         rev::spark::SparkBaseConfig config; 
         rev::spark::SparkClosedLoopController closedLoopController = motor.GetClosedLoopController();
 
@@ -23,6 +23,7 @@ class SparkFlexMotor : public Motor
         SparkFlexMotor(int id) : motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless} 
         {
             setPID(0, 0, 0); 
+            config.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake); 
         }
 
         void configure() override;

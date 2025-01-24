@@ -37,8 +37,10 @@ DriveSubsystem::DriveSubsystem()
 
 frc::Rotation2d DriveSubsystem::GetGyroHeading()
 {
+  
   return m_gyro.GetRotation2d(); 
 }
+
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
@@ -56,21 +58,6 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
-                            double deadZone = 0.05; 
-                            
-
-                            if (xSpeed < units::meters_per_second_t{deadZone} && xSpeed > units::meters_per_second_t{-deadZone})
-                            {
-                              xSpeed = units::meters_per_second_t{0};
-                            }
-                            if (ySpeed < units::meters_per_second_t{deadZone} && ySpeed > units::meters_per_second_t{-deadZone})
-                            {
-                              ySpeed = units::meters_per_second_t{0};
-                            }
-                            if (rot < units::radians_per_second_t{deadZone} && rot > units::radians_per_second_t{-deadZone})
-                            {
-                              rot = units::radians_per_second_t{0};
-                            }
 
 
   // Convert the commanded speeds into the correct units for the drivetrain
@@ -133,7 +120,7 @@ void DriveSubsystem::ResetEncoders() {
 // }
 
 
-void DriveSubsystem::ZeroHeading() { m_gyro.SetYaw(units::angle::turn_t{0});} 
+void DriveSubsystem::ZeroHeading() { m_gyro.SetYaw(units::angle::turn_t{0}, 50_ms);} 
 
 double DriveSubsystem::GetTurnRate() {
   return m_gyro.GetAngularVelocityYaw().value(); //-m_gyro.GetRate(frc::ADIS16470_IMU::IMUAxis::kZ).value();
@@ -147,4 +134,10 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
       {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
        m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
       pose);
+}
+
+frc::ChassisSpeeds DriveSubsystem::GetRobotRelativeSpeeds()
+{
+  return kDriveKinematics.ToChassisSpeeds({m_frontLeft.GetState(), m_frontRight.GetState(),
+       m_rearLeft.GetState(), m_rearRight.GetState()}); 
 }

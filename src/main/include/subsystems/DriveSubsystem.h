@@ -13,6 +13,11 @@
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
 #include <redux/sensors/Canandgyro.h>
+#include <frc2/command/CommandPtr.h>
+#include <frc2/command/Command.h>
+#include <frc/smartdashboard/Field2d.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+
 
 #include "Constants.h"
 #include "MAXSwerveModule.h"
@@ -73,6 +78,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
    */
   void ZeroHeading();
 
+
+
   /**
    * Returns the turn rate of the robot.
    *
@@ -86,6 +93,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
    * @return The pose.
    */
   frc::Pose2d GetPose();
+
+  frc::ChassisSpeeds GetRobotRelativeSpeeds();
 
   /**
    * Resets the odometry to the specified pose.
@@ -103,6 +112,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
                          DriveConstants::kTrackWidth / 2},
       frc::Translation2d{-DriveConstants::kWheelBase / 2,
                          -DriveConstants::kTrackWidth / 2}};
+
+  frc::Field2d m_field;
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -114,14 +125,6 @@ class DriveSubsystem : public frc2::SubsystemBase {
 
   redux::sensors::canandgyro::Canandgyro m_gyro{9}; 
   
-  
-  
 
-  
-  // The gyro sensor
-  //frc::ADIS16470_IMU m_gyro;
-
-  // Odometry class for tracking robot pose
-  // 4 defines the number of modules
   frc::SwerveDriveOdometry<4> m_odometry;
 };

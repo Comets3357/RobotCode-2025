@@ -62,18 +62,18 @@ namespace ModuleConstants {
 // The MAXSwerve module can be configured with one of three pinion gears: 12T,
 // 13T, or 14T. This changes the drive speed of the module (a pinion gear with
 // more teeth will result in a robot that drives faster).
-constexpr int kDrivingMotorPinionTeeth = 16;
+constexpr int kDrivingMotorPinionTeeth = 13;
 
 // Calculations required for driving motor conversion factors and feed forward
 constexpr double kDrivingMotorFreeSpeedRps =
     5676.0 / 60;  // NEO free speed is 5676 RPM
-constexpr units::meter_t kWheelDiameter = 0.0762_m;
+constexpr units::meter_t kWheelDiameter = 0.1016_m;
 constexpr units::meter_t kWheelCircumference =
     kWheelDiameter * std::numbers::pi;
 // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
 // teeth on the bevel pinion
 constexpr double kDrivingMotorReduction =
-    (45.0 * 20) / (kDrivingMotorPinionTeeth * 15);
+    (13.0 * 24 * 3) / (36.0 * 18 ); 
 constexpr double kDriveWheelFreeSpeedRps =
     (kDrivingMotorFreeSpeedRps * kWheelCircumference.value()) /
     kDrivingMotorReduction;

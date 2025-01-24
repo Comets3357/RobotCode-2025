@@ -1,7 +1,5 @@
 #include "wrapperclasses/SparkFlexMotor.h"
 
-#include "wrapperclasses/SparkFlexMotor.h"
-
 void SparkFlexMotor::SetPercent(double percent)
 {
     motor.Set(percent); 
@@ -205,7 +203,7 @@ void SparkFlexMotor::configure()
 //     motor.Set(0); 
 // }
 
-// double SparkFlexMotor::GetRelativeVelocity() 
+// double SparkFlexMotor::GetRelative () 
 // {
 //     return RelativeEncoder.GetVelocity(); 
 // }
