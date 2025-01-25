@@ -8,6 +8,7 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/SwerveControllerCommand.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/Commands.h>
 #include <units/angle.h>
 #include <units/velocity.h>
 
@@ -48,7 +49,7 @@ RobotContainer::RobotContainer() {
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand(){
-    
+    return frc2::cmd::Print("No Autonomous Command!");
 }
 
 void RobotContainer::ConfigureButtonBindings() {
