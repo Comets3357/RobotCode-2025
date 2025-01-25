@@ -14,6 +14,8 @@ void RobotContainer::ConfigureBindings() {
   controller.A().WhileTrue(IntakeAlgae(&intake));
   controller.A().OnFalse(StopIntake(&intake));
 
+  controller.B().OnTrue(ChangeAngle(&intake, 105_deg));
+
   controller.Y().WhileTrue(DeployAlgae(&intake));
   controller.Y().OnFalse(StopIntake(&intake));
 }
