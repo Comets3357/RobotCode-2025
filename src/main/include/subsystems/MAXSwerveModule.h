@@ -10,7 +10,7 @@
 #include <frc/kinematics/SwerveModuleState.h>
 #include <rev/SparkAbsoluteEncoder.h>
 #include <rev/SparkClosedLoopController.h>
-//#include <rev/SparkMax.h>
+// #include <rev/SparkMax.h>
 #include <rev/SparkRelativeEncoder.h>
 
 #include "wrapperclasses/SparkMaxMotor.h"
@@ -18,48 +18,49 @@
 #include "Constants.h"
 using namespace rev::spark;
 
-class MAXSwerveModule {
- public:
-  /**
-   * Constructs a MAXSwerveModule and configures the driving and turning motor,
-   * encoder, and PID controller. This configuration is specific to the REV
-   * MAXSwerve Module built with NEOs, SPARKS MAX, and a Through Bore
-   * Encoder.
-   */
-  MAXSwerveModule(int driveCANId, int turningCANId,
-                  double chassisAngularOffset);
+class MAXSwerveModule
+{
+public:
+    /**
+     * Constructs a MAXSwerveModule and configures the driving and turning motor,
+     * encoder, and PID controller. This configuration is specific to the REV
+     * MAXSwerve Module built with NEOs, SPARKS MAX, and a Through Bore
+     * Encoder.
+     */
+    MAXSwerveModule(int driveCANId, int turningCANId,
+                    double chassisAngularOffset);
 
-  /**
-   * Returns the current state of the module.
-   *
-   * @return The current state of the module.
-   */
-  frc::SwerveModuleState GetState();
+    /**
+     * Returns the current state of the module.
+     *
+     * @return The current state of the module.
+     */
+    frc::SwerveModuleState GetState();
 
-  /**
-   * Returns the current position of the module.
-   *
-   * @return The current position of the module.
-   */
-  frc::SwerveModulePosition GetPosition();
+    /**
+     * Returns the current position of the module.
+     *
+     * @return The current position of the module.
+     */
+    frc::SwerveModulePosition GetPosition();
 
-  /**
-   * Sets the desired state for the module.
-   *
-   * @param desiredState Desired state with speed and angle.
-   */
-  void SetDesiredState(const frc::SwerveModuleState& state);
+    /**
+     * Sets the desired state for the module.
+     *
+     * @param desiredState Desired state with speed and angle.
+     */
+    void SetDesiredState(const frc::SwerveModuleState &state);
 
-  /**
-   * Zeroes all the SwerveModule encoders.
-   */
-  void ResetEncoders();
+    /**
+     * Zeroes all the SwerveModule encoders.
+     */
+    void ResetEncoders();
 
- private:
-  SparkFlexMotor m_drivingSpark;
-  SparkMaxMotor m_turningSpark;
+private:
+    SparkFlexMotor m_drivingSpark;
+    SparkMaxMotor m_turningSpark;
 
-  double m_chassisAngularOffset = 0;
-  frc::SwerveModuleState m_desiredState{units::meters_per_second_t{0.0},
-                                        frc::Rotation2d()};
+    double m_chassisAngularOffset = 0;
+    frc::SwerveModuleState m_desiredState{units::meters_per_second_t{0.0},
+                                          frc::Rotation2d()};
 };
