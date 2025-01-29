@@ -8,7 +8,11 @@
 
 #include <frc/TimedRobot.h>
 #include <frc2/command/CommandPtr.h>
+
+#include <frc/smartdashboard/Field2d.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include "subsystems/DriveSubsystem.h"
+
 
 #include "RobotContainer.h"
 #include <photon/PhotonCamera.h>
@@ -23,25 +27,30 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 
-class Robot : public frc::TimedRobot {
- public:
-  Robot();
-  void RobotPeriodic() override;
-  void DisabledInit() override;
-  void DisabledPeriodic() override;
-  void DisabledExit() override;
-  void AutonomousInit() override;
-  void AutonomousPeriodic() override;
-  void AutonomousExit() override;
-  void TeleopInit() override;
-  void TeleopPeriodic() override;
-  void TeleopExit() override;
-  void TestInit() override;
-  void TestPeriodic() override;
-  void TestExit() override;
+class Robot : public frc::TimedRobot
+{
+public:
+    Robot();
+    void RobotPeriodic() override;
+    void DisabledInit() override;
+    void DisabledPeriodic() override;
+    void DisabledExit() override;
+    void AutonomousInit() override;
+    void AutonomousPeriodic() override;
+    void AutonomousExit() override;
+    void TeleopInit() override;
+    void TeleopPeriodic() override;
+    void TeleopExit() override;
+    void TestInit() override;
+    void TestPeriodic() override;
+    void TestExit() override;
 
- private:
-  std::optional<frc2::CommandPtr> m_autonomousCommand;
+private:
+    std::optional<frc2::CommandPtr> m_autonomousCommand;
+
+
+    RobotContainer m_container;
+    frc::Field2d m_field;
 
   photon::PhotonCamera cameraOne{"photonvision"};
 
@@ -111,12 +120,5 @@ std::vector<frc::Pose3d> getEstimatedGlobalPose(frc::Pose3d prevEstimatedRobotPo
 // to do: use AddVisionMeasurement() to add vision to robot swerve pose estimator
 // to do: autoAlign to position on the field using robot pose and vision. Give robot a position and move or align to it
 // to do: use the robot pose to move the robot to a position on the field
-
-  
-  
-  
-
-  RobotContainer m_container;
-  frc::Field2d m_field;
 
 };
