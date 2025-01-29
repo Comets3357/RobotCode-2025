@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.142457798549106,
+        "y": 5.396246773856026
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.196906858625675,
+        "y": 5.311082045261465
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.1966465541294642,
+        "y": 7.001722063337053
+      },
+      "prevControl": {
+        "x": 2.481194920800478,
+        "y": 6.230657423341492
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "HPLC"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 125.4904325159206
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -59.03176130612644
+  },
+  "useDefaultConstraints": true
+}

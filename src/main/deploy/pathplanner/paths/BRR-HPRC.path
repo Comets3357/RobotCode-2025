@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.0,
+        "y": 2.7767333984375
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.1842115129743305,
+        "y": 2.138878958565848
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.150382341657366,
+        "y": 1.0708234514508934
+      },
+      "prevControl": {
+        "x": 2.6643203935077304,
+        "y": 2.3043868527191664
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "HPRC"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -123.95213678160742
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 58.20082903440031
+  },
+  "useDefaultConstraints": true
+}
