@@ -20,6 +20,7 @@
 #include "Constants.h"
 #include "MAXSwerveModule.h"
 #include <frc/estimator/SwerveDrivePoseEstimator.h>
+#include "subsystems/Vision.h"
 
 class DriveSubsystem : public frc2::SubsystemBase
 {
@@ -121,7 +122,28 @@ private:
     MAXSwerveModule m_frontRight;
     MAXSwerveModule m_rearRight;
 
+    Vision m_vision; 
+
+    frc::Pose3d VisionMeasurement3d = get
+
+
     redux::sensors::canandgyro::Canandgyro m_gyro{9};
 
-    frc::SwerveDrivePoseEstimator m_odometry;
+      frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
+
+      kDriveKinematics,
+
+      frc::Rotation2d{},
+
+      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+
+       m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
+
+      frc::Pose2d{},
+
+      {0.1, 0.1, 0.1},
+
+      {0.1, 0.1, 0.1}};
+ 
+    frc::SwerveDriveOdometry<4> m_odometry;
 };

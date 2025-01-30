@@ -10,7 +10,7 @@
 
 #include "Constants.h"
 
-#include "subsystems/Vision.h"
+
 
 using namespace DriveConstants;
 
@@ -46,11 +46,25 @@ frc::Rotation2d DriveSubsystem::GetGyroHeading()
 void DriveSubsystem::Periodic()
 {
     // Implementation of subsystem periodic method goes here.
-    m_odometry.Update(GetGyroHeading(),
-                      {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
-                       m_frontRight.GetPosition(), m_rearRight.GetPosition()});
-    m_odometry.AddVisionMeasurement(GetEstimatedGlobalPose().at(0).ToPose2d(), );
+    // m_odometry.Update(GetGyroHeading(),
+    //                   {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
+    //                    m_frontRight.GetPosition(), m_rearRight.GetPosition()});
 
+    m_poseEstimator.Update(m_gyro.GetRotation2d(),
+                         {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                          m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
+
+
+    
+
+    
+ 
+  // Also apply vision measurements. We use 0.3 seconds in the past as an
+  // example -- on a real robot, this must be calculated based either on latency
+  // or timestamps.
+  m_poseEstimator.AddVisionMeasurement(,
+      frc::Timer::GetTimestamp() - 0.3_s);
+    
     frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
     frc::SmartDashboard::PutNumber("Drive X (m):", m_odometry.GetPose().Translation().X().value());
 }
