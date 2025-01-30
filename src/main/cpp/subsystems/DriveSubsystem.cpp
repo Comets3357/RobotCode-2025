@@ -56,14 +56,18 @@ void DriveSubsystem::Periodic()
 
 
     
-
+  frc::Pose3d VisionMeasurement3d1 = m_vision.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)}).at(0); 
+  frc::Pose3d VisionMeasurement3d2 = m_vision.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)}).at(1); 
     
  
   // Also apply vision measurements. We use 0.3 seconds in the past as an
   // example -- on a real robot, this must be calculated based either on latency
   // or timestamps.
-  m_poseEstimator.AddVisionMeasurement(,
-      frc::Timer::GetTimestamp() - 0.3_s);
+  m_poseEstimator.AddVisionMeasurement(VisionMeasurement3d1.ToPose2d(),
+      frc::Timer::GetFPGATimestamp());
+
+  m_poseEstimator.AddVisionMeasurement(VisionMeasurement3d2.ToPose2d(),
+      frc::Timer::GetFPGATimestamp());
     
     frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
     frc::SmartDashboard::PutNumber("Drive X (m):", m_odometry.GetPose().Translation().X().value());

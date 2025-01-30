@@ -124,7 +124,8 @@ private:
 
     Vision m_vision; 
 
-    frc::Pose3d VisionMeasurement3d = get
+    
+
 
 
     redux::sensors::canandgyro::Canandgyro m_gyro{9};
