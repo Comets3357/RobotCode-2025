@@ -11,6 +11,10 @@
 #include "subsystems/DriveSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
 
+// Forward declarations to avoid circular dependencies
+class DriveSubsystem;  // Forward declaration for DriveSubsystem
+class Vision;  // Forward declaration for Vision
+
 class RobotContainer
 {
 public:
@@ -18,7 +22,8 @@ public:
 
     frc2::CommandPtr GetAutonomousCommand();
 
-    DriveSubsystem m_drive;
+    DriveSubsystem* m_drive;
+    Vision* m_vision; 
 
 private:
     // The driver's controller
