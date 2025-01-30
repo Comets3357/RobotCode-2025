@@ -19,6 +19,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "Constants.h"
 #include "MAXSwerveModule.h"
+#include <frc/estimator/SwerveDrivePoseEstimator.h>
 
 class DriveSubsystem : public frc2::SubsystemBase
 {
@@ -122,5 +123,5 @@ private:
 
     redux::sensors::canandgyro::Canandgyro m_gyro{9};
 
-    frc::SwerveDriveOdometry<4> m_odometry;
+    frc::SwerveDrivePoseEstimator m_odometry;
 };

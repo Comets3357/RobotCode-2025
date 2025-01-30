@@ -10,6 +10,8 @@
 
 #include "Constants.h"
 
+#include "subsystems/Vision.h"
+
 using namespace DriveConstants;
 
 DriveSubsystem::DriveSubsystem()
@@ -47,6 +49,7 @@ void DriveSubsystem::Periodic()
     m_odometry.Update(GetGyroHeading(),
                       {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
                        m_frontRight.GetPosition(), m_rearRight.GetPosition()});
+    m_odometry.AddVisionMeasurement(GetEstimatedGlobalPose().at(0).ToPose2d(), );
 
     frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
     frc::SmartDashboard::PutNumber("Drive X (m):", m_odometry.GetPose().Translation().X().value());
