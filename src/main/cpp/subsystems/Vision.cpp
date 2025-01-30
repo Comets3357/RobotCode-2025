@@ -1,5 +1,10 @@
 #include "subsystems/Vision.h"
 
+Vision::Vision()
+{
+    
+}
+
 std::vector<frc::Pose3d> Vision::getEstimatedGlobalPose(frc::Pose3d prevEstimatedRobotPose)
 {
      std::vector<photon::PhotonPipelineResult> unreadResultsOne = cameraOne.GetAllUnreadResults();

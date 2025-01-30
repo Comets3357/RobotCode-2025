@@ -123,6 +123,7 @@ private:
     MAXSwerveModule m_rearRight;
 
     Vision m_vision; 
+    frc::SwerveDriveOdometry<4> m_odometry;
 
     
 
@@ -146,5 +147,5 @@ private:
 
       {0.1, 0.1, 0.1}};
  
-    frc::SwerveDriveOdometry<4> m_odometry;
+    
 };
