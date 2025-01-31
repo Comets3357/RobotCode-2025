@@ -22,7 +22,7 @@ public:
 
     frc2::CommandPtr GetAutonomousCommand();
 
-    DriveSubsystem* m_drive;
+    DriveSubsystem m_drive;
     Vision* m_vision; 
 
 private:
