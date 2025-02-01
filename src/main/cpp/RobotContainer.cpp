@@ -10,11 +10,15 @@
 #include <frc2/command/button/JoystickButton.h>
 #include <units/angle.h>
 #include <units/velocity.h>
+#include <frc2/command/Commands.h>
 
 #include <utility>
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "RobotContainer.h"
+#include "subsystems/ClimbSubsystem.h"
+#include <Commands/ClimbCommand.h>
 
 using namespace DriveConstants;
 
@@ -39,6 +43,21 @@ RobotContainer::RobotContainer() {
             true);
       },
       {&m_drive}));
+
+      climb.SetDefaultCommand(frc2::RunCommand(
+        [this] {
+            climb.ClimbSet(m_driverController.GetRightY());
+        }, {&climb}));
+
+}
+
+void RobotContainer::ConfigureBindings() {
+    ClimbSubsystem* climb;
+  // Map the A button to extend the elevator
+  m_driverController.A().WhileTrue(ClimbStop(climb));
+ 
+  // Map the B button to retract the elevator
+  m_driverController.B().WhileTrue(ClimbRetract(climb));
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand(){
@@ -46,13 +65,10 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand(){
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-  frc2::JoystickButton(&m_driverController,
-                       frc::XboxController::Button::kRightBumper)
-      .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
+//   frc2::JoystickButton(&m_driverController,
+//                        frc::XboxController::Button::kRightBumper)
+//       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
 }
 
-void RobotContainer::ConfigureBindings()
-{
-    
-}
+
 
