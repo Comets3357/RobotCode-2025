@@ -182,6 +182,23 @@ void SparkMaxMotor::setRelativePositionConversionFactor(double fac)
     config.encoder.PositionConversionFactor(fac);
 }
 
+void SparkMaxMotor::SetSmartCurrentLimit(double lim)
+{
+    config.SmartCurrentLimit(lim); 
+}
+
+
+void SparkMaxMotor::setRelativeVelocityConversionFactor(double fac) 
+{
+    config.encoder.VelocityConversionFactor(fac); 
+}
+        
+void SparkMaxMotor::setRelativePositionConversionFactor(double fac) 
+{
+    config.encoder.PositionConversionFactor(fac);
+}
+
+
 void SparkMaxMotor::configure()
 {
     motor.Configure(config, rev::spark::SparkBase::ResetMode::kNoResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters);
