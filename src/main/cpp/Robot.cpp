@@ -37,13 +37,18 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("Skew/Roll?", target.GetSkew());
     frc::SmartDashboard::PutNumber("Rotation", pose.Rotation().Angle().value());
 
+if (getEstimatedGlobalPose(prevEstimatedRobotPose).size() > 0) {
 prevEstimatedRobotPose = getEstimatedGlobalPose(prevEstimatedRobotPose).at(0);
+}
 frc::SmartDashboard::PutNumber("Distance X", prevEstimatedRobotPose.X().value());
 frc::SmartDashboard::PutNumber("Distance Y", prevEstimatedRobotPose.Y().value());
 frc::SmartDashboard::PutNumber("Distance Z", prevEstimatedRobotPose.Z().value());
+frc::SmartDashboard::PutNumber("robot pose X", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().X().value());
+frc::SmartDashboard::PutNumber("robot pose Y", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().Y().value());
 
+if (getEstimatedGlobalPose(prevEstimatedRobotPose).size() > 0) {
 m_field.SetRobotPose(getEstimatedGlobalPose(prevEstimatedRobotPose).at(0).ToPose2d());
-
+}
 }
 
 void Robot::DisabledInit() {}

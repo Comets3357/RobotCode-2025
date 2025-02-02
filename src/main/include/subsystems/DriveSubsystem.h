@@ -114,6 +114,16 @@ public:
     frc::Field2d m_field;
 
     void UpdateOdometry();
+     
+     frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
+      kDriveKinematics,
+      frc::Rotation2d{},
+      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+       m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
+      frc::Pose2d{},
+      {0.1, 0.1, 0.1},
+      {0.1, 0.1, 0.1}
+      };
 
 private:
     // Components (e.g. motor controllers and sensors) should generally be
@@ -126,15 +136,7 @@ private:
     MAXSwerveModule m_frontRight;
     MAXSwerveModule m_rearRight;
 
-    frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
-      kDriveKinematics,
-      frc::Rotation2d{},
-      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-       m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
-      frc::Pose2d{},
-      {0.1, 0.1, 0.1},
-      {0.1, 0.1, 0.1}
-      };
+   
 
 
 
