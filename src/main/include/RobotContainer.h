@@ -5,20 +5,31 @@
 #pragma once
 
 #include <frc2/command/CommandPtr.h>
+#include <frc2/command/RunCommand.h>
+
+#include "Constants.h"
+#include "subsystems/DriveSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
-#include "Subsystems/ElevatorSubsystem.h"
 
+class RobotContainer
+{
+public:
+    RobotContainer();
 
-class RobotContainer {
- public:
-  RobotContainer();
+    frc2::CommandPtr GetAutonomousCommand();
 
-  frc2::CommandPtr GetAutonomousCommand();
+    DriveSubsystem m_drive;
 
- private:
-  void ConfigureBindings();
+private:
+    // The driver's controller
+    frc2::CommandXboxController m_driverController{OIConstants::kDriverControllerPort};
 
-  // frc2::CommandXboxController controller{0};
+    // The robot's subsystems and commands are defined here...
 
-  ElevatorSubsystem elevator;
+    // The robot's subsystems
+
+    // The chooser for the autonomous routines
+    // frc::SendableChooser<frc2::Command*> m_chooser;
+    void ConfigureButtonBindings();
+    void ConfigureBindings();
 };
