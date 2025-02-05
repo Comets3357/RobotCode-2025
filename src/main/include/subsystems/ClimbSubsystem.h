@@ -12,7 +12,8 @@ class ClimbSubsystem : public frc2::SubsystemBase
         bool ClimbMax();
         void ClimbRetract();
         void ClimbStop();
-        void ClimbSet(double percent);
+        void ClimbSetPercent(double percent);
+        void ClimbSetPosition(double position);
     private:
         //  rev::SparkMaxLimitSwitch ElevatorMax = MainElevatorMotor.GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyClosed);
         SparkMaxMotor ClimbMotor{31};

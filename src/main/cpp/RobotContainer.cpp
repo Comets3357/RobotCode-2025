@@ -46,7 +46,7 @@ RobotContainer::RobotContainer() {
 
       climb.SetDefaultCommand(frc2::RunCommand(
         [this] {
-            climb.ClimbSet(m_driverController.GetRightY());
+            climb.ClimbSetPercent(m_driverController.GetRightY() * .25);
         }, {&climb}));
 
 }
