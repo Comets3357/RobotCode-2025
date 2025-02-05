@@ -19,6 +19,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "Constants.h"
 #include "MAXSwerveModule.h"
+#include "subsystems/VisionSubsystem.h"
+#include <frc/estimator/SwerveDrivePoseEstimator.h>
 
 class DriveSubsystem : public frc2::SubsystemBase
 {
@@ -111,10 +113,16 @@ public:
 
     frc::Field2d m_field;
 
+        void UpdateOdometry();
+
+
+
 private:
     // Components (e.g. motor controllers and sensors) should generally be
     // declared private and exposed only through public methods.
 
+    VisionSubsystem m_visionSubsystem; 
+    
     MAXSwerveModule m_frontLeft;
     MAXSwerveModule m_rearLeft;
     MAXSwerveModule m_frontRight;
@@ -123,4 +131,19 @@ private:
     redux::sensors::canandgyro::Canandgyro m_gyro{9};
 
     frc::SwerveDriveOdometry<4> m_odometry;
+  
+    double temp = m_frontLeft.GetPosition().distance();
+
+public:
+
+     frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
+      kDriveKinematics,
+      frc::Rotation2d{},
+      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+       m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
+      frc::Pose2d{},
+      {0.1, 0.1, 0.1},
+      {0.1, 0.1, 0.1}
+      };
+  
 };

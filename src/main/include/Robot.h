@@ -32,9 +32,11 @@ public:
     void TestPeriodic() override;
     void TestExit() override;
 
+    RobotContainer m_container;
+
 private:
     std::optional<frc2::CommandPtr> m_autonomousCommand;
 
-    RobotContainer m_container;
     frc::Field2d m_field;
+    
 };

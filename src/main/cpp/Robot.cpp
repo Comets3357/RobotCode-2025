@@ -11,6 +11,10 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutData("Field", &m_field);
     // Do this in either robot periodic or subsystem periodic
     m_field.SetRobotPose(m_container.m_drive.GetPose());
+    m_container.m_drive.UpdateOdometry();
+
+    frc::SmartDashboard::PutNumber("robot pose X", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().X().value());
+    frc::SmartDashboard::PutNumber("robot pose Y", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().Y().value());
 }
 
 void Robot::DisabledInit() {}

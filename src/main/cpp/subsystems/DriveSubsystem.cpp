@@ -52,6 +52,33 @@ void DriveSubsystem::Periodic()
     frc::SmartDashboard::PutNumber("Drive X (m):", m_odometry.GetPose().Translation().X().value());
 }
 
+void DriveSubsystem::UpdateOdometry() {
+  /*m_poseEstimator.Update(m_gyro.GetRotation2d(),
+                         {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                          m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
+                          */
+ 
+  // Also apply vision measurements. We use 0.3 seconds in the past as an
+  // example -- on a real robot, this must be calculated based either on latency
+  // or timestamps.
+
+  std::vector<frc::Pose3d> estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
+
+  if (estimatedPoseVector.size() == 0)
+  {
+
+  } else if (estimatedPoseVector.size() == 1)
+  {
+    m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(0).ToPose2d(), frc::Timer::GetFPGATimestamp()); 
+  } else if (estimatedPoseVector.size() == 2)
+  {
+    m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(0).ToPose2d(), frc::Timer::GetFPGATimestamp()); 
+    m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(1).ToPose2d(), frc::Timer::GetFPGATimestamp()); 
+  }
+
+}
+
+
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
