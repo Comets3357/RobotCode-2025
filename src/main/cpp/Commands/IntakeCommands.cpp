@@ -11,5 +11,5 @@ frc2::CommandPtr DeployAlgae(IntakeSubsystem* intake) {return frc2::cmd::Run([in
 frc2::CommandPtr StopIntake(IntakeSubsystem* intake) {return frc2::cmd::Run([intake] {intake->Stop();});}
 
 frc2::CommandPtr ChangeAngle(IntakeSubsystem* intake, units::degree_t angle) {
-    return frc2::cmd::Run([intake, angle] {intake->SetAngle(angle);});
+    return frc2::cmd::RunOnce([intake, angle] {intake->SetAngle(angle);});
 }

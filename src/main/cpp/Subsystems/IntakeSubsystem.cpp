@@ -3,7 +3,9 @@
 
 IntakeSubsystem::IntakeSubsystem() {
     AlgaeDeploy.setPID(0.1, 0, 0);
-    AlgaeDeploy.setAbsolutePositionConversionFacotr(360);
+    AlgaeDeploy.SetSmartCurrentLimit(30);
+    AlgaeDeploy.setFeedbackSensor(Motor::encoderType::absolute);
+    AlgaeDeploy.setAbsolutePositionConversionFactor(360);
     AlgaeDeploy.setInverted(true);
     AlgaeDeploy.setForwardSoftLimit(190);
     AlgaeDeploy.setReverseSoftLimit(80);

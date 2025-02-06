@@ -8,6 +8,10 @@
 
 #include <frc/TimedRobot.h>
 #include <frc2/command/CommandPtr.h>
+#include <frc/smartdashboard/Field2d.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include "subsystems/DriveSubsystem.h"
+
 
 #include "RobotContainer.h"
 
@@ -32,4 +36,5 @@ class Robot : public frc::TimedRobot {
   std::optional<frc2::CommandPtr> m_autonomousCommand;
 
   RobotContainer m_container;
+  frc::Field2d m_field;
 };
