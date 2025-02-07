@@ -41,6 +41,11 @@ frc::Rotation2d DriveSubsystem::GetGyroHeading()
     return m_gyro.GetRotation2d();
 }
 
+double DriveSubsystem::GetChassisSpeed()
+{
+    return (double)m_frontLeft.GetState().speed; 
+}
+
 void DriveSubsystem::Periodic()
 {
     // Implementation of subsystem periodic method goes here.

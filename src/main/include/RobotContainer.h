@@ -19,6 +19,7 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
 
     DriveSubsystem m_drive;
+    double testspeed = 2.7 / 4.8; 
 
 private:
     // The driver's controller
@@ -33,3 +34,12 @@ private:
     void ConfigureButtonBindings();
     void ConfigureBindings();
 };
+
+
+/*
+
+Test speed:    1         1                1 
+PID:           p = 0.04 f = 0.03 0.035    0.038
+Actual Speed: 1.54       0.8     0.95     1.02
+
+*/

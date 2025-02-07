@@ -62,6 +62,9 @@ public:
      */
     void SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates);
 
+   double GetChassisSpeed(); 
+
+
     /**
      * Returns the heading of the robot.
      *
