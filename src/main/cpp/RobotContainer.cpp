@@ -26,7 +26,7 @@ using namespace DriveConstants;
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
-
+        
     // Configure the button bindings
     ConfigureButtonBindings();
 
@@ -59,6 +59,34 @@ void RobotContainer::ConfigureButtonBindings()
                                                                     { m_drive.SetX(); }, {&m_drive}));
     m_driverController.X().WhileTrue(new frc2::RunCommand([this]
                                                           { m_drive.ZeroHeading(); }, {&m_drive}));
+        // make go 
+    m_driverController.A().OnTrue(new frc2::RunCommand([this]{ 
+        double test = testspeed; 
+        m_drive.Drive(units::meters_per_second_t{testspeed}, 
+                    units::meters_per_second_t{0},  
+                    units::radians_per_second_t{0}, 
+                    true);}, {&m_drive})); 
+
+    m_driverController.A().OnFalse(new frc2::RunCommand([this]{ 
+     
+        m_drive.Drive(units::meters_per_second_t{0}, 
+                    units::meters_per_second_t{0},  
+                    units::radians_per_second_t{0}, 
+                    true);}, {&m_drive}));
+    // make go in reverse 
+    m_driverController.B().OnTrue(new frc2::RunCommand([this]{ 
+   
+        m_drive.Drive(units::meters_per_second_t{testspeed}, 
+                    units::meters_per_second_t{0},  
+                    units::radians_per_second_t{0}, 
+                    true);}, {&m_drive})); 
+
+    m_driverController.B().OnFalse(new frc2::RunCommand([this]{ 
+        double test = 0;
+        m_drive.Drive(units::meters_per_second_t{test}, 
+                    units::meters_per_second_t{test},  
+                    units::radians_per_second_t{0}, 
+                    true);}, {&m_drive}));
 }
 
 void RobotContainer::ConfigureBindings()
