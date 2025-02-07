@@ -19,6 +19,8 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
 
     DriveSubsystem m_drive;
+    VisionSubsystem m_visionSubsystem;
+    
 
 private:
     // The driver's controller

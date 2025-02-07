@@ -13,6 +13,7 @@
 #include "subsystems/DriveSubsystem.h"
 
 #include "RobotContainer.h"
+#include "subsystems/VisionSubsystem.h"
 
 class Robot : public frc::TimedRobot
 {

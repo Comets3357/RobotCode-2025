@@ -15,6 +15,17 @@ void Robot::RobotPeriodic()
 
     frc::SmartDashboard::PutNumber("robot pose X", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().X().value());
     frc::SmartDashboard::PutNumber("robot pose Y", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().Y().value());
+    frc::SmartDashboard::PutNumber("odometry X", m_container.m_drive.m_odometry.GetPose().X().value());
+    frc::SmartDashboard::PutNumber("odometry Y", m_container.m_drive.m_odometry.GetPose().Y().value());
+    if (m_container.m_visionSubsystem.getEstimatedGlobalPose(m_container.m_visionSubsystem.prevEstimatedRobotPose).size() > 0) {
+        m_container.m_visionSubsystem.prevEstimatedRobotPose = m_container.m_visionSubsystem.getEstimatedGlobalPose(m_container.m_visionSubsystem.prevEstimatedRobotPose).at(0);
+        frc::SmartDashboard::PutNumber("Distance X", m_container.m_visionSubsystem.prevEstimatedRobotPose.X().value());
+        frc::SmartDashboard::PutNumber("Distance Y", m_container.m_visionSubsystem.prevEstimatedRobotPose.Y().value());
+        frc::SmartDashboard::PutNumber("Distance Z", m_container.m_visionSubsystem.prevEstimatedRobotPose.Z().value());
+    }
+
+
+
 }
 
 void Robot::DisabledInit() {}

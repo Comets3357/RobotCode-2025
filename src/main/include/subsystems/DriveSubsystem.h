@@ -130,11 +130,11 @@ private:
 
     redux::sensors::canandgyro::Canandgyro m_gyro{9};
 
-    frc::SwerveDriveOdometry<4> m_odometry;
   
     double temp = m_frontLeft.GetPosition().distance();
 
 public:
+    frc::SwerveDriveOdometry<4> m_odometry;
 
      frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
       kDriveKinematics,

@@ -14,13 +14,13 @@ std::vector<frc::Pose3d> VisionSubsystem::getEstimatedGlobalPose(frc::Pose3d pre
 
 
   if (unreadResultsOne.size() > 0) {
-    cameraResults = unreadResultsOne.at(0);
-    result1 = poseEstimatorOne.Update(cameraResults);
+  auto cameraResults1 = unreadResultsOne.at(0);
+  result1 = poseEstimatorOne.Update(cameraResults1);
   }
 
   if (unreadResultsTwo.size() > 0) {
-    cameraResults = unreadResultsTwo.at(0);
-    result2 = poseEstimatorTwo.Update(cameraResults);
+  auto cameraResults2 = unreadResultsTwo.at(0);
+  result2 = poseEstimatorTwo.Update(cameraResults2);
     
   }
 
@@ -33,3 +33,16 @@ std::vector<frc::Pose3d> VisionSubsystem::getEstimatedGlobalPose(frc::Pose3d pre
   
   return poses;
 }
+
+frc::Pose3d VisionSubsystem::EstimatedPose() {
+  std::vector<photon::PhotonPipelineResult> unreadResultsOne = cameraOne.GetAllUnreadResults();
+
+  if (unreadResultsOne.size() > 0) {
+  auto cameraResults1 = unreadResultsOne.at(0);
+  result1 = poseEstimatorOne.Update(cameraResults1);
+  }
+
+return ;
+}
+
+
