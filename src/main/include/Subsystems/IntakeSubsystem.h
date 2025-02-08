@@ -14,6 +14,9 @@ public:
     void Eject(double percent);
     void SetAngle(units::degree_t angle);
     double GetAngle();
+
+    //some test stuff
+    void moveIntake(double percent);
 private:
     SparkMaxMotor AlgaeIntake{22};
     SparkMaxMotor AlgaeDeploy{21};

@@ -14,7 +14,7 @@
 #include <utility>
 
 #include "Constants.h"
-#include "subsystems/DriveSubsystem.h"
+#include "Subsystems/DriveSubsystem.h"
 
 
 //...
@@ -52,14 +52,22 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-      m_driverController.RightBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
-      m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
-    m_driverController.A().WhileTrue(IntakeAlgae(&intake));
+
+    //drive
+    m_driverController.RightBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
+    m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
+
+    //algae intake
+    m_driverController.A().OnTrue(IntakeAlgae(&intake));
     m_driverController.A().OnFalse(StopIntake(&intake));
 
-    m_driverController.B().OnTrue(ChangeAngle(&intake, 105_deg));
+    m_driverController.X().WhileTrue(MoveIntake(&intake, -0.1));
+    m_driverController.B().WhileTrue(MoveIntake(&intake, 0.1));
 
-    m_driverController.Y().WhileTrue(DeployAlgae(&intake));
+    //commenting out for a sec
+    //m_driverController.B().OnTrue(ChangeAngle(&intake, 105_deg));
+
+    m_driverController.Y().OnTrue(DeployAlgae(&intake));
     m_driverController.Y().OnFalse(StopIntake(&intake));
 }
 
