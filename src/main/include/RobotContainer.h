@@ -33,11 +33,9 @@ class RobotContainer {
 
   // The chooser for the autonomous routines
   //frc::SendableChooser<frc2::Command*> m_chooser;
-  void ConfigureButtonBindings(); 
-  void ConfigureBindings();
+  void ConfigureButtonBindings();
 
   frc2::CommandXboxController controller{0};
 
   IntakeSubsystem intake;
-  
 };

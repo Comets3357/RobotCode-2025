@@ -3,17 +3,31 @@
 
 //Command to intake algae @param intake Intake Subsystem
 frc2::CommandPtr IntakeAlgae(IntakeSubsystem* intake) {
-    return frc2::cmd::Run([intake] {intake->Intake();});}
+    return frc2::cmd::RunOnce([intake] {
+        intake->Intake(0.3);
+        intake->SetAngle(175_deg);
+    });
+}
 
 //Command to eject algae
 frc2::CommandPtr DeployAlgae(IntakeSubsystem* intake) {
-    return frc2::cmd::Run([intake] {intake->Eject();});}
+    return frc2::cmd::RunOnce([intake] {
+        intake->Eject();
+        intake->SetAngle(175_deg);
+    });
+}
 
 //Command to stop algae-related motors
 frc2::CommandPtr StopIntake(IntakeSubsystem* intake) {
-    return frc2::cmd::Run([intake] {intake->Stop();});}
+    return frc2::cmd::RunOnce([intake] {
+        intake->Stop();
+        intake->SetAngle(175_deg);
+    });
+}
 
-//Command to change the angle of the algae deploy mechanism
-frc2::CommandPtr ChangeAngle(IntakeSubsystem* intake, units::degree_t angle) {
-    return frc2::cmd::RunOnce([intake, angle] {intake->SetAngle(angle);});
+frc2::CommandPtr StopDeploy(IntakeSubsystem* intake) {
+    return frc2::cmd::RunOnce([intake] {
+        intake->Stop();
+        intake->SetAngle(120_deg);
+    });
 }

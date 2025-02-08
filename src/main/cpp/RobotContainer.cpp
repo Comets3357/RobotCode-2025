@@ -61,18 +61,7 @@ void RobotContainer::ConfigureButtonBindings() {
     m_driverController.A().OnTrue(IntakeAlgae(&intake));
     m_driverController.A().OnFalse(StopIntake(&intake));
 
-    m_driverController.X().WhileTrue(MoveIntake(&intake, -0.1));
-    m_driverController.B().WhileTrue(MoveIntake(&intake, 0.1));
-
-    //commenting out for a sec
-    //m_driverController.B().OnTrue(ChangeAngle(&intake, 105_deg));
-
     m_driverController.Y().OnTrue(DeployAlgae(&intake));
     m_driverController.Y().OnFalse(StopIntake(&intake));
-}
-
-void RobotContainer::ConfigureBindings()
-{
-    
 }
 

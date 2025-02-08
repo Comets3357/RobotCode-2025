@@ -37,13 +37,9 @@ void IntakeSubsystem::Stop() {
     AlgaeIntake.SetPercent(0);
 }
 
-void IntakeSubsystem::moveIntake(double percent) {
-    AlgaeDeploy.SetPercent(percent);
-}
-
 //setters
 void IntakeSubsystem::SetAngle(units::degree_t angle) {
-    AlgaeDeploy.SetRelativePosition(angle.value());
+    AlgaeDeploy.setReference(angle.value(), Motor::controlType::position);
 }
 
 //getters
