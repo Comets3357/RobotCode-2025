@@ -14,15 +14,15 @@ class ElevatorSubsystem : public frc2::SubsystemBase
         const double elevatorI = 0;
         const double elevatorD = 0;
 
-        void setSpeed(int speed)
+        void setSpeed(int speed);
         void CalculatePID();
         
-        double getPosition(double TargetPosition);
-
+         void getPosition(double TargetPosition);
          void ElevatorExtend();
-        bool ElevatorMax();
+         void ElevatorMax();
          void ElevatorRetract();
          void ElevatorStop();
+         void setPosition(double position);
     private:
         //  rev::SparkMaxLimitSwitch ElevatorMax = MainElevatorMotor.GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyClosed);
         SparkMaxMotor MainElevatorMotor{11};

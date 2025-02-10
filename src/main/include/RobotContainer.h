@@ -10,6 +10,7 @@
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
+#include "Subsystems/ElevatorSubsystem.h"
 
 class RobotContainer
 {
@@ -19,6 +20,8 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
 
     DriveSubsystem m_drive;
+    ElevatorSubsystem m_elevator;
+
 
 private:
     // The driver's controller

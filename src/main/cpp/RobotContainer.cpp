@@ -59,6 +59,15 @@ void RobotContainer::ConfigureButtonBindings()
                                                                     { m_drive.SetX(); }, {&m_drive}));
     m_driverController.X().WhileTrue(new frc2::RunCommand([this]
                                                           { m_drive.ZeroHeading(); }, {&m_drive}));
+    // m_driverController.A().WhileTrue(new frc2::RunCommand([this]
+    //                                                       { m_elevator.ElevatorExtend(); }, {&m_elevator}));
+    // m_driverController.B().WhileTrue(new frc2::RunCommand([this]
+    //                                                       { m_elevator.ElevatorRetract(); }, {&m_elevator}));
+    // m_driverController.A().WhileFalse(new frc2::RunCommand([this]
+    //                                                       { m_elevator.ElevatorStop(); }, {&m_elevator}));
+    // m_driverController.B().WhileFalse(new frc2::RunCommand([this]
+    //                                                       { m_elevator.ElevatorStop(); }, {&m_elevator}));
+    m_elevator.SetDefaultCommand(frc2::cmd::Run([this]{m_elevator.setSpeed(m_driverController.GetRightY()*0.2);}));
 }
 
 void RobotContainer::ConfigureBindings()

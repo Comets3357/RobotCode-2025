@@ -9,23 +9,23 @@ elevatorCommand::elevatorCommand(ElevatorSubsystem* elevatorSubsystem)
     AddRequirements(elevatorSubsystem);
 }
 
-elevatorCommand::Execute()
+void elevatorCommand::Execute()
 {
-   while(controller.A() == true) 
-   {
-    elevatorSubsystem->ElevatorExtend();
-   };
-   while (controller.A()==false)
-   {
-    elevatorSubsystem->ElevatorStop;
-   };
-   while(controller.B()==true)
-   {
-    elevatorSubsystem->ElevatorRetract();
-   };
-   while (controller.B()==false)
-   {
-    elevatorSubsystem->ElevatorStop;
-   };
+//    while(controller.A() == true) 
+//    {
+//     elevatorSubsystem->ElevatorExtend();
+//    };
+//    while (controller.A()==false)
+//    {
+//     elevatorSubsystem->ElevatorStop;
+//    };
+//    while(controller.B()==true)
+//    {
+//     elevatorSubsystem->ElevatorRetract();
+//    };
+//    while (controller.B()==false)
+//    {
+//     elevatorSubsystem->ElevatorStop;
+//    };
    
 }

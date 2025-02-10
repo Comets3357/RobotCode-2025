@@ -12,13 +12,14 @@
 class elevatorCommand : public frc2::CommandHelper<frc2::Command, elevatorCommand>
 {
     public:
-        std::function<double()> LeftStickSupplier;
-        std::function<double()> LeftStick;
+        // std::function<double()> LeftStickSupplier;
+        // std::function<double()> LeftStick;
 
         frc2::CommandXboxController controller{0};
 
-        explicit elevatorCommand(ElevatorSubsystem* elevatorSubsystem)
-        void Execute.override();
+        explicit elevatorCommand(ElevatorSubsystem* elevatorSubsystem);
+        void Execute();
+
     private:
         ElevatorSubsystem* elevatorSubsystem;       
 };
