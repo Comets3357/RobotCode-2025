@@ -46,8 +46,8 @@ frc::Pose3d prevEstimatedRobotPose = frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_
 
 std::vector<frc::Pose3d> getEstimatedGlobalPose(frc::Pose3d prevEstimatedRobotPose); 
 
-frc::Pose3d EstimatedPose();
-
+ std::optional<photon::EstimatedRobotPose> EstimatedPose();
+ 
 std::optional<frc::Pose3d> GetVisionPose();/* {
 
   std::vector<photon::PhotonPipelineResult> unreadResultsOne = cameraOne.GetAllUnreadResults();

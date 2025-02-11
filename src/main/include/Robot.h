@@ -14,6 +14,9 @@
 
 #include "RobotContainer.h"
 #include "subsystems/VisionSubsystem.h"
+#include "grpl/LaserCan.h"
+
+
 
 class Robot : public frc::TimedRobot
 {
@@ -39,5 +42,6 @@ private:
     std::optional<frc2::CommandPtr> m_autonomousCommand;
 
     frc::Field2d m_field;
+    grpl::LaserCan testLaserCan{0};
     
 };

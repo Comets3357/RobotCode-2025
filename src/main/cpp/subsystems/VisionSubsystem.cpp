@@ -34,15 +34,17 @@ std::vector<frc::Pose3d> VisionSubsystem::getEstimatedGlobalPose(frc::Pose3d pre
   return poses;
 }
 
-frc::Pose3d VisionSubsystem::EstimatedPose() {
+std::optional<photon::EstimatedRobotPose> VisionSubsystem::EstimatedPose() {
   std::vector<photon::PhotonPipelineResult> unreadResultsOne = cameraOne.GetAllUnreadResults();
+  std::optional<photon::EstimatedRobotPose> visionEst;
 
-  if (unreadResultsOne.size() > 0) {
-  auto cameraResults1 = unreadResultsOne.at(0);
-  result1 = poseEstimatorOne.Update(cameraResults1);
-  }
+    // Run each new pipeline result through our pose estimator
+    for (const auto& result : cameraOne.GetAllUnreadResults()) {
+      // cache result and update pose estimator
+      visionEst = poseEstimatorOne.Update(result);
+      }
 
-return ;
+  return visionEst; 
 }
 
 

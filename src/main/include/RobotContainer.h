@@ -18,7 +18,7 @@ public:
 
     frc2::CommandPtr GetAutonomousCommand();
 
-    DriveSubsystem m_drive;
+    // DriveSubsystem m_drive;
     VisionSubsystem m_visionSubsystem;
     
 
