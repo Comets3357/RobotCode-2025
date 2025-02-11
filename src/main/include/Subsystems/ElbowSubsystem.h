@@ -24,12 +24,12 @@ public:
     const double elbowP = 0.04;
     const double elbowI = 0;
     const double elbowD = 0;
-    int elbowTargetAngle = 210;
+    double elbowTargetAngle = -10;
 
     const double gripperP = 0.02;
     const double gripperI = 0;
     const double gripperD = 0;
-    int gripperTargetAngle = 0;
+    double gripperTargetAngle = 0;
     bool gripperPivotState = false;
 
     //
@@ -97,6 +97,8 @@ public:
 
     //gets the gripper pivot state in Vertical to horizontal or whatever this might be useless
     bool getGripperPivotState();
+
+    bool isGamePieceDetected();
 
     //gripper roller getters
     gripperStates getGripperState();

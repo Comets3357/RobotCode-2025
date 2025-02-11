@@ -2,6 +2,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "wrapperclasses/SparkMaxMotor.h"
 #include "Subsystems/ElbowSubsystem.h"
+#include "Robot.h"
 
 ElbowSubsystem::ElbowSubsystem() {
 
@@ -9,9 +10,12 @@ ElbowSubsystem::ElbowSubsystem() {
     elbowPivotMotor.setRelativeVelocityConversionFactor(4.5);
     elbowPivotMotor.enableForwardSoftLimit(true);
     elbowPivotMotor.enableReverseSoftLimit(true);
-    elbowPivotMotor.setForwardSoftLimit(130);
-    elbowPivotMotor.setReverseSoftLimit(-120);  
+    elbowPivotMotor.setForwardSoftLimit(-5);
+    elbowPivotMotor.setReverseSoftLimit(-40);  
     elbowPivotMotor.SetSmartCurrentLimit(8);  
+
+    //limiting so we dont give josh a bad time if we break it
+    elbowPivotMotor.setMaxOutput(0.1);
 
     gripperPivotMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
     elbowPivotMotor.SetSmartCurrentLimit(20);
@@ -100,7 +104,8 @@ double ElbowSubsystem::getElbowSpeed() {
 //super epic PID stuff
 
 void ElbowSubsystem::setElbowTarget() {
-    elbowPivotMotor.setReference(getElbowTargetAngle(), Motor::controlType::position);
+    //TODO PUT THIS BACK
+    //elbowPivotMotor.setReference(getElbowTargetAngle(), Motor::controlType::position);
 }
 
  //gets the gripper pivot angle
@@ -119,4 +124,12 @@ double ElbowSubsystem::getGripperPivotSpeed()
 
 bool ElbowSubsystem::getGripperPivotState() {
      return gripperPivotState;
+}
+
+bool ElbowSubsystem::isGamePieceDetected() {
+    if (Robot::getVerticalDistanceMeasurement() || Robot::getHorizontalDistanceMeasurement() < 50) {
+        return true;
+    } else {
+        return false;
+    }
 }

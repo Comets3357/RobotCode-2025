@@ -27,6 +27,14 @@ std::optional<grpl::LaserCanMeasurement> horizMeasurement = LaserCanHorizontal.g
   }
 }
 
+double Robot::getHorizontalDistanceMeasurement() {
+  return horizMeasurement.value().distance_mm;
+}
+
+double Robot::getVerticalDistanceMeasurement() {
+  return vertMeasurement.value().distance_mm;
+}
+
 void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {}

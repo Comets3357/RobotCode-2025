@@ -19,32 +19,32 @@ void DefaultElbowCommand::Execute() {
 
     // elbowSubsystem->setElbowSpeed(rightStick() * 0.1);
     
-    if (rightStick() < -0.1) {
-       elbowSubsystem->setTargetElbowAngle(elbowSubsystem->getElbowTargetAngle() - 1);
-    }
-    if (rightStick() > 0.1) {
-        elbowSubsystem->setTargetElbowAngle(elbowSubsystem->getElbowTargetAngle() + 1);
-    }    
+    // if (rightStick() < -0.1) {
+    //    elbowSubsystem->setTargetElbowAngle(elbowSubsystem->getElbowTargetAngle() - 1);
+    // }
+    // if (rightStick() > 0.1) {
+    //     elbowSubsystem->setTargetElbowAngle(elbowSubsystem->getElbowTargetAngle() + 1);
+    // }    
 
     elbowSubsystem->setElbowTarget();
 
-    if (elbowSubsystem->getElbowTargetAngle() > 130) {
-        elbowSubsystem->setTargetElbowAngle(130);
+    if (elbowSubsystem->getElbowTargetAngle() > -5) {
+        elbowSubsystem->setTargetElbowAngle(-5);
     }
-    if (elbowSubsystem->getElbowTargetAngle() < -120) {
-        elbowSubsystem->setTargetElbowAngle(-120);
+    if (elbowSubsystem->getElbowTargetAngle() < -40) {
+        elbowSubsystem->setTargetElbowAngle(-40);
     }
 
     //gripper roller stuff
 
-    // if (elbowSubsystem->getGripperState() == 0 /*INTTAKE*/) {
-    //     elbowSubsystem->setGripperSpeed(0.2);
-    // } else if (elbowSubsystem->getGripperState() ==   1 /*OUTTAKE*/) {
-    //     elbowSubsystem->setGripperSpeed(-0.2);
+    if (elbowSubsystem->getGripperState() == 0 /*INTTAKE*/) {
+        elbowSubsystem->setGripperSpeed(0.2);
+    } else if (elbowSubsystem->getGripperState() ==   1 /*OUTTAKE*/) {
+        elbowSubsystem->setGripperSpeed(-0.2);
 
-    // } else if (elbowSubsystem->getGripperState() ==   2 /*IDLE*/){
-    //     elbowSubsystem->setGripperSpeed(0);
-    // }
+    } else if (elbowSubsystem->getGripperState() ==   2 /*IDLE*/){
+        elbowSubsystem->setGripperSpeed(0);
+    }
 
     //gripper pivot stuff
     if (rightTrigger() > 0.5) {
