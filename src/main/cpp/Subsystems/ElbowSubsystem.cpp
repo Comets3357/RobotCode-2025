@@ -126,10 +126,35 @@ bool ElbowSubsystem::getGripperPivotState() {
      return gripperPivotState;
 }
 
+unint_16 Robot::getHorizontalDistanceMeasurement() {
+  return horizMeasurement.value().distance_mm;
+}
+
+unint_16 Robot::getVerticalDistanceMeasurement() {
+  return vertMeasurement.value().distance_mm;
+}
+
 bool ElbowSubsystem::isGamePieceDetected() {
-    if (Robot::getVerticalDistanceMeasurement() || Robot::getHorizontalDistanceMeasurement() < 50) {
+    if (ElbowSubsystem::getVerticalDistanceMeasurement() || ElbowSubsystem::getHorizontalDistanceMeasurement() < 50) {
         return true;
     } else {
         return false;
+    }
+}
+
+void ElbowSubsystem::Execute() {
+    vertMeasurement = LaserCanVertical.get_measurement();
+    horizMeasurement = LaserCanHorizontal.get_measurement();
+
+
+    if (vertMeasurement.has_value() && vertMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
+        frc::SmartDashboard::PutNumber("Vertical LaserCAN Measurement", vertMeasurement.value().distance_mm);
+    } else {
+        std::cout << "no vertical measurement" << std::endl;
+    } 
+    if (horizMeasurement.has_value() && horizMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
+        frc::SmartDashboard::PutNumber("Horizontal LaserCAN Measurement", horizMeasurement.value().distance_mm);
+    } else {
+        std::cout << "no horizontal measurement" << std::endl;
     }
 }

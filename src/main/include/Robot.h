@@ -30,17 +30,10 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
   void TestExit() override;
 
-  double getHorizontalDistanceMeasurement();
-  double getVerticalDistanceMeasurement();
-  std::optional<grpl::LaserCanMeasurement> vertMeasurement;
-  std::optional<grpl::LaserCanMeasurement> horizMeasurement;
-
  private:
   std::optional<frc2::CommandPtr> m_autonomousCommand;
 
   RobotContainer m_container;
-  grpl::LaserCan LaserCanVertical{19};
-  grpl::LaserCan LaserCanHorizontal{20};
 
 
 

@@ -9,30 +9,6 @@ Robot::Robot() {
 
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-
-
-std::optional<grpl::LaserCanMeasurement> vertMeasurement = LaserCanVertical.get_measurement();
-std::optional<grpl::LaserCanMeasurement> horizMeasurement = LaserCanHorizontal.get_measurement();
-
-
-  if (vertMeasurement.has_value() && vertMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
-    frc::SmartDashboard::PutNumber("Vertical LaserCAN Measurement", vertMeasurement.value().distance_mm);
-  } else {
-    std::cout << "no vertical measurement" << std::endl;
-  }
-    if (horizMeasurement.has_value() && horizMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
-    frc::SmartDashboard::PutNumber("Horizontal LaserCAN Measurement", horizMeasurement.value().distance_mm);
-  } else {
-    std::cout << "no horizontal measurement" << std::endl;
-  }
-}
-
-double Robot::getHorizontalDistanceMeasurement() {
-  return horizMeasurement.value().distance_mm;
-}
-
-double Robot::getVerticalDistanceMeasurement() {
-  return vertMeasurement.value().distance_mm;
 }
 
 void Robot::DisabledInit() {}

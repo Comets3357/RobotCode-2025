@@ -32,6 +32,10 @@ public:
     double gripperTargetAngle = 0;
     bool gripperPivotState = false;
 
+    //initalizing measurement vehicles
+    std::optional<grpl::LaserCanMeasurement> vertMeasurement;
+    std::optional<grpl::LaserCanMeasurement> horizMeasurement;
+
     //
     //setters
     //
@@ -98,15 +102,25 @@ public:
     //gets the gripper pivot state in Vertical to horizontal or whatever this might be useless
     bool getGripperPivotState();
 
-    bool isGamePieceDetected();
-
     //gripper roller getters
     gripperStates getGripperState();
+
+    //is game piece detected via the distance sensor
+    bool isGamePieceDetected();
+
+    //getting the measurement of the horizontal and vertical distance measurements
+    double getHorizontalDistanceMeasurement();
+    double getVerticalDistanceMeasurement();
+
+    void Execute() override;
 
 private:
     SparkMaxMotor elbowPivotMotor{elbowPivotID}; 
     SparkMaxMotor gripperPivotMotor{gripperPivotID};
     SparkMaxMotor gripperMotor{armGripperID};
+
+    grpl::LaserCan LaserCanVertical{19};
+    grpl::LaserCan LaserCanHorizontal{20};
 
 
 };
