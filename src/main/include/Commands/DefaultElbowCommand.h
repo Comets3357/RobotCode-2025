@@ -10,16 +10,24 @@ class DefaultElbowCommand
     std::function<double()> rightStickSupplier;
     std::function<double()> rightStick;
 
+    std::function<double()> rightTrigger;
+    std::function<double()> rightTriggerSupplier;
+
     /**
     * Creates a new ElbowCommand (yippee!).
     *
     * @param pivotSubsystem The subsystem used by this command.
     * @param supplier POV
     */
-    explicit DefaultElbowCommand(ElbowSubsystem* elbowSubsystem, std::function<double()> rightStick);
+    explicit DefaultElbowCommand(ElbowSubsystem* elbowSubsystem, std::function<double()> rightStick, std::function<double()> rightTrigger);
+
+   static frc2::CommandPtr setIdle(ElbowSubsystem *m_elbowSubsystem);
+   static frc2::CommandPtr setIntake(ElbowSubsystem *m_elbowSubsystem);
+   static frc2::CommandPtr setOuttake(ElbowSubsystem *m_elbowSubsystem);
 
     void Execute() override;
 
  private:
+
   ElbowSubsystem* elbowSubsystem;
 };

@@ -10,36 +10,101 @@ public:
 
     ElbowSubsystem();
 
+    //setting states for the gripper
+    enum gripperStates{INTAKE, OUTTAKE, IDLE}
+    gripperState{gripperStates::IDLE};
+
     //constants
-    int elbowPivotID = 11;
-    int armGripperID = 12;
+    int elbowPivotID = 16;
+    int gripperPivotID = 17;
+    int armGripperID = 18;
+
     
-    //epic PID system for the elbow, dont change these values unless you know what you are doing :)
-    const double elbowP = 1;
+    //epic PID system for the elbow and gripper, dont change these values unless you know what you are doing :)
+    const double elbowP = 0.04;
     const double elbowI = 0;
     const double elbowD = 0;
+    int elbowTargetAngle = 210;
 
-    bool isGripperToggled = false;
-    int targetAngle = 0;
-    
+    const double gripperP = 0.02;
+    const double gripperI = 0;
+    const double gripperD = 0;
+    int gripperTargetAngle = 0;
+    bool gripperPivotState = false;
+
+    //
     //setters
+    //
 
-    void setTargetElbowAngle(int angle);
-    void setElbowSpeed(int speed);
-    void toggleGripper();
-    void setGripperState(bool state);
+    //elbow setters
     
-    //getters
+    //gets the target Elbow Angle.
+    void setTargetElbowAngle(int angle);
 
-    double getGripperState();
-    double getTargetAngle();
+    //Sets which encoder to use for the PID calculations for the elbow (DONT CHANGE THIS.)
+    void setElbowTarget();
+
+    //sets the elbow speed for testing purposes.
+    void setElbowSpeed(double speed);
+
+    //gripper pivot setters
+
+    //sets the state of the gripper pivot to vertical or horizontal (TERRIBLE EXPLAINATION CHANGE THIS LATER)
+    void setGripperPivotState(bool state);
+
+    //toggles the gripper pivot state
+    void toggleGripperPivotState();
+
+    //sets the target gripper pivot angle.
+    void setGripperPivotAngle(double angle);
+    
+    //sets the gripper pivot speed
+    void setGripperPivotSpeed(double speed);
+
+    //gripper setters
+
+    //sets the gripper roller speed
+    void setGripperSpeed(double speed);
+
+    //sets the gripper state between three enumerables: IDLE, INTAKE, OUTTAKE.
+    void setGripperState(gripperStates state);
+    
+    //
+    //getters
+    //
+
+    //elbow getters
+
+    //gets the target angle for the elbow pivot.
+    double getElbowTargetAngle();
+
+    //gets the actual angle of the elbow pivot.
     double getElbowAngle();
+
+    //gets the speed of the elbow in -1 - 1.
     double getElbowSpeed();
 
-    void CalculatePID();
+    //gripper pivot getters
+
+    //gets the gripper pivot angle
+    double getGripperPivotAngle();
+
+    //gets the target gripper pivot angle
+    double getTargetGripperPivotAngle();
+
+    //gets the gripper pivot speed in 
+    double getGripperPivotSpeed();
+
+    //gets the gripper pivot state in Vertical to horizontal or whatever this might be useless
+    bool getGripperPivotState();
+
+    //gripper roller getters
+    gripperStates getGripperState();
 
 private:
     SparkMaxMotor elbowPivotMotor{elbowPivotID}; 
+    SparkMaxMotor gripperPivotMotor{gripperPivotID};
     SparkMaxMotor gripperMotor{armGripperID};
+
 
 };
