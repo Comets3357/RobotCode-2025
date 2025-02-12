@@ -14,10 +14,9 @@ ElevatorSubsystem::ElevatorSubsystem()
     MainElevatorMotor.setInverted(false);
     MainElevatorMotor.configure();
     FollowElevatorMotor.configure();
-
 }
 
-void ElevatorSubsystem::setSpeed(int speed)
+void ElevatorSubsystem::setSpeed(double speed)
 {
     MainElevatorMotor.SetPercent(speed);
     FollowElevatorMotor.SetPercent(speed);

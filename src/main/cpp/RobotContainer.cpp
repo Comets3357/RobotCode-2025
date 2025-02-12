@@ -1,5 +1,4 @@
 #include "RobotContainer.h"
-
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/trajectory/Trajectory.h>
@@ -11,9 +10,7 @@
 #include <frc2/command/Commands.h>
 #include <units/angle.h>
 #include <units/velocity.h>
-
 #include <utility>
-
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
 
@@ -33,19 +30,19 @@ RobotContainer::RobotContainer()
     // Set up default drive command
     // The left stick controls translation of the robot.
     // Turning is controlled by the X axis of the right stick.
-    m_drive.SetDefaultCommand(frc2::RunCommand(
-        [this]
-        {
-            m_drive.Drive(
-                -units::meters_per_second_t{frc::ApplyDeadband(
-                    m_driverController.GetLeftY(), OIConstants::kDriveDeadband)},
-                -units::meters_per_second_t{frc::ApplyDeadband(
-                    m_driverController.GetLeftX(), OIConstants::kDriveDeadband)},
-                -units::radians_per_second_t{frc::ApplyDeadband(
-                    m_driverController.GetRightX(), OIConstants::kDriveDeadband)},
-                true);
-        },
-        {&m_drive}));
+    // m_drive.SetDefaultCommand(frc2::RunCommand(
+    //     [this]
+    //     {
+    //         m_drive.Drive(
+    //             -units::meters_per_second_t{frc::ApplyDeadband(
+    //                 m_driverController.GetLeftY(), OIConstants::kDriveDeadband)},
+    //             -units::meters_per_second_t{frc::ApplyDeadband(
+    //                 m_driverController.GetLeftX(), OIConstants::kDriveDeadband)},
+    //             -units::radians_per_second_t{frc::ApplyDeadband(
+    //                 m_driverController.GetRightX(), OIConstants::kDriveDeadband)},
+    //             true);
+    //     },
+    //     {&m_drive}));
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
@@ -55,10 +52,10 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 
 void RobotContainer::ConfigureButtonBindings()
 {
-    m_driverController.RightBumper().WhileTrue(new frc2::RunCommand([this]
-                                                                    { m_drive.SetX(); }, {&m_drive}));
-    m_driverController.X().WhileTrue(new frc2::RunCommand([this]
-                                                          { m_drive.ZeroHeading(); }, {&m_drive}));
+    // m_driverController.RightBumper().WhileTrue(new frc2::RunCommand([this]
+    //                                                                 { m_drive.SetX(); }, {&m_drive}));
+    // m_driverController.X().WhileTrue(new frc2::RunCommand([this]
+    //                                                       { m_drive.ZeroHeading(); }, {&m_drive}));
     // m_driverController.A().WhileTrue(new frc2::RunCommand([this]
     //                                                       { m_elevator.ElevatorExtend(); }, {&m_elevator}));
     // m_driverController.B().WhileTrue(new frc2::RunCommand([this]
@@ -67,9 +64,9 @@ void RobotContainer::ConfigureButtonBindings()
     //                                                       { m_elevator.ElevatorStop(); }, {&m_elevator}));
     // m_driverController.B().WhileFalse(new frc2::RunCommand([this]
     //                                                       { m_elevator.ElevatorStop(); }, {&m_elevator}));
-    m_elevator.SetDefaultCommand(frc2::cmd::Run([this]{m_elevator.setSpeed(m_driverController.GetRightY()*0.2);}));
+    m_elevator.SetDefaultCommand(frc2::cmd::Run([this]{m_elevator.setSpeed(m_driverController.GetRightY()*0.2);},{&m_elevator}));
+
 }
 
 void RobotContainer::ConfigureBindings()
-{
-}
+{}
