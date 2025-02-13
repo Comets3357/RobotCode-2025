@@ -101,7 +101,7 @@ void SparkMaxMotor::SetRelativePosition(double pos)
 
 void SparkMaxMotor::SetFollow(SparkMaxMotor& leader) 
 {
-    motor.Follow(leader.motor);
+    config.Follow(leader.motor);
 }
 
 void SparkMaxMotor::setPID(double p, double i, double d, double ff)

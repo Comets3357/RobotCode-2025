@@ -12,6 +12,7 @@ ElevatorSubsystem::ElevatorSubsystem()
     FollowElevatorMotor.setPID(elevatorP, elevatorI, elevatorD);
     FollowElevatorMotor.setInverted(true);
     MainElevatorMotor.setInverted(false);
+    FollowElevatorMotor.SetFollow(MainElevatorMotor);
     MainElevatorMotor.configure();
     FollowElevatorMotor.configure();
 }
@@ -27,14 +28,21 @@ void ElevatorSubsystem::setPosition(double position)
     MainElevatorMotor.setReference(position, Motor::controlType::position);
 }
 
+void ElevatorSubsystem::getPosition()
+{
+    MainElevatorMotor.GetRelativePosition()
+}
+void ElevatorSubsystem::Periodic()
+{
+    frc::SmartDashboard::PutNumber(MainElevatorMotor.GetRelativePosition);
+}
+
+
 // void ElevatorSubsystem::ElevatorExtend()// {
 //     MainElevatorMotor.SetPercent(0.02);
 //     FollowElevatorMotor.SetPercent(0.02);
 // }
-// void ElevatorSubsystem::getPosition(double TargetPosition)
-// {
-//     double target = TargetPosition;
-// }
+
 // void ElevatorSubsystem::ElevatorRetract()
 // {
 //     MainElevatorMotor.SetPercent(-0.02);

@@ -69,4 +69,7 @@ void RobotContainer::ConfigureButtonBindings()
 }
 
 void RobotContainer::ConfigureBindings()
-{}
+{
+    m_driverController.A().WhileTrue(new frc2::RunCommand([this]
+                                                          {m_elevator.setPosition(4);},{&m_elevator}));
+}
