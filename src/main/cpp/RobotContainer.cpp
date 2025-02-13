@@ -62,6 +62,6 @@ void RobotContainer::ConfigureButtonBindings() {
     m_driverController.A().OnFalse(StopIntake(&intake));
 
     m_driverController.Y().OnTrue(DeployAlgae(&intake));
-    m_driverController.Y().OnFalse(StopIntake(&intake));
+    m_driverController.Y().OnFalse(StopDeploy(&intake));
 }
 

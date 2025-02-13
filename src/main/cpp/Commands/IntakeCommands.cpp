@@ -5,15 +5,15 @@
 frc2::CommandPtr IntakeAlgae(IntakeSubsystem* intake) {
     return frc2::cmd::RunOnce([intake] {
         intake->Intake(0.3);
-        intake->SetAngle(175_deg);
+        intake->SetAngle(165_deg);
     });
 }
 
 //Command to eject algae
 frc2::CommandPtr DeployAlgae(IntakeSubsystem* intake) {
     return frc2::cmd::RunOnce([intake] {
-        intake->Eject();
-        intake->SetAngle(175_deg);
+        intake->Eject(0.3);
+        intake->SetAngle(165_deg);
     });
 }
 
@@ -21,13 +21,13 @@ frc2::CommandPtr DeployAlgae(IntakeSubsystem* intake) {
 frc2::CommandPtr StopIntake(IntakeSubsystem* intake) {
     return frc2::cmd::RunOnce([intake] {
         intake->Stop();
-        intake->SetAngle(175_deg);
+        intake->SetAngle(165_deg);
     });
 }
 
 frc2::CommandPtr StopDeploy(IntakeSubsystem* intake) {
     return frc2::cmd::RunOnce([intake] {
         intake->Stop();
-        intake->SetAngle(120_deg);
+        intake->SetAngle(100_deg);
     });
 }
