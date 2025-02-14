@@ -34,8 +34,6 @@ class Robot : public frc::TimedRobot {
   std::optional<frc2::CommandPtr> m_autonomousCommand;
 
   RobotContainer m_container;
-  grpl::LaserCan LaserCanVertical{19};
-  grpl::LaserCan LaserCanHorizontal{20};
 
 
 

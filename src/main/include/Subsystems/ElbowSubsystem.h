@@ -24,13 +24,17 @@ public:
     const double elbowP = 0.04;
     const double elbowI = 0;
     const double elbowD = 0;
-    int elbowTargetAngle = 210;
+    double elbowTargetAngle = -10;
 
     const double gripperP = 0.02;
     const double gripperI = 0;
     const double gripperD = 0;
-    int gripperTargetAngle = 0;
+    double gripperTargetAngle = 0;
     bool gripperPivotState = false;
+
+    //initalizing measurement vehicles
+    std::optional<grpl::LaserCanMeasurement> vertMeasurement;
+    std::optional<grpl::LaserCanMeasurement> horizMeasurement;
 
     //
     //setters
@@ -101,10 +105,22 @@ public:
     //gripper roller getters
     gripperStates getGripperState();
 
+    //is game piece detected via the distance sensor
+    bool isGamePieceDetected();
+
+    //getting the measurement of the horizontal and vertical distance measurements
+    double getHorizontalDistanceMeasurement();
+    double getVerticalDistanceMeasurement();
+
+    void Execute() override;
+
 private:
     SparkMaxMotor elbowPivotMotor{elbowPivotID}; 
     SparkMaxMotor gripperPivotMotor{gripperPivotID};
     SparkMaxMotor gripperMotor{armGripperID};
+
+    grpl::LaserCan LaserCanVertical{19};
+    grpl::LaserCan LaserCanHorizontal{20};
 
 
 };
