@@ -16,10 +16,7 @@
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
-
-//...
-
-// This will start Redux CANLink manually for C++
+#include "commands/IntakeCommands.h"
 
 using namespace DriveConstants;
 
@@ -48,19 +45,21 @@ RobotContainer::RobotContainer()
         {&m_drive}));
 }
 
-frc2::CommandPtr RobotContainer::GetAutonomousCommand()
-{
+frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
     return frc2::cmd::Print("No Autonomous Command!");
 }
 
-void RobotContainer::ConfigureButtonBindings()
-{
-    m_driverController.RightBumper().WhileTrue(new frc2::RunCommand([this]
-                                                                    { m_drive.SetX(); }, {&m_drive}));
-    m_driverController.X().WhileTrue(new frc2::RunCommand([this]
-                                                          { m_drive.ZeroHeading(); }, {&m_drive}));
+void RobotContainer::ConfigureButtonBindings() {
+
+    //drive
+    m_driverController.RightBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
+    m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
+
+    //algae intake
+    m_driverController.A().OnTrue(IntakeAlgae(&intake));
+    m_driverController.A().OnFalse(StopIntake(&intake));
+
+    m_driverController.Y().OnTrue(DeployAlgae(&intake));
+    m_driverController.Y().OnFalse(StopDeploy(&intake));
 }
 
-void RobotContainer::ConfigureBindings()
-{
-}
