@@ -11,8 +11,8 @@ void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
 
 
-std::optional<grpl::LaserCanMeasurement> vertMeasurement = LaserCanVertical.get_measurement();
-std::optional<grpl::LaserCanMeasurement> horizMeasurement = LaserCanHorizontal.get_measurement();
+  std::optional<grpl::LaserCanMeasurement> vertMeasurement = LaserCanVertical.get_measurement();
+  std::optional<grpl::LaserCanMeasurement> horizMeasurement = LaserCanHorizontal.get_measurement();
 
 
   if (vertMeasurement.has_value() && vertMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
