@@ -8,6 +8,7 @@
 #include <frc2/command/RunCommand.h>
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/IntakeSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
 #include "Subsystems/ElevatorSubsystem.h"
 
@@ -29,4 +30,6 @@ private:
     // frc::SendableChooser<frc2::Command*> m_chooser;
     void ConfigureButtonBindings();
     void ConfigureBindings();
+
+    IntakeSubsystem intake;
 };

@@ -13,8 +13,6 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
     double drivingFactor = ModuleConstants::kWheelDiameter.value() *
                            std::numbers::pi /
                            ModuleConstants::kDrivingMotorReduction;
-    double drivingVelocityFeedForward =
-        1 / ModuleConstants::kDriveWheelFreeSpeedRps;
 
     // configurations for the driving spark max //
     m_drivingSpark.setPID(0.01, 0, 0, 0.21);                                  // 0.0025
