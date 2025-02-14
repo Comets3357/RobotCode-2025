@@ -9,6 +9,7 @@
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/IntakeSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
 
 class RobotContainer

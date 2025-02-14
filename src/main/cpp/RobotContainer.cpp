@@ -16,10 +16,7 @@
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
-
-//...
-
-// This will start Redux CANLink manually for C++
+#include "commands/IntakeCommands.h"
 
 using namespace DriveConstants;
 
