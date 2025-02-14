@@ -14,7 +14,7 @@ class elevatorCommand : public frc2::CommandHelper<frc2::Command, elevatorComman
     public:
         explicit elevatorCommand(ElevatorSubsystem* elevator);
         
-        frc2::CommandPtr elevatorMax(ElevatorSubsystem *elevator, double position);
+        frc2::CommandPtr elevatorFirst(ElevatorSubsystem *elevator, double position);
 
         //void Execute();
     private:

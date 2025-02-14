@@ -2,16 +2,22 @@
 
 ElevatorSubsystem::ElevatorSubsystem() 
 {
-    MainElevatorMotor.setRelativePositionConversionFactor(1.260);
-    MainElevatorMotor.setRelativeVelocityConversionFactor(0.021);//in/motor rotation .021 in per sec
-    FollowElevatorMotor.setRelativePositionConversionFactor(1.260);
-    FollowElevatorMotor.setRelativeVelocityConversionFactor(0.021);
-    MainElevatorMotor.SetSmartCurrentLimit(30);
-    FollowElevatorMotor.SetSmartCurrentLimit(30);
+    MainElevatorMotor.setRelativePositionConversionFactor(1.260/3);
+    MainElevatorMotor.setRelativeVelocityConversionFactor(0.021/3);//in/motor rotation .021 in per sec
+    FollowElevatorMotor.setRelativePositionConversionFactor(1.260/3);
+    FollowElevatorMotor.setRelativeVelocityConversionFactor(0.021/3);
+    MainElevatorMotor.SetSmartCurrentLimit(50);
+    FollowElevatorMotor.SetSmartCurrentLimit(50);
     MainElevatorMotor.setPID(elevatorP, elevatorI, elevatorD);
     FollowElevatorMotor.setPID(elevatorP, elevatorI, elevatorD);
     FollowElevatorMotor.setInverted(true);
     MainElevatorMotor.setInverted(false);
+    MainElevatorMotor.enableForwardSoftLimit(true);
+    MainElevatorMotor.enableReverseSoftLimit(true);
+    MainElevatorMotor.setForwardSoftLimit(40);
+    MainElevatorMotor.setReverseSoftLimit(0);
+    MainElevatorMotor.setMinOutput(-0.5);
+    MainElevatorMotor.setMaxOutput(0.5);
     FollowElevatorMotor.SetFollow(MainElevatorMotor);
     MainElevatorMotor.configure();
     FollowElevatorMotor.configure();
@@ -20,7 +26,6 @@ ElevatorSubsystem::ElevatorSubsystem()
 void ElevatorSubsystem::setSpeed(double speed)
 {
     MainElevatorMotor.SetPercent(speed);
-    FollowElevatorMotor.SetPercent(speed);
 }
 
 void ElevatorSubsystem::setPosition(double position)
@@ -30,11 +35,11 @@ void ElevatorSubsystem::setPosition(double position)
 
 void ElevatorSubsystem::getPosition()
 {
-    MainElevatorMotor.GetRelativePosition()
+    MainElevatorMotor.GetRelativePosition();
 }
 void ElevatorSubsystem::Periodic()
 {
-    frc::SmartDashboard::PutNumber(MainElevatorMotor.GetRelativePosition);
+    frc::SmartDashboard::PutNumber("elevatorPos", MainElevatorMotor.GetRelativePosition());
 }
 
 
