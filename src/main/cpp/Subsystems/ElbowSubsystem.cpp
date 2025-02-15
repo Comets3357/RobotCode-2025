@@ -2,6 +2,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "wrapperclasses/SparkMaxMotor.h"
 #include "Subsystems/ElbowSubsystem.h"
+#include "grpl/CanBridge.h"
 #include "Robot.h"
 
 ElbowSubsystem::ElbowSubsystem() {
@@ -14,6 +15,11 @@ ElbowSubsystem::ElbowSubsystem() {
     elbowPivotMotor.setReverseSoftLimit(-40);  
     elbowPivotMotor.SetSmartCurrentLimit(8);  
 
+    //gripper stuff
+    gripperPivotMotor.setRelativeVelocityConversionFactor(0.06 /* goofy ahh value I dont know*/);
+    gripperPivotMotor.setRelativePositionConversionFactor(3.6 /* 360 degrees / 25 / 4 for ratios*/);
+    elbowPivotMotor.SetSmartCurrentLimit(20);  
+
     //limiting so we dont give josh a bad time if we break it
     elbowPivotMotor.setMaxOutput(0.1);
 
@@ -21,7 +27,7 @@ ElbowSubsystem::ElbowSubsystem() {
     elbowPivotMotor.SetSmartCurrentLimit(20);
 
     elbowPivotMotor.setFeedbackSensor(Motor::encoderType::absolute);
-    gripperPivotMotor.setFeedbackSensor(Motor::encoderType::absolute);
+    gripperPivotMotor.setFeedbackSensor(Motor::encoderType::relative);
 
 
     elbowPivotMotor.setPID(elbowP, elbowI, elbowD);
@@ -108,12 +114,17 @@ void ElbowSubsystem::setElbowTarget() {
     //elbowPivotMotor.setReference(getElbowTargetAngle(), Motor::controlType::position);
 }
 
+void ElbowSubsystem::setGripperTarget() {
+    //TODO PUT THIS BACK
+    gripperPivotMotor.setReference(getGripperTargetAngle(), Motor::controlType::position);
+}
+
  //gets the gripper pivot angle
 double ElbowSubsystem::getGripperPivotAngle() {
     return gripperPivotMotor.GetAbsolutePosition();
 }
 
-double ElbowSubsystem::getTargetGripperPivotAngle() {
+double ElbowSubsystem::getGripperTargetAngle() {
     return elbowTargetAngle;
 }
 
@@ -126,35 +137,42 @@ bool ElbowSubsystem::getGripperPivotState() {
      return gripperPivotState;
 }
 
-unint_16 Robot::getHorizontalDistanceMeasurement() {
-  return horizMeasurement.value().distance_mm;
+std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getHorizontalDistanceMeasurement() {
+    return horizMeasurement;
 }
 
-unint_16 Robot::getVerticalDistanceMeasurement() {
-  return vertMeasurement.value().distance_mm;
+std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getVerticalDistanceMeasurement() {
+    return vertMeasurement;
 }
 
 bool ElbowSubsystem::isGamePieceDetected() {
-    if (ElbowSubsystem::getVerticalDistanceMeasurement() || ElbowSubsystem::getHorizontalDistanceMeasurement() < 50) {
+
+    double tempVertMeasurement;
+    double tempHorizMeasurement;
+
+    if (ElbowSubsystem::getHorizontalDistanceMeasurement().has_value()) {
+        tempHorizMeasurement = getHorizontalDistanceMeasurement().value().distance_mm;
+    }
+    if (ElbowSubsystem::getVerticalDistanceMeasurement().has_value()) {
+        tempVertMeasurement = getVerticalDistanceMeasurement().value().distance_mm;
+    }
+
+    if (tempVertMeasurement || tempHorizMeasurement < 50) {
         return true;
     } else {
         return false;
     }
 }
 
-void ElbowSubsystem::Execute() {
+void ElbowSubsystem::Periodic() {
     vertMeasurement = LaserCanVertical.get_measurement();
     horizMeasurement = LaserCanHorizontal.get_measurement();
 
 
     if (vertMeasurement.has_value() && vertMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
         frc::SmartDashboard::PutNumber("Vertical LaserCAN Measurement", vertMeasurement.value().distance_mm);
-    } else {
-        std::cout << "no vertical measurement" << std::endl;
-    } 
+    }
     if (horizMeasurement.has_value() && horizMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
         frc::SmartDashboard::PutNumber("Horizontal LaserCAN Measurement", horizMeasurement.value().distance_mm);
-    } else {
-        std::cout << "no horizontal measurement" << std::endl;
     }
 }

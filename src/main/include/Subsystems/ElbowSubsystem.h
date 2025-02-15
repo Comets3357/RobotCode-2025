@@ -4,6 +4,8 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/controller/PIDController.h>
 #include "wrapperclasses/SparkMaxMotor.h"
+#include "grpl/CanBridge.h"
+#include "grpl/LaserCan.h"
 
 class ElbowSubsystem : public frc2::SubsystemBase {
 public:
@@ -72,6 +74,8 @@ public:
 
     //sets the gripper state between three enumerables: IDLE, INTAKE, OUTTAKE.
     void setGripperState(gripperStates state);
+
+    void setGripperTarget();
     
     //
     //getters
@@ -94,7 +98,7 @@ public:
     double getGripperPivotAngle();
 
     //gets the target gripper pivot angle
-    double getTargetGripperPivotAngle();
+    double getGripperTargetAngle();
 
     //gets the gripper pivot speed in 
     double getGripperPivotSpeed();
@@ -109,10 +113,10 @@ public:
     bool isGamePieceDetected();
 
     //getting the measurement of the horizontal and vertical distance measurements
-    double getHorizontalDistanceMeasurement();
-    double getVerticalDistanceMeasurement();
+    std::optional<grpl::LaserCanMeasurement>  getHorizontalDistanceMeasurement();
+    std::optional<grpl::LaserCanMeasurement>  getVerticalDistanceMeasurement();
 
-    void Execute() override;
+    void Periodic() override;
 
 private:
     SparkMaxMotor elbowPivotMotor{elbowPivotID}; 

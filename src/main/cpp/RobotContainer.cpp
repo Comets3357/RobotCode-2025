@@ -46,6 +46,9 @@ RobotContainer::RobotContainer() {
 
 
 void RobotContainer::ConfigureBindings() {
+    m_driverController.Y().OnTrue(DefaultElbowCommand::setGripperPos(&m_elbowSubsystem, 0));
+    m_driverController.RightBumper().OnTrue(DefaultElbowCommand::setGripperPos(&m_elbowSubsystem, 90));
+
     m_driverController.A().OnTrue(DefaultElbowCommand::setIdle(&m_elbowSubsystem));
     m_driverController.B().OnTrue(DefaultElbowCommand::setIntake(&m_elbowSubsystem));
     m_driverController.X().OnTrue(DefaultElbowCommand::setOuttake(&m_elbowSubsystem));
