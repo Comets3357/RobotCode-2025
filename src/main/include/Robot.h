@@ -8,33 +8,35 @@
 
 #include <frc/TimedRobot.h>
 #include <frc2/command/CommandPtr.h>
+#include <frc/smartdashboard/Field2d.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include "subsystems/DriveSubsystem.h"
 
 #include "RobotContainer.h"
 #include "grpl/LaserCan.h"
 
 
-class Robot : public frc::TimedRobot {
- public:
-  Robot();
-  void RobotPeriodic() override;
-  void DisabledInit() override;
-  void DisabledPeriodic() override;
-  void DisabledExit() override;
-  void AutonomousInit() override;
-  void AutonomousPeriodic() override;
-  void AutonomousExit() override;
-  void TeleopInit() override;
-  void TeleopPeriodic() override;
-  void TeleopExit() override;
-  void TestInit() override;
-  void TestPeriodic() override;
-  void TestExit() override;
+class Robot : public frc::TimedRobot
+{
+public:
+    Robot();
+    void RobotPeriodic() override;
+    void DisabledInit() override;
+    void DisabledPeriodic() override;
+    void DisabledExit() override;
+    void AutonomousInit() override;
+    void AutonomousPeriodic() override;
+    void AutonomousExit() override;
+    void TeleopInit() override;
+    void TeleopPeriodic() override;
+    void TeleopExit() override;
+    void TestInit() override;
+    void TestPeriodic() override;
+    void TestExit() override;
 
- private:
-  std::optional<frc2::CommandPtr> m_autonomousCommand;
+private:
+    std::optional<frc2::CommandPtr> m_autonomousCommand;
 
-  RobotContainer m_container;
-
-
-
+    RobotContainer m_container;
+    frc::Field2d m_field;
 };

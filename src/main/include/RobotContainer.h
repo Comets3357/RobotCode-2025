@@ -5,6 +5,12 @@
 #pragma once
 
 #include <frc2/command/CommandPtr.h>
+#include <frc2/command/RunCommand.h>
+#include "Constants.h"
+#include "subsystems/DriveSubsystem.h"
+#include "subsystems/IntakeSubsystem.h"
+#include <frc2/command/button/CommandXboxController.h>
+#include "Subsystems/ElevatorSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
 #include <frc2/command/RunCommand.h>
 
@@ -13,11 +19,14 @@
 #include "subsystems/ElbowSubsystem.h"
 
 
-class RobotContainer {
- public:
-  RobotContainer();
+class RobotContainer
+{
+public:
+    RobotContainer();
 
-  frc2::CommandPtr GetAutonomousCommand();
+    frc2::CommandPtr GetAutonomousCommand();
+    DriveSubsystem m_drive;
+    ElevatorSubsystem m_elevator;
 
  private:
 
