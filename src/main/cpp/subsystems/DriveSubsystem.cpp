@@ -7,10 +7,18 @@
 #include <units/velocity.h>
 #include <redux/canand/CanandEventLoop.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/DriverStation.h>
+
+
+#include <pathplanner/lib/auto/AutoBuilder.h>
+#include <pathplanner/lib/config/RobotConfig.h>
+#include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
 
 #include "Constants.h"
 
 using namespace DriveConstants;
+using namespace pathplanner;
+
 
 DriveSubsystem::DriveSubsystem()
     : m_frontLeft{kFrontLeftDrivingCanId, kFrontLeftTurningCanId,
@@ -33,6 +41,39 @@ DriveSubsystem::DriveSubsystem()
                HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
 
     redux::canand::EnsureCANLinkServer();
+
+
+     RobotConfig config = RobotConfig::fromGUISettings();
+
+    // Configure the AutoBuilder last
+    AutoBuilder::configure(
+        [this](){ return GetPose(); }, // Robot pose supplier
+        [this](frc::Pose2d pose){ m_odometry.ResetPose(pose); }, // Method to reset odometry (will be called if your auto has a starting pose)
+        [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        [this](auto speeds, auto feedforwards){ DriveFromChassisSpeeds(speeds, true); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+        std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
+            PIDConstants(4.5, 0.0, 0.0), // Translation PID constants
+            PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+        ),
+        config, // The robot configuration
+        []() {
+            // Boolean supplier that controls when the path will be mirrored for the red alliance
+            // This will flip the path being followed to the red side of the field.
+            // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+            auto alliance = frc::DriverStation::GetAlliance();
+            if (alliance) {
+                return alliance.value() == frc::DriverStation::Alliance::kRed;
+            }
+            return false;
+        },
+        this // Reference to this subsystem to set requirements
+    );
+}
+
+void DriveSubsystem::DriveFromChassisSpeeds(frc::ChassisSpeeds speed, bool fieldRelative)
+{
+    Drive(speed.vx, speed.vy, speed.omega, fieldRelative); 
 }
 
 frc::Rotation2d DriveSubsystem::GetGyroHeading()
@@ -120,6 +161,9 @@ void DriveSubsystem::ResetEncoders()
 }
 
 void DriveSubsystem::ZeroHeading() { m_gyro.SetYaw(units::angle::turn_t{0}, 50_ms); }
+void DriveSubsystem::ZeroHeading(frc::Pose2d degree) {
+    m_gyro.SetYaw(degree.Rotation().Degrees(), 50_ms); 
+}
 
 double DriveSubsystem::GetTurnRate()
 {

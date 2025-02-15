@@ -17,6 +17,37 @@
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
 
+
+
+
+
+#include <pathplanner/lib/auto/AutoBuilder.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/CommandPtr.h>
+#include <frc2/command/Command.h>
+#include <memory>
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
+
+
+using namespace pathplanner;
+/*
+RobotContainer::RobotContainer() {
+  // ...
+
+  // Build an auto chooser. This will use frc2::cmd::None() as the default option.
+  autoChooser = AutoBuilder::buildAutoChooser();
+
+  // Another option that allows you to specify the default auto by its name
+  // autoChooser = AutoBuilder::buildAutoChooser("My Default Auto");
+
+  frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
+}
+
+frc2::Command* RobotContainer::getAutonomousCommand() {
+  // Returns a frc2::Command* that is freed at program termination
+  return autoChooser.GetSelected();
+}
+*/
 //...
 
 // This will start Redux CANLink manually for C++
@@ -46,11 +77,24 @@ RobotContainer::RobotContainer()
                 true);
         },
         {&m_drive}));
+
+        // Build an auto chooser. This will use frc2::cmd::None() as the default option.
+  //autoChooser = AutoBuilder::buildAutoChooser();
+
+  // Another option that allows you to specify the default auto by its name
+  // autoChooser = AutoBuilder::buildAutoChooser("My Default Auto");
+
+ // frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
 }
+
+// frc2::Command* RobotContainer::getAutonomousCommand() {
+//   // Returns a frc2::Command* that is freed at program termination
+//   return autoChooser.GetSelected();
+// }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-    return frc2::cmd::Print("No Autonomous Command!");
+     return PathPlannerAuto("New Auto").ToPtr();
 }
 
 void RobotContainer::ConfigureButtonBindings()

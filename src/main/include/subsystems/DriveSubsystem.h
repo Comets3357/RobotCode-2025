@@ -47,6 +47,8 @@ public:
                units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
                bool fieldRelative);
 
+    void DriveFromChassisSpeeds(frc::ChassisSpeeds speed, bool fieldRelative); 
+
     /**
      * Sets the wheels into an X formation to prevent movement.
      */
@@ -78,6 +80,8 @@ public:
      * Zeroes the heading of the robot.
      */
     void ZeroHeading();
+
+    void ZeroHeading(frc::Pose2d degree); 
 
     /**
      * Returns the turn rate of the robot.
