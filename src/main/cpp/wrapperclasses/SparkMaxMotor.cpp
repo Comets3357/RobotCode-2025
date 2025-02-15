@@ -132,16 +132,6 @@ void SparkMaxMotor::setPID(double p, double i, double d, double ff, int slot)
     }
 }
 
-void SparkMaxMotor::setForwardSoftLimit(double limit)
-{
-    config.softLimit.ForwardSoftLimit(limit);
-}
-
-void SparkMaxMotor::setReverseSoftLimit(double limit)
-{
-    config.softLimit.ReverseSoftLimit(limit);
-}
-
 void SparkMaxMotor::enableForwardSoftLimit(bool enab)
 {
     config.softLimit.ForwardSoftLimitEnabled(enab);
@@ -176,31 +166,15 @@ void SparkMaxMotor::SetSmartCurrentLimit(double lim)
 {
     config.SmartCurrentLimit(lim);
 }
-
-void SparkMaxMotor::setRelativeVelocityConversionFactor(double fac)
-{
-    config.encoder.VelocityConversionFactor(fac);
-}
-
 void SparkMaxMotor::setRelativePositionConversionFactor(double fac)
 {
     config.encoder.PositionConversionFactor(fac);
-}
-
-void SparkMaxMotor::SetSmartCurrentLimit(double lim)
-{
-    config.SmartCurrentLimit(lim); 
 }
 
 
 void SparkMaxMotor::setRelativeVelocityConversionFactor(double fac) 
 {
     config.encoder.VelocityConversionFactor(fac); 
-}
-        
-void SparkMaxMotor::setRelativePositionConversionFactor(double fac) 
-{
-    config.encoder.PositionConversionFactor(fac);
 }
 
 

@@ -25,7 +25,10 @@ public:
     RobotContainer();
 
     frc2::CommandPtr GetAutonomousCommand();
+
+    // The robot's subsystems
     DriveSubsystem m_drive;
+    ElbowSubsystem m_elbowSubsystem;
     ElevatorSubsystem m_elevator;
 
  private:
@@ -34,10 +37,6 @@ public:
   frc2::CommandXboxController m_driverController{OIConstants::kDriverControllerPort};
 
   // The robot's subsystems and commands are defined here...
-
-  // The robot's subsystems
-  DriveSubsystem m_drive;
-  ElbowSubsystem m_elbowSubsystem;
 
   // The chooser for the autonomous routines
   //frc::SendableChooser<frc2::Command*> m_chooser;

@@ -21,29 +21,6 @@
 
 using namespace DriveConstants;
 
-RobotContainer::RobotContainer() {
-  ConfigureBindings();
-
-//   m_drive.SetDefaultCommand(frc2::RunCommand(
-//       [this] {
-//         m_drive.Drive(
-//             -units::meters_per_second_t{frc::ApplyDeadband(
-//                 m_driverController.GetLeftY(), OIConstants::kDriveDeadband)},
-//             -units::meters_per_second_t{frc::ApplyDeadband(
-//                 m_driverController.GetLeftX(), OIConstants::kDriveDeadband)},
-//             -units::radians_per_second_t{frc::ApplyDeadband(
-//                 m_driverController.GetRightX(), OIConstants::kDriveDeadband)},
-//             true);
-//       },
-//       {&m_drive}));
-
-    m_elbowSubsystem.SetDefaultCommand(DefaultElbowCommand(&m_elbowSubsystem, 
-    [this] { return m_driverController.GetRightY(); },
-    [this] { return m_driverController.GetRightTriggerAxis(); }
-    ).ToPtr());
-
-}
-
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
@@ -67,6 +44,11 @@ RobotContainer::RobotContainer()
                 true);
         },
         {&m_drive}));
+
+    m_elbowSubsystem.SetDefaultCommand(DefaultElbowCommand(&m_elbowSubsystem, 
+    [this] { return m_driverController.GetRightY(); },
+    [this] { return m_driverController.GetRightTriggerAxis(); }
+    ).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
