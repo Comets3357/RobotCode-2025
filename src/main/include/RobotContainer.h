@@ -11,6 +11,7 @@
 #include "subsystems/IntakeSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
 #include "Subsystems/ElevatorSubsystem.h"
+#include "Subsystems/ElbowSubsystem.h"
 
 class RobotContainer
 {
@@ -20,6 +21,7 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
     DriveSubsystem m_drive;
     ElevatorSubsystem m_elevator;
+    ElbowSubsystem m_elbowSubsystem;
 
 private:
     // The driver's controller
