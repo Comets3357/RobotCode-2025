@@ -13,6 +13,7 @@ void Robot::RobotPeriodic()
     m_field.SetRobotPose(m_container.m_drive.GetPose());
 
     frc::SmartDashboard::PutNumber("Test Speed", m_container.testspeed * 4.8); 
+    frc::SmartDashboard::PutNumber("Heading", (double)m_container.m_drive.GetGyroHeading().Degrees());
     //frc::SmartDashboard::PutNumber("Acutal Speed", (double)m_container.m_drive.GetRobotRelativeSpeeds().vx); 
     frc::SmartDashboard::PutNumber("Single Wheel Chassis Speed", (double)m_container.m_drive.GetChassisSpeed());
 }

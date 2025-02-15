@@ -76,7 +76,7 @@ void RobotContainer::ConfigureButtonBindings()
     // make go in reverse 
     m_driverController.B().OnTrue(new frc2::RunCommand([this]{ 
    
-        m_drive.Drive(units::meters_per_second_t{testspeed}, 
+        m_drive.Drive(units::meters_per_second_t{-testspeed}, 
                     units::meters_per_second_t{0},  
                     units::radians_per_second_t{0}, 
                     true);}, {&m_drive})); 

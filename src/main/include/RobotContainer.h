@@ -19,7 +19,7 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
 
     DriveSubsystem m_drive;
-    double testspeed = 2.7 / 4.8; 
+    double testspeed = 2.4 / 4.8; 
 
 private:
     // The driver's controller

@@ -17,7 +17,7 @@ MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
         1 / ModuleConstants::kDriveWheelFreeSpeedRps;
 
     // configurations for the driving spark max //
-    m_drivingSpark.setPID(0.0001, 0, 0, 0.18);                                  // 0.0025
+    m_drivingSpark.setPID(0.05, 0, 0, 0.18);                                  // 0.0025
     m_drivingSpark.setRelativeVelocityConversionFactor(drivingFactor / 60.0); // meters per second
     m_drivingSpark.setRelativePositionConversionFactor(drivingFactor);        // meters
 
