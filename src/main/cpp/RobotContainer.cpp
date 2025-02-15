@@ -44,15 +44,6 @@ RobotContainer::RobotContainer() {
 
 }
 
-
-void RobotContainer::ConfigureBindings() {
-    m_driverController.Y().OnTrue(DefaultElbowCommand::setGripperPos(&m_elbowSubsystem, 0));
-    m_driverController.RightBumper().OnTrue(DefaultElbowCommand::setGripperPos(&m_elbowSubsystem, 90));
-
-    m_driverController.A().OnTrue(DefaultElbowCommand::setIdle(&m_elbowSubsystem));
-    m_driverController.B().OnTrue(DefaultElbowCommand::setIntake(&m_elbowSubsystem));
-    m_driverController.X().OnTrue(DefaultElbowCommand::setOuttake(&m_elbowSubsystem));
-}
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
@@ -84,22 +75,30 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::ConfigureButtonBindings() {
 
+    //elbow stuff
+    m_driverController.Y().OnTrue(DefaultElbowCommand::setGripperPos(&m_elbowSubsystem, 0));
+    m_driverController.RightBumper().OnTrue(DefaultElbowCommand::setGripperPos(&m_elbowSubsystem, 90));
+
+    m_driverController.A().OnTrue(DefaultElbowCommand::setIdle(&m_elbowSubsystem));
+    m_driverController.B().OnTrue(DefaultElbowCommand::setIntake(&m_elbowSubsystem));
+    m_driverController.X().OnTrue(DefaultElbowCommand::setOuttake(&m_elbowSubsystem));
+    
     //drive
-    m_driverController.LeftBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
-    m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
+    // m_driverController.LeftBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
+    // m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
 
-    //algae intake
-    m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
-    m_driverController.RightBumper().OnFalse(StopIntake(&intake));
+    // //algae intake
+    // m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
+    // m_driverController.RightBumper().OnFalse(StopIntake(&intake));
 
-    m_driverController.RightTrigger().OnTrue(DeployAlgae(&intake));
-    m_driverController.RightTrigger().OnFalse(StopDeploy(&intake));
+    // m_driverController.RightTrigger().OnTrue(DeployAlgae(&intake));
+    // m_driverController.RightTrigger().OnFalse(StopDeploy(&intake));
 
-    //elevator
-    m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
-                                                          {m_elevator.setPosition(0.5);},{&m_elevator}));
-    m_driverController.B().OnTrue(frc2::cmd::RunOnce([this]
-                                                        {m_elevator.setPosition(20);},{&m_elevator}));
+    // //elevator
+    // m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
+    //                                                       {m_elevator.setPosition(0.5);},{&m_elevator}));
+    // m_driverController.B().OnTrue(frc2::cmd::RunOnce([this]
+    //                                                     {m_elevator.setPosition(20);},{&m_elevator}));
  
 }
 
