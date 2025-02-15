@@ -41,6 +41,11 @@ RobotContainer::RobotContainer()
                 true);
         },
         {&m_drive}));
+
+    /*m_elbowSubsystem.SetDefaultCommand(DefaultElbowCommand(&m_elbowSubsystem, 
+    [this] { return m_driverController.GetRightY(); },
+    [this] { return m_driverController.GetRightTriggerAxis(); }
+    ).ToPtr());*/
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
@@ -50,7 +55,9 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 void RobotContainer::ConfigureButtonBindings() {
 
     //elbow
-    m_driverController.Y().OnTrue(DefaultElbowCommand::setGripperPos(&m_elbowSubsystem, 0));
+    m_driverController.Y().OnTrue(DefaultElbowCommand::setGripperSpeed(&m_elbowSubsystem, 0.2));
+    m_driverController.Y().OnFalse(DefaultElbowCommand::setGripperSpeed(&m_elbowSubsystem, 0));
+
     m_driverController.RightBumper().OnTrue(DefaultElbowCommand::setGripperPos(&m_elbowSubsystem, 90));
 
     m_driverController.A().OnTrue(DefaultElbowCommand::setIdle(&m_elbowSubsystem));

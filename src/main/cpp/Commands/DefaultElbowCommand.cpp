@@ -73,7 +73,9 @@ void DefaultElbowCommand::Execute() {
 frc2::CommandPtr DefaultElbowCommand::setGripperPos(ElbowSubsystem* m_elbowSubsystem, double position) {
     return frc2::cmd::RunOnce([&]{m_elbowSubsystem->setGripperPivotAngle(position); }, {m_elbowSubsystem});
 }
-
+frc2::CommandPtr DefaultElbowCommand::setGripperSpeed(ElbowSubsystem* m_elbowSubsystem, double speed) {
+    return frc2::cmd::RunOnce([&]{m_elbowSubsystem->setGripperPivotSpeed(speed); }, {m_elbowSubsystem});
+}
 
 frc2::CommandPtr DefaultElbowCommand::setIdle(ElbowSubsystem* m_elbowSubsystem) {
     return frc2::cmd::RunOnce([m_elbowSubsystem]{m_elbowSubsystem->setGripperState(ElbowSubsystem::gripperStates::IDLE); });

@@ -22,6 +22,7 @@ class DefaultElbowCommand
     explicit DefaultElbowCommand(ElbowSubsystem* elbowSubsystem, std::function<double()> rightStick, std::function<double()> rightTrigger);
 
    static frc2::CommandPtr setGripperPos(ElbowSubsystem *m_elbowSubsystem, double position);
+   static frc2::CommandPtr setGripperSpeed(ElbowSubsystem *m_elbowSubsystem, double speed);
 
    static frc2::CommandPtr setIdle(ElbowSubsystem *m_elbowSubsystem);
    static frc2::CommandPtr setIntake(ElbowSubsystem *m_elbowSubsystem);

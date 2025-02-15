@@ -116,7 +116,7 @@ void ElbowSubsystem::setElbowTarget() {
 
 void ElbowSubsystem::setGripperTarget() {
     //TODO PUT THIS BACK
-    gripperPivotMotor.setReference(getGripperTargetAngle(), Motor::controlType::position);
+    //gripperPivotMotor.setReference(getGripperTargetAngle(), Motor::controlType::position);
 }
 
  //gets the gripper pivot angle
