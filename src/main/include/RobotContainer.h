@@ -11,6 +11,7 @@
 #include "subsystems/IntakeSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
 #include "Subsystems/ElevatorSubsystem.h"
+#include "Subsystems/MotorTest.h"
 
 class RobotContainer
 {
@@ -31,4 +32,5 @@ private:
     void ConfigureButtonBindings();
 
     IntakeSubsystem intake;
+    MotorTest motor;
 };

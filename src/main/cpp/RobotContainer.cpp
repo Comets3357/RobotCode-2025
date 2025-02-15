@@ -13,7 +13,9 @@
 #include <utility>
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "Subsystems/MotorTest.h"
 #include "commands/IntakeCommands.h"
+#include "Commands/MotorTestCommand.h"
 
 using namespace DriveConstants;
 
@@ -48,22 +50,24 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::ConfigureButtonBindings() {
 
+    m_driverController.Y().OnTrue(TurnOn(&motor));
+    m_driverController.X().OnFalse(TurnOff(&motor));
     //drive
-    m_driverController.LeftBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
-    m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
+    // m_driverController.LeftBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
+    // m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
 
-    //algae intake
-    m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
-    m_driverController.RightBumper().OnFalse(StopIntake(&intake));
+    // //algae intake
+    // m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
+    // m_driverController.RightBumper().OnFalse(StopIntake(&intake));
 
-    m_driverController.RightTrigger().OnTrue(DeployAlgae(&intake));
-    m_driverController.RightTrigger().OnFalse(StopDeploy(&intake));
+    // m_driverController.RightTrigger().OnTrue(DeployAlgae(&intake));
+    // m_driverController.RightTrigger().OnFalse(StopDeploy(&intake));
 
-    //elevator
-    m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
-                                                          {m_elevator.setPosition(0.5);},{&m_elevator}));
-    m_driverController.B().OnTrue(frc2::cmd::RunOnce([this]
-                                                        {m_elevator.setPosition(20);},{&m_elevator}));
+    // //elevator
+    // m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
+    //                                                       {m_elevator.setPosition(0.5);},{&m_elevator}));
+    // m_driverController.B().OnTrue(frc2::cmd::RunOnce([this]
+    //                                                     {m_elevator.setPosition(20);},{&m_elevator}));
  
 }
 
