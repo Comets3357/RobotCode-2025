@@ -29,14 +29,14 @@ void Robot::RobotPeriodic()
         frc::SmartDashboard::PutNumber("Distance Z", m_container.m_visionSubsystem.prevEstimatedRobotPose.Z().value());
     }
 
-    if (m_container.m_visionSubsystem.EstimatedPose().has_value()) {
-    frc::SmartDashboard::PutNumber("hail mary X", (double) m_container.m_visionSubsystem.EstimatedPose().value().estimatedPose.X());
-    }
+    // if (m_container.m_visionSubsystem.EstimatedPose().has_value()) {
+    // frc::SmartDashboard::PutNumber("hail mary X", (double) m_container.m_visionSubsystem.EstimatedPose().value().estimatedPose.X());
+    // }
       std::optional<grpl::LaserCanMeasurement> measurement = testLaserCan.get_measurement();
   if (measurement.has_value() && measurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
     frc::SmartDashboard::PutNumber("LaserCAN distance", measurement.value().distance_mm);
   } else {
-    std::cout << "Oh no! The target is out of range, or we can't get a reliable measurement!" << std::endl;
+    // std::cout << "Oh no! The target is out of range, or we can't get a reliable measurement!" << std::endl;
     // You can still use distance_mm in here, if you're ok tolerating a clamped value or an unreliable measurement.
   }
 

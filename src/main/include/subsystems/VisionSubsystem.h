@@ -21,7 +21,7 @@
 class VisionSubsystem : public frc2::SubsystemBase 
 {
     public: 
-    photon::PhotonCamera cameraOne{"photonvision"};
+    photon::PhotonCamera cameraOne{"camOne"};
 
   const frc::AprilTagFieldLayout kTagLayout{
     frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::kDefaultField)};
@@ -30,7 +30,7 @@ frc::Transform3d robotToCam1 =
     frc::Transform3d(frc::Translation3d(0_m, 0_m, 0_m),
                     frc::Rotation3d(0_rad, 0_rad, 0_rad));
 
-  photon::PhotonCamera cameraTwo{"testCamera"};
+  photon::PhotonCamera cameraTwo{"camTwo"};
 
 frc::Transform3d robotToCam2 =
     frc::Transform3d(frc::Translation3d(0_m, 0_m, 0_m),
@@ -46,7 +46,7 @@ frc::Pose3d prevEstimatedRobotPose = frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_
 
 std::vector<frc::Pose3d> getEstimatedGlobalPose(frc::Pose3d prevEstimatedRobotPose); 
 
- std::optional<photon::EstimatedRobotPose> EstimatedPose();
+//  std::optional<photon::EstimatedRobotPose> EstimatedPose();
  
 std::optional<frc::Pose3d> GetVisionPose();/* {
 
