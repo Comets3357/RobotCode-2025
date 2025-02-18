@@ -20,6 +20,11 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("Acutal Speed", chassisSpeeds); 
     frc::SmartDashboard::PutNumber("Single Wheel Chassis Speed", (double)m_container.m_drive.GetChassisSpeed());
 
+    frc::SmartDashboard::PutNumber("X", (double)m_container.m_drive.GetPose().X()); 
+    frc::SmartDashboard::PutNumber("Y", (double)m_container.m_drive.GetPose().Y()); 
+
+    frc::SmartDashboard::PutNumber("Degrees Rotation", (double)m_container.m_drive.GetPose().Rotation().Degrees()); 
+
     
 }
 
