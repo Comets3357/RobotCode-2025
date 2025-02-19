@@ -6,10 +6,11 @@
 
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/RunCommand.h>
-
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/IntakeSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
+#include "Subsystems/ElevatorSubsystem.h"
 
 class RobotContainer
 {
@@ -17,31 +18,18 @@ public:
     RobotContainer();
 
     frc2::CommandPtr GetAutonomousCommand();
-   // frc2::Command* getAutonomousCommand();
-
     DriveSubsystem m_drive;
-    double testspeed = 2.4 / 4.8; 
+    ElevatorSubsystem m_elevator;
 
 private:
     // The driver's controller
     frc2::CommandXboxController m_driverController{OIConstants::kDriverControllerPort};
    
-
     // The robot's subsystems and commands are defined here...
-
     // The robot's subsystems
-
     // The chooser for the autonomous routines
     // frc::SendableChooser<frc2::Command*> m_chooser;
     void ConfigureButtonBindings();
-    void ConfigureBindings();
+
+    IntakeSubsystem intake;
 };
-
-
-/*
-
-Test speed:    1         1                1 
-PID:           p = 0.04 f = 0.03 0.035    0.038
-Actual Speed: 1.54       0.8     0.95     1.02
-
-*/

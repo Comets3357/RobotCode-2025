@@ -1,5 +1,4 @@
 #include "RobotContainer.h"
-
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/trajectory/Trajectory.h>
@@ -11,9 +10,7 @@
 #include <frc2/command/Commands.h>
 #include <units/angle.h>
 #include <units/velocity.h>
-
 #include <utility>
-
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
 
@@ -51,6 +48,7 @@ frc2::Command* RobotContainer::getAutonomousCommand() {
 //...
 
 // This will start Redux CANLink manually for C++
+#include "commands/IntakeCommands.h"
 
 using namespace DriveConstants;
 
@@ -97,42 +95,24 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
      return PathPlannerAuto("New Auto").ToPtr();
 }
 
-void RobotContainer::ConfigureButtonBindings()
-{
-    m_driverController.RightBumper().WhileTrue(new frc2::RunCommand([this]
-                                                                    { m_drive.SetX(); }, {&m_drive}));
-    m_driverController.X().WhileTrue(new frc2::RunCommand([this]
-                                                          { m_drive.ZeroHeading(); }, {&m_drive}));
-        // make go 
-    m_driverController.A().OnTrue(new frc2::RunCommand([this]{ 
-        double test = testspeed; 
-        m_drive.Drive(units::meters_per_second_t{testspeed}, 
-                    units::meters_per_second_t{0},  
-                    units::radians_per_second_t{0}, 
-                    true);}, {&m_drive})); 
+void RobotContainer::ConfigureButtonBindings() {
 
-    m_driverController.A().OnFalse(new frc2::RunCommand([this]{ 
-     
-        m_drive.Drive(units::meters_per_second_t{0}, 
-                    units::meters_per_second_t{0},  
-                    units::radians_per_second_t{0}, 
-                    true);}, {&m_drive}));
-    // make go in reverse 
-    m_driverController.B().OnTrue(new frc2::RunCommand([this]{ 
-   
-        m_drive.Drive(units::meters_per_second_t{-testspeed}, 
-                    units::meters_per_second_t{0},  
-                    units::radians_per_second_t{0}, 
-                    true);}, {&m_drive})); 
+    //drive
+    m_driverController.LeftBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
+    m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
 
-    m_driverController.B().OnFalse(new frc2::RunCommand([this]{ 
-        double test = 0;
-        m_drive.Drive(units::meters_per_second_t{test}, 
-                    units::meters_per_second_t{test},  
-                    units::radians_per_second_t{0}, 
-                    true);}, {&m_drive}));
+    //algae intake
+    m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
+    m_driverController.RightBumper().OnFalse(StopIntake(&intake));
+
+    m_driverController.RightTrigger().OnTrue(DeployAlgae(&intake));
+    m_driverController.RightTrigger().OnFalse(StopDeploy(&intake));
+
+    //elevator
+    m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
+                                                          {m_elevator.setPosition(0.5);},{&m_elevator}));
+    m_driverController.B().OnTrue(frc2::cmd::RunOnce([this]
+                                                        {m_elevator.setPosition(20);},{&m_elevator}));
+ 
 }
 
-void RobotContainer::ConfigureBindings()
-{
-}
