@@ -11,12 +11,6 @@
 #include <units/angle.h>
 #include <units/velocity.h>
 #include <utility>
-#include "Constants.h"
-#include "subsystems/DriveSubsystem.h"
-
-
-
-
 
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -24,28 +18,12 @@
 #include <frc2/command/Command.h>
 #include <memory>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
+#include <memory>
 
 
 using namespace pathplanner;
-/*
-RobotContainer::RobotContainer() {
-  // ...
 
-  // Build an auto chooser. This will use frc2::cmd::None() as the default option.
-  autoChooser = AutoBuilder::buildAutoChooser();
-
-  // Another option that allows you to specify the default auto by its name
-  // autoChooser = AutoBuilder::buildAutoChooser("My Default Auto");
-
-  frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
-}
-
-frc2::Command* RobotContainer::getAutonomousCommand() {
-  // Returns a frc2::Command* that is freed at program termination
-  return autoChooser.GetSelected();
-}
-*/
-//...
 
 // This will start Redux CANLink manually for C++
 #include "commands/IntakeCommands.h"
@@ -55,7 +33,13 @@ using namespace DriveConstants;
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
-        
+
+    /*
+            Initialize all namecommands from pathplanner here
+            Put constants for position in the constant folder
+    */
+    NamedCommands::registerCommand("ElevatorL4", std::move(frc2::cmd::RunOnce([this]
+                                                          {m_elevator.setPosition(PositionConstats::elevatorL4pos);},{&m_elevator}))); 
     // Configure the button bindings
     ConfigureButtonBindings();
 
@@ -76,19 +60,8 @@ RobotContainer::RobotContainer()
         },
         {&m_drive}));
 
-        // Build an auto chooser. This will use frc2::cmd::None() as the default option.
-  //autoChooser = AutoBuilder::buildAutoChooser();
-
-  // Another option that allows you to specify the default auto by its name
-  // autoChooser = AutoBuilder::buildAutoChooser("My Default Auto");
-
- // frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
 }
 
-// frc2::Command* RobotContainer::getAutonomousCommand() {
-//   // Returns a frc2::Command* that is freed at program termination
-//   return autoChooser.GetSelected();
-// }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {

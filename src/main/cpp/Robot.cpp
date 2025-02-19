@@ -15,7 +15,6 @@ void Robot::RobotPeriodic()
     double chassisSpeedSquared= pow((double)m_container.m_drive.GetRobotRelativeSpeeds().vx, 2) + pow((double)m_container.m_drive.GetRobotRelativeSpeeds().vy, 2); 
     double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
 
-    frc::SmartDashboard::PutNumber("Test Speed", m_container.testspeed * 4.8); 
     frc::SmartDashboard::PutNumber("Heading", (double)m_container.m_drive.GetGyroHeading().Degrees());
     frc::SmartDashboard::PutNumber("Acutal Speed", chassisSpeeds); 
     frc::SmartDashboard::PutNumber("Single Wheel Chassis Speed", (double)m_container.m_drive.GetChassisSpeed());

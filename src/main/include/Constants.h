@@ -101,3 +101,8 @@ namespace OIConstants
     constexpr int kDriverControllerPort = 0;
     constexpr double kDriveDeadband = 0.05;
 } // namespace OIConstants
+
+namespace PositionConstats
+{
+    constexpr double elevatorL4pos = 0; 
+}
