@@ -29,6 +29,10 @@ private:
     // The chooser for the autonomous routines
     // frc::SendableChooser<frc2::Command*> m_chooser;
     void ConfigureButtonBindings();
+    void ConfigureBindings();
+
+    frc2::FunctionalCommand DoStuff;
+    frc2::FunctionalCommand DoStuff2;
 
     IntakeSubsystem intake;
 };

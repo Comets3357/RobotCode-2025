@@ -33,9 +33,9 @@ void ElevatorSubsystem::setPosition(double position)
     MainElevatorMotor.setReference(position, Motor::controlType::position);
 }
 
-void ElevatorSubsystem::getPosition()
+double ElevatorSubsystem::getPosition()
 {
-    MainElevatorMotor.GetRelativePosition();
+    return MainElevatorMotor.GetRelativePosition();
 }
 void ElevatorSubsystem::Periodic()
 {
