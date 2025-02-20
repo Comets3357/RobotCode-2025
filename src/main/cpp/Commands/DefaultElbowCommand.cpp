@@ -20,43 +20,43 @@ void DefaultElbowCommand::Execute() {
     // elbowSubsystem->setElbowSpeed(rightStick() * 0.1);
     
     // if (rightStick() < -0.1) {
-    //    elbowSubsystem->setTargetElbowAngle(elbowSubsystem->getElbowTargetAngle() - 1);
+    //    elbowSubsystem->setElbowAngle(elbowSubsystem->getElbowTargetAngle() - 1);
     // }
     // if (rightStick() > 0.1) {
-    //     elbowSubsystem->setTargetElbowAngle(elbowSubsystem->getElbowTargetAngle() + 1);
+    //     elbowSubsystem->setElbowAngle(elbowSubsystem->getElbowTargetAngle() + 1);
     // }    
 
     elbowSubsystem->setElbowTarget();
-    elbowSubsystem->setGripperTarget();
+    elbowSubsystem->setWristTarget();
 
-    if (elbowSubsystem->getElbowTargetAngle() > -5) {
-        elbowSubsystem->setTargetElbowAngle(-5);
+    if (elbowSubsystem->getElbowTargetAngle() > 117) {
+        elbowSubsystem->setElbowAngle(117);
     }
-    if (elbowSubsystem->getElbowTargetAngle() < -40) {
-        elbowSubsystem->setTargetElbowAngle(-40);
+    if (elbowSubsystem->getElbowTargetAngle() < 40) {
+        elbowSubsystem->setElbowAngle(40);
     }
 
     //gripper roller stuff
 
     if (elbowSubsystem->getGripperState() == 0 /*INTTAKE*/) {
-        elbowSubsystem->setGripperSpeed(0.2);
+        elbowSubsystem->setWristSpeed(0.2);
     } 
     else if (elbowSubsystem->getGripperState() ==   1 /*OUTTAKE*/) {
-        elbowSubsystem->setGripperSpeed(-0.2);
+        elbowSubsystem->setWristSpeed(-0.2);
     } 
     else if (elbowSubsystem->getGripperState() ==   2 /*IDLE*/){
-        elbowSubsystem->setGripperSpeed(0);
+        elbowSubsystem->setWristSpeed(0);
     }
 
     //gripper pivot stuff
     // if (rightTrigger() > 0.5) {
     //     elbowSubsystem->toggleGripperPivotState();
 
-    //     if (elbowSubsystem->getGripperPivotState() == true) {
-    //         elbowSubsystem->setGripperPivotAngle(0);
+    //     if (elbowSubsystem->getWristState() == true) {
+    //         elbowSubsystem->setWristAngle(0);
     //     } 
-    //     else if (elbowSubsystem->getGripperPivotState() == false) {
-    //         elbowSubsystem->setGripperPivotAngle(90);
+    //     else if (elbowSubsystem->getWristState() == false) {
+    //         elbowSubsystem->setWristAngle(90);
     //     }
     // }
 
@@ -70,19 +70,20 @@ void DefaultElbowCommand::Execute() {
 }
 
 //super mega epic typing
-frc2::CommandPtr DefaultElbowCommand::setGripperPos(ElbowSubsystem* m_elbowSubsystem, double position) {
-    return frc2::cmd::RunOnce([&]{m_elbowSubsystem->setGripperPivotAngle(position); }, {m_elbowSubsystem});
+frc2::CommandPtr DefaultElbowCommand::setWristPos(ElbowSubsystem* m_elbowSubsystem, double position) {
+    return frc2::cmd::RunOnce([=]{m_elbowSubsystem->setWristAngle(position); }, {m_elbowSubsystem});
 }
-frc2::CommandPtr DefaultElbowCommand::setGripperSpeed(ElbowSubsystem* m_elbowSubsystem, double speed) {
-    return frc2::cmd::RunOnce([&]{m_elbowSubsystem->setGripperPivotSpeed(speed); }, {m_elbowSubsystem});
+frc2::CommandPtr DefaultElbowCommand::setElbowPos(ElbowSubsystem* m_elbowSubsystem, double position) {
+    return frc2::cmd::RunOnce([=]{m_elbowSubsystem->setElbowAngle(position); }, {m_elbowSubsystem});
 }
 
-frc2::CommandPtr DefaultElbowCommand::setIdle(ElbowSubsystem* m_elbowSubsystem) {
-    return frc2::cmd::RunOnce([m_elbowSubsystem]{m_elbowSubsystem->setGripperState(ElbowSubsystem::gripperStates::IDLE); });
+//setters for speed
+frc2::CommandPtr DefaultElbowCommand::setWristSpeed(ElbowSubsystem* m_elbowSubsystem, double speed) {
+    return frc2::cmd::RunOnce([=]{m_elbowSubsystem->setWristSpeed(speed); }, {m_elbowSubsystem});
 }
-frc2::CommandPtr DefaultElbowCommand::setIntake(ElbowSubsystem* m_elbowSubsystem) {
-    return frc2::cmd::RunOnce([m_elbowSubsystem]{m_elbowSubsystem->setGripperState(ElbowSubsystem::gripperStates::INTAKE); });
+frc2::CommandPtr DefaultElbowCommand::setRollerSpeed(ElbowSubsystem* m_elbowSubsystem, double speed) {
+    return frc2::cmd::RunOnce([=]{m_elbowSubsystem->setRollerSpeed(speed); }, {m_elbowSubsystem});
 }
-frc2::CommandPtr DefaultElbowCommand::setOuttake(ElbowSubsystem* m_elbowSubsystem) {
-    return frc2::cmd::RunOnce([m_elbowSubsystem]{m_elbowSubsystem->setGripperState(ElbowSubsystem::gripperStates::OUTTAKE); });
+frc2::CommandPtr DefaultElbowCommand::setElbowSpeed(ElbowSubsystem* m_elbowSubsystem, double speed) {
+    return frc2::cmd::RunOnce([=]{m_elbowSubsystem->setElbowSpeed(speed); }, {m_elbowSubsystem});
 }

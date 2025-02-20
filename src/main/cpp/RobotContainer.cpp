@@ -55,14 +55,26 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 void RobotContainer::ConfigureButtonBindings() {
 
     //elbow
-    m_driverController.Y().OnTrue(DefaultElbowCommand::setGripperSpeed(&m_elbowSubsystem, 0.2));
-    m_driverController.Y().OnFalse(DefaultElbowCommand::setGripperSpeed(&m_elbowSubsystem, 0));
 
-    m_driverController.RightBumper().OnTrue(DefaultElbowCommand::setGripperPos(&m_elbowSubsystem, 90));
 
-    m_driverController.A().OnTrue(DefaultElbowCommand::setIdle(&m_elbowSubsystem));
-    m_driverController.B().OnTrue(DefaultElbowCommand::setIntake(&m_elbowSubsystem));
-    m_driverController.X().OnTrue(DefaultElbowCommand::setOuttake(&m_elbowSubsystem));
+    m_driverController.Y().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 0));
+    m_driverController.RightBumper().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 90));
+
+    m_driverController.LeftTrigger().OnTrue(DefaultElbowCommand::setElbowSpeed(&m_elbowSubsystem, 0.2));
+    m_driverController.LeftBumper().OnTrue(DefaultElbowCommand::setElbowSpeed(&m_elbowSubsystem, -0.2));
+    
+
+    // m_driverController.X().OnTrue(DefaultElbowCommand::setRollerSpeed(&m_elbowSubsystem, 0.2));
+    // m_driverController.A().OnTrue(DefaultElbowCommand::setRollerSpeed(&m_elbowSubsystem, 0));
+    // m_driverController.B().OnTrue(DefaultElbowCommand::setRollerSpeed(&m_elbowSubsystem, -0.2));
+
+    m_driverController.X().OnTrue(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 110)); //ground state
+    m_driverController.X().OnTrue(DefaultElbowCommand::setRollerSpeed(&m_elbowSubsystem, -0.8)); 
+
+    m_driverController.X().OnFalse(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 40)); //idle state
+    m_driverController.X().OnFalse(DefaultElbowCommand::setRollerSpeed(&m_elbowSubsystem, -0.2)); 
+    m_driverController.X().OnFalse(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 90));
+
 
     //drive
     // m_driverController.LeftBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));

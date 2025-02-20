@@ -23,15 +23,15 @@ public:
 
     
     //epic PID system for the elbow and gripper, dont change these values unless you know what you are doing :)
-    const double elbowP = 0.04;
+    const double elbowP = 0.01 /*0.04*/;
     const double elbowI = 0;
     const double elbowD = 0;
     double elbowTargetAngle = -10;
 
-    const double gripperP = 0.02;
-    const double gripperI = 0;
-    const double gripperD = 0;
-    double gripperTargetAngle = 0;
+    const double wristP = 0.02;
+    const double wristI = 0;
+    const double wristD = 0;
+    double targetWristAngle = 0;
     bool gripperPivotState = false;
 
     //initalizing measurement vehicles
@@ -45,7 +45,7 @@ public:
     //elbow setters
     
     //gets the target Elbow Angle.
-    void setTargetElbowAngle(int angle);
+    void setElbowAngle(int angle);
 
     //Sets which encoder to use for the PID calculations for the elbow (DONT CHANGE THIS.)
     void setElbowTarget();
@@ -62,20 +62,21 @@ public:
     void toggleGripperPivotState();
 
     //sets the target gripper pivot angle.
-    void setGripperPivotAngle(double angle);
+    void setWristAngle(double angle);
     
     //sets the gripper pivot speed
-    void setGripperPivotSpeed(double speed);
+    void setWristSpeed(double speed);
 
     //gripper setters
 
     //sets the gripper roller speed
-    void setGripperSpeed(double speed);
+    void setRollerSpeed(double speed);
+
 
     //sets the gripper state between three enumerables: IDLE, INTAKE, OUTTAKE.
     void setGripperState(gripperStates state);
 
-    void setGripperTarget();
+    void setWristTarget();
     
     //
     //getters
@@ -95,16 +96,16 @@ public:
     //gripper pivot getters
 
     //gets the gripper pivot angle
-    double getGripperPivotAngle();
+    double getWristAngle();
 
     //gets the target gripper pivot angle
-    double getGripperTargetAngle();
+    double getTargetWristAngle();
 
     //gets the gripper pivot speed in 
-    double getGripperPivotSpeed();
+    double getWristSpeed();
 
     //gets the gripper pivot state in Vertical to horizontal or whatever this might be useless
-    bool getGripperPivotState();
+    bool getWristState();
 
     //gripper roller getters
     gripperStates getGripperState();
@@ -119,9 +120,9 @@ public:
     void Periodic() override;
 
 private:
-    SparkMaxMotor elbowPivotMotor{elbowPivotID}; 
-    SparkMaxMotor gripperPivotMotor{gripperPivotID};
-    SparkMaxMotor gripperMotor{armGripperID};
+    SparkMaxMotor elbowMotor{elbowPivotID}; 
+    SparkMaxMotor wristMotor{gripperPivotID};
+    SparkMaxMotor rollerMotor{armGripperID};
 
     grpl::LaserCan LaserCanVertical{19};
     grpl::LaserCan LaserCanHorizontal{20};

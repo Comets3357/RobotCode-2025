@@ -8,93 +8,66 @@
 ElbowSubsystem::ElbowSubsystem() {
 
     //elbow stuff
-    elbowPivotMotor.setRelativeVelocityConversionFactor(4.5);
-    elbowPivotMotor.enableForwardSoftLimit(true);
-    elbowPivotMotor.enableReverseSoftLimit(true);
-    elbowPivotMotor.setForwardSoftLimit(-5);
-    elbowPivotMotor.setReverseSoftLimit(-40);  
-    elbowPivotMotor.SetSmartCurrentLimit(8);  
-
-    //gripper stuff
-    gripperPivotMotor.setRelativeVelocityConversionFactor(0.06 /* goofy ahh value I dont know*/);
-    gripperPivotMotor.setRelativePositionConversionFactor(3.6 /* 360 degrees / 25 / 4 for ratios*/);
-    elbowPivotMotor.SetSmartCurrentLimit(20);  
+    elbowMotor.SetSmartCurrentLimit(40);
+    elbowMotor.setRelativePositionConversionFactor(10);
+    elbowMotor.setRelativeVelocityConversionFactor(0.167);
+    elbowMotor.enableForwardSoftLimit(true);
+    elbowMotor.enableReverseSoftLimit(true);
+    elbowMotor.setForwardSoftLimit(117);
+    elbowMotor.setReverseSoftLimit(40); 
 
     //limiting so we dont give josh a bad time if we break it
-    elbowPivotMotor.setMaxOutput(0.1);
+    elbowMotor.setMaxOutput(0.5);
+    elbowMotor.setMinOutput(-0.5);
 
-    gripperPivotMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
-    elbowPivotMotor.SetSmartCurrentLimit(20);
+    elbowMotor.setFeedbackSensor(Motor::encoderType::relative);
+    elbowMotor.setPID(elbowP, elbowI, elbowD);
 
-    elbowPivotMotor.setFeedbackSensor(Motor::encoderType::absolute);
-    gripperPivotMotor.setFeedbackSensor(Motor::encoderType::relative);
+    //gripper stuff
+    wristMotor.SetSmartCurrentLimit(20);
+    wristMotor.setRelativeVelocityConversionFactor(0.06 /* goofy ahh value I dont know*/);
+    wristMotor.setRelativePositionConversionFactor(3.6 /* 360 degrees / 25 / 4 for ratios*/);
+    wristMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
+
+    wristMotor.setFeedbackSensor(Motor::encoderType::relative);
+    wristMotor.setPID(wristP, wristI, wristD);
 
 
-    elbowPivotMotor.setPID(elbowP, elbowI, elbowD);
-    gripperPivotMotor.setPID(gripperP, gripperI, gripperD);
+    elbowMotor.configure();
+    wristMotor.configure();
 
-    elbowPivotMotor.configure();
-    gripperPivotMotor.configure();
-
+    rollerMotor.SetSmartCurrentLimit(40);  
 }
 
 //setters
 
 //sets the elbow angle (360 degrees)
-void ElbowSubsystem::setTargetElbowAngle(int angle) {
-    elbowTargetAngle = angle;
+void ElbowSubsystem::setElbowAngle(int angle) {
+    elbowMotor.setReference(angle, Motor::controlType::position);
 }
 
 //sets the speed in percent
 void ElbowSubsystem::setElbowSpeed(double speed) {
-    elbowPivotMotor.SetPercent(speed);
+    elbowMotor.SetPercent(speed);
 }
 
-//sets the current state of an enumerable for the 3 actions of the gripper.
-void ElbowSubsystem::setGripperState(ElbowSubsystem::gripperStates state) {
-    //conditional to prevent funny stuff with the string system from happening
-   if (state == gripperStates::OUTTAKE) {
-    gripperState = gripperStates::OUTTAKE;
-   } else if (state == gripperStates::INTAKE) {
-    gripperState = gripperStates::INTAKE;
-   } else {
-    gripperState = gripperStates::IDLE;
-   }
+void ElbowSubsystem::setRollerSpeed(double speed) {
+    rollerMotor.SetPercent(speed);
 }
 
-void ElbowSubsystem::setGripperSpeed(double speed) {
-    gripperMotor.SetPercent(speed);
+void ElbowSubsystem::setWristAngle(double angle) {
+    wristMotor.setReference(angle, Motor::controlType::position);
 }
 
-void ElbowSubsystem::setGripperPivotState(bool state) {
-    if (state) {
-        gripperPivotState = true;
-    } else if (!state) {
-        gripperPivotState = false;
-    }
-}
-
-void ElbowSubsystem::toggleGripperPivotState() {
-    gripperPivotState = !gripperPivotState;
-}
-
-void ElbowSubsystem::setGripperPivotAngle(double angle) {
-    gripperTargetAngle = angle;
-}
-void ElbowSubsystem::setGripperPivotSpeed(double speed) {
-    gripperPivotMotor.SetPercent(speed);
+void ElbowSubsystem::setWristSpeed(double speed) {
+    wristMotor.SetPercent(speed);
 }
 
 //getters
 
-//gets the current state of an enumerable for the 3 actions of the gripper.
-ElbowSubsystem::gripperStates ElbowSubsystem::getGripperState() {
-    return gripperState;
-}
-
 //gets the elbow angle in absolute position
 double ElbowSubsystem::getElbowAngle() {
-    return elbowPivotMotor.GetAbsolutePosition();
+    return elbowMotor.GetAbsolutePosition();
 }
 
 //gets the target angle
@@ -104,38 +77,34 @@ double ElbowSubsystem::getElbowTargetAngle() {
 
 //gets the velocity of the elbow pivot motor
 double ElbowSubsystem::getElbowSpeed() {
-    return elbowPivotMotor.GetAbsoluteVelocity();
+    return elbowMotor.GetAbsoluteVelocity();
 }
 
 //super epic PID stuff
 
 void ElbowSubsystem::setElbowTarget() {
     //TODO PUT THIS BACK
-    //elbowPivotMotor.setReference(getElbowTargetAngle(), Motor::controlType::position);
+    elbowMotor.setReference(getElbowTargetAngle(), Motor::controlType::position, -0.12);
 }
 
-void ElbowSubsystem::setGripperTarget() {
+void ElbowSubsystem::setWristTarget() {
     //TODO PUT THIS BACK
-    //gripperPivotMotor.setReference(getGripperTargetAngle(), Motor::controlType::position);
+    wristMotor.setReference(getTargetWristAngle(), Motor::controlType::position);
 }
 
  //gets the gripper pivot angle
-double ElbowSubsystem::getGripperPivotAngle() {
-    return gripperPivotMotor.GetAbsolutePosition();
+double ElbowSubsystem::getWristAngle() {
+    return wristMotor.GetAbsolutePosition();
 }
 
-double ElbowSubsystem::getGripperTargetAngle() {
-    return elbowTargetAngle;
+double ElbowSubsystem::getTargetWristAngle() {
+    return targetWristAngle;
 }
 
-double ElbowSubsystem::getGripperPivotSpeed()
-{
-    return gripperPivotMotor.GetAbsoluteVelocity();
+double ElbowSubsystem::getWristSpeed() {
+    return wristMotor.GetAbsoluteVelocity();
 }
 
-bool ElbowSubsystem::getGripperPivotState() {
-     return gripperPivotState;
-}
 
 std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getHorizontalDistanceMeasurement() {
     return horizMeasurement;
