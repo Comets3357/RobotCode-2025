@@ -6,9 +6,6 @@
 
 void DefaultElbowCommand::Execute() {
     //smartdashboard
-    frc::SmartDashboard::PutNumber("Right Stick Y Position",rightStick());
-    frc::SmartDashboard::PutNumber("Target Elbow Position", elbowSubsystem->getElbowTargetAngle());
-    frc::SmartDashboard::PutNumber("Elbow Position", elbowSubsystem->getElbowAngle());
 
     frc::SmartDashboard::PutBoolean("isGamePieceDetected?", elbowSubsystem->isGamePieceDetected());
 }

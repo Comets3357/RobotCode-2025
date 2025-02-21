@@ -7,19 +7,6 @@
 class DefaultElbowCommand
     : public frc2::CommandHelper<frc2::Command, DefaultElbowCommand> {
  public:
-    std::function<double()> rightStickSupplier;
-    std::function<double()> rightStick;
-
-    std::function<double()> rightTrigger;
-    std::function<double()> rightTriggerSupplier;
-
-    /**
-    * Creates a new ElbowCommand (yippee!).
-    *
-    * @param pivotSubsystem The subsystem used by this command.
-    * @param supplier POV
-    */
-    explicit DefaultElbowCommand(ElbowSubsystem* elbowSubsystem, std::function<double()> rightStick, std::function<double()> rightTrigger);
 
    static frc2::CommandPtr setWristPos(ElbowSubsystem *m_elbowSubsystem, double position);
    static frc2::CommandPtr setElbowPos(ElbowSubsystem *m_elbowSubsystem, double position);
@@ -28,7 +15,6 @@ class DefaultElbowCommand
    static frc2::CommandPtr setElbowSpeed(ElbowSubsystem *m_elbowSubsystem, double speed);
    static frc2::CommandPtr setRollerSpeed(ElbowSubsystem *m_elbowSubsystem, double speed);
 
-   
 
     void Execute() override;
 
