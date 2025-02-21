@@ -74,6 +74,18 @@ void SparkFlexMotor::setReference(double ref, controlType ctrl)
     }
 }
 
+void SparkFlexMotor::setReference(double ref, controlType ctrl, double arbFeedForward)
+{
+    if (ctrl == Motor::controlType::position)
+    {
+        closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kPosition, rev::spark::kSlot0, arbFeedForward, rev::spark::SparkClosedLoopController::ArbFFUnits::kPercentOut);
+    }
+    else if (ctrl == Motor::controlType::velocity)
+    {
+        closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kVelocity);
+    }
+}
+
 double SparkFlexMotor::GetRelativeVelocity()
 {
     return RelativeEncoder.GetVelocity();

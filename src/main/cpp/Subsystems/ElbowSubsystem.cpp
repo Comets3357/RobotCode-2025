@@ -7,48 +7,86 @@
 
 ElbowSubsystem::ElbowSubsystem() {
 
-    //elbow stuff
-    elbowMotor.SetSmartCurrentLimit(40);
-    elbowMotor.setRelativePositionConversionFactor(10);
-    elbowMotor.setRelativeVelocityConversionFactor(0.167);
-    elbowMotor.enableForwardSoftLimit(true);
-    elbowMotor.enableReverseSoftLimit(true);
-    elbowMotor.setForwardSoftLimit(117);
-    elbowMotor.setReverseSoftLimit(40); 
+    if (isCompBot == true) {
+        elbowMotor = new SparkFlexMotor{elbowPivotID};
+    } else {
+        elbowMotor = new SparkMaxMotor{elbowPivotID};
+    }
 
-    //limiting so we dont give josh a bad time if we break it
-    elbowMotor.setMaxOutput(0.5);
-    elbowMotor.setMinOutput(-0.5);
+    if (isCompBot == false) {
+         //elbow stuff
+        elbowMotor->SetSmartCurrentLimit(40);
+        elbowMotor->setRelativePositionConversionFactor(10);
+        elbowMotor->setRelativeVelocityConversionFactor(0.167);
+        elbowMotor->enableForwardSoftLimit(true);
+        elbowMotor->enableReverseSoftLimit(true);
+        elbowMotor->setForwardSoftLimit(117);
+        elbowMotor->setReverseSoftLimit(40); 
 
-    elbowMotor.setFeedbackSensor(Motor::encoderType::relative);
-    elbowMotor.setPID(elbowP, elbowI, elbowD);
+        //limiting so we dont give josh a bad time if we break it
+        elbowMotor->setMaxOutput(0.5);
+        elbowMotor->setMinOutput(-0.5);
 
-    //gripper stuff
-    wristMotor.SetSmartCurrentLimit(20);
-    wristMotor.setRelativeVelocityConversionFactor(0.06 /* goofy ahh value I dont know*/);
-    wristMotor.setRelativePositionConversionFactor(3.6 /* 360 degrees / 25 / 4 for ratios*/);
-    wristMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
+        elbowMotor->setFeedbackSensor(Motor::encoderType::relative);
+        elbowMotor->setPID(elbowP, elbowI, elbowD);
 
-    wristMotor.setFeedbackSensor(Motor::encoderType::relative);
-    wristMotor.setPID(wristP, wristI, wristD);
+        //gripper stuff
+        wristMotor.SetSmartCurrentLimit(20);
+        wristMotor.setRelativeVelocityConversionFactor(0.06 /* goofy ahh value I dont know*/);
+        wristMotor.setRelativePositionConversionFactor(3.6 /* 360 degrees / 25 / 4 for ratios*/);
+        wristMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
+
+        wristMotor.setFeedbackSensor(Motor::encoderType::relative);
+        wristMotor.setPID(wristP, wristI, wristD);
 
 
-    elbowMotor.configure();
-    wristMotor.configure();
+        elbowMotor->configure();
+        wristMotor.configure();
 
-    rollerMotor.SetSmartCurrentLimit(40);  
+        rollerMotor.SetSmartCurrentLimit(40);  
+    }
+    if (isCompBot == true) {
+        elbowMotor->SetSmartCurrentLimit(40);
+        elbowMotor->setAbsoluteVelocityConversionFactor(6);
+        elbowMotor->setAbsolutePositionConversionFactor(360 /*degrees*/);
+        elbowMotor->enableForwardSoftLimit(true);
+        elbowMotor->enableReverseSoftLimit(true);
+        elbowMotor->setForwardSoftLimit(305);
+        elbowMotor->setReverseSoftLimit(60); 
+
+        //limiting so we dont give josh a bad time if we break it
+        elbowMotor->setMaxOutput(0.5);
+        elbowMotor->setMinOutput(-0.5);
+
+        elbowMotor->setFeedbackSensor(Motor::encoderType::absolute);
+        elbowMotor->setPID(elbowP, elbowI, elbowD);
+
+        //gripper stuff
+        wristMotor.SetSmartCurrentLimit(20);
+        wristMotor.setAbsoluteVelocityConversionFactor(6);
+        wristMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
+
+        wristMotor.setFeedbackSensor(Motor::encoderType::absolute);
+        wristMotor.setPID(wristP, wristI, wristD);
+
+
+        elbowMotor->configure();
+        wristMotor.configure();
+
+        rollerMotor.SetSmartCurrentLimit(40);  
+    }    
 }
 
 //setters
 
 //sets the elbow angle (360 degrees)
 void ElbowSubsystem::setElbowAngle(int angle) {
-    elbowMotor.setReference(angle, Motor::controlType::position);
+    elbowMotor->setReference(angle, Motor::controlType::position);
 }
 
 //sets the speed in percent
 void ElbowSubsystem::setElbowSpeed(double speed) {
-    elbowMotor.SetPercent(speed);
+    elbowMotor->SetPercent(speed);
 }
 
 void ElbowSubsystem::setRollerSpeed(double speed) {
@@ -67,7 +105,7 @@ void ElbowSubsystem::setWristSpeed(double speed) {
 
 //gets the elbow angle in absolute position
 double ElbowSubsystem::getElbowAngle() {
-    return elbowMotor.GetAbsolutePosition();
+    return elbowMotor->GetAbsolutePosition();
 }
 
 //gets the target angle
@@ -77,14 +115,14 @@ double ElbowSubsystem::getElbowTargetAngle() {
 
 //gets the velocity of the elbow pivot motor
 double ElbowSubsystem::getElbowSpeed() {
-    return elbowMotor.GetAbsoluteVelocity();
+    return elbowMotor->GetAbsoluteVelocity();
 }
 
 //super epic PID stuff
 
 void ElbowSubsystem::setElbowTarget() {
     //TODO PUT THIS BACK
-    elbowMotor.setReference(getElbowTargetAngle(), Motor::controlType::position, -0.12);
+    elbowMotor->setReference(getElbowTargetAngle(), Motor::controlType::position, -0.12);
 }
 
 void ElbowSubsystem::setWristTarget() {
@@ -106,42 +144,42 @@ double ElbowSubsystem::getWristSpeed() {
 }
 
 
-std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getHorizontalDistanceMeasurement() {
-    return horizMeasurement;
-}
+// std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getHorizontalDistanceMeasurement() {
+//     return horizMeasurement;
+// }
 
-std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getVerticalDistanceMeasurement() {
-    return vertMeasurement;
-}
+// std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getVerticalDistanceMeasurement() {
+//     return vertMeasurement;
+// }
 
 bool ElbowSubsystem::isGamePieceDetected() {
 
-    double tempVertMeasurement;
-    double tempHorizMeasurement;
+    // double tempVertMeasurement;
+    // double tempHorizMeasurement;
 
-    if (ElbowSubsystem::getHorizontalDistanceMeasurement().has_value()) {
-        tempHorizMeasurement = getHorizontalDistanceMeasurement().value().distance_mm;
-    }
-    if (ElbowSubsystem::getVerticalDistanceMeasurement().has_value()) {
-        tempVertMeasurement = getVerticalDistanceMeasurement().value().distance_mm;
-    }
+    // if (ElbowSubsystem::getHorizontalDistanceMeasurement().has_value()) {
+    //     tempHorizMeasurement = getHorizontalDistanceMeasurement().value().distance_mm;
+    // }
+    // if (ElbowSubsystem::getVerticalDistanceMeasurement().has_value()) {
+    //     tempVertMeasurement = getVerticalDistanceMeasurement().value().distance_mm;
+    // }
 
-    if (tempVertMeasurement || tempHorizMeasurement < 50) {
-        return true;
-    } else {
-        return false;
-    }
+    // if (tempVertMeasurement || tempHorizMeasurement < 50) {
+    //     return true;
+    // } else {
+    //     return false;
+    // }
 }
 
 void ElbowSubsystem::Periodic() {
-    vertMeasurement = LaserCanVertical.get_measurement();
-    horizMeasurement = LaserCanHorizontal.get_measurement();
+    // vertMeasurement = LaserCanVertical.get_measurement();
+    // horizMeasurement = LaserCanHorizontal.get_measurement();
 
 
-    if (vertMeasurement.has_value() && vertMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
-        frc::SmartDashboard::PutNumber("Vertical LaserCAN Measurement", vertMeasurement.value().distance_mm);
-    }
-    if (horizMeasurement.has_value() && horizMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
-        frc::SmartDashboard::PutNumber("Horizontal LaserCAN Measurement", horizMeasurement.value().distance_mm);
-    }
+    // if (vertMeasurement.has_value() && vertMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
+    //     frc::SmartDashboard::PutNumber("Vertical LaserCAN Measurement", vertMeasurement.value().distance_mm);
+    // }
+    // if (horizMeasurement.has_value() && horizMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
+    //     frc::SmartDashboard::PutNumber("Horizontal LaserCAN Measurement", horizMeasurement.value().distance_mm);
+    // }
 }

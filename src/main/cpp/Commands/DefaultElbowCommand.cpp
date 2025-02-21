@@ -36,35 +36,10 @@ void DefaultElbowCommand::Execute() {
         elbowSubsystem->setElbowAngle(40);
     }
 
-    //gripper roller stuff
-
-    if (elbowSubsystem->getGripperState() == 0 /*INTTAKE*/) {
-        elbowSubsystem->setWristSpeed(0.2);
-    } 
-    else if (elbowSubsystem->getGripperState() ==   1 /*OUTTAKE*/) {
-        elbowSubsystem->setWristSpeed(-0.2);
-    } 
-    else if (elbowSubsystem->getGripperState() ==   2 /*IDLE*/){
-        elbowSubsystem->setWristSpeed(0);
-    }
-
-    //gripper pivot stuff
-    // if (rightTrigger() > 0.5) {
-    //     elbowSubsystem->toggleGripperPivotState();
-
-    //     if (elbowSubsystem->getWristState() == true) {
-    //         elbowSubsystem->setWristAngle(0);
-    //     } 
-    //     else if (elbowSubsystem->getWristState() == false) {
-    //         elbowSubsystem->setWristAngle(90);
-    //     }
-    // }
-
     //smartdashboard
     frc::SmartDashboard::PutNumber("Right Stick Y Position",rightStick());
     frc::SmartDashboard::PutNumber("Target Elbow Position", elbowSubsystem->getElbowTargetAngle());
     frc::SmartDashboard::PutNumber("Elbow Position", elbowSubsystem->getElbowAngle());
-    frc::SmartDashboard::PutNumber("Gripper State", elbowSubsystem->getGripperState());
 
     frc::SmartDashboard::PutBoolean("isGamePieceDetected?", elbowSubsystem->isGamePieceDetected());
 }

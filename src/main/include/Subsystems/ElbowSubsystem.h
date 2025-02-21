@@ -4,6 +4,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/controller/PIDController.h>
 #include "wrapperclasses/SparkMaxMotor.h"
+#include "wrapperclasses/SparkFlexMotor.h"
 #include "grpl/CanBridge.h"
 #include "grpl/LaserCan.h"
 
@@ -12,10 +13,6 @@ public:
 
     ElbowSubsystem();
 
-    //setting states for the gripper
-    enum gripperStates{INTAKE, OUTTAKE, IDLE}
-    gripperState{gripperStates::IDLE};
-
     //constants
     int elbowPivotID = 16;
     int gripperPivotID = 17;
@@ -23,20 +20,22 @@ public:
 
     
     //epic PID system for the elbow and gripper, dont change these values unless you know what you are doing :)
-    const double elbowP = 0.01 /*0.04*/;
+    const double elbowP = 0.005 /* Comp Bot -> 0.06; Practice Bot -> 0.01*/;
     const double elbowI = 0;
-    const double elbowD = 0;
+    const double elbowD = 0 /* Comp Bot -> 1.42; Practice Bot -> 0*/;
     double elbowTargetAngle = -10;
 
-    const double wristP = 0.02;
+    const double wristP = 0.02 /* Practice Bot -> 0.02*/;
     const double wristI = 0;
     const double wristD = 0;
     double targetWristAngle = 0;
-    bool gripperPivotState = false;
+
+    bool isCompBot = false;
+
 
     //initalizing measurement vehicles
-    std::optional<grpl::LaserCanMeasurement> vertMeasurement;
-    std::optional<grpl::LaserCanMeasurement> horizMeasurement;
+    // std::optional<grpl::LaserCanMeasurement> vertMeasurement;
+    // std::optional<grpl::LaserCanMeasurement> horizMeasurement;
 
     //
     //setters
@@ -52,15 +51,7 @@ public:
 
     //sets the elbow speed for testing purposes.
     void setElbowSpeed(double speed);
-
-    //gripper pivot setters
-
-    //sets the state of the gripper pivot to vertical or horizontal (TERRIBLE EXPLAINATION CHANGE THIS LATER)
-    void setGripperPivotState(bool state);
-
-    //toggles the gripper pivot state
-    void toggleGripperPivotState();
-
+    
     //sets the target gripper pivot angle.
     void setWristAngle(double angle);
     
@@ -71,10 +62,6 @@ public:
 
     //sets the gripper roller speed
     void setRollerSpeed(double speed);
-
-
-    //sets the gripper state between three enumerables: IDLE, INTAKE, OUTTAKE.
-    void setGripperState(gripperStates state);
 
     void setWristTarget();
     
@@ -104,28 +91,22 @@ public:
     //gets the gripper pivot speed in 
     double getWristSpeed();
 
-    //gets the gripper pivot state in Vertical to horizontal or whatever this might be useless
-    bool getWristState();
-
-    //gripper roller getters
-    gripperStates getGripperState();
-
     //is game piece detected via the distance sensor
     bool isGamePieceDetected();
 
     //getting the measurement of the horizontal and vertical distance measurements
-    std::optional<grpl::LaserCanMeasurement>  getHorizontalDistanceMeasurement();
-    std::optional<grpl::LaserCanMeasurement>  getVerticalDistanceMeasurement();
+    // std::optional<grpl::LaserCanMeasurement>  getHorizontalDistanceMeasurement();
+    // std::optional<grpl::LaserCanMeasurement>  getVerticalDistanceMeasurement();
 
     void Periodic() override;
-
 private:
-    SparkMaxMotor elbowMotor{elbowPivotID}; 
+
+    Motor* elbowMotor = nullptr;
     SparkMaxMotor wristMotor{gripperPivotID};
     SparkMaxMotor rollerMotor{armGripperID};
 
-    grpl::LaserCan LaserCanVertical{19};
-    grpl::LaserCan LaserCanHorizontal{20};
+    // grpl::LaserCan LaserCanVertical{19};
+    // grpl::LaserCan LaserCanHorizontal{20};
 
 
 };
