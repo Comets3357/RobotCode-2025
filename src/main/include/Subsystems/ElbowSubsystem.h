@@ -20,9 +20,9 @@ public:
 
     
     //epic PID system for the elbow and gripper, dont change these values unless you know what you are doing :)
-    const double elbowP = 0.005 /* Comp Bot -> 0.06; Practice Bot -> 0.01*/;
+    const double elbowP = 0.06 /* Comp Bot -> 0.06; Practice Bot -> 0.01*/;
     const double elbowI = 0;
-    const double elbowD = 0 /* Comp Bot -> 1.42; Practice Bot -> 0*/;
+    const double elbowD = 1.42 /* Comp Bot -> 1.42; Practice Bot -> 0*/;
     double elbowTargetAngle = -10;
 
     const double wristP = 0.02 /* Practice Bot -> 0.02*/;
@@ -30,7 +30,7 @@ public:
     const double wristD = 0;
     double targetWristAngle = 0;
 
-    bool isCompBot = false;
+    bool isCompBot = true;
 
 
     //initalizing measurement vehicles
