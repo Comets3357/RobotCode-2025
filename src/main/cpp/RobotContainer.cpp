@@ -21,9 +21,9 @@ using namespace DriveConstants;
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
-
     // Configure the button bindings
     ConfigureButtonBindings();
+    ConfigureBindings();
 
     // Set up default drive command
     // The left stick controls translation of the robot.
@@ -106,18 +106,17 @@ void RobotContainer::ConfigureButtonBindings() {
     // m_driverController.LeftBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
     // m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
 
-    // //algae intake
-    // m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
-    // m_driverController.RightBumper().OnFalse(StopIntake(&intake));
+    //algae intake
+    m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
+    m_driverController.RightBumper().OnFalse(StopIntake(&intake));
 
-    // m_driverController.RightTrigger().OnTrue(DeployAlgae(&intake));
-    // m_driverController.RightTrigger().OnFalse(StopDeploy(&intake));
+    m_driverController.RightTrigger().OnTrue(DeployAlgae(&intake));
+    m_driverController.RightTrigger().OnFalse(StopDeploy(&intake));
 
-    // //elevator
-    // m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
-    //                                                       {m_elevator.setPosition(0.5);},{&m_elevator}));
-    // m_driverController.B().OnTrue(frc2::cmd::RunOnce([this]
-    //                                                     {m_elevator.setPosition(20);},{&m_elevator}));
+    //elevator
+    m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
+                                                          {m_elevator.setPosition(0.5);},{&m_elevator}));
+    m_driverController.B().OnTrue(frc2::cmd::RunOnce([this]
+                                                        {m_elevator.setPosition(20);},{&m_elevator}));
  
 }
-
