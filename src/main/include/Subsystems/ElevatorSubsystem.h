@@ -15,9 +15,11 @@ class ElevatorSubsystem : public frc2::SubsystemBase
         const double elevatorI = 0;
         const double elevatorD = 0;
 
+        bool CompBotSettings=true;
+
         void setSpeed(double speed);
         void CalculatePID();
-        void getPosition();
+        double getPosition();
         void setPosition(double position);
 
          void Periodic();

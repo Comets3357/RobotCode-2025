@@ -30,7 +30,7 @@ public:
     const double wristD = 0;
     double targetWristAngle = 0;
 
-    bool isCompBot = false;
+    bool isCompBot = true;
 
 
     //initalizing measurement vehicles
