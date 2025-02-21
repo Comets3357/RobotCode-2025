@@ -1,52 +1,11 @@
 #include "RobotContainer.h"
-#include <frc/geometry/Translation2d.h>
-#include <frc/shuffleboard/Shuffleboard.h>
-#include <frc/trajectory/Trajectory.h>
-#include <frc/trajectory/TrajectoryGenerator.h>
-#include <frc2/command/InstantCommand.h>
-#include <frc2/command/SequentialCommandGroup.h>
-#include <frc2/command/SwerveControllerCommand.h>
-#include <frc2/command/button/JoystickButton.h>
-#include <frc2/command/Commands.h>
-#include <units/angle.h>
-#include <units/velocity.h>
-#include <utility>
-#include "Constants.h"
-#include "subsystems/DriveSubsystem.h"
 
-//...
-
-// This will start Redux CANLink manually for C++
 
 using namespace DriveConstants;
 
-RobotContainer::RobotContainer():
-     DoStuff(
-    [this] {
-    m_elevator.setPosition(20);
-    },
-    [this] {},
-    [this](bool interrupted) {},
-    [this] {
-        return m_elevator.getPosition() >= 19.99;
-    },
-    {&m_elevator}
-    ),    
-     DoStuff2(
-        [this] {
-    m_elevator.setPosition(5);
-    },
-    [this] {},
-    [this](bool interrupted) {},
-    [this] {
-        return m_elevator.getPosition() <= 5.1;
-    },
-    {&m_elevator}
-    )
-
+RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
-
     // Configure the button bindings
     ConfigureButtonBindings();
     ConfigureBindings();
@@ -67,10 +26,50 @@ RobotContainer::RobotContainer():
     //             true);
     //     },
     //     {&m_drive}));
+    // DoStuff = frc2::FunctionalCommand(
+    //     [this] {m_elevator.setPosition(20);},
+    //     [this] {},
+    //     [this](bool interrupted) {},
+    //     [this] {return m_elevator.getPosition() >= 19.99;},
+    //     {&m_elevator}
+    // )
+    // DoStuff2 = frc2::FunctionalCommand(
+    //     [this] {m_elevator.setPosition(5);},
+    //     [this] {},
+    //     [this](bool interrupted) {},
+    //     [this] {return m_elevator.getPosition() <= 5.1;},
+    //     {&m_elevator}
+    // )
+    // ElevatorSequence = frc2::SequentialCommandGroup(
+    //     std::move(DoStuff), 
+    //     std::move(DoStuff2)
+    // ).ToPtr();
+    //m_driverController.A().OnTrue(frc2::cmd::RunOnce([this] {m_elevator.setPosition(20);}).AlongWith(frc2::cmd::WaitUntil([this] {m_elevator.getPosition()>=19.99;})));
 
-    
-    
-}
+    if(m_elevator.CompBotSettings==false)
+    {
+        // m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
+        // { m_elevator.setPosition(20); }).AlongWith(frc2::cmd::WaitUntil([this]
+        // { return m_elevator.getPosition() >= 19.5; })).AndThen(frc2::cmd::RunOnce([this]
+        // {m_elevator.setPosition(5);}).AlongWith(frc2::cmd::WaitUntil([this]{return m_elevator.getPosition()<=5.5;})))
+        // .AndThen((DeployAlgae(&intake))));
+
+        m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
+        { m_elevator.setPosition(20); }).AlongWith(frc2::cmd::WaitUntil([this]{ return m_elevator.getPosition() >= 19.8; }))
+        .AndThen(frc2::cmd::RunOnce([this]{m_elevator.setPosition(5); intake.SetAngle(165_deg); intake.Intake(0.3);})).AlongWith(frc2::cmd::WaitUntil([this]{ return m_elevator.getPosition()<=4.8;}))                                                                                                                                                                                                                                                
+        // .AlongWith((DeployAlgae(&intake))))                            
+        .AndThen(StopDeploy(&intake)))/*.AlongWith(frc2::cmd::WaitUntil([this] {return m_elevator.getPosition()<=7;}))*/;
+
+    }
+    else
+    {                                                                                             
+        m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
+        { m_elevator.setPosition(15); }).AlongWith(frc2::cmd::WaitUntil([this]
+        { return m_elevator.getPosition() >= 14.5; })).AndThen(frc2::cmd::RunOnce([this]
+        {m_elevator.setPosition(10);})));
+    }
+     
+} 
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
@@ -79,20 +78,7 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 
 void RobotContainer::ConfigureButtonBindings()
 {
-    // m_driverController.RightBumper().WhileTrue(new frc2::RunCommand([this]
-    //                                                                 { m_drive.SetX(); }, {&m_drive}));
-    // m_driverController.X().WhileTrue(new frc2::RunCommand([this]
-    //                                                       { m_drive.ZeroHeading(); }, {&m_drive}));
-   // m_driverController.A().WhileTrue(new frc2::RunCommand([this]
-    //                                                       { m_elevator.ElevatorExtend(); }, {&m_elevator}));
-    // m_driverController.B().WhileTrue(new frc2::RunCommand([this]
-    //                                                       { m_elevator.ElevatorRetract(); }, {&m_elevator}));
-    // m_driverController.A().WhileFalse(new frc2::RunCommand([this]
-    //                                                       { m_elevator.ElevatorStop(); }, {&m_elevator}));
-    // m_driverController.B().WhileFalse(new frc2::RunCommand([this]
-    //                                                       { m_elevator.ElevatorStop(); }, {&m_elevator}));
-//m_elevator.SetDefaultCommand(frc2::cmd::Run([this]{m_elevator.setSpeed(m_driverController.GetRightY()*0.5);},{&m_elevator}));
-
+    
 }
 
 void RobotContainer::ConfigureBindings()
@@ -107,13 +93,15 @@ void RobotContainer::ConfigureBindings()
     m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
 
     //algae intake
-    m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
-    m_driverController.RightBumper().OnFalse(StopIntake(&intake));
+    // m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
+    // m_driverController.RightBumper().OnFalse(StopIntake(&intake));
 
-    m_driverController.RightTrigger().OnTrue(DeployAlgae(&intake));
-    m_driverController.RightTrigger().OnFalse(StopDeploy(&intake));
+    // m_driverController.RightTrigger().OnTrue(DeployAlgae(&intake));
+    // m_driverController.RightTrigger().OnFalse(StopDeploy(&intake));
     
     //elevator
-    m_driverController.A().OnTrue(&DoStuff);
-    m_driverController.B().OnTrue(&DoStuff2);
+    // m_driverController.A().OnTrue(&DoStuff);
+    // m_driverController.B().OnTrue(&DoStuff2);
+    // m_driverController.A().OnTrue(std::move(ElevatorSequence));
+   
 }
