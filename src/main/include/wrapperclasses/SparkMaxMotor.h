@@ -60,6 +60,7 @@ public:
     void setPositionWrappingMaxInput(double maxInput) override;
     void setPositionWrappingMaxRange(double minInput, double maxInput) override;
     void setReference(double ref, controlType ctrl) override;
+    void setReference(double ref, controlType ctrl, double arbFeedForward) override;
 
     // ABSOLUTE ENCODER CONFIG //
 
