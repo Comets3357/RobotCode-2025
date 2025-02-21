@@ -26,10 +26,10 @@ ElevatorSubsystem::ElevatorSubsystem()
     }
     else
     {
-        MainElevatorMotor.setRelativePositionConversionFactor(56.7);
-        MainElevatorMotor.setRelativeVelocityConversionFactor(0.0945);//in/motor rotation .021 in per sec
-        FollowElevatorMotor.setRelativePositionConversionFactor(1);
-        FollowElevatorMotor.setRelativeVelocityConversionFactor(1);
+        MainElevatorMotor.setAbsolutePositionConversionFactor(56.7);
+        MainElevatorMotor.setAbsoluteVelocityConversionFactor(0.945);//in/motor rotation .021 in per sec
+        FollowElevatorMotor.setAbsolutePositionConversionFactor(1);
+        FollowElevatorMotor.setAbsoluteVelocityConversionFactor(0.945);
         MainElevatorMotor.SetSmartCurrentLimit(50);
         FollowElevatorMotor.SetSmartCurrentLimit(50);
         MainElevatorMotor.setPID(elevatorP, elevatorI, elevatorD);
@@ -38,8 +38,8 @@ ElevatorSubsystem::ElevatorSubsystem()
         MainElevatorMotor.setInverted(false);
         MainElevatorMotor.enableForwardSoftLimit(true);
         MainElevatorMotor.enableReverseSoftLimit(true);
-        MainElevatorMotor.setForwardSoftLimit(40);
-        MainElevatorMotor.setReverseSoftLimit(0);
+        MainElevatorMotor.setForwardSoftLimit(50);
+        MainElevatorMotor.setReverseSoftLimit(3);
         MainElevatorMotor.setMinOutput(-0.5);
         MainElevatorMotor.setMaxOutput(0.5);
         FollowElevatorMotor.SetFollow(MainElevatorMotor);

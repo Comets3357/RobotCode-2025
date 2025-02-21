@@ -56,9 +56,8 @@ RobotContainer::RobotContainer()
 
         m_driverController.A().OnTrue(frc2::cmd::RunOnce([this]
         { m_elevator.setPosition(20); }).AlongWith(frc2::cmd::WaitUntil([this]{ return m_elevator.getPosition() >= 19.8; }))
-        .AndThen(frc2::cmd::RunOnce([this]{m_elevator.setPosition(5); intake.SetAngle(165_deg); intake.Intake(0.3);})).AlongWith(frc2::cmd::WaitUntil([this]{ return m_elevator.getPosition()<=4.8;}))                                                                                                                                                                                                                                                
-        // .AlongWith((DeployAlgae(&intake))))                            
-        .AndThen(StopDeploy(&intake)))/*.AlongWith(frc2::cmd::WaitUntil([this] {return m_elevator.getPosition()<=7;}))*/;
+        .AndThen(frc2::cmd::RunOnce([this]{m_elevator.setPosition(5); intake.SetAngle(165_deg); intake.Intake(0.3);})).AlongWith(frc2::cmd::WaitUntil([this]{ return m_elevator.getPosition()<=5.2;}))
+        .AndThen(StopDeploy(&intake))).AlongWith(frc2::cmd::WaitUntil([this] {return m_elevator.getPosition()<=4.5;}));
 
     }
     else
