@@ -19,6 +19,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "Constants.h"
 #include "MAXSwerveModule.h"
+#include "wrapperclasses/GyroWrapper.h"
 
 class DriveSubsystem : public frc2::SubsystemBase
 {
@@ -127,7 +128,9 @@ private:
     MAXSwerveModule m_frontRight;
     MAXSwerveModule m_rearRight;
 
-    redux::sensors::canandgyro::Canandgyro m_gyro{9};
+
+   GyroWrapper m_gyro{}; 
+    //redux::sensors::canandgyro::Canandgyro m_gyro{9};
 
     frc::SwerveDriveOdometry<4> m_odometry;
 };

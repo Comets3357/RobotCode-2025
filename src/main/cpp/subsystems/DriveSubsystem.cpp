@@ -78,8 +78,7 @@ void DriveSubsystem::DriveFromChassisSpeeds(frc::ChassisSpeeds speed, bool field
 
 frc::Rotation2d DriveSubsystem::GetGyroHeading()
 {
-
-    return m_gyro.GetRotation2d();
+    return m_gyro.Get2DRotation(); 
 }
 
 double DriveSubsystem::GetChassisSpeed()
@@ -160,9 +159,13 @@ void DriveSubsystem::ResetEncoders()
     m_rearRight.ResetEncoders();
 }
 
-void DriveSubsystem::ZeroHeading() { m_gyro.SetYaw(units::angle::turn_t{0}, 50_ms); }
+void DriveSubsystem::ZeroHeading() 
+{ 
+    m_gyro.ZeroGyro(); 
+
+}
 void DriveSubsystem::ZeroHeading(frc::Pose2d degree) {
-    m_gyro.SetYaw(degree.Rotation().Degrees(), 50_ms); 
+   m_gyro.ZeroGyro(); 
 }
 
 double DriveSubsystem::GetTurnRate()
@@ -174,6 +177,8 @@ frc::Pose2d DriveSubsystem::GetPose() { return m_odometry.GetPose(); }
 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose)
 {
+    units::degree_t angle{pose.Rotation().Degrees()}; 
+    m_gyro.SetAngle(angle); 
     m_odometry.ResetPosition(
         GetGyroHeading(),
         {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
