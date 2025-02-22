@@ -14,6 +14,8 @@
 #include <utility>
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "Subsystems/ElevatorSubsystem.h"
+#include "Subsystems/ElbowSubsystem.h"
 #include "commands/IntakeCommands.h"
 
 using namespace DriveConstants; 
@@ -21,7 +23,6 @@ using namespace DriveConstants;
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
-
     // Configure the button bindings
     ConfigureButtonBindings();
 
@@ -79,13 +80,50 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::ConfigureButtonBindings() {
 
+    m_driverController.LeftTrigger().OnTrue(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 295)
+        .AlongWith(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 0))
+        .AlongWith(frc2::cmd::/* CONDITIONAL */WaitUntil( [this] { return m_elbowSubsystem.getWristAngle() < 2}))
+        .AndThen(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 305)));
+
+
+
+
     //elbow
+    m_driverController.LeftBumper().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 0));
 
+    //pickup from ground
+    m_driverController.LeftTrigger().OnTrue(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 300));
+    m_driverController.LeftTrigger().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 0));
+    m_driverController.LeftTrigger().OnTrue(DefaultElbowCommand::setRollerSpeed(&m_elbowSubsystem, 0.4));
+    m_driverController.LeftTrigger().OnTrue(frc2::cmd::RunOnce([this] 
+        {m_elevator.setPosition(4);}, {&m_elevator}));
 
+    //idle
+    m_driverController.RightTrigger().OnTrue(DefaultElbowCommand::setRollerSpeed(&m_elbowSubsystem, 0));
+    m_driverController.RightTrigger().OnTrue(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 180));
+    m_driverController.RightTrigger().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 90));
+    m_driverController.RightTrigger().OnTrue(frc2::cmd::RunOnce([this] 
+        {m_elevator.setPosition(4);}, {&m_elevator}));
+
+    m_driverController.X().OnTrue(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 225));
+    m_driverController.X().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 0));
+    m_driverController.X().OnTrue(frc2::cmd::RunOnce([this] 
+        {m_elevator.setPosition(10);}, {&m_elevator}));
+
+    m_driverController.B().OnTrue(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 225));
+    m_driverController.B().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 0));
+    m_driverController.B().OnTrue(frc2::cmd::RunOnce([this] 
+        {m_elevator.setPosition(20);}, {&m_elevator}));
+
+    m_driverController.Y().OnTrue(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 210));
     // m_driverController.Y().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 0));
-    // m_driverController.X().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 90));
-    // m_driverController.A().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 180));
-    // m_driverController.B().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 270));
+    // m_driverController.Y().OnTrue(frc2::cmd::RunOnce([this] 
+        {m_elevator.setPosition(39);}, {&m_elevator}));
+
+    m_driverController.A().OnTrue(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 90));
+
+    // m_driverController.RightBumper().OnTrue(DefaultElbowCommand::setRollerSpeed(&m_elbowSubsystem, 0.5));
+    // m_driverController.RightBumper().OnFalse(DefaultElbowCommand::setRollerSpeed(&m_elbowSubsystem, 0));
 
     // m_driverController.LeftTrigger().OnTrue(DefaultElbowCommand::setElbowSpeed(&m_elbowSubsystem, 0.2));
     // m_driverController.LeftBumper().OnTrue(DefaultElbowCommand::setElbowSpeed(&m_elbowSubsystem, -0.2));
@@ -108,7 +146,7 @@ void RobotContainer::ConfigureButtonBindings() {
     // m_driverController.LeftBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
     // m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
 
-    // //algae intake
+    //algae intake
     // m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
     // m_driverController.RightBumper().OnFalse(StopIntake(&intake));
 
@@ -122,4 +160,3 @@ void RobotContainer::ConfigureButtonBindings() {
     //                                                     {m_elevator.setPosition(20);},{&m_elevator}));
  
 }
-

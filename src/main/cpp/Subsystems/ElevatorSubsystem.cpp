@@ -28,14 +28,15 @@ ElevatorSubsystem::ElevatorSubsystem()
     {
         MainElevatorMotor.setAbsolutePositionConversionFactor(56.7);
         MainElevatorMotor.setAbsoluteVelocityConversionFactor(0.945);//in/motor rotation .021 in per sec
-        FollowElevatorMotor.setAbsolutePositionConversionFactor(56.7);
+        MainElevatorMotor.setAbsoluteEncoderInverted(true);
+        FollowElevatorMotor.setAbsolutePositionConversionFactor(1);
         FollowElevatorMotor.setAbsoluteVelocityConversionFactor(0.945);
         MainElevatorMotor.SetSmartCurrentLimit(50);
         FollowElevatorMotor.SetSmartCurrentLimit(50);
         MainElevatorMotor.setPID(elevatorP, elevatorI, elevatorD);
         FollowElevatorMotor.setPID(elevatorP, elevatorI, elevatorD);
-        FollowElevatorMotor.setInverted(true);
-        MainElevatorMotor.setInverted(false);
+        FollowElevatorMotor.setInverted(false);
+        MainElevatorMotor.setInverted(true);
         MainElevatorMotor.enableForwardSoftLimit(true);
         MainElevatorMotor.enableReverseSoftLimit(true);
         MainElevatorMotor.setForwardSoftLimit(50);
@@ -43,6 +44,7 @@ ElevatorSubsystem::ElevatorSubsystem()
         MainElevatorMotor.setMinOutput(-0.5);
         MainElevatorMotor.setMaxOutput(0.5);
         FollowElevatorMotor.SetFollow(MainElevatorMotor);
+        MainElevatorMotor.setFeedbackSensor(Motor::encoderType::absolute);
         MainElevatorMotor.configure();
         FollowElevatorMotor.configure();  
     }
