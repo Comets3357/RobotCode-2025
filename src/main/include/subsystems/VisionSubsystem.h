@@ -38,17 +38,22 @@ frc::Transform3d robotToCam2 =
 
             
 
-photon::PhotonPoseEstimator poseEstimatorOne{kTagLayout, photon::PoseStrategy::CLOSEST_TO_LAST_POSE, robotToCam1};
-photon::PhotonPoseEstimator poseEstimatorTwo{kTagLayout, photon::PoseStrategy::CLOSEST_TO_LAST_POSE, robotToCam2};
+photon::PhotonPoseEstimator poseEstimatorOne{kTagLayout, photon::PoseStrategy::CLOSEST_TO_REFERENCE_POSE, robotToCam1};
+photon::PhotonPoseEstimator poseEstimatorTwo{kTagLayout, photon::PoseStrategy::CLOSEST_TO_REFERENCE_POSE, robotToCam2};
 
 
 frc::Pose3d prevEstimatedRobotPose = frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)};
 
-std::vector<frc::Pose3d> getEstimatedGlobalPose(frc::Pose3d prevEstimatedRobotPose); 
+std::vector<photon::EstimatedRobotPose> getEstimatedGlobalPose(frc::Pose3d prevEstimatedRobotPose); 
 
 //  std::optional<photon::EstimatedRobotPose> EstimatedPose();
- 
-std::optional<frc::Pose3d> GetVisionPose();/* {
+
+std::optional<frc::Pose3d> GetVisionPose();
+
+private: 
+    units::second_t lastProcessedTimeOne = 0_s;
+    units::second_t lastProcessedTimeTwo = 0_s;
+/* {
 
   std::vector<photon::PhotonPipelineResult> unreadResultsOne = cameraOne.GetAllUnreadResults();
   std::vector<photon::PhotonPipelineResult> unreadResultsTwo = cameraTwo.GetAllUnreadResults();

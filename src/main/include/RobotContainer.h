@@ -20,6 +20,7 @@ public:
 
     // DriveSubsystem m_drive;
     VisionSubsystem m_visionSubsystem;
+    DriveSubsystem m_drive;
     
 
 private:

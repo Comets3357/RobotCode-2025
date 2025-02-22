@@ -61,21 +61,20 @@ void DriveSubsystem::UpdateOdometry() {
   // Also apply vision measurements. We use 0.3 seconds in the past as an
   // example -- on a real robot, this must be calculated based either on latency
   // or timestamps.
+  estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
 
-  std::vector<frc::Pose3d> estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
+  if (estimatedPoseVector.size() == 0)
+  {
 
-//   if (estimatedPoseVector.size() == 0)
-//   {
-
-//   } 
-//   if (estimatedPoseVector.size() == 1)
-//   {
-//     m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(0).ToPose2d(), frc::Timer::GetFPGATimestamp()); 
-//   } else if (estimatedPoseVector.size() == 2)
-//   {
-//     m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(0).ToPose2d(), frc::Timer::GetFPGATimestamp()); 
-//     m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(1).ToPose2d(), frc::Timer::GetFPGATimestamp()); 
-//   }
+  } 
+  if (estimatedPoseVector.size() == 1)
+  {
+    m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(0).estimatedPose.ToPose2d(), estimatedPoseVector.at(0).timestamp); 
+  } else if (estimatedPoseVector.size() == 2)
+  {
+    m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(0).estimatedPose.ToPose2d(), estimatedPoseVector.at(0).timestamp); 
+    m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(1).estimatedPose.ToPose2d(), estimatedPoseVector.at(1).timestamp); 
+  }
 
 }
 

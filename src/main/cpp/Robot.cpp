@@ -16,18 +16,28 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutData("Field", &m_field);
     // Do this in either robot periodic or subsystem periodic
     //m_field.SetRobotPose(m_container.m_drive.GetPose());
-    //m_container.m_drive.UpdateOdometry();
+    m_container.m_drive.UpdateOdometry();
 
-    // frc::SmartDashboard::PutNumber("robot pose X", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().X().value());
-    // frc::SmartDashboard::PutNumber("robot pose Y", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().Y().value());
-    // frc::SmartDashboard::PutNumber("odometry X", m_container.m_drive.m_odometry.GetPose().X().value());
-    // frc::SmartDashboard::PutNumber("odometry Y", m_container.m_drive.m_odometry.GetPose().Y().value());
-    if (m_container.m_visionSubsystem.getEstimatedGlobalPose(m_container.m_visionSubsystem.prevEstimatedRobotPose).size() > 0) {
-        m_container.m_visionSubsystem.prevEstimatedRobotPose = m_container.m_visionSubsystem.getEstimatedGlobalPose(m_container.m_visionSubsystem.prevEstimatedRobotPose).at(0);
-        frc::SmartDashboard::PutNumber("Distance X", m_container.m_visionSubsystem.prevEstimatedRobotPose.X().value());
-        frc::SmartDashboard::PutNumber("Distance Y", m_container.m_visionSubsystem.prevEstimatedRobotPose.Y().value());
-        frc::SmartDashboard::PutNumber("Distance Z", m_container.m_visionSubsystem.prevEstimatedRobotPose.Z().value());
+    frc::SmartDashboard::PutNumber("robot pose X", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().X().value());
+    frc::SmartDashboard::PutNumber("robot pose Y", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().Y().value());
+    frc::SmartDashboard::PutNumber("odometry X", m_container.m_drive.m_odometry.GetPose().X().value());
+    frc::SmartDashboard::PutNumber("odometry Y", m_container.m_drive.m_odometry.GetPose().Y().value());
+    frc::SmartDashboard::PutNumber("estimated pose vector value", m_container.m_drive.estimatedPoseVector.size());
+
+    if(m_container.m_drive.estimatedPoseVector.size() > 0) {
+    frc::SmartDashboard::PutNumber("estimated pose vector X", m_container.m_drive.estimatedPoseVector.at(0).estimatedPose.ToPose2d().X().value());
+    frc::SmartDashboard::PutNumber("estimated pose vector Y", m_container.m_drive.estimatedPoseVector.at(0).estimatedPose.ToPose2d().Y().value());
     }
+
+
+
+    // auto lastPose = m_container.m_drive.estimatedPoseVector.at(0);
+    // if (lastPose != frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)}) {
+    //     m_container.m_visionSubsystem.prevEstimatedRobotPose = lastPose;
+    //     frc::SmartDashboard::PutNumber("Distance X", m_container.m_visionSubsystem.prevEstimatedRobotPose.X().value());
+    //     frc::SmartDashboard::PutNumber("Distance Y", m_container.m_visionSubsystem.prevEstimatedRobotPose.Y().value());
+    //     frc::SmartDashboard::PutNumber("Distance Z", m_container.m_visionSubsystem.prevEstimatedRobotPose.Z().value());
+    // }
 
     // if (m_container.m_visionSubsystem.EstimatedPose().has_value()) {
     // frc::SmartDashboard::PutNumber("hail mary X", (double) m_container.m_visionSubsystem.EstimatedPose().value().estimatedPose.X());

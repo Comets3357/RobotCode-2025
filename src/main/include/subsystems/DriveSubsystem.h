@@ -130,8 +130,7 @@ private:
 
     redux::sensors::canandgyro::Canandgyro m_gyro{9};
 
-  
-    double temp = m_frontLeft.GetPosition().distance();
+
 
 public:
     frc::SwerveDriveOdometry<4> m_odometry;
@@ -145,5 +144,7 @@ public:
       {0.1, 0.1, 0.1},
       {0.1, 0.1, 0.1}
       };
+
+    std::vector<photon::EstimatedRobotPose> estimatedPoseVector;
   
 };
