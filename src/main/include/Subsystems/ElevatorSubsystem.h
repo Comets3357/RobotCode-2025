@@ -16,12 +16,14 @@ class ElevatorSubsystem : public frc2::SubsystemBase
         const double elevatorD = 3;
 
         bool CompBotSettings = true;
+        double scoringOffset = 25;
 
-        bool CompBotSettings=true;
+       
 
         void setSpeed(double speed);
         void CalculatePID();
-        double getPosition();
+        double getRPosition();
+        double getAPosition();
         void setPosition(double position);
 
         void Periodic();

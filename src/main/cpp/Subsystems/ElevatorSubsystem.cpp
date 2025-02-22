@@ -29,7 +29,7 @@ ElevatorSubsystem::ElevatorSubsystem()
         MainElevatorMotor.setAbsolutePositionConversionFactor(56.7);
         MainElevatorMotor.setAbsoluteVelocityConversionFactor(0.945);//in/motor rotation .021 in per sec
         MainElevatorMotor.setAbsoluteEncoderInverted(true);
-        FollowElevatorMotor.setAbsolutePositionConversionFactor(1);
+        FollowElevatorMotor.setAbsolutePositionConversionFactor(56.7);
         FollowElevatorMotor.setAbsoluteVelocityConversionFactor(0.945);
         MainElevatorMotor.SetSmartCurrentLimit(50);
         FollowElevatorMotor.SetSmartCurrentLimit(50);
@@ -39,8 +39,10 @@ ElevatorSubsystem::ElevatorSubsystem()
         MainElevatorMotor.setInverted(true);
         MainElevatorMotor.enableForwardSoftLimit(true);
         MainElevatorMotor.enableReverseSoftLimit(true);
-        MainElevatorMotor.setForwardSoftLimit(50);
-        MainElevatorMotor.setReverseSoftLimit(3);
+        FollowElevatorMotor.enableForwardSoftLimit(false);
+        FollowElevatorMotor.enableReverseSoftLimit(false);
+        MainElevatorMotor.setForwardSoftLimit(56);
+        MainElevatorMotor.setReverseSoftLimit(7);
         MainElevatorMotor.setMinOutput(-0.5);
         MainElevatorMotor.setMaxOutput(0.5);
         FollowElevatorMotor.SetFollow(MainElevatorMotor);
@@ -61,11 +63,17 @@ void ElevatorSubsystem::setPosition(double position)
     MainElevatorMotor.setReference(position, Motor::controlType::position);
 }
 
-double ElevatorSubsystem::getPosition()
+double ElevatorSubsystem::getRPosition()
 {
     return MainElevatorMotor.GetRelativePosition();
 }
+
+double ElevatorSubsystem::getAPosition()
+{
+    return MainElevatorMotor.GetAbsolutePosition();
+}
+
 void ElevatorSubsystem::Periodic()
 {
-    frc::SmartDashboard::PutNumber("elevatorPos", MainElevatorMotor.GetRelativePosition());
+    frc::SmartDashboard::PutNumber("elevatorPos", MainElevatorMotor.GetAbsolutePosition());
 }
