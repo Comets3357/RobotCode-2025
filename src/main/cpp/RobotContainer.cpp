@@ -75,6 +75,10 @@ RobotContainer::RobotContainer()
 
             /**/
 
+        // ZERO GYRO BUTTON
+
+        m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
+
         //intake down
          m_driverController.A().OnTrue( frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.75);}, {&m_elbowSubsystem})
          .AlongWith(frc2::cmd::/* CONDITIONAL */WaitUntil( [this] { return m_elbowSubsystem.getWristAngle() < 2;}))
