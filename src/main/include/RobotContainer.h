@@ -43,6 +43,7 @@ private:
     // The driver's controller
     frc2::CommandXboxController m_driverController{OIConstants::kDriverControllerPort};
     frc2::CommandXboxController m_secondaryController{OIConstants::kSecondaryControllerPort};
+
     // The robot's subsystems and commands are defined here...
     // The robot's subsystems
     // The chooser for the autonomous routines

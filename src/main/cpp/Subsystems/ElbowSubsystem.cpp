@@ -78,7 +78,7 @@ ElbowSubsystem::ElbowSubsystem() {
         elbowMotor->configure();
         wristMotor.configure();
 
-        rollerMotor.SetSmartCurrentLimit(40);  
+        rollerMotor.SetSmartCurrentLimit(20);  
     }    
 }
 
