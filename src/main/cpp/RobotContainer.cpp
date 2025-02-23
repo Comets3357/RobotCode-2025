@@ -80,8 +80,11 @@ RobotContainer::RobotContainer()
 
         //m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
 
-        // m_drive.Start().OnTrue(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(0.3);}, {&m_climb}));
-        // m_drive.False().OnTrue(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(-0.3);}, {&m_climb}));
+        m_drive.Start().OnTrue(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(0.3);}, {&m_climb}));
+        m_drive.False().OnTrue(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(-0.3);}, {&m_climb}));
+
+        m_drive.Start().OnFalse(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(0);}, {&m_climb}));
+        m_drive.False().OnFalse(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(0);}, {&m_climb}));
 
         //intake down
          m_secondaryController.RightTrigger().OnTrue( frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.25);}, {&m_elbowSubsystem})
@@ -108,10 +111,12 @@ RobotContainer::RobotContainer()
         //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;})))
         //  .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}))); 
 
+        //L4 placement before scoring
          m_secondaryController.Y().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((51)); })
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (50);}))
          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);})));
 
+        //
          m_secondaryController.LeftBumper().OnTrue((frc2::cmd::RunOnce([this]{ m_elevator.setPosition((32)); m_elbowSubsystem.setRollerSpeed(-0.1);}))
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (33);}))
          .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); }))
