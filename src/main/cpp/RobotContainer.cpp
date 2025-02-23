@@ -60,6 +60,11 @@ void RobotContainer::ConfigureButtonBindings() {
         .AlongWith(frc2::cmd::/* CONDITIONAL */WaitUntil( [this] { return m_elbowSubsystem.getWristAngle() < 2}))
         .AndThen(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 305)));
 
+    //L2
+    m_driverController.X().OnTrue(frc2::cmd::RunOnce([this] {m_elevator.setPosition(10)})
+        .AlongWith([this] { return m_elbowSubsystem.setWristAngle(0)})
+        .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getPosition() > 9 && m_elevator.getPosition() < 11}))
+        .AndThen([this] { return m_elbowSubsystem.setElbowAngle(200)})); 
 
 
 
