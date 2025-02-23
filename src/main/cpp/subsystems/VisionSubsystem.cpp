@@ -16,20 +16,21 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
     auto cameraResults1 = unreadResultsOne[0];
     units::second_t frameTime1{cameraResults1.GetTimestamp().value()};
 
-
+    
     if (cameraResults1.GetTimestamp().value() != 0) {
             units::second_t frameTime1{cameraResults1.GetTimestamp().value()};
             
             if (frameTime1 > lastProcessedTimeOne && frameTime1 <= currentTime) {
                 result1 = poseEstimatorOne.Update(cameraResults1);
                 lastProcessedTimeOne = frameTime1;  // Update last processed time
-                fmt::print("YAY PROCESSED A FRAME\n");
+                fmt::print("YAY PROCESSED A FRAME 1\n");
             } else {
                 fmt::print("Skipping outdated or duplicate frame from Camera 1\n");
             }
         }
 
   }
+  
 
   if (unreadResultsTwo.size() > 0) {
 
@@ -43,9 +44,9 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
             if (frameTime2 > lastProcessedTimeTwo && frameTime2 <= currentTime) {
                 result2 = poseEstimatorTwo.Update(cameraResults2);
                 lastProcessedTimeTwo = frameTime2;  // Update last processed time
-                fmt::print("YAY PROCESSED A FRAME\n");
+                fmt::print("YAY PROCESSED A FRAME 2\n");
             } else {
-                fmt::print("Skipping outdated or duplicate frame from Camera 1\n");
+                fmt::print("Skipping outdated or duplicate frame from Camera 2\n");
             }
         }
     
@@ -60,18 +61,3 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
   
   return poses;
 }
-
-// std::optional<photon::EstimatedRobotPose> VisionSubsystem::EstimatedPose() {
-//   std::vector<photon::PhotonPipelineResult> unreadResultsOne = cameraOne.GetAllUnreadResults();
-//   std::optional<photon::EstimatedRobotPose> visionEst;
-
-//     // Run each new pipeline result through our pose estimator
-//     for (const auto& result : cameraOne.GetAllUnreadResults()) {
-//       // cache result and update pose estimator
-//       visionEst = poseEstimatorOne.Update(result);
-//       }
-
-//   return visionEst; 
-// }
-
-

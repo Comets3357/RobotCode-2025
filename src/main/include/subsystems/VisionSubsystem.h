@@ -36,7 +36,7 @@ frc::Transform3d robotToCam2 =
     frc::Transform3d(frc::Translation3d(0_m, 0_m, 0_m),
                     frc::Rotation3d(0.5_rad, 0_rad, 0_rad));
 
-            
+
 
 photon::PhotonPoseEstimator poseEstimatorOne{kTagLayout, photon::PoseStrategy::CLOSEST_TO_REFERENCE_POSE, robotToCam1};
 photon::PhotonPoseEstimator poseEstimatorTwo{kTagLayout, photon::PoseStrategy::CLOSEST_TO_REFERENCE_POSE, robotToCam2};
@@ -46,45 +46,12 @@ frc::Pose3d prevEstimatedRobotPose = frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_
 
 std::vector<photon::EstimatedRobotPose> getEstimatedGlobalPose(frc::Pose3d prevEstimatedRobotPose); 
 
-//  std::optional<photon::EstimatedRobotPose> EstimatedPose();
+ std::optional<photon::EstimatedRobotPose> EstimatedPose();
 
 std::optional<frc::Pose3d> GetVisionPose();
 
 private: 
     units::second_t lastProcessedTimeOne = 0_s;
     units::second_t lastProcessedTimeTwo = 0_s;
-/* {
 
-  std::vector<photon::PhotonPipelineResult> unreadResultsOne = cameraOne.GetAllUnreadResults();
-  std::vector<photon::PhotonPipelineResult> unreadResultsTwo = cameraTwo.GetAllUnreadResults();
-  units::millisecond_t currentTime = frc::Timer::GetFPGATimestamp();
-  std::optional<photon::EstimatedRobotPose> result1;
-  std::optional<photon::EstimatedRobotPose> result2;
-  std::vector<frc::Pose3d> poses;
-
-  poseEstimatorOne.SetReferencePose(prevEstimatedRobotPose);
-  poseEstimatorTwo.SetReferencePose(prevEstimatedRobotPose);
-
-
-  if (unreadResultsOne.size() > 0) {
-    cameraResults = unreadResultsOne.at(0);
-    result1 = poseEstimatorOne.Update(cameraResults);
-  }
-
-  if (unreadResultsTwo.size() > 0) {
-    cameraResults = unreadResultsTwo.at(0);
-    result2 = poseEstimatorTwo.Update(cameraResults);
-    
-  }
-
-  if (result1.has_value()) {
-    poses.push_back(result1.value().estimatedPose);
-  } else if (result2.has_value()) {
-    poses.push_back(result2.value().estimatedPose);
-  } else {
-
-  }
-  return poses;
-}
-*/
 }; 

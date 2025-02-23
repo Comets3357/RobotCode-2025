@@ -53,14 +53,10 @@ void DriveSubsystem::Periodic()
 }
 
 void DriveSubsystem::UpdateOdometry() {
-  /*m_poseEstimator.Update(m_gyro.GetRotation2d(),
+  m_poseEstimator.Update(m_gyro.GetRotation2d(),
                          {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                           m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
-                          */
- 
-  // Also apply vision measurements. We use 0.3 seconds in the past as an
-  // example -- on a real robot, this must be calculated based either on latency
-  // or timestamps.
+                          
   estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
 
   if (estimatedPoseVector.size() == 0)
