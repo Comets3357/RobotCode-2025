@@ -7,7 +7,7 @@ void LEDSubsystem::Periodic()
 {
     LEDSubsystem::enabled = frc::DriverStation::IsEnabled();
     LEDSubsystem::comms = frc::DriverStation::IsDSAttached();
-    LED1.SetLength(5);
+    LED1.SetLength(31F);
     LED1.Start();
 
     
@@ -15,7 +15,7 @@ void LEDSubsystem::Periodic()
     {
         if(!comms)
         {
-            for (size_t i = 0; i < 5; i++)
+            for (size_t i = 0; i <31; i++)
             {
                 LED_DATA[i].SetRGB(255,0,0);
             }
@@ -24,7 +24,7 @@ void LEDSubsystem::Periodic()
         }
         else if (comms)
         {
-            for (size_t i = 0; i < 5; i++)
+            for (size_t i = 0; i <31; i++)
             {
                 LED_DATA[i].SetRGB(0,255,0);
             }
@@ -33,7 +33,7 @@ void LEDSubsystem::Periodic()
         }
         else if(gyroZero)
         {
-            for (size_t i = 0; i < 5; i++)
+            for (size_t i = 0; i <31; i++)
             {
                 LED_DATA[i].SetRGB(255,128,0);
             }
@@ -44,7 +44,7 @@ void LEDSubsystem::Periodic()
     }
     if(enabled)
     {        
-           for (size_t i = 0; i < 5; i++)
+           for (size_t i = 0; i <31; i++)
             {
                 LED_DATA[i].SetRGB(255,255,255);
             }

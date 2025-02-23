@@ -24,8 +24,8 @@ class LEDSubsystem : public frc2::SubsystemBase
         void Periodic() override;
         LEDSubsystem()
         {
-            LED1.SetLength(5);
-            for (size_t i = 0; i < 5; i++)
+            LED1.SetLength(31);
+            for (size_t i = 0; i < 31; i++)
             {
                 LED_DATA[i].SetRGB(255,255,255);
             }
