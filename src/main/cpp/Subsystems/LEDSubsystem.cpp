@@ -7,7 +7,7 @@ void LEDSubsystem::Periodic()
 {
     LEDSubsystem::enabled = frc::DriverStation::IsEnabled();
     LEDSubsystem::comms = frc::DriverStation::IsDSAttached();
-    LED1.SetLength(31F);
+    LED1.SetLength(31);
     LED1.Start();
 
     

@@ -11,7 +11,7 @@ class LEDSubsystem : public frc2::SubsystemBase
     public:
                   
 
-        std::array<frc::AddressableLED::LEDData, 5> LED_DATA;
+        std::array<frc::AddressableLED::LEDData, 31> LED_DATA;
         frc::AddressableLED LED1{0};
         // frc::AddressableLED LED2{1};
         frc::AddressableLED::LEDData LEDColors{0,0,0};
