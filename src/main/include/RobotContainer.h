@@ -26,6 +26,7 @@
 #include <utility>
 #include "Constants.h"
 #include "Commands/IntakeCommands.h"
+#include "Subsystems/LEDSubsystem.h"
 
 
 class RobotContainer
@@ -38,6 +39,7 @@ public:
     ElevatorSubsystem m_elevator;
     IntakeSubsystem intake;
     ElbowSubsystem m_elbowSubsystem;
+    LEDSubsystem m_LED;
 
 private:
     // The driver's controller

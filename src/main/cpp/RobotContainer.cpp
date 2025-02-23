@@ -82,61 +82,96 @@ RobotContainer::RobotContainer()
         //intake down
          m_secondaryController.RightTrigger().OnTrue( frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.25);}, {&m_elbowSubsystem})
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getWristAngle() < 2;}))
-         .AndThen(DefaultElbowCommand::setElbowPos(&m_elbowSubsystem, 305)));
+         .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(305);},{&m_elbowSubsystem})));
 
 
         //intake up
-        m_secondaryController.RightTrigger().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0.2);}).AlongWith(frc2::cmd::WaitUntil([this]
-        {return m_elbowSubsystem.getElbowAngle()<=295;}))
-        .AndThen(DefaultElbowCommand::setWristPos(&m_elbowSubsystem, 90))
+        m_secondaryController.RightTrigger().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0.2);},{&m_elbowSubsystem})
+        .AlongWith(frc2::cmd::WaitUntil([this]{return m_elbowSubsystem.getElbowAngle()<=295;}))
+        .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(90);},{&m_elbowSubsystem}))
         .AlongWith(frc2::cmd::RunOnce([this]{ return m_elbowSubsystem.getWristAngle()>85.5;}))
-        .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.25);}))
+        .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.25);}, {&m_elbowSubsystem}))
         .AlongWith(frc2::cmd::Wait(units::second_t{1}))
-        .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);})));
+        .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);},{&m_elbowSubsystem})));
 
-        m_secondaryController.Y().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((55)); })
-         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (54);}))
-         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);}))
+        m_secondaryController.Y().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((50));},{&m_elevator})
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (49.5);}))
+         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);},{&m_elbowSubsystem}))
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_secondaryController.GetHID().GetRightBumperButton();}))
-         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((36)); }))
-         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (36.5);}))
-         .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); })
-         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;}))
-         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(7); }))));
+         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((32)); m_elbowSubsystem.setRollerSpeed(-0.1); },{&m_elbowSubsystem, &m_elevator})
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (32.5);})))
+         .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); },{&m_elbowSubsystem})
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;})))
+         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator})));
 
-         m_secondaryController.B().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((55-25)); })
-         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (54-25);}))
-         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);}))
-         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_secondaryController.GetHID().GetRightBumperButton();}))
-         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((36-25)); }))
-         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (36.5-25);}))
-         .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); })
-         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;}))
-         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(7); }))));
+        //  m_secondaryController.Y().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((51)); })
+        //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (50);}))
+        //  .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);})));
 
-          m_secondaryController.X().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(230);})
+        //  m_secondaryController.X().OnTrue((frc2::cmd::RunOnce([this]{ m_elevator.setPosition((32)); m_elbowSubsystem.setRollerSpeed(-0.1);}))
+        //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (33);}))
+        //  .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); }))
+        //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;}))
+        //  .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); })));
+         
+        // the correct one
+        //  m_secondaryController.B().OnTrue((frc2::cmd::RunOnce([this]{ m_elevator.setPosition((51-25)); })
+        //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (50-25);})))
+        //  .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);})
+        //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_secondaryController.GetHID().GetRightBumperButton();})))
+        //  .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((32-25)); m_elbowSubsystem.setRollerSpeed(-0.1); })
+        //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (32.5-25);})))
+        //  .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); })
+        //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;})))
+        //  .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); })));
+
+         m_secondaryController.B().OnTrue(frc2::cmd::RunOnce([this] { m_elevator.setPosition(17);}, {&m_elevator})
+         .AlongWith(frc2::cmd::WaitUntil([this]{ return m_elevator.getAPosition()>16.5;}))
+         .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(225);},{&m_elevator}))
           .AlongWith(frc2::cmd::WaitUntil( [this] { return m_secondaryController.GetHID().GetRightBumperButton();}))
-          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(250);})));
+          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(250); m_elbowSubsystem.setRollerSpeed(-0.15);},{&m_elbowSubsystem})));
 
+        //  m_secondaryController.B().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((51-25)); })
+        //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (50-25);}))
+        //  .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);})));
+
+        //  m_secondaryController.A().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((32-25));m_elbowSubsystem.setRollerSpeed(-0.1); })
+        //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (32.5-25);}))
+        //  .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); }))
+        //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185; }))
+        //  .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); })));
+
+
+
+          m_secondaryController.X().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(225);}, {&m_elbowSubsystem})
+          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_secondaryController.GetHID().GetRightBumperButton();}))
+          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(250); m_elbowSubsystem.setRollerSpeed(-0.15);},{&m_elbowSubsystem})));
+
+           m_secondaryController.A().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setElbowAngle(255);}, {&m_elbowSubsystem})
+          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_secondaryController.GetHID().GetRightBumperButton();}))
+          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(-0.25);},{&m_elbowSubsystem})));
 
         
-          m_secondaryController.Start().OnTrue(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); })
+          m_secondaryController.Start().OnTrue(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180);},{&m_elbowSubsystem})
          .AlongWith(frc2::cmd::/* CONDITIONAL */WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;}))
-         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(5); })));
+         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}))
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (3.5);}))
+         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.5);},{&m_elbowSubsystem}))
+         .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
+         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);},{&m_elbowSubsystem})));
 
+          m_secondaryController.RightBumper().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(180); m_elbowSubsystem.setElbowAngle(235); }, {&m_elbowSubsystem})
+          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()>234;}))
+          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.25);},{&m_elbowSubsystem})));
 
-        //eject
-         m_driverController.LeftBumper().OnTrue( frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(270);}, {&m_elbowSubsystem})
-         .AlongWith(frc2::cmd::/* CONDITIONAL */WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle() > 265;}))
-         .AndThen(frc2::cmd::RunOnce([this]{ m_elbowSubsystem.setRollerSpeed(-0.5);})));
-        
+            m_secondaryController.RightBumper().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0); m_elbowSubsystem.setWristAngle(90); m_elbowSubsystem.setElbowAngle(180); }, {&m_elbowSubsystem})
+          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<181;})));
 
+          m_secondaryController.LeftBumper().OnTrue(IntakeAlgae(&intake));
+          m_secondaryController.LeftBumper().OnFalse(StopIntake(&intake));
 
-
-        
-        
-        
-        
+         m_secondaryController.LeftTrigger().OnTrue(DeployAlgae(&intake));
+         m_secondaryController.LeftTrigger().OnFalse(StopDeploy(&intake));       
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
