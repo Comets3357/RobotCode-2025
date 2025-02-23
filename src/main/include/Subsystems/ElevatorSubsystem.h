@@ -23,10 +23,13 @@ class ElevatorSubsystem : public frc2::SubsystemBase
         double getAPosition();
         void setPosition(double position);
 
+        void ClimbShot();
+
         void Periodic();
     private:
         //  rev::SparkMaxLimitSwitch ElevatorMax = MainElevatorMotor.GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyClosed);
         SparkMaxMotor MainElevatorMotor{11};
-        SparkMaxMotor FollowElevatorMotor{12};        
+        SparkMaxMotor FollowElevatorMotor{12};  
+        // SparkMaxMotor ClimbShot{31};      
 };
         

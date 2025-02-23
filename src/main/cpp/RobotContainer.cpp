@@ -102,7 +102,7 @@ RobotContainer::RobotContainer()
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (32.5);})))
          .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); },{&m_elbowSubsystem})
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;})))
-         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator})));
+         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}))); 
 
         //  m_secondaryController.Y().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((51)); })
         //  .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (50);}))
@@ -153,7 +153,7 @@ RobotContainer::RobotContainer()
 
         
           m_secondaryController.Start().OnTrue(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180);},{&m_elbowSubsystem})
-         .AlongWith(frc2::cmd::/* CONDITIONAL */WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;}))
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;}))
          .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}))
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (3.5);}))
          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.5);},{&m_elbowSubsystem}))
@@ -170,8 +170,10 @@ RobotContainer::RobotContainer()
           m_secondaryController.LeftBumper().OnTrue(IntakeAlgae(&intake));
           m_secondaryController.LeftBumper().OnFalse(StopIntake(&intake));
 
-         m_secondaryController.LeftTrigger().OnTrue(DeployAlgae(&intake));
-         m_secondaryController.LeftTrigger().OnFalse(StopDeploy(&intake));       
+        //  m_secondaryController.LeftTrigger().OnTrue(DeployAlgae(&intake));
+        //  m_secondaryController.LeftTrigger().OnFalse(StopDeploy(&intake));
+
+         //m_driverController.B().OnTrue(frc2::cmd::RunOnce([this]{m_elevator.ClimbShot();}));   
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
