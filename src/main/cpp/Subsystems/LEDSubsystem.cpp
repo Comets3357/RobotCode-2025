@@ -13,33 +13,33 @@ void LEDSubsystem::Periodic()
     
     if(!enabled)
     {
-        if(!comms)
-        {
-            for (size_t i = 0; i <31; i++)
-            {
-                LED_DATA[i].SetRGB(255,0,0);
-            }
-            LED1.SetData(LED_DATA);
-            // LED2.SetData(LED_DATA);
-        }
-        else if (comms)
+        if(comms)
         {
             for (size_t i = 0; i <31; i++)
             {
                 LED_DATA[i].SetRGB(0,255,0);
             }
             LED1.SetData(LED_DATA);
-            //LED2.SetData(LED_DATA);
+            // LED2.SetData(LED_DATA);
         }
-        else if(gyroZero)
+        else
         {
             for (size_t i = 0; i <31; i++)
             {
-                LED_DATA[i].SetRGB(255,128,0);
+                LED_DATA[i].SetRGB(255,0,0);
             }
             LED1.SetData(LED_DATA);
             //LED2.SetData(LED_DATA);
         }
+        // else if(gyroZero)
+        // {
+        //     for (size_t i = 0; i <31; i++)
+        //     {
+        //         LED_DATA[i].SetRGB(255,128,0);
+        //     }
+        //     LED1.SetData(LED_DATA);
+        //     //LED2.SetData(LED_DATA);
+        // }
             
     }
     if(enabled)
