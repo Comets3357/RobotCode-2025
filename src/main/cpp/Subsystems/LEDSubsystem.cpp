@@ -13,7 +13,7 @@ void LEDSubsystem::Periodic()
     
     if(!enabled)
     {
-        if(comms)
+        if(comms==true)
         {
             for (size_t i = 0; i <31; i++)
             {
