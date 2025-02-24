@@ -38,7 +38,7 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
     DriveSubsystem m_drive;
     ElevatorSubsystem m_elevator;
-    ClimbSubsystem m_climb;
+    //ClimbSubsystem m_climb;
     IntakeSubsystem intake;
     ElbowSubsystem m_elbowSubsystem;
     LEDSubsystem m_LED;

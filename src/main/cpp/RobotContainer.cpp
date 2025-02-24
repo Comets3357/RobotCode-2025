@@ -79,6 +79,13 @@ RobotContainer::RobotContainer()
 
         //m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
 
+        m_driverController.LeftBumper().OnTrue(IntakeAlgae(&intake));
+        m_driverController.LeftBumper().OnFalse(StopIntake(&intake));
+
+        m_driverController.LeftTrigger().OnTrue(DeployAlgae(&intake));
+        m_driverController.LeftTrigger().OnFalse(StopDeploy(&intake));
+
+>>>>>>> fe78b16149ae491cecff1800695a8ef446e59edf
         //intake down
          m_secondaryController.A().OnTrue( frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.25);}, {&m_elbowSubsystem})
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getWristAngle() < 2;}))
