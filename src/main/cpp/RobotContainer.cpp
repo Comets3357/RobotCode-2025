@@ -78,13 +78,19 @@ RobotContainer::RobotContainer()
 
         // ZERO GYRO BUTTON
 
-        //m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
+        m_driverController.Y().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
 
-        m_drive.Start().OnTrue(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(0.3);}, {&m_climb}));
-        m_drive.Back().OnTrue(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(-0.3);}, {&m_climb}));
+        // m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(0.3);}, {&m_climb}));
+        // m_driverController.Back().OnTrue(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(-0.3);}, {&m_climb}));
 
-        m_drive.Start().OnFalse(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(0);}, {&m_climb}));
-        m_drive.Back().OnFalse(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(0);}, {&m_climb}));
+        // m_driverController.Start().OnFalse(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(0);}, {&m_climb}));
+        // m_driverController.Back().OnFalse(frc2::cmd::RunOnce([this] { m_climb.setClimbSpeed(0);}, {&m_climb}));
+
+        m_driverController.LeftBumper().OnTrue(IntakeAlgae(&intake));
+        m_driverController.LeftBumper().OnFalse(StopIntake(&intake));
+
+        m_driverController.LeftTrigger().OnTrue(DeployAlgae(&intake));
+        m_driverController.LeftTrigger().OnFalse(StopDeploy(&intake));
 
         //intake down
          m_secondaryController.RightTrigger().OnTrue( frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.25);}, {&m_elbowSubsystem})
