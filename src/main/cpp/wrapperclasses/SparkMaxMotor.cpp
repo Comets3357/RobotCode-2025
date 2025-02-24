@@ -99,6 +99,11 @@ void SparkMaxMotor::SetRelativePosition(double pos)
     RelativeEncoder.SetPosition(pos);
 }
 
+void SparkMaxMotor::SetFollow(SparkMaxMotor& leader) 
+{
+    config.Follow(leader.motor, true);
+}
+
 void SparkMaxMotor::setPID(double p, double i, double d, double ff)
 {
     config.closedLoop.Pidf(p, i, d, ff);

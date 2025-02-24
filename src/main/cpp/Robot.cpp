@@ -16,6 +16,20 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutData("Field", &m_field);
     // Do this in either robot periodic or subsystem periodic
     //m_field.SetRobotPose(m_container.m_drive.GetPose());
+
+    double chassisSpeedSquared= pow((double)m_container.m_drive.GetRobotRelativeSpeeds().vx, 2) + pow((double)m_container.m_drive.GetRobotRelativeSpeeds().vy, 2); 
+    double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
+
+    frc::SmartDashboard::PutNumber("Heading", (double)m_container.m_drive.GetGyroHeading().Degrees());
+    frc::SmartDashboard::PutNumber("Actual Speed", chassisSpeeds); 
+    frc::SmartDashboard::PutNumber("Single Wheel Chassis Speed", (double)m_container.m_drive.GetChassisSpeed());
+
+    frc::SmartDashboard::PutNumber("X", (double)m_container.m_drive.GetPose().X()); 
+    frc::SmartDashboard::PutNumber("Y", (double)m_container.m_drive.GetPose().Y()); 
+
+    frc::SmartDashboard::PutNumber("Degrees Rotation", (double)m_container.m_drive.GetPose().Rotation().Degrees()); 
+
+    
     m_container.m_drive.UpdateOdometry();
 
     frc::SmartDashboard::PutNumber("robot pose X", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().X().value());
