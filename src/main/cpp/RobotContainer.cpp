@@ -77,7 +77,9 @@ RobotContainer::RobotContainer()
 
         // ZERO GYRO BUTTON
 
-        //m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
+        m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
+
+
 
         // m_driverController.A().OnTrue(IntakeAlgae(&intake));
         // m_driverController.A().OnFalse(StopIntake(&intake));
@@ -89,7 +91,14 @@ RobotContainer::RobotContainer()
         // m_driverController.LeftTrigger().OnTrue(DeployAlgae(&intake));
         // m_driverController.LeftTrigger().OnFalse(StopDeploy(&intake));
 
-        m_secondaryController.GetLeftY().
+//          m_elevator.SetDefaultCommand(frc2::RunCommand(
+//         [this] {
+//             double speed = -m_driverController.GetLeftY(); // Invert to match joystick direction
+//             m_elevator.setSpeed(speed * 0.5); // Scale speed (adjust as needed)
+//         },
+//         {&m_elevator}
+//     ));
+// }
 
 
         //intake down
