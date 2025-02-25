@@ -148,6 +148,10 @@ double ElbowSubsystem::getWristSpeed() {
     return wristMotor.GetAbsoluteVelocity();
 }
 
+double ElbowSubsystem::getRollerCurrent() {
+    return rollerMotor.GetOutputCurrent();
+}
+
 
 // std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getHorizontalDistanceMeasurement() {
 //     return horizMeasurement;

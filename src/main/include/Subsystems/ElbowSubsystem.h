@@ -91,6 +91,9 @@ public:
     //gets the gripper pivot speed in 
     double getWristSpeed();
 
+    //gets the current of the rollers
+    double getRollerCurrent();
+    
     //is game piece detected via the distance sensor
     bool isGamePieceDetected();
 
