@@ -38,7 +38,7 @@ DriveSubsystem::DriveSubsystem()
 frc::Rotation2d DriveSubsystem::GetGyroHeading()
 {
 
-    return m_gyro.GetRotation2d();
+    return m_gyro.Get2DRotation();
 }
 
 void DriveSubsystem::Periodic()
@@ -114,7 +114,7 @@ void DriveSubsystem::ResetEncoders()
     m_rearRight.ResetEncoders();
 }
 
-void DriveSubsystem::ZeroHeading() { m_gyro.SetYaw(units::angle::turn_t{0}, 50_ms); }
+void DriveSubsystem::ZeroHeading() { m_gyro.ZeroGyro(); }
 
 double DriveSubsystem::GetTurnRate()
 {
