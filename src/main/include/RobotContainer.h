@@ -11,6 +11,12 @@
 #include "subsystems/IntakeSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
 #include "subsystems/ElevatorSubsystem.h"
+#include <pathplanner/lib/auto/AutoBuilder.h>
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
+
+using namespace pathplanner;
+
 
 class RobotContainer
 {
@@ -21,6 +27,21 @@ public:
     VisionSubsystem m_visionSubsystem;
     DriveSubsystem m_drive;
     // ElevatorSubsystem m_elevator; 
+
+    frc::Pose2d targetPose = frc::Pose2d(10_m, 5_m, frc::Rotation2d(180_deg));
+
+// Create the constraints to use while pathfinding
+PathConstraints constraints = PathConstraints(
+    3.0_mps, 4.0_mps_sq,
+    540_deg_per_s, 720_deg_per_s);
+
+// Since AutoBuilder is configured, we can use it to build pathfinding commands
+frc2::CommandPtr pathfindingCommand = AutoBuilder::pathfindToPose(
+    targetPose,
+    constraints,
+    0.0_mps // Goal end velocity in meters/sec
+);
+
     
     
 

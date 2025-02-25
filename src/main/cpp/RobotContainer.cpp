@@ -17,8 +17,7 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/Command.h>
 #include <memory>
-#include <pathplanner/lib/commands/PathPlannerAuto.h>
-#include <pathplanner/lib/auto/NamedCommands.h>
+
 #include <memory>
 
 
@@ -59,6 +58,9 @@ RobotContainer::RobotContainer()
                 true);
         },
         {&m_drive}));
+
+    // Since we are using a holonomic drivetrain, the rotation component of this pose
+// represents the goal holonomic rotation
 
 }
 
