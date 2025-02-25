@@ -79,11 +79,17 @@ RobotContainer::RobotContainer()
 
         //m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
 
-        m_driverController.LeftBumper().OnTrue(IntakeAlgae(&intake));
-        m_driverController.LeftBumper().OnFalse(StopIntake(&intake));
+        // m_driverController.A().OnTrue(IntakeAlgae(&intake));
+        // m_driverController.A().OnFalse(StopIntake(&intake));
 
-        m_driverController.LeftTrigger().OnTrue(DeployAlgae(&intake));
-        m_driverController.LeftTrigger().OnFalse(StopDeploy(&intake));
+
+        m_driverController.LeftBumper().OnTrue(frc2::cmd::RunOnce([this] {intake.SetAngle(165);}));
+        // m_driverController.LeftBumper().OnFalse(frc2::cmd::RunOnce([this] {intake.Eject(0); intake.SetAngle(165);}));
+
+        // m_driverController.LeftTrigger().OnTrue(DeployAlgae(&intake));
+        // m_driverController.LeftTrigger().OnFalse(StopDeploy(&intake));
+
+        m_secondaryController.GetLeftY().
 
 
         //intake down
@@ -174,11 +180,11 @@ RobotContainer::RobotContainer()
             m_secondaryController.B().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0); m_elbowSubsystem.setWristAngle(90); m_elbowSubsystem.setElbowAngle(180); }, {&m_elbowSubsystem})
           .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<181;})));
 
-          m_driverController.LeftTrigger().OnTrue(IntakeAlgae(&intake));
-          m_driverController.LeftTrigger().OnFalse(StopIntake(&intake));
+        //   m_driverController.LeftTrigger().OnTrue(IntakeAlgae(&intake));
+        //   m_driverController.LeftTrigger().OnFalse(StopIntake(&intake));
 
-          m_driverController.LeftBumper().OnTrue(DeployAlgae(&intake));
-          m_driverController.LeftBumper().OnFalse(StopDeploy(&intake));
+        //   m_driverController.LeftBumper().OnTrue(DeployAlgae(&intake));
+        //   m_driverController.LeftBumper().OnFalse(StopDeploy(&intake));
 
           //m_secondaryController.LeftStick().OnTrue((m_secondaryController.GetLeftY()))
 

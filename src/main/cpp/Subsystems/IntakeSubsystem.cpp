@@ -2,7 +2,7 @@
 #include "frc/smartdashboard/SmartDashboard.h"
 
 IntakeSubsystem::IntakeSubsystem() {
-    AlgaeDeploy.setPID(0.006, 0, 0);
+    AlgaeDeploy.setPID(0.16, 0, 0);
     AlgaeDeploy.SetSmartCurrentLimit(30);
     AlgaeDeploy.setFeedbackSensor(Motor::encoderType::absolute);
     AlgaeDeploy.setAbsolutePositionConversionFactor(360);
@@ -38,8 +38,14 @@ void IntakeSubsystem::Stop() {
 }
 
 //setters
-void IntakeSubsystem::SetAngle(units::degree_t angle) {
-    AlgaeDeploy.setReference(angle.value(), Motor::controlType::position);
+// void IntakeSubsystem::SetAngle(units::degree_t angle) {
+//     AlgaeDeploy.setReference(angle.value(), Motor::controlType::position);
+// }
+
+void IntakeSubsystem::SetAngle(double angle) {
+   AlgaeDeploy.setReference(angle, Motor::controlType::position);
+
+   //AlgaeDeploy.SetPercent(0.1);
 }
 
 //getters
