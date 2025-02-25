@@ -25,7 +25,7 @@ using namespace pathplanner;
 
 
 // This will start Redux CANLink manually for C++
-#include "commands/IntakeCommands.h"
+#include "Commands/IntakeCommands.h"
 
 using namespace DriveConstants;
 
@@ -75,6 +75,7 @@ void RobotContainer::ConfigureButtonBindings() {
     //drive
     m_driverController.LeftBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
     m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
+    m_driverController.A().WhileTrue(pathfindingCommand.get()); 
 
     //algae intake
     // m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));

@@ -43,6 +43,11 @@ frc2::CommandPtr pathfindingCommand = AutoBuilder::pathfindToPose(
     0.0_mps // Goal end velocity in meters/sec
 );
 
+// frc2::CommandPtr pathdostuff = AutoBuilder::pathfindThenFollowPath(
+//     pathfindingCommand, 
+//     constraints
+// );
+
     
     
 
