@@ -14,6 +14,7 @@
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
+#include <units/angle.h>
 
 using namespace pathplanner;
 
@@ -33,7 +34,7 @@ public:
 // Create the constraints to use while pathfinding
 PathConstraints constraints = PathConstraints(
     3.0_mps, 4.0_mps_sq,
-    540_deg_per_s, 720_deg_per_s);
+    units::degrees_per_second_t{540}, units::degrees_per_second_squared_t{720});
 
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
 frc2::CommandPtr pathfindingCommand = AutoBuilder::pathfindToPose(
