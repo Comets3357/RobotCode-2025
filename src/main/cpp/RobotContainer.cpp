@@ -26,8 +26,7 @@ using namespace pathplanner;
 
 
 // This will start Redux CANLink manually for C++
-#include "Subsystems/ElevatorSubsystem.h"
-#include "Subsystems/ElbowSubsystem.h"
+
 #include "commands/IntakeCommands.h"
 
 using namespace DriveConstants;

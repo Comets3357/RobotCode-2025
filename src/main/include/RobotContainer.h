@@ -11,7 +11,7 @@
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ElbowSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
-#include "Subsystems/ElevatorSubsystem.h"
+#include "subsystems/ElevatorSubsystem.h"
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/trajectory/Trajectory.h>
@@ -27,7 +27,7 @@
 #include "Constants.h"
 
 
-#include "Subsystems/LEDSubsystem.h"
+#include "subsystems/LEDSubsystem.h"
 
 
 class RobotContainer
