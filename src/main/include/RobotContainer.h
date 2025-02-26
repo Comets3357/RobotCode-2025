@@ -26,7 +26,7 @@
 #include <utility>
 #include "Constants.h"
 
-#include "Subsystems/ClimbSubsystem.h"
+
 #include "Subsystems/LEDSubsystem.h"
 
 
@@ -38,7 +38,6 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
     DriveSubsystem m_drive;
     ElevatorSubsystem m_elevator;
-    //ClimbSubsystem m_climb;
     IntakeSubsystem intake;
     ElbowSubsystem m_elbowSubsystem;
     LEDSubsystem m_LED;

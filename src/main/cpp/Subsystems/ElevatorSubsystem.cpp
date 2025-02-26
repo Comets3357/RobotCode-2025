@@ -78,7 +78,4 @@ void ElevatorSubsystem::Periodic()
     frc::SmartDashboard::PutNumber("elevatorPos", MainElevatorMotor.GetAbsolutePosition());
 }
 
-// void ElevatorSubsystem::ClimbShot()
-// {
-//     ClimbShot.SetPercent(0.01);
-// }
+
