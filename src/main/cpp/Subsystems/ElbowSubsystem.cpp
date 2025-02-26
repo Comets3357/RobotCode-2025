@@ -15,7 +15,7 @@ ElbowSubsystem::ElbowSubsystem() {
 
     if (isCompBot == false) {
          //elbow stuff
-        elbowMotor->SetSmartCurrentLimit(40);
+        elbowMotor->SetSmartCurrentLimit(60);
         elbowMotor->setRelativePositionConversionFactor(10);
         elbowMotor->setRelativeVelocityConversionFactor(0.167);
         elbowMotor->enableForwardSoftLimit(true);
@@ -31,10 +31,12 @@ ElbowSubsystem::ElbowSubsystem() {
         elbowMotor->setPID(elbowP, elbowI, elbowD);
 
         //gripper stuff
-        wristMotor.SetSmartCurrentLimit(20);
+        wristMotor.SetSmartCurrentLimit(40);
         wristMotor.setRelativeVelocityConversionFactor(0.06 /* goofy ahh value I dont know*/);
         wristMotor.setRelativePositionConversionFactor(3.6 /* 360 degrees / 25 / 4 for ratios*/);
         wristMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
+        wristMotor.setPositionWrappingEnabled(true);
+        wristMotor.setPositionWrappingMaxRange(0, 360);
 
         wristMotor.setFeedbackSensor(Motor::encoderType::relative);
         wristMotor.setPID(wristP, wristI, wristD);
@@ -43,12 +45,13 @@ ElbowSubsystem::ElbowSubsystem() {
         elbowMotor->configure();
         wristMotor.configure();
 
-        rollerMotor.SetSmartCurrentLimit(40);  
+        rollerMotor.SetSmartCurrentLimit(60);  
     }
     if (isCompBot == true) {
-        elbowMotor->SetSmartCurrentLimit(40);
+        elbowMotor->SetSmartCurrentLimit(60);
         elbowMotor->setAbsoluteVelocityConversionFactor(6);
         elbowMotor->setAbsolutePositionConversionFactor(360 /*degrees*/);
+
         elbowMotor->enableForwardSoftLimit(true);
         elbowMotor->enableReverseSoftLimit(true);
         elbowMotor->setForwardSoftLimit(305);
@@ -62,9 +65,11 @@ ElbowSubsystem::ElbowSubsystem() {
         elbowMotor->setPID(elbowP, elbowI, elbowD);
 
         //gripper stuff
-        wristMotor.SetSmartCurrentLimit(20);
+        wristMotor.SetSmartCurrentLimit(40);
         wristMotor.setAbsoluteVelocityConversionFactor(6);
         wristMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
+        wristMotor.setPositionWrappingEnabled(true);
+        wristMotor.setPositionWrappingMaxRange(0, 360);
 
         wristMotor.setFeedbackSensor(Motor::encoderType::absolute);
         wristMotor.setPID(wristP, wristI, wristD);
@@ -73,7 +78,7 @@ ElbowSubsystem::ElbowSubsystem() {
         elbowMotor->configure();
         wristMotor.configure();
 
-        rollerMotor.SetSmartCurrentLimit(40);  
+        rollerMotor.SetSmartCurrentLimit(20);  
     }    
 }
 
@@ -141,6 +146,10 @@ double ElbowSubsystem::getTargetWristAngle() {
 
 double ElbowSubsystem::getWristSpeed() {
     return wristMotor.GetAbsoluteVelocity();
+}
+
+double ElbowSubsystem::getRollerCurrent() {
+    return rollerMotor.GetOutputCurrent();
 }
 
 

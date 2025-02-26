@@ -2,7 +2,7 @@
 #include "frc/smartdashboard/SmartDashboard.h"
 
 IntakeSubsystem::IntakeSubsystem() {
-    AlgaeDeploy.setPID(0.006, 0, 0);
+    AlgaeDeploy.setPID(0.006, 0, 0); //PID
     AlgaeDeploy.SetSmartCurrentLimit(30);
     AlgaeDeploy.setFeedbackSensor(Motor::encoderType::absolute);
     AlgaeDeploy.setAbsolutePositionConversionFactor(360);

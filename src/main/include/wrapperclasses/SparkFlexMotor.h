@@ -30,7 +30,7 @@ public:
 
     double GetRelativeVelocity() override;
     double GetRelativePosition() override;
-    void SetRelativePosition(double pos) override;
+    double GetOutputCurrent() override;
 
     // new functions //
 
@@ -53,6 +53,7 @@ public:
 
     void setRelativeVelocityConversionFactor(double fac) override;
     void setRelativePositionConversionFactor(double fac) override;
+    void SetRelativePosition(double pos) override;
 
     void setPID(double p, double i, double d, double ff) override;
     void setPID(double p, double i, double d) override;
