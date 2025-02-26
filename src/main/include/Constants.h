@@ -99,6 +99,7 @@ namespace AutoConstants
 namespace OIConstants
 {
     constexpr int kDriverControllerPort = 0;
+    constexpr int kSecondaryControllerPort = 1;
     constexpr double kDriveDeadband = 0.05;
 } // namespace OIConstants
 

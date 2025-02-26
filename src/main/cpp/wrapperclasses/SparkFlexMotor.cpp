@@ -94,10 +94,16 @@ double SparkFlexMotor::GetAbsoluteVelocity()
     return AbsoluteEncoder.GetVelocity();
 }
 
+double SparkFlexMotor::GetOutputCurrent() {
+    return motor.GetOutputCurrent();
+}
+
 void SparkFlexMotor::SetRelativePosition(double pos)
 {
     RelativeEncoder.SetPosition(pos);
 }
+
+
 
 void SparkFlexMotor::setPID(double p, double i, double d, double ff)
 {

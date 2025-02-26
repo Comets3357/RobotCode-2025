@@ -128,9 +128,7 @@ private:
     MAXSwerveModule m_frontRight;
     MAXSwerveModule m_rearRight;
 
-
-   GyroWrapper m_gyro{}; 
-    //redux::sensors::canandgyro::Canandgyro m_gyro{9};
+    redux::sensors::canandgyro::Canandgyro m_gyro{9};
 
     frc::SwerveDriveOdometry<4> m_odometry;
 };

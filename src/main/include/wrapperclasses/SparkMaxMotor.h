@@ -35,6 +35,8 @@ public:
     void SetRelativePosition(double pos) override;
     double GetAbsolutePosition() override;
     double GetAbsoluteVelocity() override;
+
+    double GetOutputCurrent() override;
     void SetFollow(SparkMaxMotor& leader);
 
     // CONFIGURE SETTINGS //

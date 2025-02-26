@@ -159,14 +159,7 @@ void DriveSubsystem::ResetEncoders()
     m_rearRight.ResetEncoders();
 }
 
-void DriveSubsystem::ZeroHeading() 
-{ 
-    m_gyro.ZeroGyro(); 
-
-}
-void DriveSubsystem::ZeroHeading(frc::Pose2d degree) {
-   m_gyro.ZeroGyro(); 
-}
+void DriveSubsystem::ZeroHeading() { m_gyro.SetYaw(units::angle::turn_t{0}, 50_ms); }
 
 double DriveSubsystem::GetTurnRate()
 {

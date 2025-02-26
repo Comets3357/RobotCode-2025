@@ -18,4 +18,3 @@ private:
     SparkMaxMotor AlgaeIntake{22};
     SparkMaxMotor AlgaeDeploy{21};
 };
-
