@@ -1,8 +1,7 @@
 #include "subsystems/ElbowSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "wrapperclasses/SparkMaxMotor.h"
-#include "Subsystems/ElbowSubsystem.h"
-#include "grpl/CanBridge.h"
+//#include "grpl/CanBridge.h"
 #include "Robot.h"
 
 ElbowSubsystem::ElbowSubsystem() {
@@ -127,7 +126,8 @@ double ElbowSubsystem::getElbowSpeed() {
 
 void ElbowSubsystem::setElbowTarget() {
     //TODO PUT THIS BACK
-    elbowMotor->setReference(getElbowTargetAngle(), Motor::controlType::position, -0.12);
+   // elbowMotor->setReference(getElbowTargetAngle(), Motor::controlType::position, -0.12);
+   elbowMotor->setReference(getElbowTargetAngle(), Motor::controlType::position);
 }
 
 void ElbowSubsystem::setWristTarget() {
@@ -178,6 +178,7 @@ bool ElbowSubsystem::isGamePieceDetected() {
     // } else {
     //     return false;
     // }
+    return false; 
 }
 
 void ElbowSubsystem::Periodic() {
