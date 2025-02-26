@@ -17,6 +17,7 @@ private:
     rev::spark::SparkRelativeEncoder RelativeEncoder = motor.GetEncoder();
     rev::spark::SparkClosedLoopController closedLoopController = motor.GetClosedLoopController();
     rev::spark::SparkBaseConfig config;
+    rev::spark::SparkLimitSwitch ReverseLimit = motor.GetReverseLimitSwitch();
 
 public:
     // CONSTURCTOR //
@@ -35,9 +36,12 @@ public:
     void SetRelativePosition(double pos) override;
     double GetAbsolutePosition() override;
     double GetAbsoluteVelocity() override;
-
+    
     double GetOutputCurrent() override;
     void SetFollow(SparkMaxMotor& leader);
+
+    bool IsReverseLimitPressed() override;
+}
 
     // CONFIGURE SETTINGS //
 

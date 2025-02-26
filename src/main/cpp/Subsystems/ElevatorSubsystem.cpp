@@ -78,4 +78,10 @@ void ElevatorSubsystem::Periodic()
     frc::SmartDashboard::PutNumber("elevatorPos", MainElevatorMotor.GetAbsolutePosition());
 }
 
-
+// bool ElevatorSubsystem::LimitSwitch()
+// {
+//    if(MainElevatorMotor.IsReverseLimitPressed())
+//    {
+//     return true;
+//    }
+// }

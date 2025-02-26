@@ -74,6 +74,11 @@ void SparkMaxMotor::setReference(double ref, controlType ctrl)
     }
 }
 
+bool SparkMaxMotor::IsReverseLimitPressed()
+{
+    return motor.GetReverseLimitSwitch(rev::SparkLimitSwitch::Type::kNormallyClosed).Get();
+}
+
 void SparkMaxMotor::setReference(double ref, controlType ctrl, double arbFeedForward)
 {
     if (ctrl == Motor::controlType::position)
