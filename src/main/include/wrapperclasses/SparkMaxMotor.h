@@ -41,7 +41,7 @@ public:
     void SetFollow(SparkMaxMotor& leader);
 
     bool IsReverseLimitPressed() override;
-}
+
 
     // CONFIGURE SETTINGS //
 
