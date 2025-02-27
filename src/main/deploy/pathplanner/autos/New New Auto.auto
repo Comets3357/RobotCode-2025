@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Starttotlc"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ElevatorL4"
+            "pathName": "New New Path"
           }
         }
       ]

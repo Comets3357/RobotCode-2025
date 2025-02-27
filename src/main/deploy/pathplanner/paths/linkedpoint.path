@@ -112,16 +112,16 @@
     },
     {
       "anchor": {
-        "x": 5.2423932756696425,
-        "y": 5.201549421037946
+        "x": 5.032541956018518,
+        "y": 5.37761429398148
       },
       "prevControl": {
-        "x": 5.788082383432219,
-        "y": 5.1701642578417335
+        "x": 5.578231063781095,
+        "y": 5.346229130785268
       },
       "nextControl": {
-        "x": 4.6967041679070665,
-        "y": 5.232934584234158
+        "x": 4.486852848255942,
+        "y": 5.408999457177693
       },
       "isLocked": false,
       "linkedName": "TLC"
@@ -289,8 +289,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

@@ -37,6 +37,11 @@ RobotContainer::RobotContainer()
     // Configure the button bindings
     ConfigureButtonBindings();
 
+    NamedCommands::registerCommand("Algae Start", std::move(IntakeAlgae(&intake)));
+    NamedCommands::registerCommand("Algae Stop", std::move(StopIntake(&intake)));
+    NamedCommands::registerCommand("Algae Up", std::move(StopDeploy(&intake)));
+
+
     // Set up default drive command
     // The left stick controls translation of the robot.
     // Turning is controlled by the X axis of the right stick.
@@ -116,20 +121,20 @@ RobotContainer::RobotContainer()
             m_secondaryController.B().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0); m_elbowSubsystem.setWristAngle(90); m_elbowSubsystem.setElbowAngle(180); }, {&m_elbowSubsystem})
           .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<181;})));
 
-        //   m_driverController.LeftTrigger().OnTrue(IntakeAlgae(&intake));
-        //   m_driverController.LeftTrigger().OnFalse(StopIntake(&intake));
+          m_driverController.LeftTrigger().OnTrue(IntakeAlgae(&intake));
+          m_driverController.LeftTrigger().OnFalse(StopIntake(&intake));
 
-        //   m_driverController.LeftBumper().OnTrue(DeployAlgae(&intake));
-        //   m_driverController.LeftBumper().OnFalse(StopDeploy(&intake));
+          m_driverController.LeftBumper().OnTrue(DeployAlgae(&intake));
+          m_driverController.LeftBumper().OnFalse(StopDeploy(&intake));
 
         
         // m_driverController.A().OnTrue(IntakeAlgae(&intake));
         // m_driverController.A().OnFalse(StopIntake(&intake));   
 }
-
+ 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-     return PathPlannerAuto("New Auto").ToPtr();
+     return PathPlannerAuto("New New Auto").ToPtr();
 }
 
 void RobotContainer::ConfigureButtonBindings() {}

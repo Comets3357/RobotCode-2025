@@ -52,8 +52,8 @@ DriveSubsystem::DriveSubsystem()
         [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         [this](auto speeds, auto feedforwards){ DriveFromChassisSpeeds(speeds, false); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
         std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
-            PIDConstants(4.5, 0.0, 0.0), // Translation PID constants
-            PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            PIDConstants(7.5, 0.0, 0.0), // Translation PID constants
+            PIDConstants(4.0, 0.0, 0.0) // Rotation PID constants
         ),
         config, // The robot configuration
         []() {
