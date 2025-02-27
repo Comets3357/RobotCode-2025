@@ -46,6 +46,10 @@ RobotContainer::RobotContainer()
         // ZERO GYRO BUTTON
 
         m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
+      //  m_driverController.RightTrigger().WhileTrue(frc2::cmd::RunOnce([this] {DriveConstants::kMaxSpeed = 2.4_mps; DriveConstants::kMaxAngularSpeed = std::numbers::pi;}));
+        //m_driverController.RightTrigger().OnFalse(frc2::cmd::RunOnce([this] {DriveConstants::kMaxSpeed = 4.8_mps; DriveConstants::kMaxAngularSpeed = 2 * std::numbers::pi;})); 
+
+
    
         //intake down
         m_secondaryController.RightTrigger().OnTrue( frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.25);}, {&m_elbowSubsystem})
