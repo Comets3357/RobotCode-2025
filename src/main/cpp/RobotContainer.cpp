@@ -41,6 +41,17 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("Algae Stop", std::move(StopIntake(&intake)));
     NamedCommands::registerCommand("Algae Up", std::move(StopDeploy(&intake)));
 
+    NamedCommands::registerCommand("L4", std::move(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((50));},{&m_elevator})
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (49.5);}))
+         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);},{&m_elbowSubsystem}
+    ))));
+
+    NamedCommands::registerCommand("Place L4", std::move(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((32)); m_elbowSubsystem.setRollerSpeed(-0.1); },{&m_elbowSubsystem, &m_elevator})
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (32.5);})))
+         .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); },{&m_elbowSubsystem})
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;})))
+         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}
+    ))); 
 
     // Set up default drive command
     // The left stick controls translation of the robot.
