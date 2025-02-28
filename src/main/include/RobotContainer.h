@@ -42,6 +42,8 @@ public:
     ElbowSubsystem m_elbowSubsystem;
     LEDSubsystem m_LED;
 
+    bool halfSpeed = false;
+
 private:
     // The driver's controller
     frc2::CommandXboxController m_driverController{OIConstants::kDriverControllerPort};
