@@ -1,64 +1,73 @@
-# pragma once
+#pragma once
 
 #include "wrapperclasses/Motor.h"
 
 #include <rev/SparkBase.h>
-#include<rev/SparkFlex.h> 
+#include <rev/SparkFlex.h>
 
 class SparkFlexMotor : public Motor
 {
-    private: 
-        rev::spark::SparkFlex motor; 
-        rev::spark::SparkAbsoluteEncoder AbsoluteEncoder = motor.GetAbsoluteEncoder(); 
-        rev::spark::SparkRelativeEncoder RelativeEncoder = motor.GetEncoder(); 
-        rev::spark::SparkFlexExternalEncoder ExternalRelativeEncoder = motor.GetExternalEncoder(); 
-        rev::spark::SparkBaseConfig config; 
-        rev::spark::SparkClosedLoopController closedLoopController = motor.GetClosedLoopController();
+private:
+    rev::spark::SparkFlex motor;
+    rev::spark::SparkAbsoluteEncoder AbsoluteEncoder = motor.GetAbsoluteEncoder();
+    rev::spark::SparkRelativeEncoder RelativeEncoder = motor.GetEncoder();
+    // rev::spark::SparkFlexExternalEncoder ExternalRelativeEncoder = motor.GetExternalEncoder();
+    rev::spark::SparkBaseConfig config;
+    rev::spark::SparkClosedLoopController closedLoopController = motor.GetClosedLoopController();
 
-            
+public:
+    // CONSTURCTOR //
+    SparkFlexMotor(int id) : motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless}
+    {
+        setPID(0, 0, 0);
+        config.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake);
+    }
 
-    public: 
+    void configure() override;
 
-        // CONSTURCTOR // 
-        SparkFlexMotor(int id) : motor{id, rev::spark::SparkLowLevel::MotorType::kBrushless} 
-        {
-            setPID(0, 0, 0); 
-        }
+    void SetPercent(double percent) override;
+    void StopMotor() override;
 
-        void configure() override;
-        
+    double GetRelativeVelocity() override;
+    double GetRelativePosition() override;
+    double GetOutputCurrent() override;
 
-        void SetPercent(double percent) override;
-        void StopMotor() override; 
+    // new functions //
 
-        double GetRelativeVelocity() override; 
-        double GetRelativePosition() override;
-        void SetRelativePosition(double pos) override;
+    double GetAbsolutePosition() override;
+    double GetAbsoluteVelocity() override;
 
-        // CONFIGURE SETTINGS // 
-        
-            void SetSmartCurrentLimit(double lim) override; 
-            void setMinOutput(double min) override;
-            void setMaxOutput(double max) override;
-            void setOutputRange(double min, double max) override;
-            void setPositionWrappingEnabled(bool enabled) override;
-            void setPositionWrapingMinInput(double minInput) override;
-            void setPositionWrappingMaxInput(double maxInput) override;
-            void setPositionWrappingMaxRange(double minInput, double maxInput) override; 
-            void setReference(double ref, controlType ctrl) override; 
-        
+    // CONFIGURE SETTINGS //
 
-        
-        void setPID(double p, double i, double d, double ff) override; 
-        void setPID(double p, double i, double d) override; 
-        void setPID(double p, double i, double d, double ff, int slot) override;
+    void SetSmartCurrentLimit(double lim) override;
+    void setMinOutput(double min) override;
+    void setMaxOutput(double max) override;
+    void setOutputRange(double min, double max) override;
+    void setPositionWrappingEnabled(bool enabled) override;
+    void setPositionWrapingMinInput(double minInput) override;
+    void setPositionWrappingMaxInput(double maxInput) override;
+    void setPositionWrappingMaxRange(double minInput, double maxInput) override;
+    void setReference(double ref, controlType ctrl) override;
+    void setFeedbackSensor(encoderType encoder) override;
 
-        void setForwardSoftLimit(double limit) override; 
-        void setReverseSoftLimit(double limit) override; 
-        void enableForwardSoftLimit(bool enab) override; 
-        void enableReverseSoftLimit(bool enab) override; 
+    void setRelativeVelocityConversionFactor(double fac) override;
+    void setRelativePositionConversionFactor(double fac) override;
+    void SetRelativePosition(double pos) override;
 
-        virtual void setInverted(bool b) override; 
+    void setPID(double p, double i, double d, double ff) override;
+    void setPID(double p, double i, double d) override;
+    void setPID(double p, double i, double d, double ff, int slot) override;
 
+    // absolute encoder configs // also new functions
+    void setAbsolutePositionConversionFactor(double factor) override;
+    void zeroOffset(double offset) override;
+    void setAbsoluteVelocityConversionFactor(double factor) override;
+    void setAbsoluteEncoderInverted(bool inverted);
 
-}; 
+    void setForwardSoftLimit(double limit) override;
+    void setReverseSoftLimit(double limit) override;
+    void enableForwardSoftLimit(bool enab) override;
+    void enableReverseSoftLimit(bool enab) override;
+
+    virtual void setInverted(bool b) override;
+};

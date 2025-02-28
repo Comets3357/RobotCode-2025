@@ -1,0 +1,70 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.503422764369419,
+        "y": 6.519084821428571
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.714049131024324,
+        "y": 6.6537567697688
+      },
+      "isLocked": false,
+      "linkedName": "PushTeammatesPoint"
+    },
+    {
+      "anchor": {
+        "x": 8.126,
+        "y": 7.082
+      },
+      "prevControl": {
+        "x": 7.971213337272202,
+        "y": 6.8856811546448204
+      },
+      "nextControl": {
+        "x": 8.280786662727797,
+        "y": 7.278318845355179
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.503422764369419,
+        "y": 6.519084821428571
+      },
+      "prevControl": {
+        "x": 7.250492307067955,
+        "y": 6.279751866254275
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "PushTeammatesPoint"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 135.6623494473721
+  },
+  "reversed": false,
+  "folder": "Tests",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 135.0
+  },
+  "useDefaultConstraints": false
+}

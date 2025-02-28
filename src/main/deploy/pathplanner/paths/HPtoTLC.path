@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.6226139613560266,
+        "y": 7.162601143973213
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.1392238136574067,
+        "y": 6.622732204861111
+      },
+      "isLocked": false,
+      "linkedName": "HPTest1"
+    },
+    {
+      "anchor": {
+        "x": 5.032541956018518,
+        "y": 5.37761429398148
+      },
+      "prevControl": {
+        "x": 5.5441688368055555,
+        "y": 6.423287398726851
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "TLC"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 150.0
+  },
+  "reversed": false,
+  "folder": "Tests",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 29.999999999999996
+  },
+  "useDefaultConstraints": true
+}
