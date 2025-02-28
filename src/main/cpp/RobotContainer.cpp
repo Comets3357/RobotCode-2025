@@ -54,7 +54,7 @@ RobotContainer::RobotContainer()
     ))); 
 
     NamedCommands::registerCommand("Aim L1", std::move(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setElbowAngle(255);}, {&m_elbowSubsystem})
-        .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()>254;},{&m_elbowSubsystem})
+        .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()>254;})
     )));
     
     NamedCommands::registerCommand("Score L1", std::move(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setRollerSpeed(-0.25);})
@@ -146,7 +146,7 @@ RobotContainer::RobotContainer()
           .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()>234;}))
           .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.25);},{&m_elbowSubsystem})));
 
-            m_secondaryController.B().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0); m_elbowSubsystem.setWristAngle(90); m_elbowSubsystem.setElbowAngle(180); }, {&m_elbowSubsystem})
+         m_secondaryController.B().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0); m_elbowSubsystem.setWristAngle(90); m_elbowSubsystem.setElbowAngle(180); }, {&m_elbowSubsystem})
           .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<181;})));
 
           m_driverController.LeftTrigger().OnTrue(IntakeAlgae(&intake));
@@ -162,7 +162,7 @@ RobotContainer::RobotContainer()
  
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-     return PathPlannerAuto("New New Auto").ToPtr();
+     return PathPlannerAuto("Path 1").ToPtr();
 }
 
 void RobotContainer::ConfigureButtonBindings() {}
