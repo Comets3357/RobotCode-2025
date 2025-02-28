@@ -86,9 +86,11 @@ RobotContainer::RobotContainer()
     // Set up default drive command
     // The left stick controls translation of the robot.
     // Turning is controlled by the X axis of the right stick.
-    m_drive.SetDefaultCommand(frc2::RunCommand(
+     m_drive.SetDefaultCommand(frc2::RunCommand(
         [this]
         {
+
+            if (!halfSpeed) {
             m_drive.Drive(
                 -units::meters_per_second_t{frc::ApplyDeadband(
                     m_driverController.GetLeftY(), OIConstants::kDriveDeadband)},
@@ -97,8 +99,21 @@ RobotContainer::RobotContainer()
                 -units::radians_per_second_t{frc::ApplyDeadband(
                     m_driverController.GetRightX(), OIConstants::kDriveDeadband)},
                 true);
+            }
+            else 
+            {
+                m_drive.Drive(
+                -units::meters_per_second_t{frc::ApplyDeadband(
+                    m_driverController.GetLeftY() / 2.0 , OIConstants::kDriveDeadband)},
+                -units::meters_per_second_t{frc::ApplyDeadband(
+                    m_driverController.GetLeftX() / 2.0 , OIConstants::kDriveDeadband)},
+                -units::radians_per_second_t{frc::ApplyDeadband(
+                    m_driverController.GetRightX() / 2.0 , OIConstants::kDriveDeadband)},
+                true);
+            }
         },
         {&m_drive}));
+
 
         // ZERO GYRO BUTTON
 
