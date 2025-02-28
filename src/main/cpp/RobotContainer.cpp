@@ -81,6 +81,8 @@ RobotContainer::RobotContainer()
     m_drive.SetDefaultCommand(frc2::RunCommand(
         [this]
         {
+
+            if (!halfSpeed) {
             m_drive.Drive(
                 -units::meters_per_second_t{frc::ApplyDeadband(
                     m_driverController.GetLeftY(), OIConstants::kDriveDeadband)},
@@ -89,12 +91,26 @@ RobotContainer::RobotContainer()
                 -units::radians_per_second_t{frc::ApplyDeadband(
                     m_driverController.GetRightX(), OIConstants::kDriveDeadband)},
                 true);
+            }
+            else 
+            {
+                m_drive.Drive(
+                -units::meters_per_second_t{frc::ApplyDeadband(
+                    m_driverController.GetLeftY() / 2.0 , OIConstants::kDriveDeadband)},
+                -units::meters_per_second_t{frc::ApplyDeadband(
+                    m_driverController.GetLeftX() / 2.0 , OIConstants::kDriveDeadband)},
+                -units::radians_per_second_t{frc::ApplyDeadband(
+                    m_driverController.GetRightX() / 2.0 , OIConstants::kDriveDeadband)},
+                true);
+            }
         },
         {&m_drive}));
 
         // ZERO GYRO BUTTON
 
         m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
+        m_driverController.RightTrigger().OnTrue(frc2::cmd::RunOnce([this] {halfSpeed = true;})); 
+        m_driverController.RightTrigger().OnFalse(frc2::cmd::RunOnce([this] {halfSpeed = false;})); 
    
         //intake down
         m_secondaryController.RightTrigger().OnTrue( frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.25);}, {&m_elbowSubsystem})
