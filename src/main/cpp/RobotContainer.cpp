@@ -46,7 +46,7 @@ RobotContainer::RobotContainer()
          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);},{&m_elbowSubsystem}
     ))));
 
-    NamedCommands::registerCommand("Place L4", std::move(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((32)); m_elbowSubsystem.setRollerSpeed(-0.1); },{&m_elbowSubsystem, &m_elevator})
+    NamedCommands::registerCommand("Place L4", std::move(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((32)); m_elbowSubsystem.setRollerSpeed(-0.3); },{&m_elbowSubsystem, &m_elevator})
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (32.5);})))
          .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); },{&m_elbowSubsystem})
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;})))
@@ -58,10 +58,7 @@ RobotContainer::RobotContainer()
     )));
     
     NamedCommands::registerCommand("Score L1", std::move(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setRollerSpeed(-0.25);})
-        .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (3.5);}))
-        .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(90);},{&m_elbowSubsystem}))
-        .AlongWith(frc2::cmd::RunOnce([this]{ return m_elbowSubsystem.getWristAngle()>85.5;}))
-        .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.5);},{&m_elbowSubsystem}))
+        .AlongWith(frc2::cmd::Wait(units::second_t{0.3}))
     ));
 
     NamedCommands::registerCommand("Reset L1", std::move(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(90);},{&m_elbowSubsystem}))
@@ -70,6 +67,14 @@ RobotContainer::RobotContainer()
         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);},{&m_elbowSubsystem}
     ))));
 
+    NamedCommands::registerCommand("Intake Piece", std::move(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(180); m_elbowSubsystem.setElbowAngle(235); }, {&m_elbowSubsystem})
+          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()>234;}))
+          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.25);},{&m_elbowSubsystem}))));
+
+    NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0); m_elbowSubsystem.setWristAngle(90); m_elbowSubsystem.setElbowAngle(180); }, {&m_elbowSubsystem})
+          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<181;}))));
+
+    
     // Set up default drive command
     // The left stick controls translation of the robot.
     // Turning is controlled by the X axis of the right stick.
@@ -162,7 +167,7 @@ RobotContainer::RobotContainer()
  
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-     return PathPlannerAuto("Path 1").ToPtr();
+     return PathPlannerAuto("3 Piece").ToPtr();
 }
 
 void RobotContainer::ConfigureButtonBindings() {}

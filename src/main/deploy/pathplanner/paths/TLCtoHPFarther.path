@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6226139613560266,
-        "y": 7.162601143973213
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 2.1392238136574067,
-        "y": 6.622732204861111
-      },
-      "isLocked": false,
-      "linkedName": "HPTest1"
-    },
-    {
-      "anchor": {
         "x": 5.206228637695313,
         "y": 5.288364955357142
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.206228637695313,
+        "y": 5.288364955357142
+      },
+      "isLocked": false,
+      "linkedName": "TLC"
+    },
+    {
+      "anchor": {
+        "x": 1.635927036830357,
+        "y": 7.299557495117187
+      },
       "prevControl": {
-        "x": 5.7178555184823505,
-        "y": 6.334038060102513
+        "x": 2.7337201799665185,
+        "y": 7.352350725446428
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TLC"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 150.0
+    "rotation": 29.999999999999996
   },
   "reversed": false,
   "folder": "Tests",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 29.999999999999996
+    "rotation": 150.0
   },
   "useDefaultConstraints": true
 }

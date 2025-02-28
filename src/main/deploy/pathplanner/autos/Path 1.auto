@@ -21,7 +21,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.25
+                        "waitTime": 0.5
                       }
                     },
                     {
@@ -32,14 +32,14 @@
                     }
                   ]
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Score L1"
-                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score L1"
           }
         },
         {
