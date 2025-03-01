@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.155457414899553,
+        "y": 5.730144827706473
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.930786814349204,
+        "y": 5.839794821998974
+      },
+      "isLocked": false,
+      "linkedName": "Push 2"
+    },
+    {
+      "anchor": {
+        "x": 5.206228637695313,
+        "y": 5.288364955357142
+      },
+      "prevControl": {
+        "x": 5.456226982412358,
+        "y": 5.289274701880857
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "TLC"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 148.3018372438292
+  },
+  "reversed": false,
+  "folder": "Tests",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 135.0
+  },
+  "useDefaultConstraints": true
+}

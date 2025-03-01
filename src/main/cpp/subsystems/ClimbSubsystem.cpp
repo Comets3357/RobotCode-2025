@@ -1,4 +1,5 @@
 #include "Subsystems/ClimbSubsystem.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 void ClimbSubsystem::ClimbRetract()
 {
@@ -14,7 +15,16 @@ void ClimbSubsystem::ClimbSetPercent(double percent){
 }
 
 void ClimbSubsystem::ClimbSetPosition(double position){
-    climbMotor.setReference(position, Motor::controlType::position);
+   // climbMotor.setReference(position, Motor::controlType::position);
+    //climbMotor.
+    
+    if (climbMotor.GetAbsolutePosition() < position) {
+        climbMotor.SetPercent(-0.2);
+    } else if (climbMotor.GetAbsolutePosition() >= position) {
+        climbMotor.SetPercent(0); 
+    } else {
+        climbMotor.SetPercent(0);
+    }
 }
 
 bool ClimbSubsystem::ClimbMax()
@@ -28,11 +38,15 @@ ClimbSubsystem::ClimbSubsystem(){
     climbMotor.setFeedbackSensor(Motor::encoderType::absolute);
     climbMotor.setAbsolutePositionConversionFactor(360);
     climbMotor.setAbsoluteVelocityConversionFactor(6);
-    climbMotor.setReverseSoftLimit(90);
-    climbMotor.setForwardSoftLimit(180);
-    climbMotor.enableForwardSoftLimit(true);
-    climbMotor.enableReverseSoftLimit(true);
+    climbMotor.setReverseSoftLimit(2);
+    climbMotor.setForwardSoftLimit(120);
+    climbMotor.enableForwardSoftLimit(false);
+    climbMotor.enableReverseSoftLimit(false);
     climbMotor.configure();
 
     climbMotor.setPID(0.02,0,0);
+}
+
+void ClimbSubsystem::Periodic() {
+    frc::SmartDashboard::PutNumber("climb position", climbMotor.GetAbsolutePosition());
 }

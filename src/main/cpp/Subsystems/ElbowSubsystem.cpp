@@ -192,4 +192,7 @@ void ElbowSubsystem::Periodic() {
     // if (horizMeasurement.has_value() && horizMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
     //     frc::SmartDashboard::PutNumber("Horizontal LaserCAN Measurement", horizMeasurement.value().distance_mm);
     // }
+
+    frc::SmartDashboard::PutNumber("elbow angle", elbowMotor->GetAbsolutePosition());
+    frc::SmartDashboard::PutNumber("Wrist Angle", wristMotor.GetAbsolutePosition());
 }

@@ -17,10 +17,41 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Algae Start"
+                  "name": "Algae Up"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Starting Reset"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Aim L1"
+                      }
+                    }
+                  ]
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score L1"
           }
         },
         {
@@ -32,7 +63,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Algae Stop"
+            "name": "Reset L1"
           }
         }
       ]
