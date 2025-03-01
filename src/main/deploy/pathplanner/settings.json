@@ -6,7 +6,8 @@
     "Tests"
   ],
   "autoFolders": [
-    "New Folder"
+    "New Folder",
+    "New New Folder"
   ],
   "defaultMaxVel": 4.5,
   "defaultMaxAccel": 4.0,

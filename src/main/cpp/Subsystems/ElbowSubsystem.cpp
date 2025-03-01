@@ -30,7 +30,7 @@ ElbowSubsystem::ElbowSubsystem() {
         elbowMotor->setPID(elbowP, elbowI, elbowD);
 
         //gripper stuff
-        wristMotor.SetSmartCurrentLimit(40);
+        wristMotor.SetSmartCurrentLimit(20);
         wristMotor.setRelativeVelocityConversionFactor(0.06 /* goofy ahh value I dont know*/);
         wristMotor.setRelativePositionConversionFactor(3.6 /* 360 degrees / 25 / 4 for ratios*/);
         wristMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);

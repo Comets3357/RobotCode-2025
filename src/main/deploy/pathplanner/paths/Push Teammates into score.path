@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.503422764369419,
-        "y": 6.519084821428571
+        "x": 7.503,
+        "y": 6.119316044560184
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.259895759357126,
-        "y": 6.462564047993112
+        "x": 7.259472994987707,
+        "y": 6.062795271124726
       },
       "isLocked": false,
       "linkedName": "PushTeammatesPoint"
     },
     {
       "anchor": {
-        "x": 5.032541956018518,
-        "y": 5.37761429398148
+        "x": 5.012393663194444,
+        "y": 5.2481061921296295
       },
       "prevControl": {
-        "x": 5.3073263985770085,
-        "y": 5.434859793526786
+        "x": 5.287178105752934,
+        "y": 5.305351691674935
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 149.67690629852143
+    "rotation": 150.0
   },
   "reversed": false,
   "folder": "Tests",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 129.9357068831071
+    "rotation": 135.6623494473721
   },
   "useDefaultConstraints": true
 }
