@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Starttotlc"
+                  "pathName": "StartToTLC"
                 }
               },
               {
@@ -28,6 +28,12 @@
                       "type": "wait",
                       "data": {
                         "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Starting Reset"
                       }
                     },
                     {
@@ -95,7 +101,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 1.0
           }
         },
         {

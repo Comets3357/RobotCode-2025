@@ -40,9 +40,10 @@ ClimbSubsystem::ClimbSubsystem(){
     climbMotor.setAbsoluteVelocityConversionFactor(6);
     climbMotor.setReverseSoftLimit(2);
     climbMotor.setForwardSoftLimit(120);
-    climbMotor.enableForwardSoftLimit(true);
-    climbMotor.enableReverseSoftLimit(true);
+    climbMotor.enableForwardSoftLimit(false);
+    climbMotor.enableReverseSoftLimit(false);
     climbMotor.setPID(0.02,0,0);
+    //climbMotor.setAbsoluteEncoderInverted(true); 
     climbMotor.configure();
     
 }

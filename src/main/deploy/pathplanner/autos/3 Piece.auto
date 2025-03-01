@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Starttotlc"
+                  "pathName": "StartToTLC"
                 }
               },
               {
@@ -101,7 +101,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 1.0
           }
         },
         {
@@ -161,7 +161,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy of TLCtoHP"
+                  "pathName": "TLCtoHPFarther"
                 }
               },
               {
@@ -195,7 +195,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.75
           }
         },
         {

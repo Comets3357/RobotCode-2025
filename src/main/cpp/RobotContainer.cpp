@@ -115,10 +115,8 @@ RobotContainer::RobotContainer()
         {&m_drive}));
 
         // m_secondaryController.LeftTrigger().OnTrue(
-        //     frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle( m_elbowSubsystem.getElbowAngle() + 2;
-        //     )}, {&m_elbowSubsystem})
+        //     frc2::cmd::RunOnce([this] {m_elevator.setPosition( m_elevator.getAPosition() - 0.5);}, {&m_elevator})
         // );
-
         // ZERO GYRO BUTTON
 
         m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
@@ -135,7 +133,7 @@ RobotContainer::RobotContainer()
         m_secondaryController.Start().OnFalse(frc2::cmd::RunOnce([this]{m_climb.ClimbSetPercent(0);},{&m_climb})); 
        
 
-        m_secondaryController.Back().WhileTrue(frc2::cmd::RunOnce([this] {m_climb.ClimbSetPercent(0.3);}, {&m_climb}));
+        m_secondaryController.Back().OnTrue(frc2::cmd::RunOnce([this] {m_climb.ClimbSetPercent(0.3);}, {&m_climb}));
         m_secondaryController.Back().OnFalse(frc2::cmd::RunOnce( [this] {m_climb.ClimbSetPercent(0);}, {&m_climb}));
 
         // m_secondaryController.Start().WhileTrue(frc2::cmd::RunOnce([this] {m_climb.ClimbSetPercent(-0.2);}, {&m_climb}));
