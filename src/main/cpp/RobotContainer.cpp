@@ -114,6 +114,11 @@ RobotContainer::RobotContainer()
         },
         {&m_drive}));
 
+        // m_secondaryController.LeftTrigger().OnTrue(
+        //     frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle( m_elbowSubsystem.getElbowAngle() + 2;
+        //     )}, {&m_elbowSubsystem})
+        // );
+
         // ZERO GYRO BUTTON
 
         m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
@@ -225,7 +230,7 @@ RobotContainer::RobotContainer()
  
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-     return PathPlannerAuto("Push Auto + 1 Score").ToPtr();
+     return PathPlannerAuto("3 Piece").ToPtr();
 }
 
 
