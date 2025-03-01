@@ -225,7 +225,7 @@ RobotContainer::RobotContainer()
  
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-     return PathPlannerAuto("Push Auto + 1 Score");
+     return PathPlannerAuto("Push Auto + 1 Score").ToPtr();
 }
 
 
