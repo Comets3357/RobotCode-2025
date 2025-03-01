@@ -74,7 +74,7 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0); m_elbowSubsystem.setWristAngle(90); m_elbowSubsystem.setElbowAngle(180); }, {&m_elbowSubsystem})
           .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<181;}))));
 
-    
+    //NamedCommands::registerCommand("Default Start Position", std::move()); 
     // Set up default drive command
     // The left stick controls translation of the robot.
     // Turning is controlled by the X axis of the right stick.
@@ -112,9 +112,25 @@ RobotContainer::RobotContainer()
         m_driverController.RightTrigger().OnTrue(frc2::cmd::RunOnce([this] {halfSpeed = true;})); 
         m_driverController.RightTrigger().OnFalse(frc2::cmd::RunOnce([this] {halfSpeed = false;}));
 
-        m_secondaryController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_climb.climbSetPosition(180)},  {m_climb}));
-        m_secondaryController.Back().WhileTrue(frc2::cmd::RunOnce([this] {m_climb.ClimbSetPercent(-0.1)}, {m_climb}));
-        m_secondaryController.Back().OnFalse(frc2::cmd::RunOnce( [this] {m_climb.ClimbSetPercent(0)}, {m_climb}));
+        m_secondaryController.Start().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((20));},{&m_elevator})
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (19.5);}))
+         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);},{&m_elbowSubsystem}))
+         //.AlongWith(frc2::cmd::WaitUntil([this] {return m_elbowSubsystem.getElbowAngle() > 235;}))
+         //.AndThen(frc2::cmd::RunOnce([this] {m_climb.ClimbSetPosition(110);}, {&m_climb}))
+         ); 
+
+         m_secondaryController.Start().OnFalse(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180);},{&m_elbowSubsystem})
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;}))
+         .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}))
+         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (3.5);}))
+         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(90);},{&m_elbowSubsystem}))
+         .AlongWith(frc2::cmd::RunOnce([this]{ return m_elbowSubsystem.getWristAngle()>85.5;}))
+         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.5);},{&m_elbowSubsystem}))
+         .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
+         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);},{&m_elbowSubsystem})));
+
+        m_secondaryController.Back().WhileTrue(frc2::cmd::RunOnce([this] {m_climb.ClimbSetPercent(-0.1);}, {&m_climb}));
+        m_secondaryController.Back().OnFalse(frc2::cmd::RunOnce( [this] {m_climb.ClimbSetPercent(0);}, {&m_climb}));
    
         //intake down
         m_secondaryController.RightTrigger().OnTrue( frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.25);}, {&m_elbowSubsystem})
