@@ -11,6 +11,7 @@
 #include <units/angle.h>
 #include <units/velocity.h>
 #include <utility>
+#include <iostream>
 
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -75,7 +76,7 @@ void RobotContainer::ConfigureButtonBindings() {
     //drive
     m_driverController.LeftBumper().WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
     m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive})); 
-
+    m_driverController.A().WhileTrue(pathfindingCommand.get());
     //algae intake
     // m_driverController.RightBumper().OnTrue(IntakeAlgae(&intake));
     // m_driverController.RightBumper().OnFalse(StopIntake(&intake));

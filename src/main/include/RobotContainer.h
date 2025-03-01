@@ -29,7 +29,7 @@ public:
     DriveSubsystem m_drive;
     // ElevatorSubsystem m_elevator; 
 
-    frc::Pose2d targetPose = frc::Pose2d(10_m, 5_m, frc::Rotation2d(180_deg));
+    frc::Pose2d targetPose = frc::Pose2d(12.5_m, 5.5_m, frc::Rotation2d(45_deg));
 
 // Create the constraints to use while pathfinding
 PathConstraints constraints = PathConstraints(
