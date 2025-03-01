@@ -10,6 +10,7 @@
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ElbowSubsystem.h"
+#include "subsystems/ClimbSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
 #include "subsystems/ElevatorSubsystem.h"
 #include <frc/geometry/Translation2d.h>
@@ -41,6 +42,7 @@ public:
     IntakeSubsystem intake;
     ElbowSubsystem m_elbowSubsystem;
     LEDSubsystem m_LED;
+    ClimbSubsystem m_climb;
 
 private:
     // The driver's controller

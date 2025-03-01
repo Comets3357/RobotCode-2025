@@ -110,7 +110,11 @@ RobotContainer::RobotContainer()
 
         m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
         m_driverController.RightTrigger().OnTrue(frc2::cmd::RunOnce([this] {halfSpeed = true;})); 
-        m_driverController.RightTrigger().OnFalse(frc2::cmd::RunOnce([this] {halfSpeed = false;})); 
+        m_driverController.RightTrigger().OnFalse(frc2::cmd::RunOnce([this] {halfSpeed = false;}));
+
+        m_secondaryController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_climb.climbSetPosition(180)},  {m_climb}));
+        m_secondaryController.Back().WhileTrue(frc2::cmd::RunOnce([this] {m_climb.ClimbSetPercent(-0.1)}, {m_climb}));
+        m_secondaryController.Back().OnFalse(frc2::cmd::RunOnce( [this] {m_climb.ClimbSetPercent(0)}, {m_climb}));
    
         //intake down
         m_secondaryController.RightTrigger().OnTrue( frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.25);}, {&m_elbowSubsystem})
