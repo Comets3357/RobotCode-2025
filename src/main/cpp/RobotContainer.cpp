@@ -29,9 +29,15 @@ RobotContainer::RobotContainer()
     // Set up default drive command
     // The left stick controls translation of the robot.
     // Turning is controlled by the X axis of the right stick.
+
+    //bool halfSpeed = false; 
+
     m_drive.SetDefaultCommand(frc2::RunCommand(
         [this]
         {
+
+            if (!halfSpeed) 
+            {
             m_drive.Drive(
                 -units::meters_per_second_t{frc::ApplyDeadband(
                     m_driverController.GetLeftY(), OIConstants::kDriveDeadband)},
@@ -40,14 +46,25 @@ RobotContainer::RobotContainer()
                 -units::radians_per_second_t{frc::ApplyDeadband(
                     m_driverController.GetRightX(), OIConstants::kDriveDeadband)},
                 true);
+            } else 
+            {
+                m_drive.Drive(
+                -units::meters_per_second_t{frc::ApplyDeadband(
+                    m_driverController.GetLeftY() / 2.0, OIConstants::kDriveDeadband)},
+                -units::meters_per_second_t{frc::ApplyDeadband(
+                    m_driverController.GetLeftX() / 2.0, OIConstants::kDriveDeadband)},
+                -units::radians_per_second_t{frc::ApplyDeadband(
+                    m_driverController.GetRightX() / 2.0, OIConstants::kDriveDeadband)},
+                true);
+            }
         },
         {&m_drive}));
 
         // ZERO GYRO BUTTON
 
         m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
-      //  m_driverController.RightTrigger().WhileTrue(frc2::cmd::RunOnce([this] {DriveConstants::kMaxSpeed = 2.4_mps; DriveConstants::kMaxAngularSpeed = std::numbers::pi;}));
-        //m_driverController.RightTrigger().OnFalse(frc2::cmd::RunOnce([this] {DriveConstants::kMaxSpeed = 4.8_mps; DriveConstants::kMaxAngularSpeed = 2 * std::numbers::pi;})); 
+        m_driverController.RightTrigger().WhileTrue(frc2::cmd::RunOnce([this] {halfSpeed = true;}));
+        m_driverController.RightTrigger().OnFalse(frc2::cmd::RunOnce([this] {halfSpeed = false; })); 
 
 
    
