@@ -42,11 +42,11 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("Algae Up", std::move(StopDeploy(&intake)));
 
     NamedCommands::registerCommand("Starting Reset", std::move(
-        frc2::cmd::RunOnce([this] {m_elevator.setPosition(8)}, {&m_elevator})
-        .AlongWith(frc2::cmd::WaitUntil( [this] {return m_elevator.getAPosiiton() > 7;}))
-        .AndThen(frc2::cmd::RunOnce([this] {m_elbow.setElbowAngle(90)}, {&m_elbowSubsystem}))
-        .AlongWith(frc2::cmd::WaitUntil( [this] {return m_elbow.getElbowAngle() > 80}))
-        .AndThen(frc2::cmd::RunOnce([this] {m_elevator.setPosition(4)}, {&m_elevator}))
+        frc2::cmd::RunOnce([this] {m_elevator.setPosition(8);}, {&m_elevator})
+        .AlongWith(frc2::cmd::WaitUntil( [this] {return m_elevator.getAPosition() > 7;}))
+        .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(90);}, {&m_elbowSubsystem}))
+        .AlongWith(frc2::cmd::WaitUntil( [this] {return m_elbowSubsystem.getElbowAngle() > 80;}))
+        .AndThen(frc2::cmd::RunOnce([this] {m_elevator.setPosition(4);}, {&m_elevator}))
     ));
 
     NamedCommands::registerCommand("L4", std::move(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((50));},{&m_elevator})
