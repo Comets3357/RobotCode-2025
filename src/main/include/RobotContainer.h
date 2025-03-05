@@ -32,6 +32,7 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/Command.h>
 #include "commands/DriverCommands.h"
+#include "Commands/OperatorCommands.h"
 #include <memory>
 
 
