@@ -50,17 +50,22 @@ public:
     LEDSubsystem m_LED;
     ClimbSubsystem m_climb;
     //frc::SendableChooser<frc2::Command*> autoChooser = pathplanner::AutoBuilder::buildAutoChooser(); 
+    //double trimVar = 0;
 
 private:
     // The driver's controller
     frc2::CommandXboxController m_driverController{OIConstants::kDriverControllerPort};
     frc2::CommandXboxController m_secondaryController{OIConstants::kSecondaryControllerPort};
     bool halfSpeed = false; 
-    // pathplanner::AutoBuilder autoChooser = AutoBuilder::buildAutoChooser(); 
+    frc::SendableChooser<frc2::Command *> autoChooser;
 
     // The robot's subsystems and commands are defined here...
     // The robot's subsystems
     // The chooser for the autonomous routines
     // frc::SendableChooser<frc2::Command*> m_chooser;
     void ConfigureButtonBindings();
+
+    int offset = 90;
+
+    //double trimOffset = 0; 
 };

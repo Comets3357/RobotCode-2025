@@ -21,12 +21,6 @@
                 }
               },
               {
-                "type": "path",
-                "data": {
-                  "pathName": "From push to score"
-                }
-              },
-              {
                 "type": "sequential",
                 "data": {
                   "commands": [
