@@ -12,6 +12,6 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"
 
-class DriverCommands : public frc2::Command {
-    void DriverCommands();
-}
+void DriverCommands(DriverSubsystem m_drive, ClimbSubsystem m_climb, ElevatorSubsystem m_elevator,
+                    ElbowSubsystem m_elbowSubsystem, IntakeSubsystem m_intake, LEDSubsystem m_LED);
+
