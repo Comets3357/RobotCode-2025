@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 16.33125,
-        "y": 5.858
+        "x": 5.084717881944443,
+        "y": 5.211652922453704
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.930234164599666,
-        "y": 5.397085628909769
+        "x": 6.084717881944443,
+        "y": 5.211652922453704
       },
       "isLocked": false,
-      "linkedName": "CR"
+      "linkedName": "TLC"
     },
     {
       "anchor": {
-        "x": 14.518,
-        "y": 3.693
+        "x": 1.4950025318287026,
+        "y": 7.223337673611111
       },
       "prevControl": {
-        "x": 15.124374619973137,
-        "y": 4.401118510252429
+        "x": 2.592795674964864,
+        "y": 7.276130903940351
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 180.0
+    "velocity": 0,
+    "rotation": 35.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Tests",
   "idealStartingState": {
-    "velocity": 0.0,
-    "rotation": 180.0
+    "velocity": 0,
+    "rotation": 150.0
   },
   "useDefaultConstraints": true
 }

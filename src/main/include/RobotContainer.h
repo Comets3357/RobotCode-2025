@@ -10,8 +10,9 @@
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ElbowSubsystem.h"
+#include "subsystems/ClimbSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
-#include "Subsystems/ElevatorSubsystem.h"
+#include "subsystems/ElevatorSubsystem.h"
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/trajectory/Trajectory.h>
@@ -26,8 +27,14 @@
 #include <utility>
 #include "Constants.h"
 
+#include <pathplanner/lib/auto/AutoBuilder.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/CommandPtr.h>
+#include <frc2/command/Command.h>
+#include <memory>
 
-#include "Subsystems/LEDSubsystem.h"
+
+#include "subsystems/LEDSubsystem.h"
 
 
 class RobotContainer
@@ -41,11 +48,16 @@ public:
     IntakeSubsystem intake;
     ElbowSubsystem m_elbowSubsystem;
     LEDSubsystem m_LED;
+    ClimbSubsystem m_climb;
+    //frc::SendableChooser<frc2::Command*> autoChooser = pathplanner::AutoBuilder::buildAutoChooser(); 
+    //double trimVar = 0;
 
 private:
     // The driver's controller
     frc2::CommandXboxController m_driverController{OIConstants::kDriverControllerPort};
     frc2::CommandXboxController m_secondaryController{OIConstants::kSecondaryControllerPort};
+    bool halfSpeed = false; 
+    frc::SendableChooser<frc2::Command *> autoChooser;
 
     // The robot's subsystems and commands are defined here...
     // The robot's subsystems
@@ -53,9 +65,7 @@ private:
     // frc::SendableChooser<frc2::Command*> m_chooser;
     void ConfigureButtonBindings();
 
-    // frc2::FunctionalCommand DoStuff;
-    // frc2::FunctionalCommand DoStuff2;
-    // frc2::CommandPtr ElevatorSequence;
-    
-    
+    int offset = 90;
+
+    //double trimOffset = 0; 
 };

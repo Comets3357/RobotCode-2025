@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 11.875,
-        "y": 5.019
+        "x": 7.197936139787946,
+        "y": 6.119
       },
       "prevControl": null,
       "nextControl": {
-        "x": 12.659204091142307,
-        "y": 5.395198964125403
-      },
-      "isLocked": false,
-      "linkedName": "TRR4"
-    },
-    {
-      "anchor": {
-        "x": 13.718,
-        "y": 5.975
-      },
-      "prevControl": {
-        "x": 13.471703556977788,
-        "y": 5.93212737289824
-      },
-      "nextControl": {
-        "x": 13.964296443022212,
-        "y": 6.0178726271017595
+        "x": 7.842739422221794,
+        "y": 6.119
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 16.33125,
-        "y": 5.858
+        "x": 8.133,
+        "y": 6.119
       },
       "prevControl": {
-        "x": 15.217881459471604,
-        "y": 5.922112911958622
+        "x": 8.453703862715741,
+        "y": 6.117199826468193
+      },
+      "nextControl": {
+        "x": 5.319823346819197,
+        "y": 6.134790910993303
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.084717881944443,
+        "y": 5.211652922453704
+      },
+      "prevControl": {
+        "x": 5.993118499271452,
+        "y": 6.2237527062148645
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CR"
+      "linkedName": "TLC"
     }
   ],
   "rotationTargets": [],
@@ -49,8 +49,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -58,13 +58,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 150.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Tests",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 89.23040343784426
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

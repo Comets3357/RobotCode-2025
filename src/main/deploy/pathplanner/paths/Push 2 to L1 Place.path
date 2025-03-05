@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 16.33125,
-        "y": 5.858
+        "x": 8.155457414899553,
+        "y": 5.730144827706473
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.930234164599666,
-        "y": 5.397085628909769
+        "x": 7.930786814349204,
+        "y": 5.839794821998974
       },
       "isLocked": false,
-      "linkedName": "CR"
+      "linkedName": "Push 2"
     },
     {
       "anchor": {
-        "x": 14.518,
-        "y": 3.693
+        "x": 5.084717881944443,
+        "y": 5.211652922453704
       },
       "prevControl": {
-        "x": 15.124374619973137,
-        "y": 4.401118510252429
+        "x": 5.334716226661488,
+        "y": 5.2125626689774185
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "TLC"
     }
   ],
   "rotationTargets": [],
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 180.0
+    "velocity": 0,
+    "rotation": 150.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Tests",
   "idealStartingState": {
-    "velocity": 0.0,
-    "rotation": 180.0
+    "velocity": 0,
+    "rotation": 135.0
   },
   "useDefaultConstraints": true
 }

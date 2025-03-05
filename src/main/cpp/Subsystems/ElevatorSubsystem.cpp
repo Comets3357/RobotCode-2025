@@ -1,4 +1,5 @@
-#include "Subsystems/ElevatorSubsystem.h"
+#include "subsystems/ElevatorSubsystem.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 ElevatorSubsystem::ElevatorSubsystem() 
 {
@@ -72,6 +73,15 @@ double ElevatorSubsystem::getAPosition()
 {
     return MainElevatorMotor.GetAbsolutePosition();
 }
+
+
+// void ElevatorSubsystem::setPidSlot(int n)
+// {
+//     if (n == 0)
+//     {}
+//         MainElevatorMotor.setPID(elevatorP, elevatorI, elevatorD, 0, 0);
+
+// }
 
 void ElevatorSubsystem::Periodic()
 {
