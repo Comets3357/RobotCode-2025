@@ -6,6 +6,8 @@
 #include "Subsystems/LEDSubsystem.h"
 #include "Subsystems/MAXSwerveModule.h"
 
+#include "RobotContainer.h"
+
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"

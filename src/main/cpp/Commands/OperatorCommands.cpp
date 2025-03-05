@@ -29,13 +29,13 @@ void OperatorCommands::OperatorCommands() {
     //  / ____ \ (__| |_| | (_) | | | | | |_) | |_| | |_| || (_) | | | \__ |
     // /_/    \_\___|\__|_|\___/|_| |_| |____/ \__,_|\__|\__\___/|_| |_|___/
                                                                       
-    //intake down
+    //intake to ground (arm side)
     m_secondaryController.A().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.4);}, {&m_elbowSubsystem})
     .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getWristAngle() < 2;}))
     .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(305);},{&m_elbowSubsystem}))
     );
 
-    //intake up
+    //intake up to idle position
     m_secondaryController.A().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0.2);},{&m_elbowSubsystem})
     .AlongWith(frc2::cmd::WaitUntil([this]{return m_elbowSubsystem.getElbowAngle()<=295;}))
     .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(90);},{&m_elbowSubsystem}))
@@ -45,6 +45,17 @@ void OperatorCommands::OperatorCommands() {
     .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);},{&m_elbowSubsystem}))
     );
 
+    //reset all positions to idle mode, elevator all down and elbow set to 180.
+    m_secondaryController.X().OnTrue(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180);},{&m_elbowSubsystem})
+    .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;}))
+    .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}))
+    .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (3.5);}))
+    .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(90);},{&m_elbowSubsystem}))
+    .AlongWith(frc2::cmd::RunOnce([this]{ return m_elbowSubsystem.getWristAngle()>85.5;}))
+    .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.5);},{&m_elbowSubsystem}))
+    .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
+    .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);},{&m_elbowSubsystem})));
+
     //  _____   ______      __  ____        _   _                  
     // |  __ \ / __ \ \    / / |  _ \      | | | |                 
     // | |__) | |  | \ \  / /  | |_) |_   _| |_| |_ ___  _ __  ___ 
@@ -52,17 +63,18 @@ void OperatorCommands::OperatorCommands() {
     // | |    | |__| | \  /    | |_) | |_| | |_| || (_) | | | \__ |
     // |_|     \____/   \/     |____/ \__,_|\__|\__\___/|_| |_|___/
 
-    m_secondaryController.POVUp().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((50));},{&m_elevator})
-    .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (49.5);}))
-    .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);},{&m_elbowSubsystem}))
-    .AlongWith(frc2::cmd::WaitUntil( [this] { return m_secondaryController.GetHID().GetRightBumperButton();}))
-    .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((32)); m_elbowSubsystem.setRollerSpeed(-0.1); },{&m_elbowSubsystem, &m_elevator})
-    .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (32.5);})))
-    .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); },{&m_elbowSubsystem})
-    .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;})))
-    .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}))
-    ); 
+    //Moves elevator to L4 position and if A pressed, flip the wrist 180 degrees
+    //Then move elbow down to score
+    //TODO make this not suck (reformat functional command)
+    m_secondaryController.POVUp().OnTrue( frc2::cmd::RunOnce([this] { m_elevator.setPosition(50);}, {&m_elevator})
+    .AlongWith(frc2::cmd::WaitUntil([this]{ return m_elevator.getAPosition()>49.5;}))
+    .AndThen(frc2::FunctionalCommand([this](){m_elbowSubsystem.setElbowAngle(240);}, 
+    [this](){ if (m_driverController.GetHID().GetAButtonPressed()){offset += 180; m_elbowSubsystem.setWristAngle(offset);}}, [this](bool interrupt){}, 
+    [this](){ return m_secondaryController.GetHID().GetRightBumperButton(); }, {&m_elbowSubsystem, &m_elevator}).ToPtr())
+    .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(270); m_elbowSubsystem.setRollerSpeed(-0.15);},{&m_elbowSubsystem})));
 
+    //Moves elevator the L3 position
+    //If right trigger is pressed elbow goes down to score.
     m_secondaryController.POVLeft().OnTrue(frc2::cmd::RunOnce([this] { m_elevator.setPosition(17);}, {&m_elevator})
     .AlongWith(frc2::cmd::WaitUntil([this]{ return m_elevator.getAPosition()>16.5;}))
     .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(225);},{&m_elevator}))
@@ -70,11 +82,15 @@ void OperatorCommands::OperatorCommands() {
     .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(250); m_elbowSubsystem.setRollerSpeed(-0.15);},{&m_elbowSubsystem}))
     );
 
+    //Moves elevator the L2 position
+    //If right trigger is pressed elbow goes down to score.
     m_secondaryController.POVRight().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(225);}, {&m_elbowSubsystem})
     .AlongWith(frc2::cmd::WaitUntil( [this] { return m_secondaryController.GetHID().GetRightBumperButton();}))
     .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(250); m_elbowSubsystem.setRollerSpeed(-0.15);},{&m_elbowSubsystem}))
     );
 
+    //Moves elbow parallel to ground
+    //If right trigger is pressed rollers score.
     m_secondaryController.POVDown().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setElbowAngle(255);}, {&m_elbowSubsystem})
     .AlongWith(frc2::cmd::WaitUntil( [this] { return m_secondaryController.GetHID().GetRightBumperButton();}))
     .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(-0.25);},{&m_elbowSubsystem}))

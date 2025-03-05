@@ -12,4 +12,6 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"
 
-void DriverCommands();
+class DriverCommands : public frc2::Command {
+    void DriverCommands();
+}
