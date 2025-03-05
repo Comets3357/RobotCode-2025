@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.503,
-        "y": 6.119316044560184
+        "x": 7.197936139787946,
+        "y": 6.119
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.713626366654905,
-        "y": 6.253987992900414
-      },
-      "isLocked": false,
-      "linkedName": "PushTeammatesPoint"
-    },
-    {
-      "anchor": {
-        "x": 8.108301142939814,
-        "y": 6.642531105324074
-      },
-      "prevControl": {
-        "x": 7.953514480212016,
-        "y": 6.4462122599688945
-      },
-      "nextControl": {
-        "x": 8.263087805667611,
-        "y": 6.838849950679253
+        "x": 7.842739422221794,
+        "y": 6.119
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.503,
-        "y": 6.119316044560184
+        "x": 8.133,
+        "y": 6.119
       },
       "prevControl": {
-        "x": 7.250069542698536,
-        "y": 5.879983089385888
+        "x": 8.453703862715741,
+        "y": 6.117199826468193
+      },
+      "nextControl": {
+        "x": 5.319823346819197,
+        "y": 6.134790910993303
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.084717881944443,
+        "y": 5.211652922453704
+      },
+      "prevControl": {
+        "x": 5.993118499271452,
+        "y": 6.2237527062148645
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "PushTeammatesPoint"
+      "linkedName": "TLC"
     }
   ],
   "rotationTargets": [],
@@ -58,13 +58,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 135.6623494473721
+    "rotation": 150.0
   },
   "reversed": false,
   "folder": "Tests",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 135.6623494473721
+    "rotation": 89.23040343784426
   },
   "useDefaultConstraints": false
 }

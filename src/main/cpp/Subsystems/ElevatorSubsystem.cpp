@@ -74,6 +74,15 @@ double ElevatorSubsystem::getAPosition()
     return MainElevatorMotor.GetAbsolutePosition();
 }
 
+
+// void ElevatorSubsystem::setPidSlot(int n)
+// {
+//     if (n == 0)
+//     {}
+//         MainElevatorMotor.setPID(elevatorP, elevatorI, elevatorD, 0, 0);
+
+// }
+
 void ElevatorSubsystem::Periodic()
 {
     frc::SmartDashboard::PutNumber("elevatorPos", MainElevatorMotor.GetAbsolutePosition());
