@@ -56,7 +56,6 @@ public:
     virtual void setPositionWrappingMaxInput(double maxInput) = 0;
     virtual void setPositionWrappingMaxRange(double minInput, double maxInput) = 0;
     virtual void setReference(double ref, controlType ctrl) = 0;
-    virtual void setReference(double ref, controlType ctrl, double arbFeedForward) = 0;
 
     virtual void setForwardSoftLimit(double limit) = 0;
     virtual void setReverseSoftLimit(double limit) = 0;

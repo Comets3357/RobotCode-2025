@@ -115,6 +115,10 @@ double SparkMaxMotor::GetOutputCurrent() {
     return motor.GetOutputCurrent();
 }
 
+double SparkMaxMotor::GetOutputCurrent() {
+    return motor.GetOutputCurrent();
+}
+
 void SparkMaxMotor::SetRelativePosition(double pos)
 {
     RelativeEncoder.SetPosition(pos);

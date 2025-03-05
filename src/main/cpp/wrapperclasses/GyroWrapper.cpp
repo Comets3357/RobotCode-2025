@@ -1,4 +1,3 @@
-
 #include "wrapperclasses/GyroWrapper.h"
 
 GyroWrapper::GyroWrapper() 
@@ -18,6 +17,7 @@ void GyroWrapper::SetAngle(units::degree_t angle)
 
 frc::Rotation2d GyroWrapper::Get2DRotation()
 {
+    
     frc::Rotation2d temp{m_gyro.GetRotation2d().Degrees() + CurrentYaw};
     return temp; 
 }

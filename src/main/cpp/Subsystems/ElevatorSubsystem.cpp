@@ -1,4 +1,5 @@
-#include "Subsystems/ElevatorSubsystem.h"
+#include "subsystems/ElevatorSubsystem.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 ElevatorSubsystem::ElevatorSubsystem() 
 {
@@ -43,6 +44,8 @@ ElevatorSubsystem::ElevatorSubsystem()
         FollowElevatorMotor.enableReverseSoftLimit(false);
         MainElevatorMotor.setForwardSoftLimit(50.5);
         MainElevatorMotor.setReverseSoftLimit(3);
+        MainElevatorMotor.setForwardSoftLimit(50.5);
+        MainElevatorMotor.setReverseSoftLimit(3);
         MainElevatorMotor.setMinOutput(-0.5);
         MainElevatorMotor.setMaxOutput(0.5);
         FollowElevatorMotor.SetFollow(MainElevatorMotor);
@@ -72,6 +75,15 @@ double ElevatorSubsystem::getAPosition()
 {
     return MainElevatorMotor.GetAbsolutePosition();
 }
+
+
+// void ElevatorSubsystem::setPidSlot(int n)
+// {
+//     if (n == 0)
+//     {}
+//         MainElevatorMotor.setPID(elevatorP, elevatorI, elevatorD, 0, 0);
+
+// }
 
 void ElevatorSubsystem::Periodic()
 {

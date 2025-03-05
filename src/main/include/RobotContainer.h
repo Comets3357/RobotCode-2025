@@ -10,8 +10,9 @@
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ElbowSubsystem.h"
+#include "subsystems/ClimbSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
-#include "Subsystems/ElevatorSubsystem.h"
+#include "subsystems/ElevatorSubsystem.h"
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/trajectory/Trajectory.h>
@@ -53,9 +54,7 @@ private:
     // frc::SendableChooser<frc2::Command*> m_chooser;
     void ConfigureButtonBindings();
 
-    // frc2::FunctionalCommand DoStuff;
-    // frc2::FunctionalCommand DoStuff2;
-    // frc2::CommandPtr ElevatorSequence;
-    
-    
+    int offset = 90;
+
+    //double trimOffset = 0; 
 };

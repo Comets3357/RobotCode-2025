@@ -1,8 +1,7 @@
 #include "subsystems/ElbowSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "wrapperclasses/SparkMaxMotor.h"
-#include "Subsystems/ElbowSubsystem.h"
-#include "grpl/CanBridge.h"
+//#include "grpl/CanBridge.h"
 #include "Robot.h"
 
 ElbowSubsystem::ElbowSubsystem() {
@@ -31,7 +30,7 @@ ElbowSubsystem::ElbowSubsystem() {
         elbowMotor->setPID(elbowP, elbowI, elbowD);
 
         //gripper stuff
-        wristMotor.SetSmartCurrentLimit(40);
+        wristMotor.SetSmartCurrentLimit(20);
         wristMotor.setRelativeVelocityConversionFactor(0.06 /* goofy ahh value I dont know*/);
         wristMotor.setRelativePositionConversionFactor(3.6 /* 360 degrees / 25 / 4 for ratios*/);
         wristMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
@@ -127,7 +126,8 @@ double ElbowSubsystem::getElbowSpeed() {
 
 void ElbowSubsystem::setElbowTarget() {
     //TODO PUT THIS BACK
-    elbowMotor->setReference(getElbowTargetAngle(), Motor::controlType::position, -0.12);
+   // elbowMotor->setReference(getElbowTargetAngle(), Motor::controlType::position, -0.12);
+   elbowMotor->setReference(getElbowTargetAngle(), Motor::controlType::position);
 }
 
 void ElbowSubsystem::setWristTarget() {
@@ -178,6 +178,7 @@ bool ElbowSubsystem::isGamePieceDetected() {
     // } else {
     //     return false;
     // }
+    return false; 
 }
 
 void ElbowSubsystem::Periodic() {
@@ -191,4 +192,7 @@ void ElbowSubsystem::Periodic() {
     // if (horizMeasurement.has_value() && horizMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
     //     frc::SmartDashboard::PutNumber("Horizontal LaserCAN Measurement", horizMeasurement.value().distance_mm);
     // }
+
+    frc::SmartDashboard::PutNumber("elbow angle", elbowMotor->GetAbsolutePosition());
+    frc::SmartDashboard::PutNumber("Wrist Angle", wristMotor.GetAbsolutePosition());
 }

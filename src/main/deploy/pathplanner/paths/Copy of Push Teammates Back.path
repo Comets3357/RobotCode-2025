@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 11.875,
-        "y": 5.019
+        "x": 7.503,
+        "y": 6.119316044560184
       },
       "prevControl": null,
       "nextControl": {
-        "x": 12.659204091142307,
-        "y": 5.395198964125403
+        "x": 7.713626366654905,
+        "y": 6.253987992900414
       },
       "isLocked": false,
-      "linkedName": "TRR4"
+      "linkedName": "PushTeammatesPoint"
     },
     {
       "anchor": {
-        "x": 13.718,
-        "y": 5.975
+        "x": 8.127250017438616,
+        "y": 6.136270141601562
       },
       "prevControl": {
-        "x": 13.471703556977788,
-        "y": 5.93212737289824
+        "x": 8.304974165757598,
+        "y": 6.3120942784664775
       },
       "nextControl": {
-        "x": 13.964296443022212,
-        "y": 6.0178726271017595
+        "x": 7.941173008510044,
+        "y": 5.952182442801338
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 16.33125,
-        "y": 5.858
+        "x": 7.503,
+        "y": 6.119316044560184
       },
       "prevControl": {
-        "x": 15.217881459471604,
-        "y": 5.922112911958622
+        "x": 7.250069542698536,
+        "y": 5.879983089385888
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CR"
+      "linkedName": "PushTeammatesPoint"
     }
   ],
   "rotationTargets": [],
@@ -49,8 +49,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -58,13 +58,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 135.6623494473721
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Tests",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 135.6623494473721
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -48,6 +48,8 @@ public:
                units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
                bool fieldRelative);
 
+    void DriveFromChassisSpeeds(frc::ChassisSpeeds speed, bool fieldRelative); 
+
     /**
      * Sets the wheels into an X formation to prevent movement.
      */
@@ -63,6 +65,9 @@ public:
      */
     void SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates);
 
+   double GetChassisSpeed(); 
+
+
     /**
      * Returns the heading of the robot.
      *
@@ -76,6 +81,8 @@ public:
      * Zeroes the heading of the robot.
      */
     void ZeroHeading();
+
+    void ZeroHeading(frc::Pose2d degree); 
 
     /**
      * Returns the turn rate of the robot.
@@ -121,8 +128,8 @@ private:
     MAXSwerveModule m_frontRight;
     MAXSwerveModule m_rearRight;
 
-    GyroWrapper m_gyro; 
     //redux::sensors::canandgyro::Canandgyro m_gyro{9};
+    GyroWrapper m_gyro; 
 
     frc::SwerveDriveOdometry<4> m_odometry;
 };
