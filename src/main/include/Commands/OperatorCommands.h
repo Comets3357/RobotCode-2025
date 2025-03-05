@@ -12,4 +12,5 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"
 
-void OperatorCommands();
+void OperatorCommands(DriverSubsystem m_drive, ClimbSubsystem m_climb, ElevatorSubsystem m_elevator,
+                    ElbowSubsystem m_elbow, IntakeSubsystem m_intake, LEDSubsystem m_LED);

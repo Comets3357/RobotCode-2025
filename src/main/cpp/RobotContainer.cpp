@@ -39,9 +39,9 @@ RobotContainer::RobotContainer()
      // frc::SmartDashboard::PutData("Auto Chooser", &autoChooser); 
 
 
-    NamedCommands::registerCommand("Algae Start", std::move(IntakeAlgae(&intake)));
-    NamedCommands::registerCommand("Algae Stop", std::move(StopIntake(&intake)));
-    NamedCommands::registerCommand("Algae Up", std::move(StopDeploy(&intake)));
+    NamedCommands::registerCommand("Algae Start", std::move(IntakeAlgae(&m_intake)));
+    NamedCommands::registerCommand("Algae Stop", std::move(StopIntake(&m_intake)));
+    NamedCommands::registerCommand("Algae Up", std::move(StopDeploy(&m_intake)));
 
     NamedCommands::registerCommand("Starting Reset", std::move( frc2::cmd::RunOnce([this] {m_elevator.setPosition(25);}, {&m_elevator})
         .AlongWith(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.1);}, {&m_elbowSubsystem}))
@@ -178,14 +178,14 @@ RobotContainer::RobotContainer()
 
        // m_driverController.A().OnFalse(frc2::cmd::RunOnce([this] {m_elevator.setPosition(18); m_elbowSubsystem.setRollerSpeed(0);}, {&m_elevator, &m_elbowSubsystem}));
    
-        //intake down
+        //m_intake down
         m_secondaryController.A().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(295); m_elbowSubsystem.setWristAngle(0); m_elbowSubsystem.setRollerSpeed(0.4);}, {&m_elbowSubsystem})
         .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getWristAngle() < 2;}))
         .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(305);},{&m_elbowSubsystem})));
        // .AlongWith(frc2::cmd::WaitUntil([this] {return m_elbowSubsystem.getRollerCurrent() > 50;}))
         //.AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);},{&m_elbowSubsystem})));
 
-        //intake up
+        //m_intake up
         m_secondaryController.A().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(180 ); m_elbowSubsystem.setRollerSpeed(0.2);},{&m_elbowSubsystem})
         .AlongWith(frc2::cmd::WaitUntil([this]{return m_elbowSubsystem.getElbowAngle()<=295;}))
         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(90);},{&m_elbowSubsystem}))
@@ -239,22 +239,22 @@ RobotContainer::RobotContainer()
          .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);},{&m_elbowSubsystem})));
 
-          m_secondaryController.B().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(180); m_elbowSubsystem.setElbowAngle(235); }, {&m_elbowSubsystem})
-          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()>234;}))
-          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.4);},{&m_elbowSubsystem})));
+        //   m_secondaryController.B().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(180); m_elbowSubsystem.setElbowAngle(235); }, {&m_elbowSubsystem})
+        //   .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()>234;}))
+        //   .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.4);},{&m_elbowSubsystem})));
 
-         m_secondaryController.B().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0); m_elbowSubsystem.setWristAngle(90); m_elbowSubsystem.setElbowAngle(180); }, {&m_elbowSubsystem})
-          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<181;})));
+        //  m_secondaryController.B().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0); m_elbowSubsystem.setWristAngle(90); m_elbowSubsystem.setElbowAngle(180); }, {&m_elbowSubsystem})
+        //   .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<181;})));
 
-          m_secondaryController.Y().OnTrue(IntakeAlgae(&intake)); 
-          m_secondaryController.Y().OnFalse(StopIntake(&intake));
-          m_secondaryController.RightTrigger().OnTrue(DeployAlgae(&intake));
-          m_secondaryController.RightTrigger().OnFalse(StopDeploy(&intake)); 
+        //   m_secondaryController.Y().OnTrue(IntakeAlgae(&m_intake)); 
+        //   m_secondaryController.Y().OnFalse(StopIntake(&m_intake));
+          m_secondaryController.RightTrigger().OnTrue(DeployAlgae(&m_intake));
+          m_secondaryController.RightTrigger().OnFalse(StopDeploy(&m_intake)); 
 
 
         
-        // m_driverController.A().OnTrue(IntakeAlgae(&intake));
-        // m_driverController.A().OnFalse(StopIntake(&intake));   
+        // m_driverController.A().OnTrue(IntakeAlgae(&m_intake));
+        // m_driverController.A().OnFalse(StopIntake(&m_intake));   
 }
  
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()

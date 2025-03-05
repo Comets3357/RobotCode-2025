@@ -47,8 +47,8 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
     DriveSubsystem m_drive;
     ElevatorSubsystem m_elevator;
-    IntakeSubsystem intake;
-    ElbowSubsystem m_elbowSubsystem;
+    IntakeSubsystem m_intake;
+    ElbowSubsystem m_elbow;
     LEDSubsystem m_LED;
     ClimbSubsystem m_climb;
     //frc::SendableChooser<frc2::Command*> autoChooser = pathplanner::AutoBuilder::buildAutoChooser(); 

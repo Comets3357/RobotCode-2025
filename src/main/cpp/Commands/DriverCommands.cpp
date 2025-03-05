@@ -12,7 +12,8 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"
                                                                     
-void DriverCommands::DriverCommands() {
+void DriverCommands::DriverCommands(DriverSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
+                                    ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED) {
 
     //  _____       _                  ____        _   _                  
     // |  __ \     (_)                |  _ \      | | | |                 
@@ -68,14 +69,14 @@ void DriverCommands::DriverCommands() {
 
     //LEFT TRIGGER
     //Deploys the algae subsystem to pick up an algae ball
-    m_driverController.LeftTrigger().OnTrue(IntakeAlgae(&intake));
-    m_driverController.LeftTrigger().OnFalse(StopIntake(&intake));
+    m_driverController.LeftTrigger().OnTrue(IntakeAlgae(&m_intake));
+    m_driverController.LeftTrigger().OnFalse(StopIntake(&m_intake));
 
     //LEFT BUMPER
     //Deploys an algae ball already inside the bot
     //Puts the algae subsystem down and spins the rollers in reverse
-    m_driverController.LeftBumper().OnTrue(DeployAlgae(&intake));
-    m_driverController.LeftBumper().OnFalse(StopDeploy(&intake));
+    m_driverController.LeftBumper().OnTrue(DeployAlgae(&m_intake));
+    m_driverController.LeftBumper().OnFalse(StopDeploy(&m_intake));
 
     
 
