@@ -19,8 +19,8 @@
 //        | |                                                                      
 //        |_|   
 
-void OperatorCommands::OperatorCommands(DriverSubsystem m_drive, ClimbSubsystem m_climb, ElevatorSubsystem m_elevator,
-                    ElbowSubsystem m_elbow, IntakeSubsystem m_intake, LEDSubsystem m_LED) {
+void OperatorCommands::OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
+                    ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED) {
 
     
     //               _   _               ____        _   _                  
@@ -78,15 +78,26 @@ void OperatorCommands::OperatorCommands(DriverSubsystem m_drive, ClimbSubsystem 
     //Moves elevator to L4 position and if A pressed, flip the wrist 180 degrees
     //Then move elbow down to score
     //TODO make this not suck (reformat functional command)
-
     
+    // frc2::FunctionalCommand([this]{m_elbow.setElbowAngle(240);}, 
+    // [this]{m_elbow.setElbowAngle(225 + (m_secondaryController.getRightY()*15))}, [this](bool interrupt){}, 
+    // [this]{}, {&m_elbow}).ToPtr();
 
+    // frc2::FunctionalCommand([this](){m_elbow.setElbowAngle(240);}, 
+    // [this](){ if (m_driverController.GetHID().GetAButtonPressed()){offset += 180; m_elbow.setWristAngle(offset);}}, [this](bool interrupt){}, 
+    // [this](){ return m_secondaryController.GetHID().GetRightBumperButton(); }, {&m_elbow, &m_elevator}).ToPtr()
 
-    m_secondaryController.POVUp().OnTrue( frc2::cmd::RunOnce([this] { m_elevator.setPosition(50);}, {&m_elevator})
+//     frc2::FunctionalCommand(
+//     [this]{m_elbow.setElbowAngle(240);},
+//     [this]{m_elbow.setElbowAngle(225 + (m_secondaryController.getRightY() * 15)); if (m_driverController.GetHID().GetAButtonPressed()) {
+//             offset += 180; m_elbow.setWristAngle(offset);}},[this](bool interrupt){},[this](){return m_secondaryController.GetHID().GetRightBumperButton();},{&m_elbow, &m_elevator}
+// ).ToPtr();
+
+    m_secondaryController.POVUp().OnTrue( frc2::cmd::RunOnce([this] { m_elevator.setPosition(50); m_elbow.setElbowAngle(240);}, {&m_elevator})
     .AlongWith(frc2::cmd::WaitUntil([this]{ return m_elevator.getAPosition()>49.5;}))
-    .AndThen(frc2::FunctionalCommand([this](){m_elbow.setElbowAngle(240);}, 
-    [this](){ if (m_driverController.GetHID().GetAButtonPressed()){offset += 180; m_elbow.setWristAngle(offset);}}, [this](bool interrupt){}, 
-    [this](){ return m_secondaryController.GetHID().GetRightBumperButton(); }, {&m_elbow, &m_elevator}).ToPtr())
+    .AndThen(frc2::FunctionalCommand([this]{},
+    [this]{m_elbow.setElbowAngle(225 + (m_secondaryController.getRightY() * 15)); if (m_driverController.GetHID().GetAButtonPressed()) {
+    offset += 180; m_elbow.setWristAngle(offset);}},[this](bool interrupt){},[this](){return m_secondaryController.GetHID().GetRightBumperButton();},{&m_elbow, &m_elevator}).ToPtr())
     .AndThen(frc2::cmd::RunOnce([this] {m_elbow.setElbowAngle(270); m_elbow.setRollerSpeed(-0.15);},{&m_elbow})));
 
     //Moves elevator the L3 position
