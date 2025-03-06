@@ -57,7 +57,6 @@ void OperatorCommands::OperatorCommands(DriverSubsystem m_drive, ClimbSubsystem 
     .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
     .AndThen(frc2::cmd::RunOnce([this] {m_elbow.setRollerSpeed(0);},{&m_elbow})));
 
-    //
     m_secondaryController.B().OnTrue(frc2::cmd::RunOnce([this] {m_elbow.setWristAngle(180); m_elbow.setElbowAngle(235); }, {&m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbow.getElbowAngle()>234;}))
     .AndThen(frc2::cmd::RunOnce([this] {m_elbow.setRollerSpeed(0.4);},{&m_elbow})));
@@ -65,8 +64,13 @@ void OperatorCommands::OperatorCommands(DriverSubsystem m_drive, ClimbSubsystem 
     m_secondaryController.B().OnFalse(frc2::cmd::RunOnce([this] {m_elbow.setRollerSpeed(0); m_elbow.setWristAngle(90); m_elbow.setElbowAngle(180); }, {&m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbow.getElbowAngle()<181;})));
 
+    //Intake algae
     m_secondaryController.Y().OnTrue(IntakeAlgae(&m_intake)); 
     m_secondaryController.Y().OnFalse(StopIntake(&m_intake));
+
+    //Deploy algae
+    m_secondaryController.RightTrigger().OnTrue(DeployAlgae(&m_intake));
+    m_secondaryController.RightTrigger().OnFalse(StopDeploy(&m_intake)); 
 
     //  _____   ______      __  ____        _   _                  
     // |  __ \ / __ \ \    / / |  _ \      | | | |                 
@@ -129,6 +133,15 @@ void OperatorCommands::OperatorCommands(DriverSubsystem m_drive, ClimbSubsystem 
     //On Back true slowly recline the climb to get off the ground, on false stop the climb.
     m_secondaryController.Back().OnTrue(frc2::cmd::RunOnce([this] {m_climb.ClimbSetPercent(0.3);}, {&m_climb}));
     m_secondaryController.Back().OnFalse(frc2::cmd::RunOnce( [this] {m_climb.ClimbSetPercent(0);}, {&m_climb}));
+
+    // OTHER BUTTONS
+
+    //Run the rollers when left trigger is pressed, stop on false
+    m_secondaryController.LeftTrigger().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.20);}));
+    m_secondaryController.LeftTrigger().OnFalse(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);}));
+
+    //Flip rollers 180 degrees
+    m_secondaryController.LeftBumper().OnTrue(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle( m_elbowSubsystem.getWristAngle() + 180);}, {&m_elbowSubsystem}));
 
 
 }
