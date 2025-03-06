@@ -82,6 +82,10 @@ void OperatorCommands::OperatorCommands(DriverSubsystem m_drive, ClimbSubsystem 
     //Moves elevator to L4 position and if A pressed, flip the wrist 180 degrees
     //Then move elbow down to score
     //TODO make this not suck (reformat functional command)
+
+    
+
+
     m_secondaryController.POVUp().OnTrue( frc2::cmd::RunOnce([this] { m_elevator.setPosition(50);}, {&m_elevator})
     .AlongWith(frc2::cmd::WaitUntil([this]{ return m_elevator.getAPosition()>49.5;}))
     .AndThen(frc2::FunctionalCommand([this](){m_elbow.setElbowAngle(240);}, 
