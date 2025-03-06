@@ -100,6 +100,13 @@ void DriveSubsystem::UpdateOdometry() {
   m_poseEstimator.Update(m_gyro.Get2DRotation(),
                          {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                           m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
+
+    double chassisSpeedSquared= pow((double) GetRobotRelativeSpeeds().vx, 2) + pow((double) GetRobotRelativeSpeeds().vy, 2); 
+    double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
+    double xStdDev = (( (double)GetRobotRelativeSpeeds().vx / 4.8) * 5) + 0.1;
+    double yStdDev = (( (double)GetRobotRelativeSpeeds().vy / 4.8) * 5) + 0.1; 
+    
+    m_poseEstimator.SetVisionMeasurementStdDevs({xStdDev, yStdDev, 100});
                           
   estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
 
@@ -130,6 +137,8 @@ void DriveSubsystem::UpdateOdometry() {
     {
         m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(1).estimatedPose.ToPose2d(), estimatedPoseVector.at(1).timestamp); 
     }
+    
+
   }
 
 }
