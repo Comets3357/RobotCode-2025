@@ -12,5 +12,6 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"
 
-void OperatorCommands(DriverSubsystem m_drive, ClimbSubsystem m_climb, ElevatorSubsystem m_elevator,
-                    ElbowSubsystem m_elbow, IntakeSubsystem m_intake, LEDSubsystem m_LED);
+void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
+                    ElbowSubsystem* m_elbowSubsystem, IntakeSubsystem* m_intake, LEDSubsystem* m_LED, 
+                    frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, int offset);

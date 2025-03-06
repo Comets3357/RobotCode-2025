@@ -34,6 +34,7 @@
 #include "commands/DriverCommands.h"
 #include "Commands/OperatorCommands.h"
 #include "Commands/DriverCommands.h"
+#include "Commands/AutonCommands.h"
 #include <memory>
 
 
@@ -59,7 +60,6 @@ private:
     // The driver's controller
     frc2::CommandXboxController m_driverController{OIConstants::kDriverControllerPort};
     frc2::CommandXboxController m_secondaryController{OIConstants::kSecondaryControllerPort};
-    bool halfSpeed = false; 
     frc::SendableChooser<frc2::Command *> autoChooser;
 
     // The robot's subsystems and commands are defined here...
@@ -69,6 +69,7 @@ private:
     void ConfigureButtonBindings();
 
     int offset = 90;
+
 
     //double trimOffset = 0; 
 };

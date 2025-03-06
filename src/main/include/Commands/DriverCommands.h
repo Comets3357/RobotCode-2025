@@ -12,6 +12,9 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"
 
-void DriverCommands(DriverSubsystem m_drive, ClimbSubsystem m_climb, ElevatorSubsystem m_elevator,
-                    ElbowSubsystem m_elbowSubsystem, IntakeSubsystem m_intake, LEDSubsystem m_LED);
+void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
+                    ElbowSubsystem* m_elbowSubsystem, IntakeSubsystem* m_intake, LEDSubsystem* m_LED, 
+                    frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController);
+
+bool halfSpeed = false;
 
