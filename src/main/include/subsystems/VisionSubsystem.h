@@ -27,14 +27,14 @@ class VisionSubsystem : public frc2::SubsystemBase
     frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::kDefaultField)};
 
 frc::Transform3d robotToCam1 =
-    frc::Transform3d(frc::Translation3d(0_m, 0_m, 0_m),
-                    frc::Rotation3d(0_rad, 0_rad, 0_rad));
+    frc::Transform3d(frc::Translation3d(0.16_m, -0.212_m, 0.21_m),
+                    frc::Rotation3d(0_rad, -0.349_rad, -1.74533_rad));
 
   photon::PhotonCamera cameraTwo{"camTwo"};
 
 frc::Transform3d robotToCam2 =
-    frc::Transform3d(frc::Translation3d(0_m, 0_m, 0_m),
-                    frc::Rotation3d(0.5_rad, 0_rad, 0_rad));
+    frc::Transform3d(frc::Translation3d(0.16_m, 0.212_m, 0.21_m),
+                    frc::Rotation3d(0_rad, -0.349_rad, 1.74533_rad));
 
 
 

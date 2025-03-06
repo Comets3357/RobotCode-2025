@@ -22,6 +22,20 @@
 #include "wrapperclasses/GyroWrapper.h"
 #include "subsystems/VisionSubsystem.h"
 #include <frc/estimator/SwerveDrivePoseEstimator.h>
+#include <numbers>
+
+#include <frc/DriverStation.h>
+#include <frc/Encoder.h>
+#include <frc/TimedRobot.h>
+#include <frc/XboxController.h>
+#include <frc/controller/LinearQuadraticRegulator.h>
+#include <frc/drive/DifferentialDrive.h>
+#include <frc/estimator/KalmanFilter.h>
+#include <frc/motorcontrol/PWMSparkMax.h>
+#include <frc/system/LinearSystemLoop.h>
+#include <frc/system/plant/DCMotor.h>
+#include <frc/system/plant/LinearSystemId.h>
+#include <units/angular_velocity.h>
 
 class DriveSubsystem : public frc2::SubsystemBase
 {
@@ -134,7 +148,10 @@ private:
     MAXSwerveModule m_frontLeft;
     MAXSwerveModule m_rearLeft;
     MAXSwerveModule m_frontRight;
-    MAXSwerveModule m_rearRight;
+    MAXSwerveModule m_rearRight;    
+    
+    frc::Pose2d EstPose1;
+    frc::Pose2d EstPose2;
 
 
    GyroWrapper m_gyro{}; 
