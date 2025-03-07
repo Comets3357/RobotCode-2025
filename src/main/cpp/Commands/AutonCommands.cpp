@@ -8,6 +8,7 @@
 #include "Subsystems/LEDSubsystem.h"
 #include "Subsystems/MAXSwerveModule.h"
 #include <frc2/command/button/CommandXboxController.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
 
 #include <frc2/command/Commands.h>
 #include "RobotContainer.h"
@@ -25,46 +26,46 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("Algae Up", std::move(StopDeploy(m_intake)));
 
     NamedCommands::registerCommand("Starting Reset", std::move( frc2::cmd::RunOnce([=] {m_elevator.setPosition(25);})
-    .AlongWith(frc2::cmd::RunOnce([=] {m_elbowSubsystem->setRollerSpeed(0.1);}))
+    .AlongWith(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.1);}))
     .AlongWith(frc2::cmd::WaitUntil( [=] {return m_elevator->getAPosition() > 24;}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbowSubsystem->setElbowAngle(190);}))
-    .AlongWith(frc2::cmd::WaitUntil( [=] {return m_elbowSubsystem->getElbowAngle() > 265;}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elevator->setPosition(4); m_elbowSubsystem->setRollerSpeed(0);})))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(190);}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] {return m_elbow->getElbowAngle() > 265;}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elevator->setPosition(4); m_elbow->setRollerSpeed(0);})))
     );
 
     NamedCommands::registerCommand("L4", std::move(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((50));})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() > (49.5);}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbowSubsystem.setElbowAngle(240);})))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow.setElbowAngle(240);})))
     );
 
-    NamedCommands::registerCommand("Place L4", std::move(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((32)); m_elbowSubsystem.setRollerSpeed(-0.3); })
+    NamedCommands::registerCommand("Place L4", std::move(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((32)); m_elbow.setRollerSpeed(-0.3); })
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (32.5);})))
-    .AndThen(frc2::cmd::RunOnce([=]{m_elbowSubsystem->setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); })
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbowSubsystem->getElbowAngle()<=185;})))
+    .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180); m_elbow.setRollerSpeed(0); })
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;})))
     .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); }))
     ); 
 
-    NamedCommands::registerCommand("Aim L1", std::move(frc2::cmd::RunOnce([=] {m_elbowSubsystem->setWristAngle(0); m_elbowSubsystem.setElbowAngle(255);})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbowSubsystem->getElbowAngle()>254;})
+    NamedCommands::registerCommand("Aim L1", std::move(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0); m_elbow.setElbowAngle(255);})
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()>254;})
     )));
     
-    NamedCommands::registerCommand("Score L1", std::move(frc2::cmd::RunOnce([=]{m_elbowSubsystem->setRollerSpeed(-0.15);})
+    NamedCommands::registerCommand("Score L1", std::move(frc2::cmd::RunOnce([=]{m_elbow->setRollerSpeed(-0.15);})
     .AlongWith(frc2::cmd::Wait(units::second_t{0.3}))
     ));
 
-    NamedCommands::registerCommand("Reset L1", std::move(frc2::cmd::RunOnce([=] {m_elbowSubsystem->setWristAngle(90);}))
-    .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elbowSubsystem->getWristAngle()>85.5;}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbowSubsystem->setElbowAngle(180);})
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbowSubsystem->setRollerSpeed(0);})))
+    NamedCommands::registerCommand("Reset L1", std::move(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);}))
+    .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elbow->getWristAngle()>85.5;}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(180);})
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);})))
     );
 
-    NamedCommands::registerCommand("Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbowSubsystem->setWristAngle(180); m_elbowSubsystem.setElbowAngle(235); })
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbowSubsystem.getElbowAngle()>234;}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbowSubsystem->setRollerSpeed(0.25);})))
+    NamedCommands::registerCommand("Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow.setElbowAngle(235); })
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow.getElbowAngle()>234;}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.25);})))
     );
 
-    NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbowSubsystem->setRollerSpeed(0); m_elbowSubsystem->setWristAngle(90); m_elbowSubsystem->setElbowAngle(180); })
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbowSubsystem->getElbowAngle()<181;})))
+    NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180); })
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;})))
     );
 
 }
