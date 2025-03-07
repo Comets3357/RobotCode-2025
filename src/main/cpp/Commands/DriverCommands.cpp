@@ -30,10 +30,10 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     m_driverController->Start().OnTrue(frc2::cmd::RunOnce([=] {m_drive->ZeroHeading();})); 
 
     //Functions to drive the swerve modules, adds a conditional for speed reduction.
-    m_drive.SetDefaultCommand(frc2::RunCommand(
-    [= , &halfSpeed] {
+    m_drive->SetDefaultCommand(frc2::RunCommand(
+    [=] {
 
-        if (!halfSpeed) {
+        if (!(m_drive->halfSpeed)) {
         m_drive->Drive(
             -units::meters_per_second_t{frc::ApplyDeadband(
                 m_driverController->GetLeftY(), OIConstants::kDriveDeadband)},
@@ -55,13 +55,12 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
                 m_driverController->GetRightX(), OIConstants::kDriveDeadband) / 3.0 },
             true);
         }
-    },
-    {&m_drive}));
+    }));
 
     //RIGHT TRIGGER
     //Halves the speed of swerve 
-    m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([&] {halfSpeed = true;})); 
-    m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([&] {halfSpeed = false;}));
+    m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([&] {m_drive->halfSpeed = true;})); 
+    m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([&] {m_drive->halfSpeed = false;}));
 
     //   ____  _   _                 ____        _   _                  
     //  / __ \| | | |               |  _ \      | | | |                 
