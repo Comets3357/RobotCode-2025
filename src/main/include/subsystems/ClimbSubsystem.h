@@ -14,6 +14,8 @@ class ClimbSubsystem : public frc2::SubsystemBase
         void ClimbStop();
         void ClimbSetPercent(double percent);
         void ClimbSetPosition(double position);
+        double GetClimbAbsolutePosition(); 
+        bool isRunning(); 
 
         void Periodic() override;
     private:

@@ -51,3 +51,13 @@ ClimbSubsystem::ClimbSubsystem(){
 void ClimbSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("climb position", climbMotor.GetAbsolutePosition());
 }
+
+double ClimbSubsystem::GetClimbAbsolutePosition()
+ {
+    return climbMotor.GetAbsolutePosition();
+ }
+
+ bool ClimbSubsystem::isRunning()
+ {
+    return climbMotor.GetAbsoluteVelocity() < 0.01; 
+ }
