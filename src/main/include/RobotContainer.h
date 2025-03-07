@@ -31,8 +31,6 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/Command.h>
-#include "commands/DriverCommands.h"
-#include "Commands/OperatorCommands.h"
 #include <memory>
 
 
@@ -47,8 +45,8 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
     DriveSubsystem m_drive;
     ElevatorSubsystem m_elevator;
-    IntakeSubsystem m_intake;
-    ElbowSubsystem m_elbow;
+    IntakeSubsystem intake;
+    ElbowSubsystem m_elbowSubsystem;
     LEDSubsystem m_LED;
     ClimbSubsystem m_climb;
     //frc::SendableChooser<frc2::Command*> autoChooser = pathplanner::AutoBuilder::buildAutoChooser(); 
