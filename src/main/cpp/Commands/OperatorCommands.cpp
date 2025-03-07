@@ -49,6 +49,13 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}))
     );
 
+    m_secondaryController->B().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(235);})
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()>234;}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.4);})));
+
+    m_secondaryController->B().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180);})
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;})));
+
     //reset all positions to idle mode, elevator all down and elbow set to 180.
     m_secondaryController->X().OnTrue(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;}))
@@ -60,20 +67,22 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);})));
 
-    m_secondaryController->B().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(235);})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()>234;}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.4);})));
+    //Intake and deploy algae
+    (m_secondaryController->Y() && m_secondaryController->LeftBumper()).OnTrue(
+        IntakeAlgae(m_intake)
+    );
 
-    m_secondaryController->B().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180);})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;})));
-
-    //Intake algae
-    m_secondaryController->Y().OnTrue(IntakeAlgae(m_intake)); 
-    m_secondaryController->Y().OnFalse(StopIntake(m_intake));
-
-    //Deploy algae
-    m_secondaryController->RightTrigger().OnTrue(DeployAlgae(m_intake));
-    m_secondaryController->RightTrigger().OnFalse(StopDeploy(m_intake)); 
+    (m_secondaryController->Y() && !m_secondaryController->LeftBumper()).OnTrue(
+        StopDeploy(m_intake)
+    );
+    
+    (m_secondaryController->Y() && m_secondaryController->LeftBumper()).OnFalse(
+        IntakeAlgae(m_intake)
+    );
+    
+    (m_secondaryController->Y() && !m_secondaryController->LeftBumper()).OnFalse(
+        StopIntake(m_intake)
+    );
 
     //  _____   ______      __  ____        _   _                  
     // |  __ \ / __ \ \    / / |  _ \      | | | |                 
@@ -144,7 +153,7 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     m_secondaryController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}));
 
     //Flip rollers 180 degrees
-    m_secondaryController->LeftBumper().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle( m_elbow->getWristAngle() + 180);}));
+    m_secondaryController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle( m_elbow->getWristAngle() + 180);}));
 
 
 }

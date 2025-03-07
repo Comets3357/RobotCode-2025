@@ -16,5 +16,4 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
                     ElbowSubsystem* m_elbowSubsystem, IntakeSubsystem* m_intake, LEDSubsystem* m_LED, 
                     frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController);
 
-bool halfSpeed = false;
 
