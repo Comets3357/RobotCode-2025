@@ -9,7 +9,7 @@ class ClimbSubsystem : public frc2::SubsystemBase
 {
     public:
         ClimbSubsystem();
-        bool ClimbMax();
+        void ClimbMax();
         void ClimbRetract();
         void ClimbStop();
         void ClimbSetPercent(double percent);

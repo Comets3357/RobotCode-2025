@@ -55,7 +55,8 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
                 m_driverController->GetRightX(), OIConstants::kDriveDeadband) / 3.0 },
             true);
         }
-    }));
+    }, {m_drive})
+    );
 
     //RIGHT TRIGGER
     //Halves the speed of swerve 

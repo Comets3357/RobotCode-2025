@@ -28,17 +28,16 @@ using namespace DriveConstants;
 
 RobotContainer::RobotContainer()
 {
-    autoChooser = AutoBuilder::buildAutoChooser(); 
     // Initialize all of your commands and subsystems here
     // Configure the button bindings
     ConfigureButtonBindings();
-     frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
 
     OperatorCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController, offset);
     DriverCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController);
     AutonCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED);
 
-    
+    autoChooser = AutoBuilder::buildAutoChooser(); 
+    frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
 }
  
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
