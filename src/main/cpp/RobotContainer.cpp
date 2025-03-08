@@ -13,9 +13,6 @@
 #include <utility>
 #include <frc2/command/FunctionalCommand.h>
 
-#include <pathplanner/lib/commands/PathPlannerAuto.h>
-#include <pathplanner/lib/auto/NamedCommands.h>
-
 
 using namespace pathplanner;
 

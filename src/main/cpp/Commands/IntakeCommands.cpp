@@ -18,10 +18,10 @@ frc2::CommandPtr DeployAlgae(IntakeSubsystem* m_intake) {
 }
 
 //Command to stop algae-related motors
-frc2::CommandPtr StopIntake(IntakeSubsystem* m_intake) {
-    return frc2::cmd::RunOnce([m_intake] {
-        m_intake->Stop();
-        m_intake->SetAngle(175_deg);
+frc2::CommandPtr StopIntake(IntakeSubsystem* intake) {
+    return frc2::cmd::RunOnce([intake] {
+        intake->Stop();
+        intake->SetAngle(175_deg);
     });
 }
 

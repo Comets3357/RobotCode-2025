@@ -69,7 +69,6 @@ private:
     void ConfigureButtonBindings();
 
     int offset = 90;
-
-
+    bool halfSpeed = false; 
     //double trimOffset = 0; 
 };
