@@ -31,6 +31,10 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/Command.h>
+#include "commands/DriverCommands.h"
+#include "Commands/OperatorCommands.h"
+#include "Commands/DriverCommands.h"
+#include "Commands/AutonCommands.h"
 #include <memory>
 
 
@@ -45,8 +49,8 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
     DriveSubsystem m_drive;
     ElevatorSubsystem m_elevator;
-    IntakeSubsystem intake;
-    ElbowSubsystem m_elbowSubsystem;
+    IntakeSubsystem m_intake;
+    ElbowSubsystem m_elbow;
     LEDSubsystem m_LED;
     ClimbSubsystem m_climb;
     //frc::SendableChooser<frc2::Command*> autoChooser = pathplanner::AutoBuilder::buildAutoChooser(); 
@@ -56,7 +60,6 @@ private:
     // The driver's controller
     frc2::CommandXboxController m_driverController{OIConstants::kDriverControllerPort};
     frc2::CommandXboxController m_secondaryController{OIConstants::kSecondaryControllerPort};
-    bool halfSpeed = false; 
     frc::SendableChooser<frc2::Command *> autoChooser;
 
     // The robot's subsystems and commands are defined here...
@@ -66,6 +69,6 @@ private:
     void ConfigureButtonBindings();
 
     int offset = 90;
-
+    bool halfSpeed = false; 
     //double trimOffset = 0; 
 };

@@ -27,7 +27,7 @@ void ClimbSubsystem::ClimbSetPosition(double position){
     }
 }
 
-bool ClimbSubsystem::ClimbMax()
+void ClimbSubsystem::ClimbMax()
 {
     climbMotor.enableForwardSoftLimit(true);
     climbMotor.setForwardSoftLimit(0.01);
