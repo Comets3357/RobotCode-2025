@@ -74,6 +74,12 @@ void SparkMaxMotor::setReference(double ref, controlType ctrl)
     }
 }
 
+bool SparkMaxMotor::IsReverseLimitPressed()
+{
+    // return motor.GetReverseLimitSwitch(rev::SparkLimitSwitch::Type::kNormallyClosed).Get();
+    return motor.GetReverseLimitSwitch(rev::spark::SparkLimitSwitch).Get();
+}
+
 double SparkMaxMotor::GetRelativeVelocity()
 {
     return RelativeEncoder.GetVelocity();

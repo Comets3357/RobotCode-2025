@@ -224,15 +224,15 @@ RobotContainer::RobotContainer()
           offset += 180; m_elbowSubsystem.setWristAngle(offset);}},[this](bool interrupt){},[this](){return m_secondaryController.GetHID().GetRightBumperButton();},{&m_elbowSubsystem, &m_elevator}).ToPtr())
           .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(270); m_elbowSubsystem.setRollerSpeed(-0.15);},{&m_elbowSubsystem})));
 
-        m_secondaryController.RightBumper().OnFalse(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180);},{&m_elbowSubsystem})
+         m_secondaryController.RightBumper().OnFalse(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180);},{&m_elbowSubsystem})
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;}))
          .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}))
          .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (3.5);}))
          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setWristAngle(90);},{&m_elbowSubsystem}))
          .AlongWith(frc2::cmd::RunOnce([this]{ return m_elbowSubsystem.getWristAngle()>85.5;}))
-         .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0.5);},{&m_elbowSubsystem}))
-         .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
          .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);},{&m_elbowSubsystem})));
+        //  .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
+        //  .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setRollerSpeed(0);},{&m_elbowSubsystem})));
           
 
          m_secondaryController.POVLeft().OnTrue(frc2::cmd::RunOnce([this] { m_elevator.setPosition(17);}, {&m_elevator})
