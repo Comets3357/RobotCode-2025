@@ -48,7 +48,7 @@ public:
     IntakeSubsystem intake;
     ElbowSubsystem m_elbowSubsystem;
     ClimbSubsystem m_climb;
-    LEDSubsystem m_LED{&m_climb}; 
+    LEDSubsystem m_LED{&m_climb, &m_drive}; 
     
     //frc::SendableChooser<frc2::Command*> autoChooser = pathplanner::AutoBuilder::buildAutoChooser(); 
     //double trimVar = 0;

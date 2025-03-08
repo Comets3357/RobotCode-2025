@@ -4,7 +4,9 @@
 #include <frc2/command/SubsystemBase.h>
 //#include <rev/CANSparkMax.h>
 #include <frc/AddressableLED.h>
+
 #include "subsystems/ClimbSubsystem.h"
+#include "subsystems/DriveSubsystem.h"
 
 
 class LEDSubsystem : public frc2::SubsystemBase
@@ -17,7 +19,8 @@ class LEDSubsystem : public frc2::SubsystemBase
         // frc::AddressableLED LED2{1};
         frc::AddressableLED::LEDData LEDColors{0,0,0};
 
-        ClimbSubsystem* m_climbPointer; 
+        
+
 
         
       
@@ -27,12 +30,16 @@ class LEDSubsystem : public frc2::SubsystemBase
         bool gyroZero = false; 
         bool climbReady = false; 
         bool climbRunning = false; 
-        void Periodic() override;
-        LEDSubsystem(ClimbSubsystem* m_climb);
+        bool hPlayer = false; 
 
+
+        void Periodic() override;
+        LEDSubsystem(ClimbSubsystem* m_climb, DriveSubsystem* m_Drive);
 
 
     private:
+        ClimbSubsystem* m_climbPointer; 
+        DriveSubsystem* m_drivePointer; 
     
 };
 

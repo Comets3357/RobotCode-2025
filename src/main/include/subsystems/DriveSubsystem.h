@@ -25,6 +25,7 @@ class DriveSubsystem : public frc2::SubsystemBase
 {
 public:
     DriveSubsystem();
+    bool gyroZero = false; 
 
     /**
      * Will be called periodically whenever the CommandScheduler runs.
