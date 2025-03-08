@@ -31,10 +31,13 @@ class ElevatorSubsystem : public frc2::SubsystemBase
       //  void setPidSlot(int n); 
 
         void Periodic() override;
+        bool ElevatorLimitPressed();
+        
+      void SetElevatorAbsolutePosition();
+      
     private:
         //  rev::SparkMaxLimitSwitch ElevatorMax = MainElevatorMotor.GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyClosed);
         SparkMaxMotor MainElevatorMotor{11};
-        SparkMaxMotor FollowElevatorMotor{12};  
-        
+        SparkMaxMotor FollowElevatorMotor{12};         
 };
         
