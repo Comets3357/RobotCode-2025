@@ -48,7 +48,7 @@ DriveSubsystem::DriveSubsystem()
     // Configure the AutoBuilder last
     AutoBuilder::configure(
         [this](){ return GetPose(); }, // Robot pose supplier
-        [this](frc::Pose2d pose){ m_odometry.ResetPose(pose); }, // Method to reset odometry (will be called if your auto has a starting pose)
+        [this](frc::Pose2d pose){ m_poseEstimator.ResetPose(pose); }, // Method to reset odometry (will be called if your auto has a starting pose)
         [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         [this](auto speeds, auto feedforwards){ DriveFromChassisSpeeds(speeds, false); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
         std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
@@ -95,6 +95,53 @@ void DriveSubsystem::Periodic()
 
     frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
     frc::SmartDashboard::PutNumber("Drive X (m):", m_odometry.GetPose().Translation().X().value());
+    
+}
+void DriveSubsystem::PoseEstimation() {
+  m_poseEstimator.Update(m_gyro.Get2DRotation(),
+                         {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                          m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
+
+    double chassisSpeedSquared= pow((double) GetRobotRelativeSpeeds().vx, 2) + pow((double) GetRobotRelativeSpeeds().vy, 2); 
+    double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
+    double xStdDev = (( (double)GetRobotRelativeSpeeds().vx / 4.8) * 5) + 0.1;
+    double yStdDev = (( (double)GetRobotRelativeSpeeds().vy / 4.8) * 5) + 0.1; 
+    
+    m_poseEstimator.SetVisionMeasurementStdDevs({xStdDev, yStdDev, 100});
+                          
+  estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
+
+  
+
+  if (estimatedPoseVector.size() == 0)
+  {
+
+  } 
+  if (estimatedPoseVector.size() == 1)
+  {
+    EstPose1 = estimatedPoseVector.at(0).estimatedPose.ToPose2d();
+    
+    if (EstPose1.X() > 0.39743_m && EstPose1.X() < 17.15_m && EstPose1.Y() > 0.39743_m && EstPose1.Y() < 7.655_m)
+    {
+        m_poseEstimator.AddVisionMeasurement(EstPose1, estimatedPoseVector.at(0).timestamp); 
+    }
+  } else if (estimatedPoseVector.size() == 2)
+  {
+    EstPose1 = estimatedPoseVector.at(0).estimatedPose.ToPose2d();
+    EstPose2 = estimatedPoseVector.at(1).estimatedPose.ToPose2d();
+
+        if (EstPose1.X() > 0.39743_m && EstPose1.X() < 17.15_m && EstPose1.Y() > 0.39743_m && EstPose1.Y() < 7.655_m)
+    {
+        m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(0).estimatedPose.ToPose2d(), estimatedPoseVector.at(0).timestamp);
+    }
+    if (EstPose2.X() > 0.39743_m && EstPose2.X() < 17.15_m && EstPose2.Y() > 0.39743_m && EstPose2.Y() < 7.655_m)
+    {
+        m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(1).estimatedPose.ToPose2d(), estimatedPoseVector.at(1).timestamp); 
+    }
+    
+
+  }
+
 }
 
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
