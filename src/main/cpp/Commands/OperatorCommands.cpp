@@ -45,7 +45,7 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     m_secondaryController->A().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(180); m_elbow->setRollerSpeed(0.2);}, {m_elbow})
     .AlongWith(frc2::cmd::WaitUntil([=]{return m_elbow->getElbowAngle()<=295;}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);}, {m_elbow}))
-    .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}, {m_elbow}))
+    .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.25);}, {m_elbow}))
     .AlongWith(frc2::cmd::Wait(units::second_t{1}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}, {m_elbow}))
@@ -67,7 +67,7 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3);}, {m_elevator}))
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);}, {m_elbow}))
-    .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}, {m_elbow}))
+    .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.5);}, {m_elbow}))
     .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}, {m_elbow})));
