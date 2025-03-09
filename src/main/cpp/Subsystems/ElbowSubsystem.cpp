@@ -1,7 +1,7 @@
 #include "subsystems/ElbowSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "wrapperclasses/SparkMaxMotor.h"
-//#include "grpl/CanBridge.h"
+#include "grpl/CanBridge.h"
 #include "Robot.h"
 
 ElbowSubsystem::ElbowSubsystem() {
@@ -153,45 +153,36 @@ double ElbowSubsystem::getRollerCurrent() {
 }
 
 
-// std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getHorizontalDistanceMeasurement() {
-//     return horizMeasurement;
-// }
+std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getDistanceMeasurement() {
+    return laserCANMeasurement;
+}
 
-// std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getVerticalDistanceMeasurement() {
-//     return vertMeasurement;
-// }
 
 bool ElbowSubsystem::isGamePieceDetected() {
 
-    // double tempVertMeasurement;
-    // double tempHorizMeasurement;
+    double tempDistanceMeasurement;
 
-    // if (ElbowSubsystem::getHorizontalDistanceMeasurement().has_value()) {
-    //     tempHorizMeasurement = getHorizontalDistanceMeasurement().value().distance_mm;
-    // }
-    // if (ElbowSubsystem::getVerticalDistanceMeasurement().has_value()) {
-    //     tempVertMeasurement = getVerticalDistanceMeasurement().value().distance_mm;
-    // }
+    if (ElbowSubsystem::getDistanceMeasurement().has_value()) {
+        tempDistanceMeasurement = getDistanceMeasurement().value().distance_mm;
+    } else {
+        tempDistanceMeasurement = 1000;
+    }
 
-    // if (tempVertMeasurement || tempHorizMeasurement < 50) {
-    //     return true;
-    // } else {
-    //     return false;
-    // }
-    return false; 
+    if (tempDistanceMeasurement < 90) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void ElbowSubsystem::Periodic() {
-    // vertMeasurement = LaserCanVertical.get_measurement();
-    // horizMeasurement = LaserCanHorizontal.get_measurement();
+
+    laserCANMeasurement = LaserCAN.get_measurement();
 
 
-    // if (vertMeasurement.has_value() && vertMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
-    //     frc::SmartDashboard::PutNumber("Vertical LaserCAN Measurement", vertMeasurement.value().distance_mm);
-    // }
-    // if (horizMeasurement.has_value() && horizMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
-    //     frc::SmartDashboard::PutNumber("Horizontal LaserCAN Measurement", horizMeasurement.value().distance_mm);
-    // }
+    if (laserCANMeasurement.has_value() && laserCANMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
+        frc::SmartDashboard::PutNumber("LaserCAN Measurement", laserCANMeasurement.value().distance_mm);
+    }
 
     frc::SmartDashboard::PutNumber("elbow angle", elbowMotor->GetAbsolutePosition());
     frc::SmartDashboard::PutNumber("Wrist Angle", wristMotor.GetAbsolutePosition());

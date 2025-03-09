@@ -12,6 +12,7 @@
 #include <units/velocity.h>
 #include <utility>
 #include <frc2/command/FunctionalCommand.h>
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
 
 
 using namespace pathplanner;

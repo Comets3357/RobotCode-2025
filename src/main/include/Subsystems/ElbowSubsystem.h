@@ -5,8 +5,8 @@
 #include <frc/controller/PIDController.h>
 #include "wrapperclasses/SparkMaxMotor.h"
 #include "wrapperclasses/SparkFlexMotor.h"
-//#include "grpl/CanBridge.h"
-//#include "grpl/LaserCan.h"
+#include "grpl/CanBridge.h"
+#include "grpl/LaserCan.h"
 
 class ElbowSubsystem : public frc2::SubsystemBase {
 public:
@@ -33,9 +33,9 @@ public:
     bool isCompBot = true;
 
 
+
     //initalizing measurement vehicles
-    // std::optional<grpl::LaserCanMeasurement> vertMeasurement;
-    // std::optional<grpl::LaserCanMeasurement> horizMeasurement;
+    std::optional<grpl::LaserCanMeasurement> laserCANMeasurement;
 
     //
     //setters
@@ -98,7 +98,7 @@ public:
     bool isGamePieceDetected();
 
     //getting the measurement of the horizontal and vertical distance measurements
-    // std::optional<grpl::LaserCanMeasurement>  getHorizontalDistanceMeasurement();
+    std::optional<grpl::LaserCanMeasurement>  getDistanceMeasurement();
     // std::optional<grpl::LaserCanMeasurement>  getVerticalDistanceMeasurement();
 
     void Periodic() override;
@@ -108,8 +108,7 @@ private:
     SparkMaxMotor wristMotor{gripperPivotID};
     SparkMaxMotor rollerMotor{armGripperID};
 
-    // grpl::LaserCan LaserCanVertical{19};
-    // grpl::LaserCan LaserCanHorizontal{20};
+    grpl::LaserCan LaserCAN{19};
 
 
 };

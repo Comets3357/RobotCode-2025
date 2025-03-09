@@ -27,7 +27,7 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
                                                                     
 
     //Zeroes the gyro for driving convenience
-    m_driverController->Start().OnTrue(frc2::cmd::RunOnce([=] {m_drive->ZeroHeading();})); 
+    m_driverController->Start().OnTrue(frc2::cmd::RunOnce([=] {m_drive->ZeroHeading();}, {m_drive})); 
 
     //Functions to drive the swerve modules, adds a conditional for speed reduction.
     m_drive->SetDefaultCommand(frc2::RunCommand(
@@ -60,8 +60,8 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
 
     //RIGHT TRIGGER
     //Halves the speed of swerve 
-    m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([&] {m_drive->halfSpeed = true;})); 
-    m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([&] {m_drive->halfSpeed = false;}));
+    m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([&] {m_drive->halfSpeed = true;}, {m_drive})); 
+    m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([&] {m_drive->halfSpeed = false;}, {m_drive}));
 
     //   ____  _   _                 ____        _   _                  
     //  / __ \| | | |               |  _ \      | | | |                 
