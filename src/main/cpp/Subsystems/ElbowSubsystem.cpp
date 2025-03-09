@@ -153,8 +153,11 @@ double ElbowSubsystem::getRollerCurrent() {
     return rollerMotor.GetOutputCurrent();
 }
 
+double ElbowSubsystem::getDistanceMeasurement() {
+    return getLaserCANMeasurement().value().distance_mm;
+}
 
-std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getDistanceMeasurement() {
+std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getLaserCANMeasurement() {
     return laserCANMeasurement;
 }
 
@@ -163,8 +166,8 @@ bool ElbowSubsystem::isGamePieceDetected() {
 
     double tempDistanceMeasurement;
 
-    if (ElbowSubsystem::getDistanceMeasurement().has_value()) {
-        tempDistanceMeasurement = getDistanceMeasurement().value().distance_mm;
+    if (ElbowSubsystem::getLaserCANMeasurement().has_value()) {
+        tempDistanceMeasurement = getLaserCANMeasurement().value().distance_mm;
     } else {
         tempDistanceMeasurement = 1000;
     }
@@ -177,9 +180,9 @@ bool ElbowSubsystem::isGamePieceDetected() {
 }
 
 bool ElbowSubsystem::isAutonWristFlipValid(double sideOne, double sideTwo) {
-    double sensorToPivot = 66.675
-    double tempDiff = std::abs(sideOne - sideTwo)
-    double angle = std::atan2(tempDiff, (2 * sensorToPivot))
+    double sensorToPivot = 66.675;
+    double tempDiff = std::abs(sideOne - sideTwo);
+    double angle = std::atan2(tempDiff, (2 * sensorToPivot));
 
     if (angle > 35) {
         return true;

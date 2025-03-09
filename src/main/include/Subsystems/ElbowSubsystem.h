@@ -30,9 +30,6 @@ public:
     const double wristD = 0;
     double targetWristAngle = 0;
 
-    double sideOne;
-    double sideTwo;
-
     bool isCompBot = true;
 
 
@@ -103,8 +100,10 @@ public:
     //is flip of wrist necessary for auton
     bool isAutonWristFlipValid(double sideOne, double sideTwo);
 
+    double getDistanceMeasurement();
+
     //getting the measurement of the horizontal and vertical distance measurements
-    std::optional<grpl::LaserCanMeasurement>  getDistanceMeasurement();
+    std::optional<grpl::LaserCanMeasurement>  getLaserCANMeasurement();
     // std::optional<grpl::LaserCanMeasurement>  getVerticalDistanceMeasurement();
 
     void Periodic() override;
