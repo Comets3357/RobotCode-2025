@@ -14,4 +14,4 @@
 
 void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
                     ElbowSubsystem* m_elbowSubsystem, IntakeSubsystem* m_intake, LEDSubsystem* m_LED, 
-                    frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, int offset);
+                    frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, int &offset);
