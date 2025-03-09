@@ -38,8 +38,8 @@ frc::Transform3d robotToCam2 =
 
 
 
-photon::PhotonPoseEstimator poseEstimatorOne{kTagLayout, photon::PoseStrategy::CLOSEST_TO_REFERENCE_POSE, robotToCam1};
-photon::PhotonPoseEstimator poseEstimatorTwo{kTagLayout, photon::PoseStrategy::CLOSEST_TO_REFERENCE_POSE, robotToCam2};
+photon::PhotonPoseEstimator poseEstimatorOne{kTagLayout, photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam1};
+photon::PhotonPoseEstimator poseEstimatorTwo{kTagLayout, photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam2};
 
 
 frc::Pose3d prevEstimatedRobotPose = frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)};

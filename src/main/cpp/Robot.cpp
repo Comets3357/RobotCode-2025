@@ -34,6 +34,7 @@ void Robot::RobotPeriodic()
 
     frc::SmartDashboard::PutNumber("robot pose X", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().X().value());
     frc::SmartDashboard::PutNumber("robot pose Y", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().Y().value());
+    frc::SmartDashboard::PutNumber("robot pose heading", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().Angle().Degrees().value());
     frc::SmartDashboard::PutNumber("odometry X", m_container.m_drive.m_odometry.GetPose().X().value());
     frc::SmartDashboard::PutNumber("odometry Y", m_container.m_drive.m_odometry.GetPose().Y().value());
     frc::SmartDashboard::PutNumber("estimated pose vector value", m_container.m_drive.estimatedPoseVector.size());
