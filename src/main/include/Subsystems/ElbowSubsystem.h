@@ -30,6 +30,9 @@ public:
     const double wristD = 0;
     double targetWristAngle = 0;
 
+    double sideOne;
+    double sideTwo;
+
     bool isCompBot = true;
 
 
@@ -96,6 +99,9 @@ public:
     
     //is game piece detected via the distance sensor
     bool isGamePieceDetected();
+
+    //is flip of wrist necessary for auton
+    bool isAutonWristFlipValid(double sideOne, double sideTwo);
 
     //getting the measurement of the horizontal and vertical distance measurements
     std::optional<grpl::LaserCanMeasurement>  getDistanceMeasurement();

@@ -3,6 +3,7 @@
 #include "wrapperclasses/SparkMaxMotor.h"
 #include "grpl/CanBridge.h"
 #include "Robot.h"
+#include <cmath>
 
 ElbowSubsystem::ElbowSubsystem() {
 
@@ -173,6 +174,19 @@ bool ElbowSubsystem::isGamePieceDetected() {
     } else {
         return false;
     }
+}
+
+bool ElbowSubsystem::isAutonWristFlipValid(double sideOne, double sideTwo) {
+    double sensorToPivot = 66.675
+    double tempDiff = std::abs(sideOne - sideTwo)
+    double angle = std::atan2(tempDiff, (2 * sensorToPivot))
+
+    if (angle > 35) {
+        return true;
+    } else {
+        return false;
+    }
+
 }
 
 void ElbowSubsystem::Periodic() {
