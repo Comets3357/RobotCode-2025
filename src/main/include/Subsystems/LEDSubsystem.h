@@ -31,6 +31,7 @@ class LEDSubsystem : public frc2::SubsystemBase
         bool climbReady = false; 
         bool climbRunning = false; 
         bool hPlayer = false; 
+        bool hPlayerGround = false; 
 
 
         void Periodic() override;

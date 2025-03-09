@@ -124,6 +124,15 @@ RobotContainer::RobotContainer()
         m_driverController.Start().OnTrue(frc2::cmd::RunOnce([this] {m_drive.ZeroHeading();}, {&m_drive})); 
 
 
+        // human player signals // 
+        m_driverController.LeftTrigger().OnTrue(frc2::cmd::RunOnce([this] {m_drive.humanPlayer = true;}));      // when left trigger held - leds go purple for hp pick up
+        m_driverController.LeftTrigger().OnFalse(frc2::cmd::RunOnce([this] {m_drive.humanPlayer = false;})); 
+
+        
+
+        
+
+
         m_driverController.RightTrigger().OnTrue(frc2::cmd::RunOnce([this] {halfSpeed = true;})); 
         m_driverController.RightTrigger().OnFalse(frc2::cmd::RunOnce([this] {halfSpeed = false;}));
 
