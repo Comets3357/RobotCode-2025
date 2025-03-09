@@ -44,7 +44,7 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (32.5);})))
     .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180); m_elbow->setRollerSpeed(0); }, {m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;}))
-    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); }, {m_elevator}))
+    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); }, {m_elevator})))
     ); 
 
     NamedCommands::registerCommand("Aim L1", std::move(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0); m_elbow->setElbowAngle(255);}, {m_elbow})
