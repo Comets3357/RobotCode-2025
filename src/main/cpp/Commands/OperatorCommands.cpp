@@ -35,15 +35,15 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
                                                                       
     //m_intake to ground (arm side)
     m_secondaryController->A().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(295); m_elbow->setWristAngle(0); m_elbow->setRollerSpeed(0.4); m_elevator->setPosition(3);}, {m_elbow, m_elevator})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return (m_elbow->getWristAngle() < 2) && (m_elevator->getAPosition() < 5);}, {m_elbow, m_elevator}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return (m_elbow->getWristAngle() < 2) && (m_elevator->getAPosition() < 5);}))
     .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(305);}, {m_elbow}))
-    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->isGamePieceDetected() == true) && (m_elbow->getElbowAngle() > 285);}, {m_elbow}))
+    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->isGamePieceDetected() == true) && (m_elbow->getElbowAngle() > 285);}))
     .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setRollerSpeed(0);}, {m_elbow}))
     );
 
     //m_intake up to idle position
     m_secondaryController->A().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(180); m_elbow->setRollerSpeed(0.2);}, {m_elbow})
-    .AlongWith(frc2::cmd::WaitUntil([=]{return m_elbow->getElbowAngle()<=295;}, {m_elbow}))
+    .AlongWith(frc2::cmd::WaitUntil([=]{return m_elbow->getElbowAngle()<=295;}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);}, {m_elbow}))
     .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}, {m_elbow}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.25);}, {m_elbow}))
@@ -52,20 +52,20 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     );
 
     m_secondaryController->B().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(235); m_elevator->setPosition(3);}, {m_elbow, m_elevator})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return (m_elbow->getElbowAngle()>234) && (m_elevator->getAPosition() < 5);}, {m_elbow, m_elevator}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return (m_elbow->getElbowAngle()>234) && (m_elevator->getAPosition() < 5);}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.4);}, {m_elbow}))
-    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->isGamePieceDetected() == true) && (m_elbow->getElbowAngle() > 225);}, {m_elbow}))
+    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->isGamePieceDetected() == true) && (m_elbow->getElbowAngle() > 225);}))
     .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setRollerSpeed(0);}, {m_elbow}))
     );
 
     m_secondaryController->B().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180);}, {m_elbow})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;}, {m_elbow})));
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;})));
 
     //reset all positions to idle mode, elevator all down and elbow set to 180.
     m_secondaryController->X().OnTrue(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);}, {m_elbow})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;}, {m_elbow}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;}))
     .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3);}, {m_elevator}))
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}, {m_elevator}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);}, {m_elbow}))
     .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}, {m_elbow}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.5);}, {m_elbow}))
@@ -142,9 +142,9 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     //in position, it moves the climb out
     //TODO MAKE CLIMB NOT TERRIBLE
     m_secondaryController->Start().OnTrue(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((20));}, {m_elevator})
-     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() > (19.5);}, {m_elevator}))
+     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() > (19.5);}))
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(240);}, {m_elbow}))
-     .AlongWith(frc2::cmd::WaitUntil([=] {return m_elbow->getElbowAngle() > 235;}, {m_elbow}))
+     .AlongWith(frc2::cmd::WaitUntil([=] {return m_elbow->getElbowAngle() > 235;}))
      .AndThen(frc2::cmd::RunOnce([=] {m_climb->ClimbSetPercent(-0.3);}, {m_climb}))
     ); 
 
