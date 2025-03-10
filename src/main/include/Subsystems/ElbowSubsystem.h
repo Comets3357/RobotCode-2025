@@ -58,6 +58,9 @@ public:
     //sets the gripper pivot speed
     void setWristSpeed(double speed);
 
+    // Devansh's function to rotate wrist
+    void WristRotate(bool flip);
+
     //gripper setters
 
     //sets the gripper roller speed
