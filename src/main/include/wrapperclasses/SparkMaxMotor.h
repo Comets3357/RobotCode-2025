@@ -36,12 +36,12 @@ public:
     void SetRelativePosition(double pos) override;
     double GetAbsolutePosition() override;
     double GetAbsoluteVelocity() override;
-    
+    double GetZeroOffset();
+
+    void SetElevatorAbsolutePosition(double zeroOffset);
     double GetOutputCurrent() override;
     void SetFollow(SparkMaxMotor& leader);
-
-    bool IsReverseLimitPressed() override;
-
+    bool IsReverseLimitPressed();
 
     // CONFIGURE SETTINGS //
 

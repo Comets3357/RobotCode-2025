@@ -73,6 +73,24 @@ void SparkMaxMotor::setReference(double ref, controlType ctrl)
         closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kVelocity);
     }
 }
+bool SparkMaxMotor::IsReverseLimitPressed()
+{
+    return ReverseLimit.Get();
+}
+
+double SparkMaxMotor::GetZeroOffset()
+{
+  return motor.configAccessor.absoluteEncoder.GetZeroOffset();
+}
+
+void SparkMaxMotor::SetElevatorAbsolutePosition(double ZeroOffset)
+{
+    rev::spark::SparkBaseConfig PositionConfig;
+
+    PositionConfig.absoluteEncoder.ZeroOffset(ZeroOffset);
+
+    motor.Configure(PositionConfig, rev::spark::SparkBase::ResetMode::kNoResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters);
+}
 
 double SparkMaxMotor::GetRelativeVelocity()
 {

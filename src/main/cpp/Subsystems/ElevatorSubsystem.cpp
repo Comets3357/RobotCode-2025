@@ -76,6 +76,28 @@ double ElevatorSubsystem::getAPosition()
     return MainElevatorMotor.GetAbsolutePosition();
 }
 
+bool ElevatorSubsystem::ElevatorLimitPressed()
+{
+    return MainElevatorMotor.IsReverseLimitPressed();
+}
+
+void ElevatorSubsystem::SetElevatorAbsolutePosition()
+{
+    double ZeroOffset = (-(MainElevatorMotor.GetAbsolutePosition()-3)/(56.7))+(MainElevatorMotor.GetZeroOffset());
+    
+    if(ZeroOffset>1)
+    {
+        ZeroOffset -= 1; 
+    }
+    else if (ZeroOffset<0)
+    {
+        ZeroOffset += 1;
+    }
+    else{}
+    
+
+    MainElevatorMotor.SetElevatorAbsolutePosition(ZeroOffset);
+}
 
 // void ElevatorSubsystem::setPidSlot(int n)
 // {
@@ -88,6 +110,7 @@ double ElevatorSubsystem::getAPosition()
 void ElevatorSubsystem::Periodic()
 {
     frc::SmartDashboard::PutNumber("elevatorPos", MainElevatorMotor.GetAbsolutePosition());
+    frc::SmartDashboard::PutNumber("elevatorZeroOffset", MainElevatorMotor.GetZeroOffset());
 }
 
 // bool ElevatorSubsystem::LimitSwitch()
