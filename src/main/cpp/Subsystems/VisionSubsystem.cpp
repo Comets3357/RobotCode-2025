@@ -23,9 +23,9 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
             if (frameTime1 > lastProcessedTimeOne && frameTime1 <= currentTime) {
                 result1 = poseEstimatorOne.Update(cameraResults1);
                 lastProcessedTimeOne = frameTime1;  // Update last processed time
-                fmt::print("YAY PROCESSED A FRAME 1\n");
+                // fmt::print("YAY PROCESSED A FRAME 1\n");
             } else {
-                fmt::print("Skipping outdated or duplicate frame from Camera 1\n");
+                // fmt::print("Skipping outdated or duplicate frame from Camera 1\n");
             }
         }
 
@@ -44,9 +44,9 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
             if (frameTime2 > lastProcessedTimeTwo && frameTime2 <= currentTime) {
                 result2 = poseEstimatorTwo.Update(cameraResults2);
                 lastProcessedTimeTwo = frameTime2;  // Update last processed time
-                fmt::print("YAY PROCESSED A FRAME 2\n");
+                // fmt::print("YAY PROCESSED A FRAME 2\n");
             } else {
-                fmt::print("Skipping outdated or duplicate frame from Camera 2\n");
+                // fmt::print("Skipping outdated or duplicate frame from Camera 2\n");
             }
         }
     

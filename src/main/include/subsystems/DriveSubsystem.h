@@ -155,8 +155,6 @@ private:
     GyroWrapper m_gyro; 
 
     public:
-    frc::SwerveDriveOdometry<4> m_odometry;
-
     frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
       kDriveKinematics,
       frc::Rotation2d{},

@@ -60,8 +60,8 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
 
     //RIGHT TRIGGER
     //Halves the speed of swerve 
-    m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([&] {m_drive->halfSpeed = true;})); 
-    m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([&] {m_drive->halfSpeed = false;}));
+    m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
+    m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
 
     //   ____  _   _                 ____        _   _                  
     //  / __ \| | | |               |  _ \      | | | |                 
