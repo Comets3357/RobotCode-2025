@@ -74,23 +74,6 @@ void SparkMaxMotor::setReference(double ref, controlType ctrl)
     }
 }
 
-bool SparkMaxMotor::IsReverseLimitPressed()
-{
-    return motor.GetReverseLimitSwitch(rev::SparkLimitSwitch::Type::kNormallyClosed).Get();
-}
-
-void SparkMaxMotor::setReference(double ref, controlType ctrl, double arbFeedForward)
-{
-    if (ctrl == Motor::controlType::position)
-    {
-        closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kPosition, rev::spark::kSlot0, arbFeedForward, rev::spark::SparkClosedLoopController::ArbFFUnits::kPercentOut);
-    }
-    else if (ctrl == Motor::controlType::velocity)
-    {
-        closedLoopController.SetReference(ref, rev::spark::SparkLowLevel::ControlType::kVelocity);
-    }
-}
-
 double SparkMaxMotor::GetRelativeVelocity()
 {
     return RelativeEncoder.GetVelocity();
