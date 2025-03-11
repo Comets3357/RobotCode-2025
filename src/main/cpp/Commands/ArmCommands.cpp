@@ -5,7 +5,7 @@
 frc2::CommandPtr WristStuff(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController)
 {
 
-    return frc2::FunctionalCommand([=]{},[=]{},
+    return frc2::FunctionalCommand([=]{},
         [=]{m_elbow->setElbowAngle(225 + (m_secondaryController->GetRightY() * 15)); 
         if (m_driverController->GetHID().GetAButtonPressed()) {
             /* offset += 180; m_elbow->setWristAngle(offset);*/  
