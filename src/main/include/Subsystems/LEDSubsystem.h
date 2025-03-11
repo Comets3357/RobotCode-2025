@@ -4,6 +4,8 @@
 #include <frc2/command/SubsystemBase.h>
 //#include <rev/CANSparkMax.h>
 #include <frc/AddressableLED.h>
+#include "subsystems/ClimbSubsystem.h"
+#include "subsystems/DriveSubsystem.h"
 
 
 class LEDSubsystem : public frc2::SubsystemBase
@@ -21,21 +23,21 @@ class LEDSubsystem : public frc2::SubsystemBase
         bool detect =false;
         bool enabled = false;  
         bool gyroZero = false; 
+        bool climbReady = false;
+        bool climbRunning = false;
+        bool hPlayer = false;
+        bool hPlayerGround = false; 
+
         void Periodic() override;
-        LEDSubsystem()
-        {
-            LED1.SetLength(31);
-            for (size_t i = 0; i < 31; i++)
-            {
-                LED_DATA[i].SetRGB(255,255,255);
-            }
-            LED1.SetData(LED_DATA);
-            LED1.Start();
-        }
+        LEDSubsystem(DriveSubsystem* m_DriveP, ClimbSubsystem* m_climbP);
 
 
 
     private:
+    DriveSubsystem* m_drive;
+    ClimbSubsystem* m_climb; 
+
+    std::string LED{""}; 
     
 };
 
