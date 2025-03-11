@@ -72,19 +72,24 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
 
     //LEFT TRIGGER
     //Deploys the algae subsystem to pick up an algae ball
-    m_driverController->LeftTrigger().OnTrue(IntakeAlgae(m_intake));
-    m_driverController->LeftTrigger().OnFalse(StopIntake(m_intake));
+    // m_driverController->LeftTrigger().OnTrue(IntakeAlgae(m_intake));
+    // m_driverController->LeftTrigger().OnFalse(StopIntake(m_intake));
 
     //LEFT BUMPER
     //Deploys an algae ball already inside the bot
     //Puts the algae subsystem down and spins the rollers in reverse
-    m_driverController->LeftBumper().OnTrue(DeployAlgae(m_intake));
-    m_driverController->LeftBumper().OnFalse(StopDeploy(m_intake));
+    // m_driverController->LeftBumper().OnTrue(DeployAlgae(m_intake));
+    // m_driverController->LeftBumper().OnFalse(StopDeploy(m_intake));
 
     //RIGHT BUMPER
     //Auto Aligns robot to a certain angle
     //preferably used to align robot to human player station
-    m_driverController->RightBumper().WhileTrue(rotateTo(m_drive, m_driverController, 214));
+    m_driverController->RightBumper().WhileTrue(rotateTo(m_drive, 144_deg, m_driverController));
+
+    //LEFT BUMPER
+    //Auto Aligns robot to a certain angle
+    //preferably used to align robot to human player station
+    m_driverController->LeftBumper().WhileTrue(rotateTo(m_drive, 36_deg, m_driverController));
 
 }
 
