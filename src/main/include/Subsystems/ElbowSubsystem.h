@@ -59,7 +59,7 @@ public:
     void setWristSpeed(double speed);
 
     // Devansh's function to rotate wrist
-    void WristRotate(bool flip);
+    void WristRotate();
 
     //gripper setters
 
@@ -110,6 +110,8 @@ private:
     Motor* elbowMotor = nullptr;
     SparkMaxMotor wristMotor{gripperPivotID};
     SparkMaxMotor rollerMotor{armGripperID};
+
+    bool flip;
 
     // grpl::LaserCan LaserCanVertical{19};
     // grpl::LaserCan LaserCanHorizontal{20};

@@ -39,10 +39,7 @@ RobotContainer::RobotContainer()
     frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
 }
  
-frc2::CommandPtr RobotContainer::GetAutonomousCommand()
-{
-     return PathPlannerAuto("3 Piece").ToPtr();//std::nullptr_t;//autoChooser.GetSelected();
-}
+
 
 
 
@@ -69,10 +66,10 @@ void RobotContainer::ConfigureButtonBindings() {}
 //          .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}))); 
 
 //          m_secondaryController.LeftTrigger().OnTrue(frc2::cmd::RunOnce([this] {m_elevator.setPosition(m_elevator.getAPosition() - 0.5);}));
-=======
+
         // m_driverController.A().OnTrue(IntakeAlgae(&intake));
         // m_driverController.A().OnFalse(StopIntake(&intake));   
-}
+
  
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
@@ -81,5 +78,3 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 
 
 
-void RobotContainer::ConfigureButtonBindings() {}
->>>>>>> ClimbSubsystem

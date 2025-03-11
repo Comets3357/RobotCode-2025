@@ -11,6 +11,8 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"
+#include "commands/ArmCommands.h"
+
 
 //   ____                       _               ____        _   _                  
 //  / __ \                     | |             |  _ \      | | | |                 
@@ -148,10 +150,29 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     // .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(250); m_elbow->setRollerSpeed(-0.15);}))
     // );
 
-         m_secondaryController->POVRight().OnTrue(frc2::FunctionalCommand([=]{},
-         [=, &offset]{m_elbow->setElbowAngle(225 + (m_secondaryController->GetRightY() * 15)); if (m_driverController->GetHID().GetAButtonPressed()) {
-         offset += 180; m_elbow->setWristAngle(offset);}},[=](bool interrupt){},[=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr()
-          .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(250); m_elbow->setRollerSpeed(-0.15);},{ m_elbow})));
+    // m_secondaryController->POVRight().OnTrue(frc2::FunctionalCommand([=]{},
+    // [=, &offset]
+    // {   
+    //     m_elbow->setElbowAngle(225 + (m_secondaryController->GetRightY() * 15)); 
+    //     if (m_driverController->GetHID().GetAButtonPressed()) {
+    //         /* offset += 180; m_elbow->setWristAngle(offset);*/  
+    //         m_elbow->WristRotate();
+    //     }
+    //     if (m_elbow->getWristAngle()<45 || m_elbow->getWristAngle()>315)
+    //         {
+    //          m_elbow->setWristAngle(270);
+    //         }
+    //     if (m_elbow->getWristAngle()<225 && m_elbow->getWristAngle()>135)
+    //         {
+    //          m_elbow->setWristAngle(90);
+    //         }
+    // },[=](bool interrupt){},[=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr()
+    // .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(250); m_elbow->setRollerSpeed(-0.15);},{ m_elbow})));
+
+    m_secondaryController->POVRight().OnTrue(WristStuff(m_elbow, m_driverController, m_secondaryController));
+
+
+
 
     //Moves elbow parallel to ground
     //If right trigger is pressed rollers score.

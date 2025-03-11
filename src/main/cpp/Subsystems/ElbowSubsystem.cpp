@@ -152,7 +152,7 @@ double ElbowSubsystem::getRollerCurrent() {
     return rollerMotor.GetOutputCurrent();
 }
 
-void ElbowSubsystem::WristRotate(bool flip)
+void ElbowSubsystem::WristRotate()
 {
     if (wristMotor.GetAbsolutePosition()<95 && wristMotor.GetAbsolutePosition() > 85)
     {
@@ -168,16 +168,16 @@ void ElbowSubsystem::WristRotate(bool flip)
         flip = true;
         
         // wristMotor.setReference(0, Motor::controlType::position);
-        // wristMotor.setReference(180, Motor::controlType::position);
-        wristMotor.setReference(270, Motor::controlType::position);
+        wristMotor.setReference(0, Motor::controlType::position);
+        // wristMotor.setReference(270, Motor::controlType::position);
     }
     else
     {
         flip = false;
 
-        // wristMotor.setReference(0, Motor::controlType::position);
+         wristMotor.setReference(180, Motor::controlType::position);
         // wristMotor.setReference(180, Motor::controlType::position);
-        wristMotor.setReference(90, Motor::controlType::position);
+        // wristMotor.setReference(90, Motor::controlType::position);
     }
 }
 
