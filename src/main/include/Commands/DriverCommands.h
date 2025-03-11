@@ -17,3 +17,6 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
                     frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController);
 
 
+frc2::CommandPtr rotateTo(DriveSubsystem *drive, units::degree_t targetrot, frc2::CommandXboxController *m_driverController);
+
+double shortestRotation(double current, double target);

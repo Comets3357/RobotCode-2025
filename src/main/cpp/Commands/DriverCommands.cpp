@@ -81,6 +81,25 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     m_driverController->LeftBumper().OnTrue(DeployAlgae(m_intake));
     m_driverController->LeftBumper().OnFalse(StopDeploy(m_intake));
 
-    
+    //RIGHT BUMPER
+    //Auto Aligns robot to a certain angle
+    //preferably used to align robot to human player station
+    m_driverController->RightBumper().WhileTrue(rotateTo(m_drive, m_driverController, 214));
 
+}
+
+frc2::CommandPtr rotateTo(DriveSubsystem *drive, units::degree_t targetrot, frc2::CommandXboxController *m_driverController) {
+    return frc2::cmd::Run([drive, targetrot, m_driverController] {
+        drive->Drive(
+            -units::meters_per_second_t{frc::ApplyDeadband(
+                m_driverController->GetLeftY(), OIConstants::kDriveDeadband)},
+            -units::meters_per_second_t{frc::ApplyDeadband(
+                m_driverController->GetLeftX(), OIConstants::kDriveDeadband)},
+            units::degrees_per_second_t{shortestRotation(drive->GetGyroHeading().Degrees().value(), targetrot.value())}*1.2,
+        true);}, {drive});
+}
+
+double shortestRotation(double current, double target) {
+    double delta = std::fmod((target-current) + 180, 360) - 180;
+    return (delta < -180) ? delta + 360 : delta;
 }
