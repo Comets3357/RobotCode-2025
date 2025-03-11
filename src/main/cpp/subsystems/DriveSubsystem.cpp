@@ -92,9 +92,20 @@ void DriveSubsystem::Periodic()
 }
 
 void DriveSubsystem::PoseEstimation() {
-    m_poseEstimator.Update(m_gyro.Get2DRotation(),
+   
+    auto alliance = frc::DriverStation::GetAlliance();
+    if (alliance == frc::DriverStation::Alliance::kRed)
+    {
+        m_poseEstimator.Update(m_gyro.Get2DRotation().RotateBy(frc::Rotation2d(180_deg)),
                            {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                             m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
+    }
+    else
+    {
+        m_poseEstimator.Update(m_gyro.Get2DRotation(),
+                           {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                            m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
+    }
 
     double chassisSpeedSquared= pow((double) GetRobotRelativeSpeeds().vx, 2) + pow((double) GetRobotRelativeSpeeds().vy, 2); 
     // double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
@@ -203,7 +214,16 @@ void DriveSubsystem::ResetEncoders()
 void DriveSubsystem::ZeroHeading() 
 { 
     m_gyro.ZeroGyro(); 
-    frc::Pose2d newPose{m_poseEstimator.GetEstimatedPosition().Translation(), frc::Rotation2d{0_deg}};
+    
+    frc::Pose2d newPose;
+    auto alliance = frc::DriverStation::GetAlliance();
+    if (alliance == frc::DriverStation::Alliance::kRed)
+    {
+        newPose = frc::Pose2d{m_poseEstimator.GetEstimatedPosition().Translation(), frc::Rotation2d{180_deg}};
+    } else {
+        newPose = frc::Pose2d{m_poseEstimator.GetEstimatedPosition().Translation(), frc::Rotation2d{0_deg}};
+
+    }
     m_poseEstimator.ResetPose(newPose);
 }
 
