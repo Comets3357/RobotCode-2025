@@ -26,23 +26,16 @@ class VisionSubsystem : public frc2::SubsystemBase
   const frc::AprilTagFieldLayout kTagLayout{
     frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::kDefaultField)};
 
-// frc::Transform3d robotToCam1 =
-//     frc::Transform3d(frc::Translation3d(0.16_m, -0.212_m, 0.21_m),
-//                     frc::Rotation3d(0_rad, -0.349_rad, -1.74533_rad));
-
 frc::Transform3d robotToCam1 =
     frc::Transform3d(frc::Translation3d(0.16_m, 0.212_m, 0.21_m),
-                    frc::Rotation3d(0_rad, -0.349_rad, 1.5708_rad));
+                    frc::Rotation3d(0_rad, -0.349_rad, 1.7453_rad));
 
   photon::PhotonCamera cameraTwo{"camTwo"};
 
-// frc::Transform3d robotToCam2 =
-//     frc::Transform3d(frc::Translation3d(0.16_m, 0.212_m, 0.21_m),
-//                     frc::Rotation3d(0_rad, -0.349_rad, 1.74533_rad));
-
 frc::Transform3d robotToCam2 =
-    frc::Transform3d(frc::Translation3d(0.16_m, -0.212_m, 0.21_m),
-                    frc::Rotation3d(0_rad, -0.349_rad, -1.5708_rad));
+    frc::Transform3d(frc::Translation3d(0.16_m, 0.212_m, 0.21_m),
+                    frc::Rotation3d(0_rad, -0.349_rad, -1.7453_rad));
+
 
 photon::PhotonPoseEstimator poseEstimatorOne{kTagLayout, photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam1};
 photon::PhotonPoseEstimator poseEstimatorTwo{kTagLayout, photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam2};
