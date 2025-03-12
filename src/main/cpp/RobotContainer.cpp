@@ -78,3 +78,7 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 
 
 
+void RobotContainer::ConfigureButtonBindings() {
+    m_driverController.X().WhileTrue(new frc2::RunCommand([this] { m_drive.ZeroHeading(); }, {&m_drive}));
+    //m_driverController.A().WhileTrue(pathfindingCommand.get());
+}

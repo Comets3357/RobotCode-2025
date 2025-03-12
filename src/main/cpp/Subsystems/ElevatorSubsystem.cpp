@@ -19,8 +19,8 @@ ElevatorSubsystem::ElevatorSubsystem()
         MainElevatorMotor.enableReverseSoftLimit(true);
         MainElevatorMotor.setForwardSoftLimit(40);
         MainElevatorMotor.setReverseSoftLimit(0);
-        MainElevatorMotor.setMinOutput(-0.5);
-        MainElevatorMotor.setMaxOutput(0.5);
+        MainElevatorMotor.setMinOutput(-0.75);
+        MainElevatorMotor.setMaxOutput(0.75);
         FollowElevatorMotor.SetFollow(MainElevatorMotor);
         MainElevatorMotor.configure();
         FollowElevatorMotor.configure();  

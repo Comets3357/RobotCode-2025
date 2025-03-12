@@ -36,50 +36,50 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     // /_/    \_\___|\__|_|\___/|_| |_| |____/ \__,_|\__|\__\___/|_| |_|___/
                                                                       
     //m_intake to ground (arm side)
-    m_secondaryController->A().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(295); m_elbow->setWristAngle(0); m_elbow->setRollerSpeed(0.4);})
+    m_secondaryController->A().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(295); m_elbow->setWristAngle(0); m_elbow->setRollerSpeed(0.4);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getWristAngle() < 2;}))
-    .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(305);}))
+    .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(305);},{m_elbow}))
     );
 
     //m_intake up to idle position
-    m_secondaryController->A().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(180); m_elbow->setRollerSpeed(0.2);})
+    m_secondaryController->A().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(180); m_elbow->setRollerSpeed(0.2);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil([=]{return m_elbow->getElbowAngle()<=295;}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);},{m_elbow}))
     .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.25);}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.25);},{m_elbow}))
     .AlongWith(frc2::cmd::Wait(units::second_t{1}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);},{m_elbow}))
     );
 
-    m_secondaryController->B().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(235);})
+    m_secondaryController->B().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(235);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()>234;}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.4);})));
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.4);},{m_elbow})));
 
-    m_secondaryController->B().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180);})
+    m_secondaryController->B().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;})));
 
     //reset all positions to idle mode, elevator all down and elbow set to 180.
-    m_secondaryController->X().OnTrue(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);})
+    m_secondaryController->X().OnTrue(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;}))
-    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); }))
+    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); },{m_elevator}))
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);},{m_elbow}))
     .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.5);}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.5);},{m_elbow}))
     .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);})));
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);},{m_elbow})));
 
     //Intake and deploy algae
     (m_secondaryController->Y() && m_secondaryController->LeftBumper()).OnTrue(
-        IntakeAlgae(m_intake)
+        DeployAlgae(m_intake)
     );
 
     (m_secondaryController->Y() && !m_secondaryController->LeftBumper()).OnTrue(
-        StopDeploy(m_intake)
+        IntakeAlgae(m_intake)
     );
     
     (m_secondaryController->Y() && m_secondaryController->LeftBumper()).OnFalse(
-        IntakeAlgae(m_intake)
+        StopDeploy(m_intake)
     );
     
     (m_secondaryController->Y() && !m_secondaryController->LeftBumper()).OnFalse(
