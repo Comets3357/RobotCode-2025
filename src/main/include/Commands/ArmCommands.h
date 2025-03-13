@@ -9,4 +9,5 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include "RobotContainer.h"
 
-frc2::CommandPtr WristStuff(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle);
+frc2::CommandPtr WristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle);
+frc2::CommandPtr WristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle);
