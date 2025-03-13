@@ -10,6 +10,11 @@ void SparkFlexMotor::StopMotor()
     motor.Set(0);
 }
 
+double SparkFlexMotor::GetAppliedOutput()
+{
+    return motor.GetAppliedOutput();
+}
+
 void SparkFlexMotor::setFeedbackSensor(encoderType encoder)
 {
     if (encoder == Motor::encoderType::absolute) // sets feedback sensor to absolute

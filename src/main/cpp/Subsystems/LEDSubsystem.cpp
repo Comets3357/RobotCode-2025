@@ -1,5 +1,3 @@
-
-#pragma once
 #include "subsystems/LEDSubsystem.h"
 #include <frc/DriverStation.h>
 // #include "subsystems/IndexerSubsystem.h"
@@ -45,6 +43,7 @@ void LEDSubsystem::Periodic()
                 LED_DATA[i].SetRGB(0,255,0);
             }
             LED1.SetData(LED_DATA);
+           // red.ApplyTo(LED_DATA);
             LED = "Comms";
             // LED2.SetData(LED_DATA);
         }
@@ -104,9 +103,10 @@ void LEDSubsystem::Periodic()
            {
             for (size_t i = 0; i <31; i++)
                 {
-                    LED_DATA[i].SetRGB(255,0,0);
+                    LED_DATA[i].SetRGB(128,0,128);
                 }
                 LED1.SetData(LED_DATA);
+                blinkPatternHP.ApplyTo(LED_DATA); 
                 LED = "Human Player";
            }
 
@@ -114,9 +114,10 @@ void LEDSubsystem::Periodic()
            {
             for (size_t i = 0; i <31; i++)
                 {
-                    LED_DATA[i].SetRGB(255,0,0);
+                    LED_DATA[i].SetRGB(255,255,0);
                 }
                 LED1.SetData(LED_DATA);
+                blinkPatternHPGround.ApplyTo(LED_DATA); 
                 LED = "Human Player Ground"; 
            }
     }

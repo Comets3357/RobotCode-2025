@@ -4,6 +4,7 @@
 #include <frc2/command/SubsystemBase.h>
 //#include <rev/CANSparkMax.h>
 #include <frc/AddressableLED.h>
+#include <frc/LEDPattern.h>
 #include "subsystems/ClimbSubsystem.h"
 #include "subsystems/DriveSubsystem.h"
 
@@ -38,6 +39,16 @@ class LEDSubsystem : public frc2::SubsystemBase
     ClimbSubsystem* m_climb; 
 
     std::string LED{""}; 
+
+    frc::LEDPattern purple = frc::LEDPattern::Solid(frc::Color::kPurple); 
+    frc::LEDPattern red = frc::LEDPattern::Solid(frc::Color::kRed);
+    frc::LEDPattern yellow = frc::LEDPattern::Solid(frc::Color::kYellow); 
+    frc::LEDPattern green = frc::LEDPattern::Solid(frc::Color::kGreen); 
+
+    frc::LEDPattern blinkPatternHP = purple.Blink(units::time::second_t{2}, units::time::second_t{2}); 
+
+    
+    frc::LEDPattern blinkPatternHPGround = yellow.Blink(units::time::second_t{2}, units::time::second_t{2}); 
     
 };
 

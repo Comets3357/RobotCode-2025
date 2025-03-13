@@ -31,6 +31,7 @@ public:
     virtual double GetAbsoluteVelocity() = 0;
     virtual double GetAbsolutePosition() = 0;
     virtual double GetOutputCurrent() = 0;
+    virtual double GetAppliedOutput() = 0;
 
     virtual void SetRelativePosition(double pos) = 0;
 

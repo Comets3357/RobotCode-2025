@@ -55,7 +55,7 @@ double ClimbSubsystem::GetClimbAbsolutePosition()
 
 bool ClimbSubsystem::isRunning()
 {
-    return climbMotor.GetAbsoluteVelocity() < 0.001; 
+    return climbMotor.GetAppliedOutput() < 0.001; 
 }
 
 void ClimbSubsystem::Periodic() {

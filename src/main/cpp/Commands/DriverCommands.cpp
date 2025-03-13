@@ -82,8 +82,10 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     // m_driverController->LeftBumper().OnFalse(StopDeploy(m_intake));
 
     // LEFT TRIGGER // human player signal it will flash purple 
-    m_driverController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([&] {m_LED->hPlayer = true;}));
-    m_driverController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([&] {m_LED->hPlayer = true;}));
+    m_driverController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([&] {m_LED->hPlayer = true;
+    
+    frc::SmartDashboard::PutBoolean("Driver command work", true);}));
+    m_driverController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([&] {m_LED->hPlayer = false;}));
 
     //LEFT BUMPER  // human player signal to ground it will flash yellow // 
 

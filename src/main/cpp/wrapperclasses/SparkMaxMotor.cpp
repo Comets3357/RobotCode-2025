@@ -209,6 +209,11 @@ void SparkMaxMotor::setRelativePositionConversionFactor(double fac)
     config.encoder.PositionConversionFactor(fac);
 }
 
+double SparkMaxMotor::GetAppliedOutput()
+{
+    return motor.GetAppliedOutput();
+}
+
 void SparkMaxMotor::configure()
 {
     motor.Configure(config, rev::spark::SparkBase::ResetMode::kNoResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters);
