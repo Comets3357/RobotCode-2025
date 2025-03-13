@@ -33,7 +33,7 @@ frc::Transform3d robotToCam1 =
   photon::PhotonCamera cameraTwo{"camTwo"};
 
 frc::Transform3d robotToCam2 =
-    frc::Transform3d(frc::Translation3d(0.16_m, 0.212_m, 0.21_m),
+    frc::Transform3d(frc::Translation3d(0.16_m, -0.212_m, 0.21_m),
                     frc::Rotation3d(0_rad, -0.349_rad, -1.7453_rad));
 
 
