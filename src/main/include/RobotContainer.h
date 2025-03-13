@@ -53,9 +53,6 @@ public:
     ElbowSubsystem m_elbow;
     LEDSubsystem m_LED;
     ClimbSubsystem m_climb;
-    // VisionSubsystem m_vision;
-    //frc::SendableChooser<frc2::Command*> autoChooser = pathplanner::AutoBuilder::buildAutoChooser(); 
-    //double trimVar = 0;
 
 private:
     // The driver's controller
@@ -63,31 +60,6 @@ private:
     frc2::CommandXboxController m_secondaryController{OIConstants::kSecondaryControllerPort};
     frc::SendableChooser<frc2::Command *> autoChooser;
 
-    // The robot's subsystems and commands are defined here...
-    // The robot's subsystems
-    // The chooser for the autonomous routines
-    // frc::SendableChooser<frc2::Command*> m_chooser;
-    void ConfigureButtonBindings();
-
-
-
     int offset = 90;
     bool halfSpeed = false; 
-
-//     frc::Pose2d targetPose = frc::Pose2d(12.5_m, 5.5_m, frc::Rotation2d(45_deg));
-
-//     // Create the constraints to use while pathfinding
-//     pathplanner::PathConstraints constraints = PathConstraints(
-//     3.0_mps, 4.0_mps_sq,
-//     units::degrees_per_second_t{540}, units::degrees_per_second_squared_t{720});
-
-//     // Since AutoBuilder is configured, we can use it to build pathfinding commands
-//     frc2::CommandPtr pathfindingCommand = AutoBuilder::pathfindToPose(
-//     targetPose,
-//     constraints,
-//     0.0_mps // Goal end velocity in meters/sec
-// );
-
-
-    //double trimOffset = 0; 
 };
