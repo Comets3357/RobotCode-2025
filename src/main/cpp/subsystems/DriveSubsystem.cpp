@@ -123,6 +123,13 @@ void DriveSubsystem::PoseEstimation() {
     if (estimatedPoseVector.size() == 1)
     {
         EstPose1 = estimatedPoseVector.at(0).estimatedPose.ToPose2d();
+
+        if (alliance == frc::DriverStation::Alliance::kRed) {
+        EstPose1 = frc::Pose2d{EstPose1.X(), EstPose1.Y(), m_gyro.Get2DRotation().RotateBy(frc::Rotation2d(180_deg))};
+        }
+        else {
+            EstPose1 = frc::Pose2d{EstPose1.X(), EstPose1.Y(), m_gyro.Get2DRotation()};
+        }
         
         if (EstPose1.X() > 0.39743_m && EstPose1.X() < 17.15_m && EstPose1.Y() > 0.39743_m && EstPose1.Y() < 7.655_m)
         {
@@ -132,14 +139,23 @@ void DriveSubsystem::PoseEstimation() {
     {
         EstPose1 = estimatedPoseVector.at(0).estimatedPose.ToPose2d();
         EstPose2 = estimatedPoseVector.at(1).estimatedPose.ToPose2d();
+        
+        if (alliance == frc::DriverStation::Alliance::kRed) {
+        EstPose1 = frc::Pose2d{EstPose1.X(), EstPose1.Y(), m_gyro.Get2DRotation().RotateBy(frc::Rotation2d(180_deg))};
+        EstPose2 = frc::Pose2d{EstPose2.X(), EstPose2.Y(), m_gyro.Get2DRotation().RotateBy(frc::Rotation2d(180_deg))};
+        }
+        else {
+            EstPose1 = frc::Pose2d{EstPose1.X(), EstPose1.Y(), m_gyro.Get2DRotation()};
+            EstPose2 = frc::Pose2d{EstPose2.X(), EstPose2.Y(), m_gyro.Get2DRotation()};
+        }
 
         if (EstPose1.X() > 0.39743_m && EstPose1.X() < 17.15_m && EstPose1.Y() > 0.39743_m && EstPose1.Y() < 7.655_m)
         {
-            m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(0).estimatedPose.ToPose2d(), estimatedPoseVector.at(0).timestamp);
+            m_poseEstimator.AddVisionMeasurement(EstPose1, estimatedPoseVector.at(0).timestamp);
         }
         if (EstPose2.X() > 0.39743_m && EstPose2.X() < 17.15_m && EstPose2.Y() > 0.39743_m && EstPose2.Y() < 7.655_m)
         {
-            m_poseEstimator.AddVisionMeasurement(estimatedPoseVector.at(1).estimatedPose.ToPose2d(), estimatedPoseVector.at(1).timestamp); 
+            m_poseEstimator.AddVisionMeasurement(EstPose2, estimatedPoseVector.at(1).timestamp); 
         }
     }
 
