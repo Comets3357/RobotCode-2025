@@ -164,7 +164,8 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     // },[=](bool interrupt){},[=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr()
     // .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(250); m_elbow->setRollerSpeed(-0.15);},{ m_elbow})));
 
-    m_secondaryController->POVRight().OnTrue(WristStuff(m_elbow, m_driverController, m_secondaryController, 220));
+    m_secondaryController->POVRight().OnTrue(WristStuff(m_elbow, m_driverController, m_secondaryController, 220)
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(250); m_elbow->setRollerSpeed(-0.15);},{ m_elbow})));
 
     //Moves elbow parallel to ground
     //If right trigger is pressed rollers score.
