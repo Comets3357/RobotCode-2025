@@ -62,14 +62,6 @@ private:
     frc2::CommandXboxController m_secondaryController{OIConstants::kSecondaryControllerPort};
     frc::SendableChooser<frc2::Command *> autoChooser;
 
-    // The robot's subsystems and commands are defined here...
-    // The robot's subsystems
-    // The chooser for the autonomous routines
-    // frc::SendableChooser<frc2::Command*> m_chooser;
-    void ConfigureButtonBindings();
-
     int offset = 90;
     bool halfSpeed = false; 
-
-    //double trimOffset = 0; 
 };

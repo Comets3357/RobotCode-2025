@@ -62,6 +62,8 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     //Halves the speed of swerve 
     m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
     m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
+    m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
+    m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
 
     //   ____  _   _                 ____        _   _                  
     //  / __ \| | | |               |  _ \      | | | |                 
@@ -92,6 +94,30 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
 
 
 
-    
+    //RIGHT BUMPER
+    //Auto Aligns robot to a certain angle
+    //preferably used to align robot to human player station
+    m_driverController->RightBumper().WhileTrue(rotateTo(m_drive, 144_deg, m_driverController));
 
+    //LEFT BUMPER
+    //Auto Aligns robot to a certain angle
+    //preferably used to align robot to human player station
+    m_driverController->LeftBumper().WhileTrue(rotateTo(m_drive, 36_deg, m_driverController));
+
+}
+
+frc2::CommandPtr rotateTo(DriveSubsystem *drive, units::degree_t targetrot, frc2::CommandXboxController *m_driverController) {
+    return frc2::cmd::Run([drive, targetrot, m_driverController] {
+        drive->Drive(
+            -units::meters_per_second_t{frc::ApplyDeadband(
+                m_driverController->GetLeftY(), OIConstants::kDriveDeadband)},
+            -units::meters_per_second_t{frc::ApplyDeadband(
+                m_driverController->GetLeftX(), OIConstants::kDriveDeadband)},
+            units::degrees_per_second_t{shortestRotation(drive->GetGyroHeading().Degrees().value(), targetrot.value())}*1.2,
+        true);}, {drive});
+}
+
+double shortestRotation(double current, double target) {
+    double delta = std::fmod((target-current) + 180, 360) - 180;
+    return (delta < -180) ? delta + 360 : delta;
 }

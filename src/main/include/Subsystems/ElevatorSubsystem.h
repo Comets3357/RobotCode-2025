@@ -22,6 +22,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase
 
         bool CompBotSettings = true;
     
+    
         void setSpeed(double speed);
         void CalculatePID();
         double getRPosition();

@@ -152,6 +152,34 @@ double ElbowSubsystem::getRollerCurrent() {
     return rollerMotor.GetOutputCurrent();
 }
 
+void ElbowSubsystem::WristRotate()
+{
+    if (wristMotor.GetAbsolutePosition()<95 && wristMotor.GetAbsolutePosition() > 85)
+    {
+        flip = false;
+    }
+    else
+    {
+        flip = true;
+    }
+
+    if(flip == false)
+    {
+        flip = true;
+        
+        // wristMotor.setReference(0, Motor::controlType::position);
+        wristMotor.setReference(0, Motor::controlType::position);
+        // wristMotor.setReference(270, Motor::controlType::position);
+    }
+    else
+    {
+        flip = false;
+
+         wristMotor.setReference(180, Motor::controlType::position);
+        // wristMotor.setReference(180, Motor::controlType::position);
+        // wristMotor.setReference(90, Motor::controlType::position);
+    }
+}
 
 // std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getHorizontalDistanceMeasurement() {
 //     return horizMeasurement;

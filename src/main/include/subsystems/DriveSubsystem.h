@@ -20,6 +20,21 @@
 #include "Constants.h"
 #include "MAXSwerveModule.h"
 #include "wrapperclasses/GyroWrapper.h"
+#include "subsystems/VisionSubsystem.h"
+#include <frc/estimator/SwerveDrivePoseEstimator.h>
+#include <numbers>
+#include <frc/DriverStation.h>
+#include <frc/Encoder.h>
+#include <frc/TimedRobot.h>
+#include <frc/XboxController.h>
+#include <frc/controller/LinearQuadraticRegulator.h>
+#include <frc/drive/DifferentialDrive.h>
+#include <frc/estimator/KalmanFilter.h>
+#include <frc/motorcontrol/PWMSparkMax.h>
+#include <frc/system/LinearSystemLoop.h>
+#include <frc/system/plant/DCMotor.h>
+#include <frc/system/plant/LinearSystemId.h>
+#include <units/angular_velocity.h>
 
 class DriveSubsystem : public frc2::SubsystemBase
 {
@@ -121,17 +136,36 @@ public:
 
     frc::Field2d m_field;
 
+    void PoseEstimation();
+
 private:
     // Components (e.g. motor controllers and sensors) should generally be
     // declared private and exposed only through public methods.
+
+    VisionSubsystem m_visionSubsystem; 
 
     MAXSwerveModule m_frontLeft;
     MAXSwerveModule m_rearLeft;
     MAXSwerveModule m_frontRight;
     MAXSwerveModule m_rearRight;
+    
+    frc::Pose2d EstPose1;
+    frc::Pose2d EstPose2;
 
     //redux::sensors::canandgyro::Canandgyro m_gyro{9};
     GyroWrapper m_gyro; 
 
-    frc::SwerveDriveOdometry<4> m_odometry;
+    public:
+    frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
+      kDriveKinematics,
+      frc::Rotation2d{},
+      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+       m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
+      frc::Pose2d{},
+      {0.1, 0.1, 0.1},
+      {0.1, 0.1, 100}
+      };
+
+    std::vector<photon::EstimatedRobotPose> estimatedPoseVector;
+  
 };

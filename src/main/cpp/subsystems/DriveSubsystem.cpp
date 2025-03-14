@@ -28,13 +28,7 @@ DriveSubsystem::DriveSubsystem()
       m_frontRight{kFrontRightDrivingCanId, kFrontRightTurningCanId,
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
-                  kRearRightChassisAngularOffset},
-      m_odometry{kDriveKinematics,
-                 frc::Rotation2d(units::radian_t{
-                     0}),
-                 {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-                  m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
-                 frc::Pose2d{}}
+                  kRearRightChassisAngularOffset}
 {
     // Usage reporting for MAXSwerve template
     HAL_Report(HALUsageReporting::kResourceType_RobotDrive,
@@ -42,13 +36,14 @@ DriveSubsystem::DriveSubsystem()
 
     redux::canand::EnsureCANLinkServer();
 
+    frc::SmartDashboard::PutData("Field", &m_field);
 
-     RobotConfig config = RobotConfig::fromGUISettings();
+    RobotConfig config = RobotConfig::fromGUISettings();
 
     // Configure the AutoBuilder last
     AutoBuilder::configure(
         [this](){ return GetPose(); }, // Robot pose supplier
-        [this](frc::Pose2d pose){ m_odometry.ResetPose(pose); }, // Method to reset odometry (will be called if your auto has a starting pose)
+        [this](frc::Pose2d pose){ m_poseEstimator.ResetPose(pose); }, // Method to reset odometry (will be called if your auto has a starting pose)
         [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         [this](auto speeds, auto feedforwards){ DriveFromChassisSpeeds(speeds, false); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
         std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
@@ -89,12 +84,85 @@ double DriveSubsystem::GetChassisSpeed()
 void DriveSubsystem::Periodic()
 {
     // Implementation of subsystem periodic method goes here.
-    m_odometry.Update(GetGyroHeading(),
-                      {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
-                       m_frontRight.GetPosition(), m_rearRight.GetPosition()});
+    PoseEstimation();
 
-    frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
-    frc::SmartDashboard::PutNumber("Drive X (m):", m_odometry.GetPose().Translation().X().value());
+    // frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
+    // frc::SmartDashboard::PutNumber("Drive X (m):", m_poseEstimator.GetPose().Translation().X().value());
+    
+}
+
+void DriveSubsystem::PoseEstimation() {
+   
+    auto alliance = frc::DriverStation::GetAlliance();
+    if (alliance == frc::DriverStation::Alliance::kRed)
+    {
+        m_poseEstimator.Update(m_gyro.Get2DRotation().RotateBy(frc::Rotation2d(180_deg)),
+                           {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                            m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
+    }
+    else
+    {
+        m_poseEstimator.Update(m_gyro.Get2DRotation(),
+                           {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                            m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
+    }
+
+    double chassisSpeedSquared= pow((double) GetRobotRelativeSpeeds().vx, 2) + pow((double) GetRobotRelativeSpeeds().vy, 2); 
+    // double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
+    double xStdDev = (((double)GetRobotRelativeSpeeds().vx / 4.8) * 5) + 0.1;
+    double yStdDev = (((double)GetRobotRelativeSpeeds().vy / 4.8) * 5) + 0.1; 
+    
+    m_poseEstimator.SetVisionMeasurementStdDevs({xStdDev, yStdDev, 100});
+                            
+    estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
+
+    if (estimatedPoseVector.size() == 0)
+    {
+
+    } 
+    if (estimatedPoseVector.size() == 1)
+    {
+        EstPose1 = estimatedPoseVector.at(0).estimatedPose.ToPose2d();
+
+        if (alliance == frc::DriverStation::Alliance::kRed) {
+        EstPose1 = frc::Pose2d{EstPose1.X(), EstPose1.Y(), m_gyro.Get2DRotation().RotateBy(frc::Rotation2d(180_deg))};
+        }
+        else {
+            EstPose1 = frc::Pose2d{EstPose1.X(), EstPose1.Y(), m_gyro.Get2DRotation()};
+        }
+        
+        if (EstPose1.X() > 0.39743_m && EstPose1.X() < 17.15_m && EstPose1.Y() > 0.39743_m && EstPose1.Y() < 7.655_m)
+        {
+            m_poseEstimator.AddVisionMeasurement(EstPose1, estimatedPoseVector.at(0).timestamp); 
+        }
+    } else if (estimatedPoseVector.size() == 2)
+    {
+        EstPose1 = estimatedPoseVector.at(0).estimatedPose.ToPose2d();
+        EstPose2 = estimatedPoseVector.at(1).estimatedPose.ToPose2d();
+        
+        if (alliance == frc::DriverStation::Alliance::kRed) {
+        EstPose1 = frc::Pose2d{EstPose1.X(), EstPose1.Y(), m_gyro.Get2DRotation().RotateBy(frc::Rotation2d(180_deg))};
+        EstPose2 = frc::Pose2d{EstPose2.X(), EstPose2.Y(), m_gyro.Get2DRotation().RotateBy(frc::Rotation2d(180_deg))};
+        }
+        else {
+            EstPose1 = frc::Pose2d{EstPose1.X(), EstPose1.Y(), m_gyro.Get2DRotation()};
+            EstPose2 = frc::Pose2d{EstPose2.X(), EstPose2.Y(), m_gyro.Get2DRotation()};
+        }
+
+        if (EstPose1.X() > 0.39743_m && EstPose1.X() < 17.15_m && EstPose1.Y() > 0.39743_m && EstPose1.Y() < 7.655_m)
+        {
+            m_poseEstimator.AddVisionMeasurement(EstPose1, estimatedPoseVector.at(0).timestamp);
+        }
+        if (EstPose2.X() > 0.39743_m && EstPose2.X() < 17.15_m && EstPose2.Y() > 0.39743_m && EstPose2.Y() < 7.655_m)
+        {
+            m_poseEstimator.AddVisionMeasurement(EstPose2, estimatedPoseVector.at(1).timestamp); 
+        }
+    }
+
+    m_field.SetRobotPose(m_poseEstimator.GetEstimatedPosition());
+    frc::SmartDashboard::PutNumber("X (in)", ((units::inch_t)m_poseEstimator.GetEstimatedPosition().X()).value());
+    frc::SmartDashboard::PutNumber("Y (in)", ((units::inch_t)m_poseEstimator.GetEstimatedPosition().Y()).value());
+    frc::SmartDashboard::PutNumber("Rot (degrees)", ((units::degree_t)m_poseEstimator.GetEstimatedPosition().Rotation().Degrees()).value());
 }
 
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
@@ -159,20 +227,34 @@ void DriveSubsystem::ResetEncoders()
     m_rearRight.ResetEncoders();
 }
 
-void DriveSubsystem::ZeroHeading() { m_gyro.ZeroGyro(); gyroZero = true;}
+void DriveSubsystem::ZeroHeading() 
+{ 
+    m_gyro.ZeroGyro(); 
+    
+    frc::Pose2d newPose;
+    auto alliance = frc::DriverStation::GetAlliance();
+    if (alliance == frc::DriverStation::Alliance::kRed)
+    {
+        newPose = frc::Pose2d{m_poseEstimator.GetEstimatedPosition().Translation(), frc::Rotation2d{180_deg}};
+    } else {
+        newPose = frc::Pose2d{m_poseEstimator.GetEstimatedPosition().Translation(), frc::Rotation2d{0_deg}};
+
+    }
+    m_poseEstimator.ResetPose(newPose);
+}
 
 double DriveSubsystem::GetTurnRate()
 {
     return m_gyro.GetAngularVelocityYaw().value(); //-m_gyro.GetRate(frc::ADIS16470_IMU::IMUAxis::kZ).value();
 }
 
-frc::Pose2d DriveSubsystem::GetPose() { return m_odometry.GetPose(); }
+frc::Pose2d DriveSubsystem::GetPose() { return m_poseEstimator.GetEstimatedPosition(); }
 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose)
 {
     units::degree_t angle{pose.Rotation().Degrees()}; 
     m_gyro.SetAngle(angle); 
-    m_odometry.ResetPosition(
+    m_poseEstimator.ResetPosition(
         GetGyroHeading(),
         {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
          m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
