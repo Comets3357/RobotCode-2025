@@ -40,15 +40,25 @@ class LEDSubsystem : public frc2::SubsystemBase
 
     std::string LED{""}; 
 
-    frc::LEDPattern purple = frc::LEDPattern::Solid(frc::Color::kPurple); 
-    frc::LEDPattern red = frc::LEDPattern::Solid(frc::Color::kRed);
-    frc::LEDPattern yellow = frc::LEDPattern::Solid(frc::Color::kYellow); 
-    frc::LEDPattern green = frc::LEDPattern::Solid(frc::Color::kGreen); 
+    frc::Color greenColor{255, 0, 0}; 
+    frc::Color redColor{0,255,0};
+    frc::Color purpleColor{0,128,128};
+    frc::Color orangeColor{128,128,0}; // probably not right
+    frc::Color yellowColor{255,255,0};
 
-    frc::LEDPattern blinkPatternHP = purple.Blink(units::time::second_t{2}, units::time::second_t{2}); 
 
+    // different colors // 
+    frc::LEDPattern purple = frc::LEDPattern::Solid(purpleColor); 
+   frc::LEDPattern red = frc::LEDPattern::Solid(redColor);
+    frc::LEDPattern yellow = frc::LEDPattern::Solid(yellowColor); 
+    frc::LEDPattern green = frc::LEDPattern::Solid(greenColor); 
+    frc::LEDPattern orange = frc::LEDPattern::Solid(orangeColor); 
+    frc::LEDPattern white = frc::LEDPattern::Solid(frc::Color::kWhite); 
     
-    frc::LEDPattern blinkPatternHPGround = yellow.Blink(units::time::second_t{2}, units::time::second_t{2}); 
+   
+
+    frc::LEDPattern blinkPatternHP = purple.Blink(units::time::second_t{0.5}, units::time::second_t{0.5}); 
+    frc::LEDPattern blinkPatternHPGround = yellow.Blink(units::time::second_t{0.5}, units::time::second_t{0.5}); 
     
 };
 

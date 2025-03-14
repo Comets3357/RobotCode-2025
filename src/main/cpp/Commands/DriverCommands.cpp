@@ -27,7 +27,7 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
                                                                     
 
     //Zeroes the gyro for driving convenience
-    m_driverController->Start().OnTrue(frc2::cmd::RunOnce([=] {m_drive->ZeroHeading();})); 
+    m_driverController->Start().OnTrue(frc2::cmd::RunOnce([=] {m_drive->ZeroHeading();}).IgnoringDisable(true)); 
 
     //Functions to drive the swerve modules, adds a conditional for speed reduction.
     m_drive->SetDefaultCommand(frc2::RunCommand(
@@ -60,8 +60,8 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
 
     //RIGHT TRIGGER
     //Halves the speed of swerve 
-    m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([&] {m_drive->halfSpeed = true;})); 
-    m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([&] {m_drive->halfSpeed = false;}));
+    m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
+    m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
 
     //   ____  _   _                 ____        _   _                  
     //  / __ \| | | |               |  _ \      | | | |                 
@@ -82,15 +82,13 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     // m_driverController->LeftBumper().OnFalse(StopDeploy(m_intake));
 
     // LEFT TRIGGER // human player signal it will flash purple 
-    m_driverController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([&] {m_LED->hPlayer = true;
-    
-    frc::SmartDashboard::PutBoolean("Driver command work", true);}));
-    m_driverController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([&] {m_LED->hPlayer = false;}));
+    m_driverController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_LED->hPlayer = true;}));
+    m_driverController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_LED->hPlayer = false;}));
 
     //LEFT BUMPER  // human player signal to ground it will flash yellow // 
 
-    m_driverController->LeftBumper().OnTrue(frc2::cmd::RunOnce([&] {m_LED->hPlayerGround = true;}));
-    m_driverController->LeftBumper().OnFalse(frc2::cmd::RunOnce([&] {m_LED->hPlayerGround = false;}));
+    m_driverController->LeftBumper().OnTrue(frc2::cmd::RunOnce([=] {m_LED->hPlayerGround = true;}));
+    m_driverController->LeftBumper().OnFalse(frc2::cmd::RunOnce([=] {m_LED->hPlayerGround = false;}));
 
 
 
