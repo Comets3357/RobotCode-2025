@@ -1,6 +1,6 @@
 #include "Commands/ArmCommands.h"
 
-frc2::CommandPtr WristRotateLeft(Subsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle)
+frc2::CommandPtr WristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle)
 {
 
     return frc2::FunctionalCommand([=]{},
@@ -20,7 +20,7 @@ frc2::CommandPtr WristRotateLeft(Subsystem* m_elbow, frc2::CommandXboxController
     [=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr();
 }
 
-frc2::CommandPtr WristRotateRight(Subsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle)
+frc2::CommandPtr WristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle)
 {
 
     return frc2::FunctionalCommand([=]{},
