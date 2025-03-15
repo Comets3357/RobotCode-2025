@@ -26,9 +26,7 @@ using namespace DriveConstants;
 
 RobotContainer::RobotContainer()
 {
-    // Initialize all of your commands and subsystems here
-    // Configure the button bindings
-    ConfigureButtonBindings();
+    autoChooser = AutoBuilder::buildAutoChooser(); 
 
     OperatorCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController, offset);
     DriverCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController);
@@ -42,7 +40,3 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
      return PathPlannerAuto("Wrist Auto Test").ToPtr();//std::nullptr_t;//autoChooser.GetSelected();
 }
-
-
-
-void RobotContainer::ConfigureButtonBindings() {}

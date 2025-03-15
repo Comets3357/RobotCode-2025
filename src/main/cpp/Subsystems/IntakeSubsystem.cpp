@@ -13,7 +13,7 @@ IntakeSubsystem::IntakeSubsystem() {
 }
 
 void IntakeSubsystem::Periodic() {
-    frc::SmartDashboard::PutNumber("angle", GetAngle());
+    frc::SmartDashboard::PutNumber("Algae angle", GetAngle());
 }
 
 
