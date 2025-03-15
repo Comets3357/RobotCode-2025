@@ -28,6 +28,8 @@ class LEDSubsystem : public frc2::SubsystemBase
         bool climbRunning = false;
         bool hPlayer = false;
         bool hPlayerGround = false; 
+        bool gyroInPos = false;
+        bool robotInPos = false; 
 
         void Periodic() override;
         LEDSubsystem(DriveSubsystem* m_DriveP, ClimbSubsystem* m_climbP);
