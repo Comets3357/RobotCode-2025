@@ -1,4 +1,4 @@
-#include "Subsystems/ClimbSubsystem.h"
+#include "subsystems/ClimbSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
 void ClimbSubsystem::ClimbRetract()
@@ -46,6 +46,16 @@ ClimbSubsystem::ClimbSubsystem(){
     //climbMotor.setAbsoluteEncoderInverted(true); 
     climbMotor.configure();
     
+}
+
+double ClimbSubsystem::GetClimbAbsolutePosition()
+{
+    return climbMotor.GetAbsolutePosition();
+}
+
+bool ClimbSubsystem::isRunning()
+{
+    return climbMotor.GetAppliedOutput() > 0.001; 
 }
 
 void ClimbSubsystem::Periodic() {

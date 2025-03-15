@@ -31,6 +31,7 @@ public:
     double GetRelativeVelocity() override;
     double GetRelativePosition() override;
     double GetOutputCurrent() override;
+    double GetAppliedOutput() override;
 
     // new functions //
 

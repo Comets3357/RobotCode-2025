@@ -37,6 +37,7 @@ public:
     double GetAbsolutePosition() override;
     double GetAbsoluteVelocity() override;
     double GetZeroOffset();
+    double GetAppliedOutput() override;
 
     void SetElevatorAbsolutePosition(double zeroOffset);
     double GetOutputCurrent() override;

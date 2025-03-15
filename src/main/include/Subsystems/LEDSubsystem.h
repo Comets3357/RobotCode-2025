@@ -4,6 +4,9 @@
 #include <frc2/command/SubsystemBase.h>
 //#include <rev/CANSparkMax.h>
 #include <frc/AddressableLED.h>
+#include <frc/LEDPattern.h>
+#include "subsystems/ClimbSubsystem.h"
+#include "subsystems/DriveSubsystem.h"
 
 
 class LEDSubsystem : public frc2::SubsystemBase
@@ -21,34 +24,41 @@ class LEDSubsystem : public frc2::SubsystemBase
         bool detect =false;
         bool enabled = false;  
         bool gyroZero = false; 
+        bool climbReady = false;
+        bool climbRunning = false;
+        bool hPlayer = false;
+        bool hPlayerGround = false; 
+
         void Periodic() override;
-        LEDSubsystem()
-        {
-            LED1.SetLength(31);
-            for (size_t i = 0; i < 31; i++)
-            {
-                LED_DATA[i].SetRGB(255,255,255);
-            }
-            LED1.SetData(LED_DATA);
-            LED1.Start();
-        }
+        LEDSubsystem(DriveSubsystem* m_DriveP, ClimbSubsystem* m_climbP);
 
 
 
     private:
+    DriveSubsystem* m_drive;
+    ClimbSubsystem* m_climb; 
 
-    // m_secondaryController.POVUp().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((50));},{&m_elevator})
-    //      .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() > (49.5);}))
-    //      .AndThen(frc2::cmd::RunOnce([this] {m_elbowSubsystem.setElbowAngle(240);},{&m_elbowSubsystem})));
+    std::string LED{""}; 
+
+    frc::Color greenColor{255, 0, 0}; 
+    frc::Color redColor{0,255,0};
+    frc::Color purpleColor{0,128,128};
+    frc::Color orangeColor{128,128,0}; // probably not right
+    frc::Color yellowColor{255,255,0};
 
 
-    //      m_secondaryController.LeftBumper().OnTrue(frc2::cmd::RunOnce([this]{ m_elevator.setPosition((32)); m_elbowSubsystem.setRollerSpeed(-0.1); },{&m_elbowSubsystem, &m_elevator})
-    //      .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elevator.getAPosition() < (32.5);}))
-    //      .AndThen(frc2::cmd::RunOnce([this]{m_elbowSubsystem.setElbowAngle(180); m_elbowSubsystem.setRollerSpeed(0); },{&m_elbowSubsystem})
-    //      .AlongWith(frc2::cmd::WaitUntil( [this] { return m_elbowSubsystem.getElbowAngle()<=185;})))
-    //      .AndThen(frc2::cmd::RunOnce([this]{ m_elevator.setPosition(3); },{&m_elevator}))); 
+    // different colors // 
+    frc::LEDPattern purple = frc::LEDPattern::Solid(purpleColor); 
+   frc::LEDPattern red = frc::LEDPattern::Solid(redColor);
+    frc::LEDPattern yellow = frc::LEDPattern::Solid(yellowColor); 
+    frc::LEDPattern green = frc::LEDPattern::Solid(greenColor); 
+    frc::LEDPattern orange = frc::LEDPattern::Solid(orangeColor); 
+    frc::LEDPattern white = frc::LEDPattern::Solid(frc::Color::kWhite); 
+    
+   
 
-    //      m_secondaryController.LeftTrigger().OnTrue(frc2::cmd::RunOnce([this] {m_elevator.setPosition(m_elevator.getAPosition() - 0.5)};));
+    frc::LEDPattern blinkPatternHP = purple.Blink(units::time::second_t{0.25}, units::time::second_t{0.25}); 
+    frc::LEDPattern blinkPatternHPGround = yellow.Blink(units::time::second_t{0.25}, units::time::second_t{0.25}); 
     
 };
 
