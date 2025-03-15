@@ -168,34 +168,38 @@ double ElbowSubsystem::getRollerCurrent() {
     return rollerMotor.GetOutputCurrent();
 }
 
-void ElbowSubsystem::WristRotate()
-{
-    if (wristMotor.GetAbsolutePosition()<95 && wristMotor.GetAbsolutePosition() > 85)
-    {
+void ElbowSubsystem::placementRotate() {
+    if (wristMotor.GetAbsolutePosition()< 95 && wristMotor.GetAbsolutePosition() > 85 ) {
         flip = false;
-    }
-    else
-    {
+    } else {
         flip = true;
     }
 
-    if(flip == false)
-    {
+    if (flip == false) {
         flip = true;
-        
-        // wristMotor.setReference(0, Motor::controlType::position);
         wristMotor.setReference(0, Motor::controlType::position);
-        // wristMotor.setReference(270, Motor::controlType::position);
-    }
-    else
-    {
+    } else {
         flip = false;
-
          wristMotor.setReference(180, Motor::controlType::position);
-        // wristMotor.setReference(180, Motor::controlType::position);
-        // wristMotor.setReference(90, Motor::controlType::position);
     }
 }
+
+void ElbowSubsystem::detectionRotate() {
+    if (wristMotor.GetAbsolutePosition() < 2 && wristMotor.GetAbsolutePosition() > 358 ) {
+        flip = false;
+    } else {
+        flip = true;
+    }
+
+    if (flip == false) {
+        flip = true;
+        wristMotor.setReference(90, Motor::controlType::position);
+    } else {
+        flip = false;
+         wristMotor.setReference(270, Motor::controlType::position);
+    }
+}
+
 double ElbowSubsystem::getDistanceMeasurement() {
     if (ElbowSubsystem::getLaserCANMeasurement().has_value()) {
         return getLaserCANMeasurement().value().distance_mm;

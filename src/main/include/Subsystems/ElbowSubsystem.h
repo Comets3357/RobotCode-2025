@@ -61,8 +61,13 @@ public:
     //sets the gripper pivot speed
     void setWristSpeed(double speed);
 
-    // Devansh's function to rotate wrist
-    void WristRotate();
+    //flips the wrist 180 degrees from one side of placement
+    //position to the other side
+    void placementRotate();
+
+    //flips the wrist 180 degrees from one side of the LaserCAN detection side
+    //to the other side
+    void detectionRotate();
 
     //gripper setters
 
