@@ -24,6 +24,7 @@ void LEDSubsystem::Periodic()
     climbReady = m_climb->GetClimbAbsolutePosition() < 180 && !m_climb->isRunning();
     climbRunning = m_climb->isRunning();
     gyroZero = m_drive->gyroZero;
+    
 
     // flashing purple = human playaer signal //
     // climb color = blue //
