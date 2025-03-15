@@ -21,7 +21,7 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
 {
 
     // vision positions // 
-    const frc::Pose2d pose1{11_m, 11_m, frc::Rotation2d{0, 0}}; 
+    const frc::Pose2d pose1{13.420_m, 5.5_m, frc::Rotation2d{0, 0}}; 
     const auto MOE = 0.03_m; 
     const units::time::second_t bufferTime{0.75};
 

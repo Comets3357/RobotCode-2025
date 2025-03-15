@@ -9,17 +9,11 @@
           "data": {
             "pathName": "New Path"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Attempt"
-          }
         }
       ]
     }
   },
-  "resetOdom": false,
+  "resetOdom": true,
   "folder": null,
   "choreoAuto": false
 }
