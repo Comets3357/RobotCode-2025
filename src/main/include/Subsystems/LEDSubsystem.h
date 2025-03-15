@@ -57,8 +57,8 @@ class LEDSubsystem : public frc2::SubsystemBase
     
    
 
-    frc::LEDPattern blinkPatternHP = purple.Blink(units::time::second_t{0.5}, units::time::second_t{0.5}); 
-    frc::LEDPattern blinkPatternHPGround = yellow.Blink(units::time::second_t{0.5}, units::time::second_t{0.5}); 
+    frc::LEDPattern blinkPatternHP = purple.Blink(units::time::second_t{0.25}, units::time::second_t{0.25}); 
+    frc::LEDPattern blinkPatternHPGround = yellow.Blink(units::time::second_t{0.25}, units::time::second_t{0.25}); 
     
 };
 
