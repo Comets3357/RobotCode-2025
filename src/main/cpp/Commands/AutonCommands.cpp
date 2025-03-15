@@ -29,7 +29,7 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("Algae Up", std::move(StopDeploy(m_intake)));
 
     NamedCommands::registerCommand("Wrist Flip Check", std::move(( frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0);}, {m_elbow})
-    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() < 5) || (m_elbow->getWristAngle() > 360);})))
+    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() < 5) || (m_elbow->getWristAngle() > 358);})))
     .AndThen((frc2::cmd::RunOnce([=] { m_elbow->setSideOne(m_elbow->getDistanceMeasurement()); }))
     .AlongWith(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180);}, {m_elbow}))
     .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() > 175) && (m_elbow->getWristAngle() < 185);})))

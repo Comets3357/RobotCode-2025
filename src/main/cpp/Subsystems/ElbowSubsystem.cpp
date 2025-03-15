@@ -203,6 +203,8 @@ bool ElbowSubsystem::isAutonWristFlipValid() {
     double sensorToPivot = 66.675;
     double tempDiff = std::abs(ElbowSubsystem::getSideOne() - ElbowSubsystem::getSideTwo());
     double angle = std::atan2(tempDiff, (2 * sensorToPivot));
+    angle = angle * (180/3.14159);
+
 
     if (angle > 35) {
         return true;
@@ -228,7 +230,7 @@ void ElbowSubsystem::Periodic() {
     frc::SmartDashboard::PutBoolean("Auton Wrist Flip?", ElbowSubsystem::isAutonWristFlipValid());
     frc::SmartDashboard::PutNumber("SideOne", ElbowSubsystem::getSideOne());
     frc::SmartDashboard::PutNumber("SideTwo", ElbowSubsystem::getSideTwo());
-    frc::SmartDashboard::PutNumber("auton flip angle", std::atan2(std::abs(sideOne - sideTwo), (2 * 66.675)));
+    frc::SmartDashboard::PutNumber("auton flip angle", (180/3.14159) * std::atan2(std::abs(sideOne - sideTwo), (2 * 66.675)));
     frc::SmartDashboard::PutNumber("elbow angle", elbowMotor->GetAbsolutePosition());
     frc::SmartDashboard::PutNumber("Wrist Angle", wristMotor.GetAbsolutePosition());
 }
