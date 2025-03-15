@@ -140,6 +140,8 @@ public:
 
     void GoToPos(frc::Pose2d targetPos);
 
+    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE); 
+
 private:
     // Components (e.g. motor controllers and sensors) should generally be
     // declared private and exposed only through public methods.

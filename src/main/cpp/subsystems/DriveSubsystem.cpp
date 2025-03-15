@@ -284,3 +284,29 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
 
     Drive(units::meters_per_second_t{(speedX)}, units::meters_per_second_t{(speedY)}, 0_rad_per_s, true);
 }
+
+bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE)
+{
+        bool xInRange = false;
+        bool yInRange = false;
+
+        if ((double)driverPose.X() > (double)(pose1.X() - MOE) && (double)driverPose.X() < (double)(pose1.X() + MOE))
+        {
+            xInRange = true;
+        }
+        else 
+        {
+            xInRange = false; 
+        }
+
+        if ((double)driverPose.Y() > (double)(pose1.Y() - MOE) && (double)driverPose.Y() < (double)(pose1.Y() + MOE))
+        {
+            yInRange = true;
+        }
+        else 
+        {
+            yInRange = false; 
+        }
+
+        return xInRange && yInRange; 
+}
