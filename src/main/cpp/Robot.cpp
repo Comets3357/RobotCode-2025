@@ -31,6 +31,10 @@ void Robot::RobotPeriodic()
     // frc::SmartDashboard::PutNumber("robot pose heading", m_container.m_drive.m_poseEstimator.GetEstimatedPosition().Translation().Angle().Degrees().value());
     // frc::SmartDashboard::PutNumber("estimated pose vector value", m_container.m_drive.estimatedPoseVector.size());
 
+
+    if(!m_digitalInputZero.Get()){
+        m_container.m_drive.ZeroHeading();
+    }
     
 }
 
