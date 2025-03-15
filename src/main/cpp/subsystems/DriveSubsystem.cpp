@@ -273,13 +273,13 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
 
     // frc::Translation2d translate{targetPos.X()-currentPos.X(), targetPos.Y()-currentPos.Y()}
 
-    double deltaX = targetPos.X()-currentPos.X();
-    double deltaY = targetPos.Y()-currentPos.Y();
+    double deltaX = (double)(targetPos.X()-currentPos.X());
+    double deltaY = (double)(targetPos.Y()-currentPos.Y());
 
     frc::PIDController positionPID(0.32,0,0);
 
     double speedX = positionPID.Calculate(deltaX, 0);
     double speedY = positionPID.Calculate(deltaY, 0);
 
-    Drive(units::meters_per_second(speedX), units::meters_per_second(speedY), 0_rad_per_s, true);
+    Drive(units::meters_per_second_t{(speedX)}, units::meters_per_second_t{(speedY)}, 0_rad_per_s, true);
 }

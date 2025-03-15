@@ -17,8 +17,11 @@
 using namespace pathplanner;
                                                                     
 void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
-                    ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED, VisionSubsystem* m_vision) 
+                    ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED) 
 {
+
+    // vision positions // 
+    //frc::Pose2d pose1{11_m, 11_m, frc::Rotation2d{0, 0}}; 
 
     NamedCommands::registerCommand("Algae Start", std::move(IntakeAlgae(m_intake)));
     NamedCommands::registerCommand("Algae Stop", std::move(StopIntake(m_intake)));
@@ -66,5 +69,11 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180); })
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;}))));
 
-    NamedCommands::registerCommand("Attempt", std::move(frc2::cmd::Run([=]{m_drive->GoToPos(frc::Pose2d{11.8_m, 2.7_m, 0_rot})}))); 
+    NamedCommands::registerCommand("Attempt", std::move(frc2::cmd::Run([=]{m_drive->GoToPos(frc::Pose2d{5.0_m, 5.5_m, frc::Rotation2d{0, 0}});}))); 
+
+   // NamedCommands::registerCommand("In range", std::move(frc2::cmd::RunOnce([=]{m_drive->})))
+
+    
+
+
 }
