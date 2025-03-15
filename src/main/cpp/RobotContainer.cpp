@@ -40,7 +40,7 @@ RobotContainer::RobotContainer()
  
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-     return PathPlannerAuto("3 Piece").ToPtr();//std::nullptr_t;//autoChooser.GetSelected();
+     return PathPlannerAuto("Wrist Auto Test").ToPtr();//std::nullptr_t;//autoChooser.GetSelected();
 }
 
 

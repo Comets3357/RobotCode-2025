@@ -67,7 +67,7 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3);}, {m_elevator}))
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);}, {m_elbow}))
-    .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}))
+    .AlongWith(frc2::cmd::RunOnce([=] {return m_elbow->getWristAngle()>85.5;}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.5);}, {m_elbow}))
     .AlongWith(frc2::cmd::Wait(units::second_t{0.25}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}, {m_elbow})));

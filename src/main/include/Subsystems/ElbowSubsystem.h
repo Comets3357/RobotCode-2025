@@ -32,6 +32,9 @@ public:
 
     bool isCompBot = true;
 
+    //Laser CAN awful 
+    double sideOne;
+    double sideTwo;
 
 
     //initalizing measurement vehicles
@@ -64,6 +67,11 @@ public:
     void setRollerSpeed(double speed);
 
     void setWristTarget();
+
+    //LaserCAN
+
+    void setSideOne(double value);
+    void setSideTwo(double value);
     
     //
     //getters
@@ -98,13 +106,20 @@ public:
     bool isGamePieceDetected();
 
     //is flip of wrist necessary for auton
-    bool isAutonWristFlipValid(double sideOne, double sideTwo);
+    bool isAutonWristFlipValid();
+
+    double arctanAngle(double tempDiff);
 
     double getDistanceMeasurement();
 
     //getting the measurement of the horizontal and vertical distance measurements
     std::optional<grpl::LaserCanMeasurement>  getLaserCANMeasurement();
     // std::optional<grpl::LaserCanMeasurement>  getVerticalDistanceMeasurement();
+
+    //LaserCAN
+
+    double getSideOne();
+    double getSideTwo();
 
     void Periodic() override;
 private:
