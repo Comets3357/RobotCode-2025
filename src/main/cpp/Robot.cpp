@@ -32,7 +32,7 @@ void Robot::RobotPeriodic()
     // frc::SmartDashboard::PutNumber("estimated pose vector value", m_container.m_drive.estimatedPoseVector.size());
 
 
-    if(m_digitalInputZero.Get()){
+    if(!m_digitalInputZero.Get()){
         m_container.m_drive.ZeroHeading();
     }
     
