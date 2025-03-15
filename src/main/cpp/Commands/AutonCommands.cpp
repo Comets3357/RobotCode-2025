@@ -7,6 +7,7 @@
 #include "Subsystems/IntakeSubsystem.h"
 #include "Subsystems/LEDSubsystem.h"
 #include "Subsystems/MAXSwerveModule.h"
+#include "Commands/ArmCommands.h"
 #include <frc2/command/button/CommandXboxController.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -16,6 +17,7 @@
 
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/ConditionalCommand.h>
 #include "commands/IntakeCommands.h"
 
 using namespace pathplanner;
@@ -31,11 +33,17 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("Wrist Flip Check", std::move(( frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0);}, {m_elbow})
     .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() < 5) || (m_elbow->getWristAngle() > 358);})))
     .AndThen((frc2::cmd::RunOnce([=] { m_elbow->setSideOne(m_elbow->getDistanceMeasurement()); }))
-    .AlongWith(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180);}, {m_elbow}))
+    .AlongWith(frc2::cmd::RunOnce([=] {m_elbow->detectionRotate();}, {m_elbow}))
+    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() > 60) && (m_elbow->getWristAngle() < 120);}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180);}, {m_elbow}))
     .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() > 175) && (m_elbow->getWristAngle() < 185);})))
-    .AndThen((frc2::cmd::RunOnce([=] { m_elbow->setSideTwo(m_elbow->getDistanceMeasurement()); }))
-    .AlongWith(frc2::cmd::RunOnce([=] { if (!m_elbow->isAutonWristFlipValid()) { m_elbow->setWristAngle(0);}}, {m_elbow} ))))
-    );
+    .AndThen(frc2::cmd::RunOnce([=] { m_elbow->setSideTwo(m_elbow->getDistanceMeasurement()); }))
+    .AndThen(frc2::cmd::Either(frc2::cmd::RunOnce( [=] {m_elbow->setWristAngle(180);}, {m_elbow}), 
+    frc2::cmd::RunOnce([=] {m_elbow->detectionRotate();}, {m_elbow})
+        .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() > 60) && (m_elbow->getWristAngle() < 120);}))
+        .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180);}, {m_elbow})),
+        [=] {return !m_elbow->isAutonWristFlipValid();})
+    )));
 
     NamedCommands::registerCommand("Starting Reset", std::move( frc2::cmd::RunOnce([=] {m_elevator->setPosition(25);}, {m_elevator})
     .AlongWith(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.1);}, {m_elbow}))

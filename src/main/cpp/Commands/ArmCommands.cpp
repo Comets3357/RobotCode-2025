@@ -48,19 +48,19 @@ frc2::CommandPtr wristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxCont
 frc2::CommandPtr autonWristRotation(ElbowSubsystem* m_elbow, double idle)
 {
 
-    return frc2::FunctionalCommand([=]{},
-        [=]{m_elbow->setElbowAngle(idle); 
+    return frc2::cmd::RunOnce([=] {
 
-        if (m_elbow->getWristAngle() < 45 || m_elbow->getWristAngle() > 225) {
-            m_elbow->setWristAngle(180);
-        }
+    m_elbow->setElbowAngle(idle); 
 
-        if (m_elbow->getWristAngle()< 135 && m_elbow->getWristAngle()> 45) {
-            m_elbow->setWristAngle(0);
-        }},
+    if (m_elbow->getWristAngle() < 45 || m_elbow->getWristAngle() > 225) {
+        m_elbow->setWristAngle(180);
+    }
 
-    [=](bool interrupt){},
-    [=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr();
+    if (m_elbow->getWristAngle()< 135 && m_elbow->getWristAngle()> 45) {
+         m_elbow->setWristAngle(0);
+    }
+    
+    }, {m_elbow});
 }
 
 

@@ -138,8 +138,6 @@ private:
 
     bool flip;
 
-    bool flip;
-
     grpl::LaserCan LaserCAN{19};
 
 
