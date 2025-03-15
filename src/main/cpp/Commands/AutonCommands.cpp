@@ -1,5 +1,3 @@
-
-
 #include "Subsystems/ClimbSubsystem.h"
 #include "Subsystems/DriveSubsystem.h"
 #include "Subsystems/ElbowSubsystem.h"
@@ -9,7 +7,6 @@
 #include "Subsystems/MAXSwerveModule.h"
 #include <frc2/command/button/CommandXboxController.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
-
 #include <frc2/command/Commands.h>
 #include "RobotContainer.h"
 
@@ -20,7 +17,7 @@
 using namespace pathplanner;
                                                                     
 void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
-                    ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED) 
+                    ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED, VisionSubsystem* m_vision) 
 {
 
     NamedCommands::registerCommand("Algae Start", std::move(IntakeAlgae(m_intake)));
@@ -67,7 +64,7 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     );
 
     NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180); })
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;})))
-    );
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;}))));
 
+    NamedCommands::registerCommand("Attempt", std::move(frc2::cmd::Run([=]{m_drive->GoToPos(frc::Pose2d{11.8_m, 2.7_m, 0_rot})}))); 
 }
