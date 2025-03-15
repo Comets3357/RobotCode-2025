@@ -154,7 +154,7 @@ double ElbowSubsystem::getRollerCurrent() {
 
 void ElbowSubsystem::WristRotate()
 {
-    if (wristMotor.GetAbsolutePosition()<95 && wristMotor.GetAbsolutePosition() > 85)
+    if (wristMotor.GetAbsolutePosition() < 145 && wristMotor.GetAbsolutePosition() > 35)
     {
         flip = false;
     }

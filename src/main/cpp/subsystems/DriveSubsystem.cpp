@@ -241,6 +241,7 @@ void DriveSubsystem::ZeroHeading()
 
     }
     m_poseEstimator.ResetPose(newPose);
+    gyroZero = true;
 }
 
 double DriveSubsystem::GetTurnRate()
