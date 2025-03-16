@@ -51,7 +51,7 @@ class LEDSubsystem : public frc2::SubsystemBase
 
     // different colors // 
     frc::LEDPattern purple = frc::LEDPattern::Solid(purpleColor); 
-   frc::LEDPattern red = frc::LEDPattern::Solid(redColor);
+    frc::LEDPattern red = frc::LEDPattern::Solid(redColor);
     frc::LEDPattern yellow = frc::LEDPattern::Solid(yellowColor); 
     frc::LEDPattern green = frc::LEDPattern::Solid(greenColor); 
     frc::LEDPattern orange = frc::LEDPattern::Solid(orangeColor); 

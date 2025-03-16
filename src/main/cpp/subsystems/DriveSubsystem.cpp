@@ -267,3 +267,30 @@ frc::ChassisSpeeds DriveSubsystem::GetRobotRelativeSpeeds()
     return kDriveKinematics.ToChassisSpeeds({m_frontLeft.GetState(), m_frontRight.GetState(),
                                              m_rearLeft.GetState(), m_rearRight.GetState()});
 }
+
+
+bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE = 0.03_m)
+{
+        bool xInRange = false;
+        bool yInRange = false;
+
+        if ((double)driverPose.X() > (double)(pose1.X() - MOE) && (double)driverPose.X() < (double)(pose1.X() + MOE))
+        {
+            xInRange = true;
+        }
+        else 
+        {
+            xInRange = false; 
+        }
+
+        if ((double)driverPose.Y() > (double)(pose1.Y() - MOE) && (double)driverPose.Y() < (double)(pose1.Y() + MOE))
+        {
+            yInRange = true;
+        }
+        else 
+        {
+            yInRange = false; 
+        }
+
+        return xInRange && yInRange; 
+}

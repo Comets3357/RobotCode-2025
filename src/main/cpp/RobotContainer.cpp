@@ -26,7 +26,6 @@ using namespace DriveConstants;
 
 RobotContainer::RobotContainer()
 {
-    autoChooser = AutoBuilder::buildAutoChooser(); 
 
     OperatorCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController, offset);
     DriverCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController);
@@ -38,5 +37,10 @@ RobotContainer::RobotContainer()
  
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-     return PathPlannerAuto("3 Piece").ToPtr();//std::nullptr_t;//autoChooser.GetSelected();
+    if (autonPath == "3 Piece")
+    {
+        m_drive.AutonStartingPose = frc::Pose2d{0_m, 0_m, frc::Rotation2d{0}}; 
+    }
+
+     return PathPlannerAuto(autonPath).ToPtr();//std::nullptr_t;//autoChooser.GetSelected();
 }

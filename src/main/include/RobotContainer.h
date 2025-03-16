@@ -62,6 +62,10 @@ private:
     frc2::CommandXboxController m_secondaryController{OIConstants::kSecondaryControllerPort};
     frc::SendableChooser<frc2::Command *> autoChooser;
 
+    std::string autonPath{"3 Piece"}; 
+
+    
+
     int offset = 90;
     bool halfSpeed = false; 
 };

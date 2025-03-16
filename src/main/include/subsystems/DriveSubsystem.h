@@ -40,8 +40,7 @@ class DriveSubsystem : public frc2::SubsystemBase
 {
 public:
     DriveSubsystem();
-    bool halfSpeed = false; 
-    bool gyroZero = false; 
+   
 
     /**
      * Will be called periodically whenever the CommandScheduler runs.
@@ -137,6 +136,7 @@ public:
     frc::Field2d m_field;
 
     void PoseEstimation();
+    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE = 0.03_m); 
 
 private:
     // Components (e.g. motor controllers and sensors) should generally be
@@ -156,6 +156,9 @@ private:
     GyroWrapper m_gyro; 
 
     public:
+     bool halfSpeed = false; 
+    bool gyroZero = false; 
+    frc::Pose2d AutonStartingPose{};
     frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
       kDriveKinematics,
       frc::Rotation2d{},
