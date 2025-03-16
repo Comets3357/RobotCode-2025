@@ -138,6 +138,10 @@ public:
 
     void PoseEstimation();
 
+    void GoToPos(frc::Pose2d targetPos);
+
+    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE, units::angle::degree_t MOEangle); 
+
 private:
     // Components (e.g. motor controllers and sensors) should generally be
     // declared private and exposed only through public methods.
@@ -155,7 +159,11 @@ private:
     //redux::sensors::canandgyro::Canandgyro m_gyro{9};
     GyroWrapper m_gyro; 
 
+    frc::Field2d m_mirrorField; 
+
     public:
+    
+
     frc::SwerveDrivePoseEstimator<4> m_poseEstimator{
       kDriveKinematics,
       frc::Rotation2d{},
