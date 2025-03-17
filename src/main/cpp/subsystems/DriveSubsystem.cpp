@@ -112,11 +112,10 @@ void DriveSubsystem::PoseEstimation() {
     }
 
     double chassisSpeedSquared= pow((double) GetRobotRelativeSpeeds().vx, 2) + pow((double) GetRobotRelativeSpeeds().vy, 2); 
-    // double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
-    double xStdDev = (((double)GetRobotRelativeSpeeds().vx / 4.8) * 5) + 0.1;
-    double yStdDev = (((double)GetRobotRelativeSpeeds().vy / 4.8) * 5) + 0.1; 
+    double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
+    double StdDev = (((double) chassisSpeeds / 4.8)) + 0.1;
     
-    m_poseEstimator.SetVisionMeasurementStdDevs({xStdDev, yStdDev, 100});
+    m_poseEstimator.SetVisionMeasurementStdDevs({StdDev, StdDev, 100});
                             
     estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
 
