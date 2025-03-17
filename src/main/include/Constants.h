@@ -105,8 +105,29 @@ namespace OIConstants
 
 namespace PositionConstats
 {
+    //elbow
+    constexpr double elbowPickup1 = 295; 
+    constexpr double elbowPickup2 = 305; 
+    constexpr double elbowIdle = 180; 
+    constexpr double elbowHumanPlayer = 235; 
+    constexpr double POVUp = 270;  // Elbow position when POVUp is pressed
+    constexpr double POVUpLeftBumper = 90;  // Elbow position when POVUp + LeftBumper is pressed
+    constexpr double POVLeft = 250;  // Elbow position when POVLeft is pressed
+    constexpr double POVLeftLeftBumper = 110;  // Elbow position when POVLeft + LeftBumper is pressed
+    constexpr double POVRight = 250;  // Elbow position when POVRight is pressed
+    constexpr double POVRightLeftBumper = 110;  // Elbow position when POVRight + LeftBumper is pressed
+    constexpr double POVDown = 255;  // Elbow position when POVDown is pressed
+    constexpr double POVDownLeftBumber = 105;  // Elbow position when POVDown + LeftBumper is pressed
+    //elevator
     constexpr double elevatorL4pos = 55; 
-    constexpr double elevatorL3pos = 0;
-    constexpr double elevatorL2pos = 0;
-    constexpr double elevatorRestPos = 3;
+    constexpr double elevatorL3pos = 17; 
+    constexpr double elevatorL2pos = 0; 
+    constexpr double elevatorRestPos = 3; 
+
+    //wrist
+    // constexpr double wristIdle = 90; 
+    // constexpr double wristFlip = 180; 
+    // constexpr double wristScoreLow = 0; 
+    // constexpr double wristScoreHigh = 220; 
+    // constexpr double wristParallel = 0; 
 }
