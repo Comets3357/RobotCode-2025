@@ -1,18 +1,5 @@
-#include "Subsystems/ClimbSubsystem.h"
-#include "Subsystems/DriveSubsystem.h"
-#include "Subsystems/ElbowSubsystem.h"
-#include "Subsystems/ElevatorSubsystem.h"
-#include "Subsystems/IntakeSubsystem.h"
-#include "Subsystems/LEDSubsystem.h"
-#include "Subsystems/MAXSwerveModule.h"
-#include <frc2/command/button/CommandXboxController.h>
-#include <pathplanner/lib/auto/NamedCommands.h>
-#include <frc2/command/Commands.h>
-#include "RobotContainer.h"
-
-#include <frc2/command/InstantCommand.h>
-#include <frc2/command/SequentialCommandGroup.h>
-#include "commands/IntakeCommands.h"
+#include "Commands/AutonCommands.h"
+#include "Constants.h"
 
 using namespace pathplanner;
                                                                     
@@ -38,8 +25,8 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     .AndThen(frc2::cmd::RunOnce([=] {m_elevator->setPosition(4); m_elbow->setRollerSpeed(0);})))
     );
 
-    NamedCommands::registerCommand("L4", std::move(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((50));})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() > (49.5);}))
+    NamedCommands::registerCommand("L4", std::move(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((PositionConstats::elevatorL4pos));})
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() > (PositionConstats::elevatorL4pos - 0.5);}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(240);})))
     );
 
@@ -47,7 +34,7 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (32.5);})))
     .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180); m_elbow->setRollerSpeed(0); })
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;})))
-    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); }))
+    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(PositionConstats::elevatorRestPos); }))
     ); 
 
     NamedCommands::registerCommand("Aim L1", std::move(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0); m_elbow->setElbowAngle(255);})
@@ -77,15 +64,15 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     .RaceWith(frc2::cmd::WaitUntil([=]{return m_drive->inRange(m_drive->GetPose(), pose1, MOE, MOErotation);}))
     .AndThen(frc2::cmd::RunOnce([=]{m_drive->Drive(0_mps, 0_mps, units::radians_per_second_t{0}, true);}))
     .AndThen(
-        frc2::cmd::Either(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((50));})                              // if true it runs the l4 aim and score sequence
-            .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() > (49.5);}))
+        frc2::cmd::Either(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((PositionConstats::elevatorL4pos));})                              // if true it runs the l4 aim and score sequence
+            .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() > (PositionConstats::elevatorL4pos - 0.5);}))
             .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(260);}))
             .AlongWith(frc2::cmd::WaitUntil([=] {return m_elbow->getElbowAngle() > 250;}))
             .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((32)); m_elbow->setRollerSpeed(-0.3); })
             .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (32.5);})))
             .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180); m_elbow->setRollerSpeed(0); })
             .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;})))
-            .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); })), 
+            .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(PositionConstats::elevatorRestPos); })), 
     
             frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0); m_elbow->setElbowAngle(255);})       // if false it will run l1 score and aim sequence
             .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()>254;}))

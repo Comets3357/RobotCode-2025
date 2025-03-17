@@ -1,11 +1,6 @@
-#include "Subsystems/ClimbSubsystem.h"
-#include "Subsystems/DriveSubsystem.h"
-#include "Subsystems/ElbowSubsystem.h"
-#include "Subsystems/ElevatorSubsystem.h"
-#include "Subsystems/IntakeSubsystem.h"
-#include "Subsystems/LEDSubsystem.h"
-#include "Subsystems/MAXSwerveModule.h"
-#include <frc2/command/button/CommandXboxController.h>
+#include "Commands/OperatorCommands.h"
+
+
 
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
@@ -61,8 +56,8 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     //reset all positions to idle mode, elevator all down and elbow set to 180.
     m_secondaryController->X().OnTrue(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;}))
-    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); },{m_elevator}))
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}))
+    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(PositionConstats::elevatorRestPos); },{m_elevator}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (PositionConstats::elevatorRestPos + 0.5);}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);},{m_elbow}))
     .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.5);},{m_elbow}))
@@ -120,20 +115,20 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     // [=](){ return m_secondaryController->GetHID().GetRightBumperButton(); }).ToPtr())
     // .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(270); m_elbow->setRollerSpeed(-0.15);})));
 
-     m_secondaryController->POVUp().OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
-     .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
+     m_secondaryController->POVUp().OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(PositionConstats::elevatorL4pos);}, {m_elevator})
+     .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition() > (PositionConstats::elevatorL4pos - 0.5);}))
      .AndThen(WristRotateLeft(m_elbow, m_driverController, m_secondaryController, 220))
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(270); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
 
-      (m_secondaryController->POVUp() && m_secondaryController->LeftBumper()).OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
-     .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
+      (m_secondaryController->POVUp() && m_secondaryController->LeftBumper()).OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(PositionConstats::elevatorL4pos);}, {m_elevator})
+     .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition() > (PositionConstats::elevatorL4pos - 0.5);}))
      .AndThen(WristRotateRight(m_elbow, m_driverController, m_secondaryController, 140))
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(90); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
 
      m_secondaryController->RightBumper().OnFalse(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);},{m_elbow})
      .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185 && m_elbow->getElbowAngle()>=175;}))
-     .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); },{m_elevator}))
-     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}))
+     .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(PositionConstats::elevatorRestPos); },{m_elevator}))
+     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (PositionConstats::elevatorRestPos + 0.5);}))
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);},{m_elbow}))
      .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}))
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);},{m_elbow})));

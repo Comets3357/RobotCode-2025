@@ -25,7 +25,6 @@
 #include <units/angle.h>
 #include <units/velocity.h>
 #include <utility>
-#include "Constants.h"
 
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <frc/smartdashboard/SmartDashboard.h>
