@@ -21,10 +21,10 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
 {
 
     // vision positions // 
-    const frc::Pose2d pose1{13.65_m, 5.32_m, frc::Rotation2d{150_deg}}; 
-    const auto MOE = 0.03_m; 
-    const auto MOErotation = 1.5_deg; 
-    const units::time::second_t bufferTime{5.0};
+    // const frc::Pose2d pose1{13.65_m, 5.32_m, frc::Rotation2d{150_deg}}; 
+    // const auto MOE = 0.03_m; 
+    // const auto MOErotation = 1.5_deg; 
+    // const units::time::second_t bufferTime{5.0};
 
     NamedCommands::registerCommand("Algae Start", std::move(IntakeAlgae(m_intake)));
     NamedCommands::registerCommand("Algae Stop", std::move(StopIntake(m_intake)));
@@ -72,9 +72,9 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180); })
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;}))));
 
-    NamedCommands::registerCommand("Attempt", std::move(frc2::cmd::Run([=]{m_drive->GoToPos(pose1);})
-    .RaceWith(frc2::cmd::Wait(bufferTime))
-    .RaceWith(frc2::cmd::WaitUntil([=]{return m_drive->inRange(m_drive->GetPose(), pose1, MOE, MOErotation);}))
+    NamedCommands::registerCommand("Attempt", std::move(frc2::cmd::Run([=]{m_drive->GoToPos(m_drive->pose1);})
+    .RaceWith(frc2::cmd::Wait(m_drive->bufferTime))
+    .RaceWith(frc2::cmd::WaitUntil([=]{return m_drive->inRange(m_drive->GetPose(), m_drive->pose1, m_drive->MOE, m_drive->MOErotation);}))
     .AndThen(frc2::cmd::RunOnce([=]{m_drive->Drive(0_mps, 0_mps, units::radians_per_second_t{0}, true);}))
     .AndThen(
         frc2::cmd::Either(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((50));})                              // if true it runs the l4 aim and score sequence
@@ -92,7 +92,7 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
             .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setRollerSpeed(-0.15);})
             .AlongWith(frc2::cmd::Wait(units::second_t{0.3}))), 
     
-    [=]{return m_drive->inRange(m_drive->GetPose(), pose1, MOE, MOErotation);}))));                        // condition for which command to run
+    [=]{return m_drive->inRange(m_drive->GetPose(), m_drive->pose1, m_drive->MOE, m_drive->MOErotation);}))));                        // condition for which command to run
 
     //Either
     //If In Range and winning the race group: do the targeting for L4 and attempt place

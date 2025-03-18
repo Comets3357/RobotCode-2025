@@ -175,5 +175,10 @@ private:
       };
 
     std::vector<photon::EstimatedRobotPose> estimatedPoseVector;
+
+    frc::Pose2d pose1{13.65_m, 5.32_m, frc::Rotation2d{150_deg}}; 
+    units::meter_t MOE{0.03}; //= 0.03_m; 
+    units::degree_t MOErotation{1.5}; // = 1.5_deg; 
+    units::time::second_t bufferTime{5.0};
   
 };
