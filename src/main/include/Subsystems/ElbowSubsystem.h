@@ -76,6 +76,8 @@ public:
 
     void setWristTarget();
 
+    void WristRotate();
+
     //LaserCAN
 
     void setSideOne(double value);

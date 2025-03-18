@@ -1,5 +1,5 @@
 #include "Commands/ArmCommands.h"
-
+#include "Subsystems/ElbowSubsystem.h"
 
 //Forces wrist rotation to rotate to the left, takes in the different subsystems for usage within the function itself
 frc2::CommandPtr wristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle)
