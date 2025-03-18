@@ -7,6 +7,8 @@
 #include <frc/LEDPattern.h>
 #include "subsystems/ClimbSubsystem.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/ElbowSubsystem.h"
+#include "subsystems/ElevatorSubsystem.h"
 
 
 class LEDSubsystem : public frc2::SubsystemBase
@@ -29,14 +31,21 @@ class LEDSubsystem : public frc2::SubsystemBase
         bool hPlayer = false;
         bool hPlayerGround = false; 
 
+        //pre-auton checklist booleans
+        bool elbowAtStartingPosition = false;
+        bool wristAtStartingPosition = false;
+        bool elevatorAtStartingPosition = false;
+
         void Periodic() override;
-        LEDSubsystem(DriveSubsystem* m_DriveP, ClimbSubsystem* m_climbP);
+        LEDSubsystem(DriveSubsystem* m_DriveP, ClimbSubsystem* m_climbP, ElevatorSubsystem* m_elevatorP, ElbowSubsystem* m_elbowP);
 
 
 
     private:
     DriveSubsystem* m_drive;
     ClimbSubsystem* m_climb; 
+    ElevatorSubsystem* m_elevator;
+    ElbowSubsystem* m_elbow;
 
     std::string LED{""}; 
 

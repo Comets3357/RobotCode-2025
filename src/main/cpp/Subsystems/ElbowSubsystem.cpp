@@ -115,7 +115,7 @@ double ElbowSubsystem::getElbowAngle() {
 
 //gets the target angle
 double ElbowSubsystem::getElbowTargetAngle() {
-    return elbowTargetAngle;
+    return elbowMotor->getReference;
 }
 
 //gets the velocity of the elbow pivot motor

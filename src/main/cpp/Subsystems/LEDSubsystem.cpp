@@ -2,19 +2,20 @@
 #include <frc/DriverStation.h>
 // #include "subsystems/IndexerSubsystem.h"
 
-LEDSubsystem::LEDSubsystem(DriveSubsystem *m_DriveP, ClimbSubsystem *m_climbP)
+LEDSubsystem::LEDSubsystem(DriveSubsystem *m_DriveP, ClimbSubsystem *m_climbP, ElevatorSubsystem* m_elevatorP, ElbowSubsystem* m_elbowP)
 {
     m_climb = m_climbP;
     m_drive = m_DriveP;
+    m_elevator = m_elevatorP;
+    m_elbow = m_elbowP;
+    
+    LED1.SetLength(31);
+    for (size_t i = 0; i < 31; i++)
     {
-        LED1.SetLength(31);
-        for (size_t i = 0; i < 31; i++)
-        {
-            LED_DATA[i].SetRGB(255, 255, 255);
-        }
-        LED1.SetData(LED_DATA);
-        LED1.Start();
+        LED_DATA[i].SetRGB(255, 255, 255);
     }
+    LED1.SetData(LED_DATA);
+    LED1.Start();
 }
 
 void LEDSubsystem::Periodic()
@@ -25,7 +26,12 @@ void LEDSubsystem::Periodic()
     climbRunning = m_climb->isRunning();
     gyroZero = m_drive->gyroZero;
 
-    // flashing purple = human playaer signal //
+    //Auton starting position LEDs
+    elbowAtStartingPosition = (m_elbow->getElbowAngle() < 190) && (m_elbow->getElbowAngle() > 170);
+    wristAtStartinPosition = (m_elbow->getWristAngle() < 190) && (m_elbow->getWristAngle() > 170);
+    elevatorAtStartingPosition = (m_elevator->getAPosition() < 10) && (m_elevator->getAPosition() > 6);
+
+    // flashing purple = human player signal //
     // climb color = blue //
     // gyro zero = orange
 
@@ -51,6 +57,11 @@ void LEDSubsystem::Periodic()
             LED = "Comms but disabled";
             // LED2.SetData(LED_DATA);
         }
+        //AUTON LED CHECKS
+        else if (elbowAtStartingPosition) // if elbow is at position, glow [color]
+        {
+
+        }
         else // if we don't have commms it will be red
         {
             red.ApplyTo(LED_DATA);
@@ -60,7 +71,7 @@ void LEDSubsystem::Periodic()
         }
        
     }
-    else                                // if comms are enabled
+    else    // if comms are enabled
     {
         
         if (hPlayerGround) // this need to be flashing yellow
@@ -99,3 +110,5 @@ void LEDSubsystem::Periodic()
 
     frc::SmartDashboard::SmartDashboard::PutString("LED Status", LED);
 }
+
+// hawk tuah

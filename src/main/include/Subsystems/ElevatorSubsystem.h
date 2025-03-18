@@ -29,6 +29,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase
         double getAPosition();
         void setPosition(double position);
 
+        
+
       //  void setPidSlot(int n); 
 
         void Periodic() override;
