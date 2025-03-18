@@ -11,6 +11,7 @@
 #include <frc/smartdashboard/Field2d.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "subsystems/DriveSubsystem.h"
+#include <frc/DigitalInput.h>
 
 #include "RobotContainer.h"
 
@@ -37,4 +38,5 @@ private:
 
     RobotContainer m_container;
     frc::Field2d m_field;
+    frc::DigitalInput m_digitalInputZero{0};
 };

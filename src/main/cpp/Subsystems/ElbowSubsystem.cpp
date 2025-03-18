@@ -68,6 +68,7 @@ ElbowSubsystem::ElbowSubsystem() {
         wristMotor.SetSmartCurrentLimit(40);
         wristMotor.setAbsoluteVelocityConversionFactor(6);
         wristMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
+        wristMotor.setAbsoluteEncoderInverted(true);
         wristMotor.setPositionWrappingEnabled(true);
         wristMotor.setPositionWrappingMaxRange(0, 360);
 
@@ -168,8 +169,10 @@ double ElbowSubsystem::getRollerCurrent() {
     return rollerMotor.GetOutputCurrent();
 }
 
-void ElbowSubsystem::placementRotate() {
-    if (wristMotor.GetAbsolutePosition()< 95 && wristMotor.GetAbsolutePosition() > 85 ) {
+void ElbowSubsystem::WristRotate()
+{
+    if (wristMotor.GetAbsolutePosition() < 145 && wristMotor.GetAbsolutePosition() > 35)
+    {
         flip = false;
     } else {
         flip = true;

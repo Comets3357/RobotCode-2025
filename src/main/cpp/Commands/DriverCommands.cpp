@@ -27,7 +27,7 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
                                                                     
 
     //Zeroes the gyro for driving convenience
-    m_driverController->Start().OnTrue(frc2::cmd::RunOnce([=] {m_drive->ZeroHeading();}, {m_drive})); 
+    m_driverController->Start().OnTrue(frc2::cmd::RunOnce([=] {m_drive->ZeroHeading();}).IgnoringDisable(true)); 
 
     //Functions to drive the swerve modules, adds a conditional for speed reduction.
     m_drive->SetDefaultCommand(frc2::RunCommand(
@@ -62,7 +62,6 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     //Halves the speed of swerve 
     m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
     m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
-
     //   ____  _   _                 ____        _   _                  
     //  / __ \| | | |               |  _ \      | | | |                 
     // | |  | | |_| |__   ___ _ __  | |_) |_   _| |_| |_ ___  _ __  ___ 
@@ -70,16 +69,17 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     // | |__| | |_| | | |  __/ |    | |_) | |_| | |_| || (_) | | | \__ |
     //  \____/ \__|_| |_|\___|_|    |____/ \__,_|\__|\__\___/|_| |_|___/
 
-    //LEFT TRIGGER
-    //Deploys the algae subsystem to pick up an algae ball
-    // m_driverController->LeftTrigger().OnTrue(IntakeAlgae(m_intake));
-    // m_driverController->LeftTrigger().OnFalse(StopIntake(m_intake));
+    
+    // LEFT TRIGGER // human player signal it will flash purple 
+   // m_driverController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_LED->hPlayer = true;}));
+    //m_driverController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_LED->hPlayer = false;}));
 
-    //LEFT BUMPER
-    //Deploys an algae ball already inside the bot
-    //Puts the algae subsystem down and spins the rollers in reverse
-    // m_driverController->LeftBumper().OnTrue(DeployAlgae(m_intake));
-    // m_driverController->LeftBumper().OnFalse(StopDeploy(m_intake));
+    //LEFT BUMPER  // human player signal to ground it will flash yellow // 
+
+    // m_driverController->LeftBumper().OnTrue(frc2::cmd::RunOnce([=] {m_LED->hPlayerGround = true;}));
+    // m_driverController->LeftBumper().OnFalse(frc2::cmd::RunOnce([=] {m_LED->hPlayerGround = false;}));
+
+
 
     //RIGHT BUMPER
     //Auto Aligns robot to a certain angle

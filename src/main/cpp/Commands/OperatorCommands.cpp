@@ -88,7 +88,20 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
         StopIntake(m_intake)
     );
 
-    m_driverController->B().OnTrue(frc2::cmd::RunOnce([=] {m_elevator->setSpeed(-0.15);},{m_elevator}).IgnoringDisable(true)
+    // elevator zero sequence the new button will be "back" 
+
+   // m_driverController->B().OnTrue(frc2::cmd::RunOnce([=] {m_elevator->setSpeed(-0.15);},{m_elevator}).IgnoringDisable(true)
+    //.AlongWith(frc2::cmd::WaitUntil([=]{return m_elevator->ElevatorLimitPressed();}).IgnoringDisable(true))
+    //.AndThen(frc2::cmd::RunOnce([=]{m_elevator->setSpeed(0); m_elevator->SetElevatorAbsolutePosition();},{m_elevator}).IgnoringDisable(true)));
+
+    m_driverController->A().OnTrue(frc2::cmd::RunOnce([=] {m_LED->hPlayerGround = true;}));
+    m_driverController->A().OnFalse(frc2::cmd::RunOnce([=] {m_LED->hPlayerGround = false;}));
+
+     m_driverController->B().OnTrue(frc2::cmd::RunOnce([=] {m_LED->hPlayer = true;}));
+    m_driverController->B().OnFalse(frc2::cmd::RunOnce([=] {m_LED->hPlayer = false;}));
+
+
+    m_driverController->Back().OnTrue(frc2::cmd::RunOnce([=] {m_elevator->setSpeed(-0.15);},{m_elevator}).IgnoringDisable(true)
     .AlongWith(frc2::cmd::WaitUntil([=]{return m_elevator->ElevatorLimitPressed();}).IgnoringDisable(true))
     .AndThen(frc2::cmd::RunOnce([=]{m_elevator->setSpeed(0); m_elevator->SetElevatorAbsolutePosition();},{m_elevator}).IgnoringDisable(true)));
 

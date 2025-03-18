@@ -37,13 +37,16 @@ DriveSubsystem::DriveSubsystem()
     redux::canand::EnsureCANLinkServer();
 
     frc::SmartDashboard::PutData("Field", &m_field);
+    frc::SmartDashboard::PutData("Mirror Field", &m_mirrorField); 
 
-    RobotConfig config = RobotConfig::fromGUISettings();
+    
 
     // Configure the AutoBuilder last
-    AutoBuilder::configure(
+    RobotConfig config = RobotConfig::fromGUISettings();
+
+        AutoBuilder::configure(
         [this](){ return GetPose(); }, // Robot pose supplier
-        [this](frc::Pose2d pose){ m_poseEstimator.ResetPose(pose); }, // Method to reset odometry (will be called if your auto has a starting pose)
+        [this](frc::Pose2d pose){ if (frc::DriverStation::GetAlliance().has_value()) {frc::Pose2d temp{pose.X(), pose.Y(), (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed) ? GetGyroHeading().RotateBy(frc::Rotation2d{180_deg}) : GetGyroHeading()}; m_poseEstimator.ResetPose(temp);} }, // Method to reset odometry (will be called if your auto has a starting pose)
         [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         [this](auto speeds, auto feedforwards){ DriveFromChassisSpeeds(speeds, false); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
         std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
@@ -64,6 +67,7 @@ DriveSubsystem::DriveSubsystem()
         },
         this // Reference to this subsystem to set requirements
     );
+    
 }
 
 void DriveSubsystem::DriveFromChassisSpeeds(frc::ChassisSpeeds speed, bool fieldRelative)
@@ -85,7 +89,7 @@ void DriveSubsystem::Periodic()
 {
     // Implementation of subsystem periodic method goes here.
     PoseEstimation();
-
+    
     // frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
     // frc::SmartDashboard::PutNumber("Drive X (m):", m_poseEstimator.GetPose().Translation().X().value());
     
@@ -160,6 +164,7 @@ void DriveSubsystem::PoseEstimation() {
     }
 
     m_field.SetRobotPose(m_poseEstimator.GetEstimatedPosition());
+    m_mirrorField.SetRobotPose(m_poseEstimator.GetEstimatedPosition().RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg})); 
     frc::SmartDashboard::PutNumber("X (in)", ((units::inch_t)m_poseEstimator.GetEstimatedPosition().X()).value());
     frc::SmartDashboard::PutNumber("Y (in)", ((units::inch_t)m_poseEstimator.GetEstimatedPosition().Y()).value());
     frc::SmartDashboard::PutNumber("Rot (degrees)", ((units::degree_t)m_poseEstimator.GetEstimatedPosition().Rotation().Degrees()).value());
@@ -241,6 +246,7 @@ void DriveSubsystem::ZeroHeading()
 
     }
     m_poseEstimator.ResetPose(newPose);
+    gyroZero = true;
 }
 
 double DriveSubsystem::GetTurnRate()
@@ -265,4 +271,70 @@ frc::ChassisSpeeds DriveSubsystem::GetRobotRelativeSpeeds()
 {
     return kDriveKinematics.ToChassisSpeeds({m_frontLeft.GetState(), m_frontRight.GetState(),
                                              m_rearLeft.GetState(), m_rearRight.GetState()});
+}
+
+void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
+{
+
+    
+    frc::Pose2d currentPos = GetPose();
+
+    // frc::Translation2d translate{targetPos.X()-currentPos.X(), targetPos.Y()-currentPos.Y()}
+
+    double deltaX = (double)(targetPos.X()-currentPos.X());
+    double deltaY = (double)(targetPos.Y()-currentPos.Y());
+
+    double current = (double)currentPos.Rotation().Degrees(); 
+    double target = (double)targetPos.Rotation().Degrees(); 
+
+    double shortestRotation = 0; 
+    double delta = std::fmod((target-current) + 180, 360) - 180;
+    shortestRotation = (delta < -180) ? delta + 360 : delta;
+
+
+    
+
+    frc::PIDController positionPID(0.64,0,0);
+
+    double speedX = positionPID.Calculate(deltaX, 0);
+    double speedY = positionPID.Calculate(deltaY, 0);
+    double angVel = positionPID.Calculate(shortestRotation, 0); 
+
+    Drive(units::meters_per_second_t{(speedX)}, units::meters_per_second_t{(speedY)}, -units::degrees_per_second_t{angVel}, true);
+}
+
+bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE, units::angle::degree_t MOEangle)
+{
+        bool xInRange = false;
+        bool yInRange = false;
+        bool angleInRange = false; 
+
+        if ((double)driverPose.X() > (double)(pose1.X() - MOE) && (double)driverPose.X() < (double)(pose1.X() + MOE))
+        {
+            xInRange = true;
+        }
+        else 
+        {
+            xInRange = false; 
+        }
+
+        if ((double)driverPose.Y() > (double)(pose1.Y() - MOE) && (double)driverPose.Y() < (double)(pose1.Y() + MOE))
+        {
+            yInRange = true;
+        }
+        else 
+        {
+            yInRange = false; 
+        }
+
+        if ((double)driverPose.Rotation().Degrees() > (double)pose1.Rotation().Degrees() - (double)MOEangle && (double)driverPose.Rotation().Degrees() < (double)pose1.Rotation().Degrees() + (double)MOEangle)
+        {
+            angleInRange = true; 
+        }
+        else
+        {
+            angleInRange = false; 
+        }
+
+        return xInRange && yInRange && angleInRange; 
 }

@@ -7,8 +7,13 @@ frc2::CommandPtr wristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxContr
 
     return frc2::FunctionalCommand([=]{},
         [=]{m_elbow->setElbowAngle(idle + (m_secondaryController->GetRightY() * 20)); 
+<<<<<<< HEAD
         if (m_driverController->GetHID().GetAButtonPressed()) {
             m_elbow->placementRotate();
+=======
+        if (m_driverController->GetHID().GetLeftTriggerAxis() > 0.5) {
+            m_elbow->WristRotate();
+>>>>>>> main
         }
 
         if (m_elbow->getWristAngle() < 45 || m_elbow->getWristAngle() > 315) {
@@ -29,8 +34,13 @@ frc2::CommandPtr wristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxCont
 
     return frc2::FunctionalCommand([=]{},
         [=]{m_elbow->setElbowAngle(idle + (-m_secondaryController->GetRightY() * 20)); 
+<<<<<<< HEAD
         if (m_driverController->GetHID().GetAButtonPressed()) {
             m_elbow->placementRotate();
+=======
+        if (m_driverController->GetHID().GetLeftTriggerAxis() > 0.5) {
+            m_elbow->WristRotate();
+>>>>>>> main
         }
 
         if (m_elbow->getWristAngle()<45 || m_elbow->getWristAngle()>315) {
