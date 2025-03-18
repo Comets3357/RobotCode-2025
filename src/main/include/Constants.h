@@ -103,7 +103,7 @@ namespace OIConstants
     constexpr double kDriveDeadband = 0.05;
 } // namespace OIConstants
 
-namespace PositionConstats
+namespace PositionConstants
 {
     //elbow
     constexpr double elbowPickup1 = 295; 
@@ -117,12 +117,15 @@ namespace PositionConstats
     constexpr double POVRight = 250;  // Elbow position when POVRight is pressed
     constexpr double POVRightLeftBumper = 110;  // Elbow position when POVRight + LeftBumper is pressed
     constexpr double POVDown = 255;  // Elbow position when POVDown is pressed
-    constexpr double POVDownLeftBumber = 105;  // Elbow position when POVDown + LeftBumper is pressed
+    constexpr double POVDownLeftBumper = 105;  // Elbow position when POVDown + LeftBumper is pressed
     //elevator
-    constexpr double elevatorL4pos = 55; 
+    constexpr double elevatorL4pos = 50; 
     constexpr double elevatorL3pos = 17; 
     constexpr double elevatorL2pos = 0; 
     constexpr double elevatorRestPos = 3; 
+
+    //elevator Auto
+
 
     //wrist
     // constexpr double wristIdle = 90; 
