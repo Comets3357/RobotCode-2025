@@ -12,4 +12,4 @@
 frc2::CommandPtr wristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle);
 frc2::CommandPtr wristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle);
 
-frc2::CommandPtr autonWristRotation(ElbowSubsystem* m_elbow, double idle);
+// frc2::CommandPtr autonWristRotation(ElbowSubsystem* m_elbow, double idle);

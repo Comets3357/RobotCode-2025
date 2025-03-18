@@ -7,13 +7,8 @@ frc2::CommandPtr wristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxContr
 
     return frc2::FunctionalCommand([=]{},
         [=]{m_elbow->setElbowAngle(idle + (m_secondaryController->GetRightY() * 20)); 
-<<<<<<< HEAD
-        if (m_driverController->GetHID().GetAButtonPressed()) {
-            m_elbow->placementRotate();
-=======
         if (m_driverController->GetHID().GetLeftTriggerAxis() > 0.5) {
             m_elbow->WristRotate();
->>>>>>> main
         }
 
         if (m_elbow->getWristAngle() < 45 || m_elbow->getWristAngle() > 315) {
@@ -34,13 +29,8 @@ frc2::CommandPtr wristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxCont
 
     return frc2::FunctionalCommand([=]{},
         [=]{m_elbow->setElbowAngle(idle + (-m_secondaryController->GetRightY() * 20)); 
-<<<<<<< HEAD
-        if (m_driverController->GetHID().GetAButtonPressed()) {
-            m_elbow->placementRotate();
-=======
         if (m_driverController->GetHID().GetLeftTriggerAxis() > 0.5) {
             m_elbow->WristRotate();
->>>>>>> main
         }
 
         if (m_elbow->getWristAngle()<45 || m_elbow->getWristAngle()>315) {
@@ -55,23 +45,23 @@ frc2::CommandPtr wristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxCont
     [=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr();
 }
 
-frc2::CommandPtr autonWristRotation(ElbowSubsystem* m_elbow, double idle)
-{
+// frc2::CommandPtr autonWristRotation(ElbowSubsystem* m_elbow, double idle)
+// {
 
-    return frc2::cmd::RunOnce([=] {
+//     return frc2::cmd::RunOnce([=] {
 
-    m_elbow->setElbowAngle(idle); 
+//     m_elbow->setElbowAngle(idle); 
 
-    if (m_elbow->getWristAngle() < 45 || m_elbow->getWristAngle() > 225) {
-        m_elbow->setWristAngle(180);
-    }
+//     if (m_elbow->getWristAngle() < 45 || m_elbow->getWristAngle() > 225) {
+//         m_elbow->setWristAngle(180);
+//     }
 
-    if (m_elbow->getWristAngle()< 135 && m_elbow->getWristAngle()> 45) {
-         m_elbow->setWristAngle(0);
-    }
+//     if (m_elbow->getWristAngle()< 135 && m_elbow->getWristAngle()> 45) {
+//          m_elbow->setWristAngle(0);
+//     }
     
-    }, {m_elbow});
-}
+//     }, {m_elbow});
+// }
 
 
 

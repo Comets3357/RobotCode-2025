@@ -1,3 +1,5 @@
+
+
 #include "Subsystems/ClimbSubsystem.h"
 #include "Subsystems/DriveSubsystem.h"
 #include "Subsystems/ElbowSubsystem.h"
@@ -8,11 +10,8 @@
 #include "Commands/ArmCommands.h"
 #include <frc2/command/button/CommandXboxController.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
-<<<<<<< HEAD
 #include <frc/smartdashboard/SmartDashboard.h>
 
-=======
->>>>>>> main
 #include <frc2/command/Commands.h>
 #include "RobotContainer.h"
 
@@ -37,20 +36,20 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("Algae Stop", std::move(StopIntake(m_intake)));
     NamedCommands::registerCommand("Algae Up", std::move(StopDeploy(m_intake)));
 
-    NamedCommands::registerCommand("Wrist Flip Check", std::move(( frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0);}, {m_elbow})
-    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() < 5) || (m_elbow->getWristAngle() > 358);})))
-    .AndThen((frc2::cmd::RunOnce([=] { m_elbow->setSideOne(m_elbow->getDistanceMeasurement()); }))
-    .AlongWith(frc2::cmd::RunOnce([=] {m_elbow->detectionRotate();}, {m_elbow}))
-    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() > 60) && (m_elbow->getWristAngle() < 120);}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180);}, {m_elbow}))
-    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() > 175) && (m_elbow->getWristAngle() < 185);})))
-    .AndThen(frc2::cmd::RunOnce([=] { m_elbow->setSideTwo(m_elbow->getDistanceMeasurement()); }))
-    .AndThen(frc2::cmd::Either(frc2::cmd::RunOnce( [=] {m_elbow->setWristAngle(180);}, {m_elbow}), 
-    frc2::cmd::RunOnce([=] {m_elbow->detectionRotate();}, {m_elbow})
-        .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() > 60) && (m_elbow->getWristAngle() < 120);}))
-        .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180);}, {m_elbow})),
-        [=] {return !m_elbow->isAutonWristFlipValid();})
-    )));
+    // NamedCommands::registerCommand("Wrist Flip Check", std::move(( frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0);}, {m_elbow})
+    // .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() < 5) || (m_elbow->getWristAngle() > 358);})))
+    // .AndThen((frc2::cmd::RunOnce([=] { m_elbow->setSideOne(m_elbow->getDistanceMeasurement()); }))
+    // .AlongWith(frc2::cmd::RunOnce([=] {m_elbow->detectionRotate();}, {m_elbow}))
+    // .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() > 60) && (m_elbow->getWristAngle() < 120);}))
+    // .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180);}, {m_elbow}))
+    // .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() > 175) && (m_elbow->getWristAngle() < 185);})))
+    // .AndThen(frc2::cmd::RunOnce([=] { m_elbow->setSideTwo(m_elbow->getDistanceMeasurement()); }))
+    // .AndThen(frc2::cmd::Either(frc2::cmd::RunOnce( [=] {m_elbow->setWristAngle(180);}, {m_elbow}), 
+    // frc2::cmd::RunOnce([=] {m_elbow->detectionRotate();}, {m_elbow})
+    //     .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->getWristAngle() > 60) && (m_elbow->getWristAngle() < 120);}))
+    //     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180);}, {m_elbow})),
+    //     [=] {return !m_elbow->isAutonWristFlipValid();})
+    // )));
 
     NamedCommands::registerCommand("Starting Reset", std::move( frc2::cmd::RunOnce([=] {m_elevator->setPosition(25);}, {m_elevator})
     .AlongWith(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.1);}, {m_elbow}))
@@ -91,13 +90,9 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.25);}, {m_elbow})))
     );
 
-<<<<<<< HEAD
-    NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180); }, {m_elbow})
+    NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180); })
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;})))
     );
-=======
-    NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180); })
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;}))));
 
     NamedCommands::registerCommand("Attempt", std::move(frc2::cmd::Run([=]{m_drive->GoToPos(pose1);})
     .RaceWith(frc2::cmd::Wait(bufferTime))
@@ -127,5 +122,4 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
 
 
 }
->>>>>>> main
 
