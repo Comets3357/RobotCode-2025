@@ -89,7 +89,8 @@ void DriveSubsystem::Periodic()
 {
     // Implementation of subsystem periodic method goes here.
     PoseEstimation();
-    
+    frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
+    frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
     // frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
     // frc::SmartDashboard::PutNumber("Drive X (m):", m_poseEstimator.GetPose().Translation().X().value());
     
@@ -279,10 +280,14 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
     
     frc::Pose2d currentPos = GetPose();
 
+    frc::Pose2d newTargetPos{targetPos.X() + visionPoseOffsetX, targetPos.Y() + visionPoseOffsetY, targetPos.Rotation()};
+
+
+    
     // frc::Translation2d translate{targetPos.X()-currentPos.X(), targetPos.Y()-currentPos.Y()}
 
-    double deltaX = (double)(targetPos.X()-currentPos.X());
-    double deltaY = (double)(targetPos.Y()-currentPos.Y());
+    double deltaX = (double)(newTargetPos.X() -currentPos.X());
+    double deltaY = (double)(newTargetPos.Y() + visionPoseOffsetY-currentPos.Y());
 
     double current = (double)currentPos.Rotation().Degrees(); 
     double target = (double)targetPos.Rotation().Degrees(); 
@@ -291,14 +296,29 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
     double delta = std::fmod((target-current) + 180, 360) - 180;
     shortestRotation = (delta < -180) ? delta + 360 : delta;
 
+    // double x = (double)currentPos.distance(newTargetPos).value();
+    // double p = 2; 
 
-    
-
+    // if ( x < 0.5)
+    // {
+    //     p = 1; 
+    // } 
     frc::PIDController positionPID(2,0,0);
 
-    double speedX = positionPID.Calculate(deltaX, 0);
+      double speedX = positionPID.Calculate(deltaX, 0);
     double speedY = positionPID.Calculate(deltaY, 0);
     double angVel = positionPID.Calculate(shortestRotation, 0); 
+
+    if (frc::DriverStation::GetAlliance() == frc::DriverStation::Alliance::kBlue)
+    {
+        speedX *= -1;
+        speedY *= -1;
+    }
+    
+
+   
+
+  
 
     Drive(units::meters_per_second_t{(speedX)}, units::meters_per_second_t{(speedY)}, -units::degrees_per_second_t{angVel}, true);
 }
