@@ -177,7 +177,7 @@ private:
     std::vector<photon::EstimatedRobotPose> estimatedPoseVector;
 
     frc::Pose2d pose1{3.982_m, 5.392_m, frc::Rotation2d{30_deg}}; // auton score from human player
-    frc::Pose2d middlePoseRed{5.334_m, 5.197_m, frc::Rotation2d{150_deg}};
+    frc::Pose2d middlePoseRed{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}};
     frc::Pose2d testPos{6_m, 4_m, frc::Rotation2d{180_deg}}; // initial auton score
     units::meter_t MOE{0.03}; //= 0.03_m; 
     units::degree_t MOErotation{1.5}; // = 1.5_deg; 
