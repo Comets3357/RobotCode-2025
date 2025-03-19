@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "New Path"
+                  "pathName": "First Half"
                 }
               },
               {
@@ -24,9 +24,64 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "Second Half"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "Attempt"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HPpick UP"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Piece"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stop Intake Piece"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "HPtoReef1"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HPtoReef2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Human Player Score Reef"
           }
         }
       ]

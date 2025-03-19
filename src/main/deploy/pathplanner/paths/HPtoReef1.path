@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.2532812499999988,
+        "y": 6.9593717447916665
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.8932363013698632,
+        "y": 6.571853595890412
+      },
+      "isLocked": false,
+      "linkedName": "HPTest1"
+    },
+    {
+      "anchor": {
+        "x": 2.689597602739726,
+        "y": 6.166160102739727
+      },
+      "prevControl": {
+        "x": 1.90826198630137,
+        "y": 6.571853595890412
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "MPfromHPtoReef"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 1.25,
+    "rotation": 29.999999999999996
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 29.999999999999996
+  },
+  "useDefaultConstraints": true
+}
