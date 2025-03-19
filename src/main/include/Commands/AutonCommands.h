@@ -10,8 +10,13 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"
+#include "frc2/command/CommandPtr.h"
 
 void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
-                    ElbowSubsystem* m_elbowSubsystem, IntakeSubsystem* m_intake, LEDSubsystem* m_LED);
+                    ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED);
+
+frc2::CommandPtr GoToAndScore(
+    frc::Pose2d targetPose, DriveSubsystem* m_drive, ElbowSubsystem* m_elbow, ElevatorSubsystem* m_elevator,
+    units::second_t bufferTime = 5.0_s, units::meter_t MOE = 0.03_m,  units::degree_t MOErotation = 1.5_deg); 
 
 
