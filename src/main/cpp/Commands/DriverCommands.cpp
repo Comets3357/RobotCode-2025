@@ -63,7 +63,7 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
     m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
 
-    m_driverController->Y().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->middlePoseRed);}, {m_drive})); 
+    m_driverController->Y().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->TopLeftRed);}, {m_drive})); 
     m_driverController->Y().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
 
     m_driverController->POVUp().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY += 0.02_m;}));
