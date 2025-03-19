@@ -30,6 +30,7 @@ DriveSubsystem::DriveSubsystem()
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
                   kRearRightChassisAngularOffset}
 {
+    SetPointPositions(); 
     // Usage reporting for MAXSwerve template
     HAL_Report(HALUsageReporting::kResourceType_RobotDrive,
                HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
@@ -93,6 +94,7 @@ void DriveSubsystem::Periodic()
     frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
     // frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
     // frc::SmartDashboard::PutNumber("Drive X (m):", m_poseEstimator.GetPose().Translation().X().value());
+    frc::SmartDashboard::PutNumber("test set point pose", (double)pose1.X()); 
     
 }
 
@@ -357,4 +359,9 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
         }
 
         return xInRange && yInRange && angleInRange; 
+}
+
+void DriveSubsystem::SetPointPositions()
+{
+    pose1 = frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; 
 }
