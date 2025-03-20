@@ -3,10 +3,12 @@
   "robotLength": 0.7874,
   "holonomicMode": true,
   "pathFolders": [
+    "COMP Paths",
     "Tests"
   ],
   "autoFolders": [
-    "New Folder",
+    "Old Autos",
+    "Comp Autos",
     "Push Autos"
   ],
   "defaultMaxVel": 4.5,
