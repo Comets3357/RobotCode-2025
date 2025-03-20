@@ -26,7 +26,6 @@ using namespace DriveConstants;
 
 RobotContainer::RobotContainer()
 {
-
     OperatorCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController, offset);
     DriverCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController);
     AutonCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED);
