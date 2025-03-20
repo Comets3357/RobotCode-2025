@@ -26,6 +26,9 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     const auto MOErotation = 1.5_deg; 
     const units::time::second_t bufferTime{5.0};
 
+    NamedCommands::registerCommand("Sendable Chooser 1", std::move(frc2::cmd::Print("sendable chooser 1");frc2::cmd::Print("sendable chooser 1");frc2::cmd::Print("sendable chooser 1");frc2::cmd::Print("sendable chooser 1");frc2::cmd::Print("sendable chooser 1");));
+    NamedCommands::registerCommand("Sendable Chooser 2", std::move(frc2::cmd::Print("sendable chooser 2");frc2::cmd::Print("sendable chooser 2");frc2::cmd::Print("sendable chooser 2");frc2::cmd::Print("sendable chooser 2");frc2::cmd::Print("sendable chooser 2");frc2::cmd::Print("sendable chooser 2");));
+
     NamedCommands::registerCommand("Algae Start", std::move(IntakeAlgae(m_intake)));
     NamedCommands::registerCommand("Algae Stop", std::move(StopIntake(m_intake)));
     NamedCommands::registerCommand("Algae Up", std::move(StopDeploy(m_intake)));

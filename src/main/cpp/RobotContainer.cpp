@@ -36,7 +36,7 @@ RobotContainer::RobotContainer()
     frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
 }
  
-frc2::CommandPtr RobotContainer::GetAutonomousCommand()
+frc2::Command* RobotContainer::GetAutonomousCommand()
 {
-     return PathPlannerAuto("VISION").ToPtr();//std::nullptr_t;//autoChooser.GetSelected();
+    return autoChooser.GetSelected();
 }
