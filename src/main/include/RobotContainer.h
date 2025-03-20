@@ -46,7 +46,7 @@ class RobotContainer
 public:
     RobotContainer();
 
-    frc2::CommandPtr GetAutonomousCommand();
+    frc2::Command* GetAutonomousCommand();
     DriveSubsystem m_drive;
     ElevatorSubsystem m_elevator;
     IntakeSubsystem m_intake;

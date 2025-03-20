@@ -26,8 +26,6 @@ using namespace DriveConstants;
 
 RobotContainer::RobotContainer()
 {
-    autoChooser = AutoBuilder::buildAutoChooser(); 
-
     OperatorCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController, offset);
     DriverCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController);
     AutonCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED);
@@ -36,7 +34,7 @@ RobotContainer::RobotContainer()
     frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
 }
  
-frc2::CommandPtr RobotContainer::GetAutonomousCommand()
+frc2::Command* RobotContainer::GetAutonomousCommand()
 {
-     return PathPlannerAuto("VISION").ToPtr();//std::nullptr_t;//autoChooser.GetSelected();
+    return autoChooser.GetSelected();
 }
