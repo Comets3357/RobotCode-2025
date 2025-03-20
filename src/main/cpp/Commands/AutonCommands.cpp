@@ -104,7 +104,8 @@ frc2::CommandPtr GoToAndScore(frc::Pose2d targetPose, DriveSubsystem* m_drive, E
     return 
         frc2::cmd::Run([=]{m_drive->GoToPos(targetPose);})
      
-        .AlongWith(frc2::cmd::WaitUntil([=]{return m_drive->inRange(m_drive->GetPose(), targetPose, MOE, MOErotation);})
+        .RaceWith(frc2::cmd::WaitUntil([=]{return m_drive->inRange(m_drive->GetPose(), targetPose, MOE, MOErotation);})
+        .RaceWith(frc2::cmd::Wait(bufferTime))
        // .AndThen(frc2::cmd::RunOnce([=]{m_drive->Drive(0_mps, 0_mps, units::radians_per_second_t{0}, true);}))
         .AndThen(
             frc2::cmd::Either(
@@ -117,7 +118,8 @@ frc2::CommandPtr GoToAndScore(frc::Pose2d targetPose, DriveSubsystem* m_drive, E
                 .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180); m_elbow->setRollerSpeed(0); })
                 .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;})))
                 .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); }))
-                .AndThen(frc2::cmd::RunOnce([=]{m_drive->Drive(0_mps, 0_mps, units::radians_per_second_t{0}, true);})) // will stop drive after placing
+                .AlongWith(frc2::cmd::WaitUntil([=] {return m_elevator->getAPosition() < 7;}))
+                //.AndThen(frc2::cmd::RunOnce([=]{m_drive->Drive(0_mps, 0_mps, units::radians_per_second_t{0}, true);})) // will stop drive after placing
                 , 
         
                 frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0); m_elbow->setElbowAngle(255);})       // if false it will run l1 score and aim sequence
