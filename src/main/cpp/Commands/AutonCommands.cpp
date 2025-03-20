@@ -64,7 +64,7 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180); })
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;}))));
 
-    NamedCommands::registerCommand("Attempt", std::move(GoToAndScore((frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) ? m_drive->TopLeftBlue : m_drive->TopLeftRed, m_drive, m_elbow, m_elevator))); 
+    NamedCommands::registerCommand("Attempt L4 Sequence", std::move(GoToAndScore((frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) ? m_drive->TopLeftBlue : m_drive->TopLeftRed, m_drive, m_elbow, m_elevator))); 
     NamedCommands::registerCommand("Human Player Score Reef", std::move(GoToAndScore((frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) ? m_drive->BottomLeftBlue : m_drive->BottomLeftRed, m_drive, m_elbow, m_elevator))); 
 }
 
