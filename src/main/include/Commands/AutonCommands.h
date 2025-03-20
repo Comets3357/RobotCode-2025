@@ -11,6 +11,7 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"
 #include "frc2/command/CommandPtr.h"
+#include "frc/DriverStation.h"
 
 void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
                     ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED);

@@ -362,8 +362,9 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
 
 void DriveSubsystem::SetPointPositions()
 {
-    BottomLeftRed = frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; 
-    TopLeftRed = frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}};
-    TopLeftBlue = frc::Pose2d{1_m, 1_m, frc::Rotation2d{0_deg}}; 
+    BottomLeftRed = frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; // these are not right
+    TopLeftRed = frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; // this is not right 
+    TopLeftBlue = frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; 
+    BottomLeftBlue = frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; 
 
 }

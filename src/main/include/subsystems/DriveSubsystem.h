@@ -173,7 +173,7 @@ private:
        m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
       frc::Pose2d{},
       {0.1, 0.1, 0.1},
-      {0.1, 0.1, 100}
+      {0.1, 0.1, 100.0}
       };
 
     std::vector<photon::EstimatedRobotPose> estimatedPoseVector;
