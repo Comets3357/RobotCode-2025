@@ -13,6 +13,7 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include "commands/IntakeCommands.h"
+#include <frc/DriverStation.h>
                                                                     
 void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
                     ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED, 
@@ -63,8 +64,11 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
     m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
 
-    m_driverController->Y().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->TopLeftRed);}, {m_drive})); 
-    m_driverController->Y().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
+   // m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->BottomLeftRed);}, {m_drive})); 
+    //m_driverController->A().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
+
+   // m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos((frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) ? m_drive->TopLeftBlue : m_drive->TopLeftRed);}, {m_drive})); 
+    //m_driverController->B().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
 
     m_driverController->POVUp().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY += 0.02_m;}));
     m_driverController->POVDown().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY -= 0.02_m;}));

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.689597602739726,
-        "y": 6.166160102739727
+        "x": 3.500409836065574,
+        "y": 6.5484118852459
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1706831290555155,
-        "y": 5.694696286950252
+        "x": 3.6411872254516995,
+        "y": 6.299126264158911
       },
       "isLocked": false,
       "linkedName": "MPfromHPtoReef"
     },
     {
       "anchor": {
-        "x": 3.878,
-        "y": 5.314
+        "x": 4.0638319672131145,
+        "y": 5.481506147540983
       },
       "prevControl": {
-        "x": 3.1403681506849312,
-        "y": 5.700363869863013
+        "x": 3.521643617363268,
+        "y": 6.542516884721777
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 1.5,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -50,5 +50,5 @@
     "velocity": 1.25,
     "rotation": 29.999999999999996
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

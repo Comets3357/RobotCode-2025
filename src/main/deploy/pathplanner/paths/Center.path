@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2532812499999988,
-        "y": 6.9593717447916665
+        "x": 7.492315573770492,
+        "y": 4.019006147540983
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9011891042711488,
-        "y": 6.585301970718145
+        "x": 8.235553278688524,
+        "y": 4.019006147540983
       },
       "isLocked": false,
-      "linkedName": "HPTest1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.500409836065574,
-        "y": 6.5484118852459
+        "x": 5.80125,
+        "y": 4.019006147540983
       },
       "prevControl": {
-        "x": 2.7190742196272177,
-        "y": 6.954105378396585
+        "x": 6.616413934426228,
+        "y": 4.00701844262295
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "MPfromHPtoReef"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.25,
-    "rotation": 29.999999999999996
+    "velocity": 0,
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": "COMP Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 29.999999999999996
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

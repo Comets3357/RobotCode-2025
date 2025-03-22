@@ -92,6 +92,11 @@ void DriveSubsystem::Periodic()
     PoseEstimation();
     frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
     frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
+    // frc::SmartDashboard::PutNumber("Bottom red left X", (double)BottomLeftRed.X());
+    // frc::SmartDashboard::PutNumber("Bottom red left Y", (double)BottomLeftRed.Y());
+
+    // frc::SmartDashboard::PutNumber("Top red left X", (double)TopLeftRed.X());
+    // frc::SmartDashboard::PutNumber("Top red left Y", (double)TopLeftRed.Y());
     // frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
     // frc::SmartDashboard::PutNumber("Drive X (m):", m_poseEstimator.GetPose().Translation().X().value());
     
@@ -306,7 +311,7 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
     // } 
     frc::PIDController positionPID(2,0,0);
 
-      double speedX = positionPID.Calculate(deltaX, 0);
+    double speedX = positionPID.Calculate(deltaX, 0);
     double speedY = positionPID.Calculate(deltaY, 0);
     double angVel = positionPID.Calculate(shortestRotation, 0); 
 
@@ -362,9 +367,10 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
 
 void DriveSubsystem::SetPointPositions()
 {
-    BottomLeftRed = frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; // these are not right
-    TopLeftRed = frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; // this is not right 
     TopLeftBlue = frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; 
-    BottomLeftBlue = frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; 
-
+    BottomLeftBlue = frc::Pose2d{3.61_m, 5.08_m, frc::Rotation2d{30_deg}}; 
+    //BottomLeftBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});//frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; // these are not right
+    
+    TopLeftRed = frc::Pose2d{12.214_m, 2.8548_m, frc::Rotation2d{150_deg}}; //TopLeftBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});//frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; // this is not right 
+    BottomLeftRed =  frc::Pose2d{13.554352_m, 2.7912_m, frc::Rotation2d{-150_deg}}; 
 }

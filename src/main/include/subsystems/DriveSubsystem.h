@@ -85,6 +85,8 @@ public:
    double GetChassisSpeed(); 
 
 
+
+
     /**
      * Returns the heading of the robot.
      *
@@ -140,7 +142,7 @@ public:
 
     void GoToPos(frc::Pose2d targetPos);
 
-    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE, units::angle::degree_t MOEangle); 
+    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE = 0.03_m, units::angle::degree_t MOEangle = 1.5_deg); 
 
 private:
     // Components (e.g. motor controllers and sensors) should generally be

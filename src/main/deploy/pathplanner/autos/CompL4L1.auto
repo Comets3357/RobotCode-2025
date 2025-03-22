@@ -56,7 +56,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 2.5
           }
         },
         {
@@ -81,13 +81,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "HPtoReef2"
+            "pathName": "Copy of HPtoReef2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Human Player Score Reef"
+            "name": "Aim L1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score L1"
           }
         }
       ]

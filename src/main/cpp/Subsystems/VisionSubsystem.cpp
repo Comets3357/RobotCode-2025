@@ -14,12 +14,12 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
 
   if (!unreadResultsOne.empty()) {
     auto cameraResults1 = unreadResultsOne[0];
-    const std::span<const photon::PhotonTrackedTarget> targets1 = cameraResults1.GetTargets();
+    //const std::span<const photon::PhotonTrackedTarget> targets1 = cameraResults1.GetTargets();
     units::second_t frameTime1{cameraResults1.GetTimestamp().value()};
 
     
     if (cameraResults1.GetTimestamp().value() != 0) {
-      if (targets1[0].GetFiducialId() != 14 && targets1[0].GetFiducialId() != 15 && targets1[0].GetFiducialId() != 4 && targets1[0].GetFiducialId() != 5) {
+      // if (targets1[0].GetFiducialId() != 14 && targets1[0].GetFiducialId() != 15 && targets1[0].GetFiducialId() != 4 && targets1[0].GetFiducialId() != 5) {
             units::second_t frameTime1{cameraResults1.GetTimestamp().value()};
             
             if (frameTime1 > lastProcessedTimeOne && frameTime1 <= currentTime) {
@@ -29,7 +29,7 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
             } else {
                 // fmt::print("Skipping outdated or duplicate frame from Camera 1\n");
             }
-        }
+        // }
     }
 
   }
@@ -38,12 +38,12 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
   if (unreadResultsTwo.size() > 0) {
 
   auto cameraResults2 = unreadResultsTwo[0];
-  const std::span<const photon::PhotonTrackedTarget> targets2 = cameraResults2.GetTargets();
+  //const std::span<const photon::PhotonTrackedTarget> targets2 = cameraResults2.GetTargets();
   units::second_t frameTime2{cameraResults2.GetTimestamp().value()};
 
 
     if (cameraResults2.GetTimestamp().value() != 0) {
-      if (targets2[0].GetFiducialId() != 14 && targets2[0].GetFiducialId() != 15 && targets2[0].GetFiducialId() != 4 && targets2[0].GetFiducialId() != 5) {
+      // if (targets2[0].GetFiducialId() != 14 && targets2[0].GetFiducialId() != 15 && targets2[0].GetFiducialId() != 4 && targets2[0].GetFiducialId() != 5) {
             units::second_t frameTime1{cameraResults2.GetTimestamp().value()};
             
             if (frameTime2 > lastProcessedTimeTwo && frameTime2 <= currentTime) {
@@ -53,7 +53,7 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
             } else {
                 // fmt::print("Skipping outdated or duplicate frame from Camera 2\n");
             }
-        }
+        // }
     }
     
   }
