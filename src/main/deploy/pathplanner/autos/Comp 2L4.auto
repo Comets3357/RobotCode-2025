@@ -56,7 +56,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 2.0
           }
         },
         {
@@ -72,16 +72,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "HPtoReef1"
+                  "pathName": "Copy of HPtoReef1"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "HPtoReef2"
+            "waitTime": 0.5
           }
         },
         {

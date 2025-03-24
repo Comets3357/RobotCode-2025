@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.358504098360656,
-        "y": 7.09984631147541
+        "x": 3.608299180327869,
+        "y": 6.512448770491804
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "ENDPOINT"
     },
     {
       "anchor": {
-        "x": 1.2532812499999988,
-        "y": 6.9593717447916665
+        "x": 1.6303278688524592,
+        "y": 7.039907786885245
       },
       "prevControl": {
-        "x": 4.651229508196721,
-        "y": 7.207735655737704
+        "x": 3.326022028688526,
+        "y": 6.4131692388148895
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "HPTest1"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 29.999999999999996
+    "rotation": 35.0
   },
   "reversed": false,
   "folder": "COMP Paths",

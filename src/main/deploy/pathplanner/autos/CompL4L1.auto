@@ -72,22 +72,22 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "HPtoReef1"
+                  "pathName": "Copy of HPtoReef1L1"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Copy of HPtoReef2"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Aim L1"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {

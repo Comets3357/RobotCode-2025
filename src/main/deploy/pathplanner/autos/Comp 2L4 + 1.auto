@@ -112,12 +112,6 @@
                 "data": {
                   "name": "Stop Intake Piece"
                 }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "HPtoReef1"
-                }
               }
             ]
           }
@@ -126,12 +120,6 @@
           "type": "wait",
           "data": {
             "waitTime": 3.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "HPtoReef2"
           }
         }
       ]

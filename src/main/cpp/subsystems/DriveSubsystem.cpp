@@ -367,7 +367,7 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
 
 void DriveSubsystem::SetPointPositions()
 {
-    TopLeftBlue = frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; 
+    TopLeftBlue = frc::Pose2d{5.334_m + 0.5_in, 5.197_m + 0.886_in, frc::Rotation2d{-30_deg}}; 
     BottomLeftBlue = frc::Pose2d{3.61_m, 5.08_m, frc::Rotation2d{30_deg}}; 
     //BottomLeftBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});//frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; // these are not right
     
