@@ -55,7 +55,10 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
 
     m_secondaryController->B().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(235);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()>234;}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.4);},{m_elbow})));
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.4);},{m_elbow}))
+    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->isGamePieceDetected() == true);}))
+    .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setRollerSpeed(0);}, {m_elbow}))
+    );
 
     m_secondaryController->B().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;})));
@@ -114,17 +117,23 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
 
     //Moves elevator to L4 position and if A pressed, flip the wrist 180 degrees
     //Then move elbow down to score
-    m_secondaryController->POVUp().OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
-    .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
-    .AndThen(frc2::FunctionalCommand([=]{},
-    [=, &offset]{m_elbow->setElbowAngle(245 + (m_secondaryController->GetRightY() * 15)); if (m_driverController->GetHID().GetAButtonPressed()) {
-    offset += 180; m_elbow->setWristAngle(offset);}},[=](bool interrupt){},[=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr())
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(270); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
 
-    (m_secondaryController->POVUp() && m_secondaryController->LeftBumper()).OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
-    .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
-    .AndThen(wristRotateRight(m_elbow, m_driverController, m_secondaryController, 140))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(90); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
+    // m_secondaryController->POVUp().OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);})
+    // .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
+    // .AndThen(frc2::FunctionalCommand([=](){m_elbow->setElbowAngle(240);}, 
+    // [=, &offset](){ if (m_driverController->GetHID().GetAButtonPressed()){offset += 180; m_elbow->setWristAngle(offset);}}, [=](bool interrupt){}, 
+    // [=](){ return m_secondaryController->GetHID().GetRightBumperButton(); }).ToPtr())
+    // .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(270); m_elbow->setRollerSpeed(-0.15);})));
+
+     m_secondaryController->POVUp().OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
+     .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
+     .AndThen(WristRotateLeft(m_elbow, m_driverController, m_secondaryController, 240))
+     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(270); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
+
+      (m_secondaryController->POVUp() && m_secondaryController->LeftBumper()).OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
+     .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
+     .AndThen(WristRotateRight(m_elbow, m_driverController, m_secondaryController, 120))
+     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(90); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
 
     m_secondaryController->RightBumper().OnFalse(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185 && m_elbow->getElbowAngle()>=175;}))

@@ -68,7 +68,7 @@ ElbowSubsystem::ElbowSubsystem() {
         wristMotor.SetSmartCurrentLimit(40);
         wristMotor.setAbsoluteVelocityConversionFactor(6);
         wristMotor.setAbsolutePositionConversionFactor(360 /* Degrees */);
-        wristMotor.setAbsoluteEncoderInverted(true);
+        wristMotor.setAbsoluteEncoderInverted(false);
         wristMotor.setPositionWrappingEnabled(true);
         wristMotor.setPositionWrappingMaxRange(0, 360);
 
