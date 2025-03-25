@@ -38,6 +38,8 @@ DriveSubsystem::DriveSubsystem()
     redux::canand::EnsureCANLinkServer();
 
     frc::SmartDashboard::PutData("Field", &m_field);
+    frc::SmartDashboard::PutData("Field No Vision", &m_fieldNoVision);
+
     frc::SmartDashboard::PutData("Mirror Field", &m_mirrorField); 
 
     
@@ -90,6 +92,7 @@ void DriveSubsystem::Periodic()
 {
     // Implementation of subsystem periodic method goes here.
     PoseEstimation();
+    PoseEstimationNoVisionTest();
     frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
     frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
     // frc::SmartDashboard::PutNumber("Bottom red left X", (double)BottomLeftRed.X());
@@ -120,10 +123,13 @@ void DriveSubsystem::PoseEstimation() {
 
     double chassisSpeedSquared= pow((double) GetRobotRelativeSpeeds().vx, 2) + pow((double) GetRobotRelativeSpeeds().vy, 2); 
     double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
-    double StdDev = ((chassisSpeeds / 4.8) * 3.0) + 0.2;
+    double StdDev = ((chassisSpeeds / 4.8) * 20) + 0.1;
+    if (GetRobotRelativeSpeeds().omega > 0.0610865_rad_per_s) {
+        StdDev += 10;
+    }
     
     
-    m_poseEstimator.SetVisionMeasurementStdDevs({StdDev, StdDev, 100});
+    m_poseEstimator.SetVisionMeasurementStdDevs({StdDev, StdDev, 0.1});
                             
     estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
 
@@ -177,6 +183,30 @@ void DriveSubsystem::PoseEstimation() {
     frc::SmartDashboard::PutNumber("Rot (degrees)", ((units::degree_t)m_poseEstimator.GetEstimatedPosition().Rotation().Degrees()).value());
 }
 
+void DriveSubsystem::PoseEstimationNoVisionTest()
+{
+    auto alliance = frc::DriverStation::GetAlliance();
+    if (alliance == frc::DriverStation::Alliance::kRed)
+    {
+        m_poseEstimatorNoVision.Update(m_gyro.Get2DRotation().RotateBy(frc::Rotation2d(180_deg)),
+                           {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                            m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
+    }
+    else
+    {
+        m_poseEstimatorNoVision.Update(m_gyro.Get2DRotation(),
+                           {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                            m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
+    }
+
+    m_fieldNoVision.SetRobotPose(m_poseEstimatorNoVision.GetEstimatedPosition());
+
+}
+
+void DriveSubsystem::UpdateNonVisionPose() {
+    m_poseEstimatorNoVision.ResetPose(m_poseEstimator.GetEstimatedPosition());
+}
+ 
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
@@ -309,11 +339,12 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
     // {
     //     p = 1; 
     // } 
-    frc::PIDController positionPID(2,0,0);
+    frc::PIDController positionPID(1.5,0,0);
+    frc::PIDController rotationPID(1,0,0);
 
     double speedX = positionPID.Calculate(deltaX, 0);
     double speedY = positionPID.Calculate(deltaY, 0);
-    double angVel = positionPID.Calculate(shortestRotation, 0); 
+    double angVel = rotationPID.Calculate(shortestRotation, 0); 
 
     if (frc::DriverStation::GetAlliance() == frc::DriverStation::Alliance::kBlue)
     {
@@ -321,13 +352,19 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
         speedY *= -1;
     }
     
-
-   
-
-  
+    if (std::abs(speedX) < 0.02 && std::abs(speedY) < 0.02) {
+       speedX = 0;
+       speedY = 0;  
+    }
+    if (std::abs(angVel) < 0.005) {
+        angVel = 0;
+    }
 
     Drive(units::meters_per_second_t{(speedX)}, units::meters_per_second_t{(speedY)}, -units::degrees_per_second_t{angVel}, true);
 }
+
+
+
 
 bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE, units::angle::degree_t MOEangle)
 {
@@ -367,10 +404,11 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
 
 void DriveSubsystem::SetPointPositions()
 {
-    TopLeftBlue = frc::Pose2d{5.334_m + 0.5_in, 5.197_m + 0.886_in, frc::Rotation2d{-30_deg}}; 
+    TopLeftBlue = frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; 
     BottomLeftBlue = frc::Pose2d{3.61_m, 5.08_m, frc::Rotation2d{30_deg}}; 
     //BottomLeftBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});//frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; // these are not right
     
     TopLeftRed = frc::Pose2d{12.214_m, 2.8548_m, frc::Rotation2d{150_deg}}; //TopLeftBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});//frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; // this is not right 
     BottomLeftRed =  frc::Pose2d{13.554352_m, 2.7912_m, frc::Rotation2d{-150_deg}}; 
+    TestingPointRed = frc::Pose2d{15_m, 4.130_m, frc::Rotation2d{90_deg}};
 }

@@ -137,10 +137,17 @@ public:
                            -DriveConstants::kTrackWidth / 2}};
 
     frc::Field2d m_field;
+    frc::Field2d m_fieldNoVision;
 
     void PoseEstimation();
 
+    void PoseEstimationNoVisionTest();
+
+    void UpdateNonVisionPose();
+
     void GoToPos(frc::Pose2d targetPos);
+
+    // void AutoAlignAroundReef();
 
     bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE = 0.03_m, units::angle::degree_t MOEangle = 1.5_deg); 
 
@@ -178,6 +185,16 @@ private:
       {0.1, 0.1, 100.0}
       };
 
+    frc::SwerveDrivePoseEstimator<4> m_poseEstimatorNoVision{
+      kDriveKinematics,
+      frc::Rotation2d{},
+      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+       m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
+      frc::Pose2d{},
+      {0.1, 0.1, 0.1},
+      {0.1, 0.1, 100.0}
+      };
+
     std::vector<photon::EstimatedRobotPose> estimatedPoseVector;
 
     /*
@@ -188,6 +205,7 @@ private:
     frc::Pose2d TopLeftRed{};
     frc::Pose2d TopLeftBlue{};
     frc::Pose2d BottomLeftBlue{}; 
+    frc::Pose2d TestingPointRed{};
     frc::Pose2d testPos{};//{6_m, 4_m, frc::Rotation2d{180_deg}}; // initial auton score
     units::meter_t MOE{0.03}; //= 0.03_m; 
     units::degree_t MOErotation{1.5}; // = 1.5_deg; 
