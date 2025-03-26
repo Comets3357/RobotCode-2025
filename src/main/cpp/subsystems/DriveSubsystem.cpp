@@ -30,6 +30,8 @@ DriveSubsystem::DriveSubsystem()
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
                   kRearRightChassisAngularOffset}
 {
+
+    
     SetPointPositions(); 
     // Usage reporting for MAXSwerve template
     HAL_Report(HALUsageReporting::kResourceType_RobotDrive,
@@ -91,6 +93,11 @@ double DriveSubsystem::GetChassisSpeed()
 void DriveSubsystem::Periodic()
 {
     // Implementation of subsystem periodic method goes here.
+     if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed && initVisionUse < 1)
+    {
+        reefCenter = reefCenter.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); 
+        initVisionUse += 1; 
+    }
     PoseEstimation();
     PoseEstimationNoVisionTest();
     frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
@@ -121,15 +128,47 @@ void DriveSubsystem::PoseEstimation() {
                             m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
     }
 
-    double chassisSpeedSquared= pow((double) GetRobotRelativeSpeeds().vx, 2) + pow((double) GetRobotRelativeSpeeds().vy, 2); 
+    double chassisSpeedSquared = pow((double) GetRobotRelativeSpeeds().vx, 2) + pow((double) GetRobotRelativeSpeeds().vy, 2); 
     double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
-    double StdDev = ((chassisSpeeds / 4.8) * 20) + 0.1;
-    if (GetRobotRelativeSpeeds().omega > 0.0610865_rad_per_s) {
-        StdDev += 10;
+    double percentSpeed = (chassisSpeeds / 4.8); 
+    double StdDev = (percentSpeed * (percentSpeed > 0.5) ? 30 : 15) + 0.1;
+
+    double angSpeMulti = GetRobotRelativeSpeeds().omega / 0.0610865_rad_per_s; 
+
+    for (int i = 0; i < std::ceil(angSpeMulti); i++)
+    {
+        StdDev += 5; 
     }
+
+    double distancePose = (double)(GetPose().Translation().Distance(reefCenter) - 2.5_ft/*BLUE REEF*/ ); 
     
+
+    if (distancePose > 3)
+    {
+        StdDev += 500; 
+    } 
+    else if (distancePose > 2)
+    {
+        StdDev += 50;
+    }
+
+    if (distancePose < 1 && chassisSpeeds < 0.5)
+    {
+        StdDev = 0.9;
+    }
+
+    if (frc::DriverStation::IsDisabled())
+    {
+        StdDev = 1.2; 
+    }
+        
+
+    frc::SmartDashboard::PutNumber("STDDEV", StdDev); 
+    frc::SmartDashboard::PutNumber("distancePose", distancePose); 
+
+
     
-    m_poseEstimator.SetVisionMeasurementStdDevs({StdDev, StdDev, 0.1});
+    m_poseEstimator.SetVisionMeasurementStdDevs({StdDev, StdDev, 100});
                             
     estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
 
@@ -317,8 +356,6 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
     frc::Pose2d currentPos = GetPose();
 
     frc::Pose2d newTargetPos{targetPos.X() + visionPoseOffsetX, targetPos.Y() + visionPoseOffsetY, targetPos.Rotation()};
-
-
     
     // frc::Translation2d translate{targetPos.X()-currentPos.X(), targetPos.Y()-currentPos.Y()}
 
@@ -339,7 +376,7 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
     // {
     //     p = 1; 
     // } 
-    frc::PIDController positionPID(1.5,0,0);
+    frc::PIDController positionPID(1.25,0,0);
     frc::PIDController rotationPID(1,0,0);
 
     double speedX = positionPID.Calculate(deltaX, 0);
@@ -408,7 +445,8 @@ void DriveSubsystem::SetPointPositions()
     BottomLeftBlue = frc::Pose2d{3.61_m, 5.08_m, frc::Rotation2d{30_deg}}; 
     //BottomLeftBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});//frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; // these are not right
     
-    TopLeftRed = frc::Pose2d{12.214_m, 2.8548_m, frc::Rotation2d{150_deg}}; //TopLeftBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});//frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; // this is not right 
+    TopLeftRed = frc::Pose2d{12.48_m, 2.6848_m, frc::Rotation2d{150_deg}}; //TopLeftBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});//frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; // this is not right 
     BottomLeftRed =  frc::Pose2d{13.554352_m, 2.7912_m, frc::Rotation2d{-150_deg}}; 
-    TestingPointRed = frc::Pose2d{15_m, 4.130_m, frc::Rotation2d{90_deg}};
+    //TestingPointRed = frc::Pose2d{15_m, 4.130_m, frc::Rotation2d{90_deg}};
+    TestingPointRed = frc::Pose2d{15.55_m, -5.45_m, -138_deg}; 
 }

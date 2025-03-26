@@ -213,5 +213,7 @@ private:
 
     units::meter_t visionPoseOffsetX{0};
     units::meter_t visionPoseOffsetY{0};
+    frc::Translation2d reefCenter{4.48945_m, 4.03225_m};
+    int initVisionUse = 0; 
   
 };

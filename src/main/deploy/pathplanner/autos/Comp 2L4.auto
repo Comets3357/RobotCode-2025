@@ -19,12 +19,6 @@
                 "data": {
                   "name": "Algae Up"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Starting Reset"
-                }
               }
             ]
           }

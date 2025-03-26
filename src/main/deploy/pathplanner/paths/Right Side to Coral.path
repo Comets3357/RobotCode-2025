@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.97,
-        "y": 7.43
+        "x": 7.129129050925925,
+        "y": 2.6656890190972216
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6179078542711505,
-        "y": 7.0559302259264784
+        "x": 5.6558579282407395,
+        "y": 2.889416594328703
       },
       "isLocked": false,
-      "linkedName": "HPTest1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.668,
-        "y": 5.493493852459016
+        "x": 5.355089337384259,
+        "y": 2.9687286603009255
       },
       "prevControl": {
-        "x": 2.886664383561644,
-        "y": 5.899187345609701
+        "x": 6.21558449074074,
+        "y": 2.8155201099537033
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Reef Score HP"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.25,
-    "rotation": 29.999999999999996
+    "velocity": 0,
+    "rotation": -150.0
   },
   "reversed": false,
   "folder": "COMP Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 35.0
+    "rotation": -150.0
   },
   "useDefaultConstraints": true
 }
