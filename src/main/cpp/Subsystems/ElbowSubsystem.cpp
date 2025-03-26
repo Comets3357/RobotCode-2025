@@ -1,8 +1,9 @@
 #include "subsystems/ElbowSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "wrapperclasses/SparkMaxMotor.h"
-//#include "grpl/CanBridge.h"
+#include "grpl/CanBridge.h"
 #include "Robot.h"
+#include <cmath>
 
 ElbowSubsystem::ElbowSubsystem() {
 
@@ -132,8 +133,23 @@ void ElbowSubsystem::setElbowTarget() {
 }
 
 void ElbowSubsystem::setWristTarget() {
-    //TODO PUT THIS BACK
     wristMotor.setReference(getTargetWristAngle(), Motor::controlType::position);
+}
+
+//erm what the sideroni
+void ElbowSubsystem::setSideOne(double value) {
+    sideOne = value;
+}
+void ElbowSubsystem::setSideTwo(double value) {
+    sideTwo = value;
+}
+
+//WAITWAITWAITWAITWAIT what side are we getting
+double ElbowSubsystem::getSideOne() {
+    return sideOne;
+}
+double ElbowSubsystem::getSideTwo() {
+    return sideTwo;
 }
 
  //gets the gripper pivot angle
@@ -158,70 +174,98 @@ void ElbowSubsystem::WristRotate()
     if (wristMotor.GetAbsolutePosition() < 145 && wristMotor.GetAbsolutePosition() > 35)
     {
         flip = false;
-    }
-    else
-    {
+    } else {
         flip = true;
     }
 
-    if(flip == false)
-    {
+    if (flip == false) {
         flip = true;
-        
-        // wristMotor.setReference(0, Motor::controlType::position);
         wristMotor.setReference(0, Motor::controlType::position);
-        // wristMotor.setReference(270, Motor::controlType::position);
-    }
-    else
-    {
+    } else {
         flip = false;
-
          wristMotor.setReference(180, Motor::controlType::position);
-        // wristMotor.setReference(180, Motor::controlType::position);
-        // wristMotor.setReference(90, Motor::controlType::position);
     }
 }
 
-// std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getHorizontalDistanceMeasurement() {
-//     return horizMeasurement;
-// }
+void ElbowSubsystem::detectionRotate() {
+    if (wristMotor.GetAbsolutePosition() < 2 && wristMotor.GetAbsolutePosition() > 358 ) {
+        flip = false;
+    } else {
+        flip = true;
+    }
 
-// std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getVerticalDistanceMeasurement() {
-//     return vertMeasurement;
-// }
+    if (flip == false) {
+        flip = true;
+        wristMotor.setReference(90, Motor::controlType::position);
+    } else {
+        flip = false;
+         wristMotor.setReference(270, Motor::controlType::position);
+    }
+}
+
+double ElbowSubsystem::getDistanceMeasurement() {
+    if (ElbowSubsystem::getLaserCANMeasurement().has_value()) {
+        return getLaserCANMeasurement().value().distance_mm;
+    } else {
+        return 1000;
+    }
+
+}
+
+std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getLaserCANMeasurement() {
+    return laserCANMeasurement;
+}
+
 
 bool ElbowSubsystem::isGamePieceDetected() {
 
-    // double tempVertMeasurement;
-    // double tempHorizMeasurement;
+    double tempDistanceMeasurement;
 
-    // if (ElbowSubsystem::getHorizontalDistanceMeasurement().has_value()) {
-    //     tempHorizMeasurement = getHorizontalDistanceMeasurement().value().distance_mm;
-    // }
-    // if (ElbowSubsystem::getVerticalDistanceMeasurement().has_value()) {
-    //     tempVertMeasurement = getVerticalDistanceMeasurement().value().distance_mm;
-    // }
+    if (ElbowSubsystem::getLaserCANMeasurement().has_value()) {
+        tempDistanceMeasurement = getLaserCANMeasurement().value().distance_mm;
+    } else {
+        tempDistanceMeasurement = 1000;
+    }
 
-    // if (tempVertMeasurement || tempHorizMeasurement < 50) {
-    //     return true;
-    // } else {
-    //     return false;
-    // }
-    return false; 
+    if (tempDistanceMeasurement < 90) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool ElbowSubsystem::isAutonWristFlipValid() {
+    double sensorToPivot = 66.675;
+    double tempDiff = std::abs(ElbowSubsystem::getSideOne() - ElbowSubsystem::getSideTwo());
+    double angle = std::atan2(tempDiff, (2 * sensorToPivot));
+    angle = angle * (180/3.14159);
+
+
+    if (angle > 35) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+double ElbowSubsystem::arctanAngle(double tempDiff) {
+    return std::atan2(tempDiff, (2 * 66.675));
 }
 
 void ElbowSubsystem::Periodic() {
-    // vertMeasurement = LaserCanVertical.get_measurement();
-    // horizMeasurement = LaserCanHorizontal.get_measurement();
+
+    laserCANMeasurement = LaserCAN.get_measurement();
 
 
-    // if (vertMeasurement.has_value() && vertMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
-    //     frc::SmartDashboard::PutNumber("Vertical LaserCAN Measurement", vertMeasurement.value().distance_mm);
-    // }
-    // if (horizMeasurement.has_value() && horizMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
-    //     frc::SmartDashboard::PutNumber("Horizontal LaserCAN Measurement", horizMeasurement.value().distance_mm);
-    // }
+    if (laserCANMeasurement.has_value() && laserCANMeasurement.value().status == grpl::LASERCAN_STATUS_VALID_MEASUREMENT) {
+        frc::SmartDashboard::PutNumber("LaserCAN Measurement", laserCANMeasurement.value().distance_mm);
+    }
 
+    frc::SmartDashboard::PutBoolean("Auton Wrist Flip?", ElbowSubsystem::isAutonWristFlipValid());
+    frc::SmartDashboard::PutNumber("SideOne", ElbowSubsystem::getSideOne());
+    frc::SmartDashboard::PutNumber("SideTwo", ElbowSubsystem::getSideTwo());
+    frc::SmartDashboard::PutNumber("auton flip angle", (180/3.14159) * std::atan2(std::abs(sideOne - sideTwo), (2 * 66.675)));
     frc::SmartDashboard::PutNumber("elbow angle", elbowMotor->GetAbsolutePosition());
     frc::SmartDashboard::PutNumber("Wrist Angle", wristMotor.GetAbsolutePosition());
 }
