@@ -23,8 +23,8 @@ ElbowSubsystem::ElbowSubsystem() {
         elbowMotor->setReverseSoftLimit(40); 
 
         //limiting so we dont give josh a bad time if we break it
-        elbowMotor->setMaxOutput(0.5);
-        elbowMotor->setMinOutput(-0.5);
+        elbowMotor->setMaxOutput(1);
+        elbowMotor->setMinOutput(-1);
 
         elbowMotor->setFeedbackSensor(Motor::encoderType::relative);
         elbowMotor->setPID(elbowP, elbowI, elbowD);
