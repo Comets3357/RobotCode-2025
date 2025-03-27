@@ -1,11 +1,6 @@
 #include "Commands/AutonCommands.h"
 
-#include <frc2/command/button/CommandXboxController.h>
-#include <pathplanner/lib/auto/NamedCommands.h>
-#include <frc2/command/Commands.h>
-#include "RobotContainer.h"
-#include <frc2/command/SequentialCommandGroup.h>
-#include "commands/IntakeCommands.h"
+
 
 
 

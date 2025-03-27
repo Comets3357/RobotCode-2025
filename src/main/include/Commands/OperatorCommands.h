@@ -10,6 +10,10 @@
 
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/button/CommandXboxController.h>
+#include <frc2/command/Commands.h>
+
+#include "commands/ArmCommands.h"
 #include "commands/IntakeCommands.h"
 
 void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
