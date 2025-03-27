@@ -48,7 +48,7 @@
   "folder": "COMP Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -150.0
+    "rotation": -130.0
   },
   "useDefaultConstraints": true
 }

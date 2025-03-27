@@ -55,8 +55,8 @@ DriveSubsystem::DriveSubsystem()
         [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         [this](auto speeds, auto feedforwards){ DriveFromChassisSpeeds(speeds, false); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
         std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
-            PIDConstants(7.5, 0.0, 0.0), // Translation PID constants
-            PIDConstants(4.0, 0.0, 0.0) // Rotation PID constants
+            PIDConstants(22.5, 0.0, 0.0), // Translation PID constants
+            PIDConstants(10, 0.0, 0.0) // Rotation PID constants
         ),
         config, // The robot configuration
         []() {
@@ -95,7 +95,7 @@ void DriveSubsystem::Periodic()
     // Implementation of subsystem periodic method goes here.
      if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed && initVisionUse < 1)
     {
-        reefCenter = reefCenter.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); 
+        reefCenterBlue = reefCenterBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); 
         initVisionUse += 1; 
     }
     PoseEstimation();
@@ -140,7 +140,7 @@ void DriveSubsystem::PoseEstimation() {
         StdDev += 5; 
     }
 
-    double distancePose = (double)(GetPose().Translation().Distance(reefCenter) - 2.5_ft/*BLUE REEF*/ ); 
+    double distancePose = (double)(GetPose().Translation().Distance(reefCenterBlue) - 2.5_ft/*BLUE REEF*/ ); 
     
 
     if (distancePose > 3)
@@ -449,4 +449,7 @@ void DriveSubsystem::SetPointPositions()
     BottomLeftRed =  frc::Pose2d{13.554352_m, 2.7912_m, frc::Rotation2d{-150_deg}}; 
     //TestingPointRed = frc::Pose2d{15_m, 4.130_m, frc::Rotation2d{90_deg}};
     TestingPointRed = frc::Pose2d{15.55_m, -5.45_m, -138_deg}; 
+
+    left9 = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{30_deg}};//TopLeftRed.RotateAround(reefCenterRed, frc::Rotation2d{-120_deg}); 
+    right8 = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{-30_deg}};
 }
