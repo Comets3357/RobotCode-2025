@@ -20,7 +20,9 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("Algae Stop", std::move(StopIntake(m_intake)));
     NamedCommands::registerCommand("Algae Up", std::move(StopDeploy(m_intake)));
 
-    NamedCommands::registerCommand("Starting Reset", std::move( frc2::cmd::RunOnce([=] {m_elevator->setPosition(19.2);})
+    NamedCommands::registerCommand("Starting Reset", std::move( 
+        
+        frc2::cmd::RunOnce([=] {m_elevator->setPosition(19.2);})
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.4);m_elbow->setWristAngle(40);m_elbow->setElbowAngle(340);}, {m_elbow})) 
     .AndThen(frc2::cmd::WaitUntil([=]{return m_elbow->getWristAngle() < 42 && m_elbow->getElbowAngle() < 342;}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0);m_elbow->setElbowAngle(330);}))
