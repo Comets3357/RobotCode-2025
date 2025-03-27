@@ -117,6 +117,12 @@ public:
      */
     frc::Pose2d GetPose();
 
+    /**
+    * Returns the distance of the bot from the selected position on the field
+    * @return the distance between the bot and the position
+    **/
+    double getBotDistanceFromTarget();
+
     frc::ChassisSpeeds GetRobotRelativeSpeeds();
 
     /**
@@ -210,6 +216,8 @@ private:
     units::meter_t MOE{0.03}; //= 0.03_m; 
     units::degree_t MOErotation{1.5}; // = 1.5_deg; 
     units::time::second_t bufferTime{5.0};
+
+    frc::Translation2d targetPose;
 
     units::meter_t visionPoseOffsetX{0};
     units::meter_t visionPoseOffsetY{0};

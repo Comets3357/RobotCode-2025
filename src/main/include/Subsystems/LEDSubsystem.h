@@ -28,6 +28,7 @@ class LEDSubsystem : public frc2::SubsystemBase
         bool climbRunning = false;
         bool hPlayer = false;
         bool hPlayerGround = false; 
+        bool goingToPosition = false;
 
         void Periodic() override;
         LEDSubsystem(DriveSubsystem* m_DriveP, ClimbSubsystem* m_climbP);
@@ -59,6 +60,7 @@ class LEDSubsystem : public frc2::SubsystemBase
 
     frc::LEDPattern blinkPatternHP = purple.Blink(units::time::second_t{0.25}, units::time::second_t{0.25}); 
     frc::LEDPattern blinkPatternHPGround = yellow.Blink(units::time::second_t{0.25}, units::time::second_t{0.25}); 
+    frc::LEDPattern progressBarMask;
     
 };
 

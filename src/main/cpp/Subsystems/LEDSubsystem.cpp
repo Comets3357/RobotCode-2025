@@ -1,5 +1,6 @@
 #include "subsystems/LEDSubsystem.h"
 #include <frc/DriverStation.h>
+#include "Subsystems/DriveSubsystem.h"
 // #include "subsystems/IndexerSubsystem.h"
 
 LEDSubsystem::LEDSubsystem(DriveSubsystem *m_DriveP, ClimbSubsystem *m_climbP)
@@ -14,7 +15,14 @@ LEDSubsystem::LEDSubsystem(DriveSubsystem *m_DriveP, ClimbSubsystem *m_climbP)
         }
         LED1.SetData(LED_DATA);
         LED1.Start();
-    }
+    } 
+
+    progressBarMask = green.ProgressMaskLayer(
+        green.Mask(frc::LEDPattern::ProgressMaskLayer(
+        [m_drive]() {
+            return 1 / DriveSubsystem->getBotDistanceFromTarget();
+        }
+    )));
 }
 
 void LEDSubsystem::Periodic()
@@ -35,8 +43,13 @@ void LEDSubsystem::Periodic()
     if (!enabled)
     {
         //LED = "Not Enabled";
+        if (frc::DriverStation::GetBatteryVoltage() < 12.3;) {
 
-         if (gyroZero) // if the gyro is zeroed then it will be orange
+            red.ApplyTo(LED_DATA); 
+            blinkPatternHPGround.ApplyTo(LED_DATA);
+            LED = "BATTERY LOW!!!";
+        }
+        else if (gyroZero) // if the gyro is zeroed then it will be orange
         {
             orange.ApplyTo(LED_DATA);
             LED1.SetData(LED_DATA);
@@ -68,6 +81,12 @@ void LEDSubsystem::Periodic()
             blinkPatternHPGround.ApplyTo(LED_DATA);
             LED1.SetData(LED_DATA);
             LED = "Human Player Ground";
+        }
+        else if (goingToPosition) 
+        {
+            progressBarMash.ApplyTo(LED_DATA);
+            LED1.SetData(LED_DATA);
+            LED = "Going to position";
         }
         else if (hPlayer) // this need to be flashing purple
         {

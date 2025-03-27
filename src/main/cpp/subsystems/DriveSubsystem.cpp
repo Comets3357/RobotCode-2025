@@ -332,6 +332,10 @@ double DriveSubsystem::GetTurnRate()
 
 frc::Pose2d DriveSubsystem::GetPose() { return m_poseEstimator.GetEstimatedPosition(); }
 
+double DriveSubsystem::getBotDistanceFromTarget() {
+    return (double)(GetPose().Translation().Distance(targetPose)); 
+}
+ 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose)
 {
     units::degree_t angle{pose.Rotation().Degrees()}; 
@@ -354,6 +358,9 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
 
     
     frc::Pose2d currentPos = GetPose();
+
+    //gets the current pose and transforms it into a Translation2d
+    targetPose = targetPos.Translation();
 
     frc::Pose2d newTargetPos{targetPos.X() + visionPoseOffsetX, targetPos.Y() + visionPoseOffsetY, targetPos.Rotation()};
     
