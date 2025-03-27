@@ -17,14 +17,16 @@
 #include <Photon/PhotonPoseEstimator.h>
 #include <frc/Timer.h>
 #include <frc/smartdashboard/Field2d.h>
+#include <frc/Filesystem.h>
 
 class VisionSubsystem : public frc2::SubsystemBase 
 {
     public: 
     photon::PhotonCamera cameraOne{"leftCam"};
 
-  const frc::AprilTagFieldLayout kTagLayout{
-    frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::kDefaultField)};
+  std::string_view FieldNoBarge = "/home/lvuser/deploy/2025AprilTagsWithoutBargeTags.json";
+  const frc::AprilTagFieldLayout kTagLayout{FieldNoBarge};
+    
 
 frc::Transform3d robotToCam1 =
     frc::Transform3d(frc::Translation3d(0.16_m, 0.212_m, 0.21_m),
