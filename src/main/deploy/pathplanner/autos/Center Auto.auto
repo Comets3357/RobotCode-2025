@@ -9,30 +9,42 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "New Path"
+                  "name": "Algae Up"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Algae Up"
+                  "name": "Starting Reset"
                 }
               }
             ]
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "Center"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Attempt"
+            "name": "Aim L1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score L1"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Comp Autos",
   "choreoAuto": false
 }

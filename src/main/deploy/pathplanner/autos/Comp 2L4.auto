@@ -11,45 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Starttotlc"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Algae Start"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Algae Stop"
+                  "pathName": "First Half"
                 }
               },
               {
@@ -64,25 +26,68 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TLCtoHP"
+            "pathName": "Second Half"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 1.0
+            "name": "Attempt L4 Sequence"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "HPtoTLC"
+            "pathName": "HPpick UP"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Piece"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stop Intake Piece"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy of HPtoReef1"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Human Player Score Reef"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Old Autos",
+  "folder": "Comp Autos",
   "choreoAuto": false
 }

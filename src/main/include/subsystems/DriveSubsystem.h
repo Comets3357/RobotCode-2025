@@ -85,6 +85,8 @@ public:
    double GetChassisSpeed(); 
 
 
+
+
     /**
      * Returns the heading of the robot.
      *
@@ -135,12 +137,19 @@ public:
                            -DriveConstants::kTrackWidth / 2}};
 
     frc::Field2d m_field;
+    frc::Field2d m_fieldNoVision;
 
     void PoseEstimation();
 
+    void PoseEstimationNoVisionTest();
+
+    void UpdateNonVisionPose();
+
     void GoToPos(frc::Pose2d targetPos);
 
-    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE, units::angle::degree_t MOEangle); 
+    // void AutoAlignAroundReef();
+
+    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE = 0.03_m, units::angle::degree_t MOEangle = 1.5_deg); 
 
 private:
     // Components (e.g. motor controllers and sensors) should generally be
@@ -161,6 +170,8 @@ private:
 
     frc::Field2d m_mirrorField; 
 
+    void SetPointPositions(); 
+
     public:
     
 
@@ -171,9 +182,53 @@ private:
        m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
       frc::Pose2d{},
       {0.1, 0.1, 0.1},
-      {0.1, 0.1, 100}
+      {0.1, 0.1, 100.0}
+      };
+
+    frc::SwerveDrivePoseEstimator<4> m_poseEstimatorNoVision{
+      kDriveKinematics,
+      frc::Rotation2d{},
+      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+       m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
+      frc::Pose2d{},
+      {0.1, 0.1, 0.1},
+      {0.1, 0.1, 100.0}
       };
 
     std::vector<photon::EstimatedRobotPose> estimatedPoseVector;
+
+    /*
+        ALL poses will be such that if you were the human player on that side
+    */
+
+    frc::Pose2d BottomLeftRed{}; // auton score from human player
+    frc::Pose2d TopLeftRed{};
+    frc::Pose2d TopLeftBlue{};
+    frc::Pose2d BottomLeftBlue{}; 
+    frc::Pose2d TestingPointRed{};
+    frc::Pose2d left6{};
+    frc::Pose2d right6{};
+    frc::Pose2d left7{};
+    frc::Pose2d right7{};
+    frc::Pose2d left8{};
+    frc::Pose2d right8{};
+    frc::Pose2d left9{};
+    frc::Pose2d right9{};
+    frc::Pose2d left10{};
+    frc::Pose2d right10{};
+    frc::Pose2d left11{};
+    frc::Pose2d right11{};
+    frc::Pose2d testPos{};//{6_m, 4_m, frc::Rotation2d{180_deg}}; // initial auton score
+    units::meter_t MOE{0.03}; //= 0.03_m; 
+    units::degree_t MOErotation{1.5}; // = 1.5_deg; 
+    units::time::second_t bufferTime{5.0};
+
+    units::meter_t visionPoseOffsetX{0};
+    units::meter_t visionPoseOffsetY{0};
+    frc::Translation2d reefCenterBlue{4.4893_m, 4.0259_m};
+    frc::Translation2d reefCenterRed = reefCenterBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+
+
+    int initVisionUse = 0; 
   
 };

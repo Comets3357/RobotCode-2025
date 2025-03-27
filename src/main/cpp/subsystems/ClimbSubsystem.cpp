@@ -39,7 +39,7 @@ ClimbSubsystem::ClimbSubsystem(){
     climbMotor.setAbsolutePositionConversionFactor(360);
     climbMotor.setAbsoluteVelocityConversionFactor(6);
     climbMotor.setReverseSoftLimit(175); // absolute limit this is climb extension
-    climbMotor.setForwardSoftLimit(288); // absolute limit do not go farther than this
+    climbMotor.setForwardSoftLimit(292); // absolute limit do not go farther than this
     climbMotor.enableForwardSoftLimit(true);
     climbMotor.enableReverseSoftLimit(true);
     climbMotor.setPID(0.02,0,0);

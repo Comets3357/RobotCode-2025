@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 10.0,
-        "y": 6.0
+        "x": 6.310787671232877,
+        "y": 5.655286815068494
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.976498443925239,
-        "y": 5.654221025572505
+        "x": 5.104555731847361,
+        "y": 5.468232372007411
       },
       "isLocked": false,
-      "linkedName": "L6"
+      "linkedName": "MIDPOINT"
     },
     {
       "anchor": {
-        "x": 11.875,
-        "y": 5.019
+        "x": 5.319,
+        "y": 5.42990154109589
       },
       "prevControl": {
-        "x": 11.651659113476036,
-        "y": 5.131333647704908
+        "x": 5.76268433138964,
+        "y": 5.502110497586502
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TRR4"
+      "linkedName": "ENDPOINT"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 1.25,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -29.49
   },
   "reversed": false,
-  "folder": "Tests",
+  "folder": "COMP Paths",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 0.0
+    "velocity": 1.25,
+    "rotation": -29.49
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -1,0 +1,38 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right Side to Coral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Algae Up"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "left9 Score"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": "Comp Autos",
+  "choreoAuto": false
+}

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2532812499999988,
-        "y": 6.9593717447916665
+        "x": 1.97,
+        "y": 7.43
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7698911023013788,
-        "y": 6.419502805679564
+        "x": 2.48660985230138,
+        "y": 6.890131060887898
       },
       "isLocked": false,
       "linkedName": "HPTest1"
@@ -48,7 +48,7 @@
   "folder": "Tests",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 29.999999999999996
+    "rotation": 35.0
   },
   "useDefaultConstraints": true
 }

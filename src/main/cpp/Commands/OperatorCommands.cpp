@@ -1,17 +1,6 @@
-#include "Subsystems/ClimbSubsystem.h"
-#include "Subsystems/DriveSubsystem.h"
-#include "Subsystems/ElbowSubsystem.h"
-#include "Subsystems/ElevatorSubsystem.h"
-#include "Subsystems/IntakeSubsystem.h"
-#include "Subsystems/LEDSubsystem.h"
-#include "Subsystems/MAXSwerveModule.h"
-#include <frc2/command/button/CommandXboxController.h>
+#include "Commands/OperatorCommands.h"
 
-#include <frc2/command/Commands.h>
-#include <frc2/command/InstantCommand.h>
-#include <frc2/command/SequentialCommandGroup.h>
-#include "commands/IntakeCommands.h"
-#include "commands/ArmCommands.h"
+
 
 
 //   ____                       _               ____        _   _                  
@@ -97,14 +86,14 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     //.AlongWith(frc2::cmd::WaitUntil([=]{return m_elevator->ElevatorLimitPressed();}).IgnoringDisable(true))
     //.AndThen(frc2::cmd::RunOnce([=]{m_elevator->setSpeed(0); m_elevator->SetElevatorAbsolutePosition();},{m_elevator}).IgnoringDisable(true)));
 
-    m_driverController->A().OnTrue(frc2::cmd::RunOnce([=] {m_LED->hPlayerGround = true;}));
+   m_driverController->A().OnTrue(frc2::cmd::RunOnce([=] {m_LED->hPlayerGround = true;}));
     m_driverController->A().OnFalse(frc2::cmd::RunOnce([=] {m_LED->hPlayerGround = false;}));
 
      m_driverController->B().OnTrue(frc2::cmd::RunOnce([=] {m_LED->hPlayer = true;}));
     m_driverController->B().OnFalse(frc2::cmd::RunOnce([=] {m_LED->hPlayer = false;}));
 
 
-    m_driverController->Back().OnTrue(frc2::cmd::RunOnce([=] {m_elevator->setSpeed(-0.15);},{m_elevator}).IgnoringDisable(true)
+    m_driverController->Back().OnTrue(frc2::cmd::RunOnce([=] {m_elevator->setSpeed(-0.25);},{m_elevator}).IgnoringDisable(true)
     .AlongWith(frc2::cmd::WaitUntil([=]{return m_elevator->ElevatorLimitPressed();}).IgnoringDisable(true))
     .AndThen(frc2::cmd::RunOnce([=]{m_elevator->setSpeed(0); m_elevator->SetElevatorAbsolutePosition();},{m_elevator}).IgnoringDisable(true)));
 
@@ -191,15 +180,16 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
      .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() > (19.5);}))
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(240);}, {m_elbow}))
      .AlongWith(frc2::cmd::WaitUntil([=] {return m_elbow->getElbowAngle() > 235;}))
-     .AndThen(frc2::cmd::RunOnce([=] {m_climb->ClimbSetPercent(-0.3);}, {m_climb}))
-    ); 
+     .AndThen(frc2::cmd::RunOnce([=] {m_climb->ClimbSetPercent(-0.85);}))); 
 
     //On start false stop moving the climb
     m_secondaryController->Start().OnFalse(frc2::cmd::RunOnce([=]{m_climb->ClimbSetPercent(0);}, {m_climb})); 
        
     //On Back true slowly recline the climb to get off the ground, on false stop the climb.
-    m_secondaryController->Back().OnTrue(frc2::cmd::RunOnce([=] {m_climb->ClimbSetPercent(0.3);}, {m_climb}));
-    m_secondaryController->Back().OnFalse(frc2::cmd::RunOnce( [=] {m_climb->ClimbSetPercent(0);}, {m_climb}));
+
+    m_secondaryController->Back().OnTrue(frc2::cmd::RunOnce([=] {m_climb->ClimbSetPercent(0.6);}));
+    m_secondaryController->Back().OnFalse(frc2::cmd::RunOnce( [=] {m_climb->ClimbSetPercent(0);}));
+
 
     // OTHER BUTTONS
 

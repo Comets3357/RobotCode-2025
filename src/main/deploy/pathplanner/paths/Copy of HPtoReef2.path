@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.0,
-        "y": 7.0
+        "x": 4.015881147540983,
+        "y": 5.397592213114754
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.6815588831018509,
-        "y": 7.015973307291667
+        "x": 4.496966673856773,
+        "y": 4.92612839732528
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "MPfromHPtoReef"
     },
     {
       "anchor": {
-        "x": 1.5931235532407397,
-        "y": 7.0
+        "x": 3.878,
+        "y": 5.314
       },
       "prevControl": {
-        "x": 0.25643590952470685,
-        "y": 7.0
+        "x": 3.1403681506849312,
+        "y": 5.700363869863013
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -150.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "COMP Paths",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 0.0
+    "velocity": 1.25,
+    "rotation": 29.999999999999996
   },
   "useDefaultConstraints": true
 }

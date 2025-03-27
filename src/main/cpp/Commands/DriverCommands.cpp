@@ -1,18 +1,5 @@
-#include "Subsystems/ClimbSubsystem.h"
-#include "Subsystems/DriveSubsystem.h"
-#include "Subsystems/ElbowSubsystem.h"
-#include "Subsystems/ElevatorSubsystem.h"
-#include "Subsystems/IntakeSubsystem.h"
-#include "Subsystems/LEDSubsystem.h"
-#include "Subsystems/MAXSwerveModule.h"
-#include <frc2/command/button/CommandXboxController.h>
+#include "Commands/DriverCommands.h"
 
-#include <frc2/command/Commands.h>
-#include "RobotContainer.h"
-
-#include <frc2/command/InstantCommand.h>
-#include <frc2/command/SequentialCommandGroup.h>
-#include "commands/IntakeCommands.h"
                                                                     
 void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
                     ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED, 
@@ -62,7 +49,19 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     //Halves the speed of swerve 
     m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
     m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
-    //   ____  _   _                 ____        _   _                  
+
+  // m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->right8);}, {m_drive})); 
+   //m_driverController->B().OnTrue(frc2::cmd::RunOnce([=] {m_drive->UpdateNonVisionPose();}, {m_drive}));
+    //m_driverController->A().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
+
+   // m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos((frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) ? m_drive->TopLeftBlue : m_drive->TopLeftRed);}, {m_drive})); 
+    //m_driverController->B().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
+
+    // m_driverController->POVUp().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY += 0.02_m;}));
+    // m_driverController->POVDown().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY -= 0.02_m;}));
+    // m_driverController->POVLeft().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetX -= 0.02_m;}));
+    // m_driverController->POVRight().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetX += 0.02_m;}));
+    //   ____  _   _                 ____        _   _             
     //  / __ \| | | |               |  _ \      | | | |                 
     // | |  | | |_| |__   ___ _ __  | |_) |_   _| |_| |_ ___  _ __  ___ 
     // | |  | | __| '_ \ / _ \ '__| |  _ <| | | | __| __/ _ \| '_ \/ __|
