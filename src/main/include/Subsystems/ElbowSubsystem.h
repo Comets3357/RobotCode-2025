@@ -5,8 +5,8 @@
 #include <frc/controller/PIDController.h>
 #include "wrapperclasses/SparkMaxMotor.h"
 #include "wrapperclasses/SparkFlexMotor.h"
-//#include "grpl/CanBridge.h"
-//#include "grpl/LaserCan.h"
+#include "grpl/CanBridge.h"
+#include "grpl/LaserCan.h"
 
 class ElbowSubsystem : public frc2::SubsystemBase {
 public:
@@ -32,10 +32,13 @@ public:
 
     bool isCompBot = true;
 
+    //Laser CAN awful 
+    double sideOne;
+    double sideTwo;
+
 
     //initalizing measurement vehicles
-    // std::optional<grpl::LaserCanMeasurement> vertMeasurement;
-    // std::optional<grpl::LaserCanMeasurement> horizMeasurement;
+    std::optional<grpl::LaserCanMeasurement> laserCANMeasurement;
 
     //
     //setters
@@ -58,8 +61,13 @@ public:
     //sets the gripper pivot speed
     void setWristSpeed(double speed);
 
-    // Devansh's function to rotate wrist
-    void WristRotate();
+    //flips the wrist 180 degrees from one side of placement
+    //position to the other side
+    void placementRotate();
+
+    //flips the wrist 180 degrees from one side of the LaserCAN detection side
+    //to the other side
+    void detectionRotate();
 
     //gripper setters
 
@@ -67,6 +75,13 @@ public:
     void setRollerSpeed(double speed);
 
     void setWristTarget();
+
+    void WristRotate();
+
+    //LaserCAN
+
+    void setSideOne(double value);
+    void setSideTwo(double value);
     
     //
     //getters
@@ -100,9 +115,21 @@ public:
     //is game piece detected via the distance sensor
     bool isGamePieceDetected();
 
+    //is flip of wrist necessary for auton
+    bool isAutonWristFlipValid();
+
+    double arctanAngle(double tempDiff);
+
+    double getDistanceMeasurement();
+
     //getting the measurement of the horizontal and vertical distance measurements
-    // std::optional<grpl::LaserCanMeasurement>  getHorizontalDistanceMeasurement();
+    std::optional<grpl::LaserCanMeasurement>  getLaserCANMeasurement();
     // std::optional<grpl::LaserCanMeasurement>  getVerticalDistanceMeasurement();
+
+    //LaserCAN
+
+    double getSideOne();
+    double getSideTwo();
 
     void Periodic() override;
 private:
@@ -113,8 +140,7 @@ private:
 
     bool flip;
 
-    // grpl::LaserCan LaserCanVertical{19};
-    // grpl::LaserCan LaserCanHorizontal{20};
+    grpl::LaserCan LaserCAN{19};
 
 
 };
