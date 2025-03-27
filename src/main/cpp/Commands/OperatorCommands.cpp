@@ -127,12 +127,12 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
 
      m_secondaryController->POVUp().OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
      .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
-     .AndThen(wristRotateLeft(m_elbow, m_driverController, m_secondaryController, 240))
+     .AndThen(wristRotateLeft(m_elbow, m_driverController, m_secondaryController, 239))
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(270); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
 
       (m_secondaryController->POVUp() && m_secondaryController->LeftBumper()).OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
      .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
-     .AndThen(wristRotateRight(m_elbow, m_driverController, m_secondaryController, 120))
+     .AndThen(wristRotateRight(m_elbow, m_driverController, m_secondaryController, 121))
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(90); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
 
     m_secondaryController->RightBumper().OnFalse(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);},{m_elbow})
@@ -173,13 +173,13 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     //Moves elbow parallel to ground
     //If right trigger is pressed rollers score.
     m_secondaryController->POVDown().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0); m_elbow->setElbowAngle(255);}, {m_elbow})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_secondaryController->GetHID().GetRightBumperButton();}))
+    .AndThen(lowLevelWristRotate(m_elbow, m_driverController, m_secondaryController, 270))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(-0.25);}, {m_elbow}))
     );
 
-    (m_secondaryController->POVDown() && m_secondaryController->LeftBumper()).OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0); m_elbow->setElbowAngle(105);})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_secondaryController->GetHID().GetRightBumperButton();}))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(-0.25);}))
+    (m_secondaryController->POVDown() && m_secondaryController->LeftBumper()).OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(105);})
+    .AndThen(lowLevelWristRotate(m_elbow, m_driverController, m_secondaryController, 90))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(-0.25);}, {m_elbow}))
     );
                      
     // START / BACK BUTTON CONTROLS
