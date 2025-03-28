@@ -142,25 +142,21 @@ void DriveSubsystem::PoseEstimation() {
 
     double distancePose = (double)(GetPose().Translation().Distance(reefCenterBlue) - 2.5_ft/*BLUE REEF*/ ); 
     
+    if (percentSpeed < 0.2){
+        StdDev = 0.1 * pow(10, distancePose);
+    } else if (percentSpeed < 0.40)
+    {
+        StdDev = 0.5 * pow(10, distancePose);
 
-    if (distancePose > 3)
-    {
-        StdDev += 500; 
-    } 
-    else if (distancePose > 2)
-    {
-        StdDev += 50;
-    }
-
-    if (distancePose < 1 && chassisSpeeds < 0.5)
-    {
-        StdDev = 0.9;
+    } else{
+        StdDev = 1000; 
     }
 
     if (frc::DriverStation::IsDisabled())
     {
-        StdDev = 1.2; 
+        StdDev = 0.2; 
     }
+    
         
 
     frc::SmartDashboard::PutNumber("STDDEV", StdDev); 
@@ -452,4 +448,36 @@ void DriveSubsystem::SetPointPositions()
 
     left9 = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{30_deg}};//TopLeftRed.RotateAround(reefCenterRed, frc::Rotation2d{-120_deg}); 
     right8 = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{-30_deg}};
+
+
+
+    right18 = frc::Pose2d{3.08_m, 3.85_m, frc::Rotation2d{90_deg}};
+    left20 = frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; 
+
+
+    right17 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
+    right22 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg});
+    right21 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{180_deg});  
+    right20 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
+    right19 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
+
+    left19 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
+    left18 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg}); 
+    left17 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{180_deg}); 
+    left22 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
+    left21 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
+
+
+
+// frc::Pose2d left17{};
+// //frc::Pose2d right18{};
+// frc::Pose2d left18{};
+// frc::Pose2d right19{};
+// frc::Pose2d left19{};
+// frc::Pose2d right20{};
+// //frc::Pose2d left20{};
+// frc::Pose2d right21{};
+// frc::Pose2d left21{};
+// frc::Pose2d right22{};
+// frc::Pose2d left22{};
 }

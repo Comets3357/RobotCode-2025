@@ -218,6 +218,22 @@ private:
     frc::Pose2d right10{};
     frc::Pose2d left11{};
     frc::Pose2d right11{};
+/*
+BLUE SIDE
+*/
+    frc::Pose2d right17{};
+frc::Pose2d left17{};
+frc::Pose2d right18{};
+frc::Pose2d left18{};
+frc::Pose2d right19{};
+frc::Pose2d left19{};
+frc::Pose2d right20{};
+frc::Pose2d left20{};
+frc::Pose2d right21{};
+frc::Pose2d left21{};
+frc::Pose2d right22{};
+frc::Pose2d left22{};
+
     frc::Pose2d testPos{};//{6_m, 4_m, frc::Rotation2d{180_deg}}; // initial auton score
     units::meter_t MOE{0.03}; //= 0.03_m; 
     units::degree_t MOErotation{1.5}; // = 1.5_deg; 

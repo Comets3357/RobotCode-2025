@@ -50,7 +50,15 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
     m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
 
-  // m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->right8);}, {m_drive})); 
+  m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left17);}, {m_drive})); 
+  m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left19);}, {m_drive})); 
+  m_driverController->X().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left18);}, {m_drive})); 
+  m_driverController->Y().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left22);}, {m_drive})); 
+  
+  m_driverController->RightBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left20);}, {m_drive})); 
+  m_driverController->LeftBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left21);}, {m_drive})); 
+
+
    //m_driverController->B().OnTrue(frc2::cmd::RunOnce([=] {m_drive->UpdateNonVisionPose();}, {m_drive}));
     //m_driverController->A().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
 
@@ -83,12 +91,12 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     //RIGHT BUMPER
     //Auto Aligns robot to a certain angle
     //preferably used to align robot to human player station
-    m_driverController->RightBumper().WhileTrue(rotateTo(m_drive, 144_deg, m_driverController));
+   // m_driverController->RightBumper().WhileTrue(rotateTo(m_drive, 144_deg, m_driverController));
 
     //LEFT BUMPER
     //Auto Aligns robot to a certain angle
     //preferably used to align robot to human player station
-    m_driverController->LeftBumper().WhileTrue(rotateTo(m_drive, 36_deg, m_driverController));
+    //m_driverController->LeftBumper().WhileTrue(rotateTo(m_drive, 36_deg, m_driverController));
 
 }
 
