@@ -141,8 +141,11 @@ void DriveSubsystem::PoseEstimation() {
     }
 
     double distancePose = (double)(GetPose().Translation().Distance(reefCenterBlue) - 2.5_ft/*BLUE REEF*/ ); 
-    
-    if (percentSpeed < 0.2){
+    if (percentSpeed < 0.1)
+    {
+          StdDev = 1.0; 
+    }
+    else if (percentSpeed < 0.2){
         StdDev = 0.1 * pow(10, distancePose);
     } else if (percentSpeed < 0.40)
     {
