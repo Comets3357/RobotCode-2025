@@ -20,7 +20,8 @@ frc2::CommandPtr wristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxContr
         }},
 
     [=](bool interrupt){},
-    [=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr();
+    [=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr()
+    .HandleInterrupt([this]{});
 }
 
 //forces wrist rotation to rotate to the right, takes in diff. subsystems for the function
@@ -42,7 +43,31 @@ frc2::CommandPtr wristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxCont
         }},
 
     [=](bool interrupt){},
-    [=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr();
+    [=](){return m_secondaryController->GetHID().GetRightBumperButton();},{m_elbow}).ToPtr()
+    .HandleInterrupt([this]
+    {
+        int pov = POVCheck(frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController)
+
+        if (pov = 1 || pov = 2 || pov =3 || pov = 4)
+        {
+            m_elbow->setWristAngle(95); 
+        }
+    });
+}
+
+double POVCheck(frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController) {
+    double latest = m_secondaryController->GetHID().GetPOV();
+
+    if (latest == 0)  
+        return 1; 
+    if (latest == 90)  
+        return 2; 
+    if (latest == 180)  
+        return 3;  
+    if (latest == 270)  
+        return 4;    
+
+    return 0;  // Return 0 if no valid POV direction is pressed
 }
 
 // frc2::CommandPtr autonWristRotation(ElbowSubsystem* m_elbow, double idle)
