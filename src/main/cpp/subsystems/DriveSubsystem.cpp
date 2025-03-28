@@ -459,7 +459,12 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
             double tempDist; 
             for (it = leftBluePoses.begin(); it != leftBluePoses.end(); ++i)
             {
-                tempDist = *i
+                tempDist = *it.distance(reefCenterBlue); 
+                if (tempDist < shortestDistance)
+                {
+                    shortestDistance = tempDist;
+                    temp = *it; 
+                }
             }
             
         } 
