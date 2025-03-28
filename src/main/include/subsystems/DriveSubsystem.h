@@ -151,6 +151,10 @@ public:
 
     bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE = 0.03_m, units::angle::degree_t MOEangle = 1.5_deg); 
 
+    double GetDistance(frc::Pose2d target); // in meters
+    double GetDistance(frc::Translation2d target); // in meters 
+    frc::Pose2d findNearestTarget(bool isLeftSide); 
+
 private:
     // Components (e.g. motor controllers and sensors) should generally be
     // declared private and exposed only through public methods.
@@ -165,13 +169,16 @@ private:
     frc::Pose2d EstPose1;
     frc::Pose2d EstPose2;
 
-    //redux::sensors::canandgyro::Canandgyro m_gyro{9};
     GyroWrapper m_gyro; 
 
     frc::Field2d m_mirrorField; 
 
     void SetPointPositions(); 
 
+    std::vector<frc::Pose2d> leftBluePoses; 
+    std::vector<frc::Pose2d> rightBluePoses; 
+    std::vector<frc::Pose2d> leftRedPoses; 
+    std::vector<frc::Pose2d> rightRedPoses;
     public:
     
 
@@ -203,9 +210,8 @@ private:
 
     frc::Pose2d BottomLeftRed{}; // auton score from human player
     frc::Pose2d TopLeftRed{};
-    frc::Pose2d TopLeftBlue{};
-    frc::Pose2d BottomLeftBlue{}; 
-    frc::Pose2d TestingPointRed{};
+
+    // RED POINTS
     frc::Pose2d left6{};
     frc::Pose2d right6{};
     frc::Pose2d left7{};
@@ -218,23 +224,21 @@ private:
     frc::Pose2d right10{};
     frc::Pose2d left11{};
     frc::Pose2d right11{};
-/*
-BLUE SIDE
-*/
-    frc::Pose2d right17{};
-frc::Pose2d left17{};
-frc::Pose2d right18{};
-frc::Pose2d left18{};
-frc::Pose2d right19{};
-frc::Pose2d left19{};
-frc::Pose2d right20{};
-frc::Pose2d left20{};
-frc::Pose2d right21{};
-frc::Pose2d left21{};
-frc::Pose2d right22{};
-frc::Pose2d left22{};
 
-    frc::Pose2d testPos{};//{6_m, 4_m, frc::Rotation2d{180_deg}}; // initial auton score
+    // BLUE POINTS
+    frc::Pose2d right17{};
+    frc::Pose2d left17{};
+    frc::Pose2d right18{}; 
+    frc::Pose2d left18{};
+    frc::Pose2d right19{};
+    frc::Pose2d left19{};
+    frc::Pose2d right20{};
+    frc::Pose2d left20{};
+    frc::Pose2d right21{};
+    frc::Pose2d left21{};
+    frc::Pose2d right22{};
+    frc::Pose2d left22{};
+
     units::meter_t MOE{0.03}; //= 0.03_m; 
     units::degree_t MOErotation{1.5}; // = 1.5_deg; 
     units::time::second_t bufferTime{5.0};
@@ -244,7 +248,6 @@ frc::Pose2d left22{};
     frc::Translation2d reefCenterBlue{4.4893_m, 4.0259_m};
     frc::Translation2d reefCenterRed = reefCenterBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
 
-
-    int initVisionUse = 0; 
+    bool isBlueAlliance = true; 
   
 };
