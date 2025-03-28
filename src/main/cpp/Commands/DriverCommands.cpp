@@ -50,13 +50,14 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
     m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
 
-  m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left17);}, {m_drive})); 
-  m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left19);}, {m_drive})); 
-  m_driverController->X().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left18);}, {m_drive})); 
-  m_driverController->Y().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left22);}, {m_drive})); 
+//   m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left17);}, {m_drive})); 
+//   m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left19);}, {m_drive})); 
+//   m_driverController->X().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left18);}, {m_drive})); 
+//   m_driverController->Y().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left22);}, {m_drive})); 
   
-  m_driverController->RightBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left20);}, {m_drive})); 
-  m_driverController->LeftBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left21);}, {m_drive})); 
+   m_driverController->RightBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->findNearestTarget(false));}, {m_drive})); 
+   m_driverController->LeftBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->findNearestTarget(true));}, {m_drive})); 
+
 
 
    //m_driverController->B().OnTrue(frc2::cmd::RunOnce([=] {m_drive->UpdateNonVisionPose();}, {m_drive}));

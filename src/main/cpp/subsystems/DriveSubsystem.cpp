@@ -101,13 +101,8 @@ void DriveSubsystem::Periodic()
     PoseEstimationNoVisionTest();
     frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
     frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
-    // frc::SmartDashboard::PutNumber("Bottom red left X", (double)BottomLeftRed.X());
-    // frc::SmartDashboard::PutNumber("Bottom red left Y", (double)BottomLeftRed.Y());
 
-    // frc::SmartDashboard::PutNumber("Top red left X", (double)TopLeftRed.X());
-    // frc::SmartDashboard::PutNumber("Top red left Y", (double)TopLeftRed.Y());
     // frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
-    // frc::SmartDashboard::PutNumber("Drive X (m):", m_poseEstimator.GetPose().Translation().X().value());
     
 }
 
@@ -409,7 +404,6 @@ double DriveSubsystem::GetDistance(frc::Translation2d target)
 
 
 
-
 bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE, units::angle::degree_t MOEangle)
 {
         bool xInRange = false;
@@ -449,7 +443,6 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
  frc::Pose2d DriveSubsystem::findNearestTarget(bool isLeftSide)
  {
     frc::Pose2d temp{}; 
-    std::vector<frc::Pose2d>::const_iterator it;
     double shortestDistance = 100000000; 
     
     if (isLeftSide)
@@ -457,36 +450,58 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
         if (isBlueAlliance)
         {
             double tempDist; 
-            for (it = leftBluePoses.begin(); it != leftBluePoses.end(); ++i)
+            for (auto i = leftBluePoses.begin(); i != leftBluePoses.end(); i.operator++())
             {
-                tempDist = *it.distance(reefCenterBlue); 
+                tempDist = GetDistance(*i); 
+                
                 if (tempDist < shortestDistance)
                 {
                     shortestDistance = tempDist;
-                    temp = *it; 
+                    temp = *i; 
                 }
             }
-            
-        } 
-        else
-        {
-
+        } else {
+             double tempDist; 
+            for (auto i = leftRedPoses.begin(); i != leftRedPoses.end(); i.operator++())
+            {
+                tempDist = GetDistance(*i); 
+                
+                if (tempDist < shortestDistance)
+                {
+                    shortestDistance = tempDist;
+                    temp = *i; 
+                }
+            }
         }
-    }
-    else
-    {
+    } else {
          if (isBlueAlliance)
         {
-
-        } 
-        else
-        {
-
+             double tempDist; 
+            for (auto i = rightBluePoses.begin(); i != rightBluePoses.end(); i.operator++())
+            {
+                tempDist = GetDistance(*i); 
+                
+                if (tempDist < shortestDistance)
+                {
+                    shortestDistance = tempDist;
+                    temp = *i; 
+                }
+            }
+        } else {
+             double tempDist; 
+            for (auto i = rightRedPoses.begin(); i != rightRedPoses.end(); i.operator++())
+            {
+                tempDist = GetDistance(*i); 
+                
+                if (tempDist < shortestDistance)
+                {
+                    shortestDistance = tempDist;
+                    temp = *i; 
+                }
+            }
         }
     }
-
     return temp; 
-    
  }
 
 void DriveSubsystem::SetPointPositions()
