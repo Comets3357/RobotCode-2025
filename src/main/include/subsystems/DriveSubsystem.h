@@ -156,6 +156,8 @@ public:
     double GetDistance(frc::Translation2d target); // in meters 
     frc::Pose2d findNearestTarget(bool isLeftSide); 
 
+    bool ArmGoToLeftSide(); 
+
   
 
 private:
