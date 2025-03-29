@@ -55,8 +55,10 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
 //   m_driverController->X().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left18);}, {m_drive})); 
 //   m_driverController->Y().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left22);}, {m_drive})); 
   
-   m_driverController->RightBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->findNearestTarget(false));}, {m_drive})); 
-   m_driverController->LeftBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->findNearestTarget(true));}, {m_drive})); 
+   m_driverController->RightBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->AutoAlignPose = m_drive->findNearestTarget(false); m_drive->GoToPos(m_drive->AutoAlignPose); m_drive->isAutoAligning = true; }, {m_drive})); 
+   m_driverController->RightBumper().OnFalse(frc2::cmd::RunOnce([=]{m_drive->AutoAlignPose = frc::Pose2d{}; m_drive->isAutoAligning = false;})); 
+   m_driverController->LeftBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->AutoAlignPose = m_drive->findNearestTarget(true); m_drive->GoToPos(m_drive->AutoAlignPose); m_drive->isAutoAligning = true;}, {m_drive})); 
+   m_driverController->LeftBumper().OnFalse(frc2::cmd::RunOnce([=]{m_drive->AutoAlignPose = frc::Pose2d{}; m_drive->isAutoAligning = false;})); 
 
 
 
