@@ -450,26 +450,26 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
         if (isBlueAlliance)
         {
             double tempDist; 
-            for (auto i = leftBluePoses.begin(); i != leftBluePoses.end(); i.operator++())
+            for (frc::Pose2d i: leftBluePoses)
             {
-                tempDist = GetDistance(*i); 
+                tempDist = GetDistance(i); 
                 
                 if (tempDist < shortestDistance)
                 {
                     shortestDistance = tempDist;
-                    temp = *i; 
+                    temp = i; 
                 }
             }
         } else {
              double tempDist; 
-            for (auto i = leftRedPoses.begin(); i != leftRedPoses.end(); i.operator++())
+            for (frc::Pose2d i: leftRedPoses)
             {
-                tempDist = GetDistance(*i); 
+                tempDist = GetDistance(i); 
                 
                 if (tempDist < shortestDistance)
                 {
                     shortestDistance = tempDist;
-                    temp = *i; 
+                    temp = i; 
                 }
             }
         }
@@ -477,26 +477,26 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
          if (isBlueAlliance)
         {
              double tempDist; 
-            for (auto i = rightBluePoses.begin(); i != rightBluePoses.end(); i.operator++())
+            for (frc::Pose2d i: rightBluePoses)
             {
-                tempDist = GetDistance(*i); 
+                tempDist = GetDistance(i); 
                 
                 if (tempDist < shortestDistance)
                 {
                     shortestDistance = tempDist;
-                    temp = *i; 
+                    temp = i; 
                 }
             }
         } else {
              double tempDist; 
-            for (auto i = rightRedPoses.begin(); i != rightRedPoses.end(); i.operator++())
+            for (frc::Pose2d i: rightRedPoses)
             {
-                tempDist = GetDistance(*i); 
+                tempDist = GetDistance(i); 
                 
                 if (tempDist < shortestDistance)
                 {
                     shortestDistance = tempDist;
-                    temp = *i; 
+                    temp = i; 
                 }
             }
         }
