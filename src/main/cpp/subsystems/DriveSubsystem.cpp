@@ -139,7 +139,7 @@ void DriveSubsystem::PoseEstimation() {
 
     if (percentSpeed < 0.1)
     {
-        StdDev = 1.0; 
+        StdDev = 2.0; 
     }
     else if (percentSpeed < 0.2){
         StdDev = 0.1 * pow(10, distancePose);
@@ -501,6 +501,10 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
             }
         }
     }
+
+    double heading = GetGyroHeading().Degrees();
+    temp.r
+
     return temp; 
  }
 
@@ -514,7 +518,7 @@ void DriveSubsystem::SetPointPositions()
     right8 = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{-30_deg}};
 
     right18 = frc::Pose2d{3.08_m, 3.85_m, frc::Rotation2d{90_deg}};     // set points on blue side right
-    left20 = frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}};   // set points on blue side left
+    left20 = frc::Pose2d{5.354_m, 5.197_m, frc::Rotation2d{-30_deg}};   // set points on blue side left
 
     right17 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
     right22 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg});

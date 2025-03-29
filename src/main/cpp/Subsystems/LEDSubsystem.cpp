@@ -52,21 +52,28 @@ void LEDSubsystem::Periodic()
         }
         else if (comms) // if we have comms it will be green
         {
-            green.ApplyTo(LED_DATA);
-            LED1.SetData(LED_DATA);
-            // red.ApplyTo(LED_DATA);
-            LED = "Comms but disabled";
+            // green.ApplyTo(LED_DATA);
+            // LED1.SetData(LED_DATA);
+            // // red.ApplyTo(LED_DATA);
+            // LED = "Comms but disabled";
             // LED2.SetData(LED_DATA);
+
+            LED = "Comms";
+
+            scrollAndBreathe.ApplyTo(LED_DATA);
+            LED1.SetData(LED_DATA);
         }
         else // if we don't have commms it will be red
         {
             //red.ApplyTo(LED_DATA);
             //LED1.SetData(LED_DATA);
-            LED = "No Comms";
+            // LED = "No Comms";
 
-            scrollAndBreathe.ApplyTo(LED_DATA);
-            LED1.SetData(LED_DATA);
+            // scrollAndBreathe.ApplyTo(LED_DATA);
+            // LED1.SetData(LED_DATA);
             // LED2.SetData(LED_DATA);
+             scrollRainbow.ApplyTo(LED_DATA); 
+        LED1.SetData(LED_DATA);
         }
        
     }
@@ -75,7 +82,7 @@ void LEDSubsystem::Periodic()
         if (m_drive->isAutoAligning)
         {
             double dist = m_drive->GetDistance(m_drive->AutoAlignPose);
-            if (dist >= 1)
+            if (dist >= 2)
             {
                 //LEDS DO NOTHING
             } else if (m_drive->inRange(m_drive->GetPose(), m_drive->AutoAlignPose)){
@@ -86,9 +93,10 @@ void LEDSubsystem::Periodic()
                 
                 if (m_drive->inRange(m_drive->GetPose(), m_drive->AutoAlignPose))
                 {
-                    
+                    blinkGreen.ApplyTo(LED_DATA);
+                    LED1.SetData(LED_DATA); 
                 } else {
-                frc::LEDPattern progressToTarget = green.ProgressMaskLayer([=]{ return (1 - dist) / 1;}); 
+                frc::LEDPattern progressToTarget = green.ProgressMaskLayer([=]{ return (2 - dist) / 2;}); 
                 progressToTarget.ApplyTo(LED_DATA);
                 LED1.SetData(LED_DATA); 
                 }
@@ -160,3 +168,5 @@ void LEDSubsystem::Periodic()
         default = white
 
 */
+
+// (.) (.)

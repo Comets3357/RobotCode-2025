@@ -220,6 +220,9 @@ std::optional<grpl::LaserCanMeasurement> ElbowSubsystem::getLaserCANMeasurement(
 bool ElbowSubsystem::isGamePieceDetected() {
 
     double tempDistanceMeasurement;
+    double wristAngle = getWristAngle();
+
+
 
     if (ElbowSubsystem::getLaserCANMeasurement().has_value()) {
         tempDistanceMeasurement = getLaserCANMeasurement().value().distance_mm;
@@ -227,11 +230,14 @@ bool ElbowSubsystem::isGamePieceDetected() {
         tempDistanceMeasurement = 1000;
     }
 
-    if (tempDistanceMeasurement < 90) {
-        return true;
+    if (wristAngle > 179 && wristAngle < 181) {
+        if (tempDistanceMeasurement < 90) {
+            return true;
+            } 
     } else {
         return false;
     }
+
 }
 
 bool ElbowSubsystem::isAutonWristFlipValid() {

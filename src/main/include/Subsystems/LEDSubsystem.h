@@ -61,7 +61,7 @@ class LEDSubsystem : public frc2::SubsystemBase
     frc::LEDPattern silver = frc::LEDPattern::Solid(silverColor);
 
     // patterns // 
-    frc::LEDPattern teamColorsGradient = frc::LEDPattern::Gradient(frc::LEDPattern::GradientType::kContinuous, colors);
+    frc::LEDPattern teamColorsGradient = frc::LEDPattern::Gradient(frc::LEDPattern::GradientType::kDiscontinuous, colors);
 
     frc::LEDPattern scroll = teamColorsGradient.ScrollAtRelativeSpeed(units::hertz_t{0.2});
     frc::LEDPattern scrollAndBreathe = scroll.Breathe(2_s); 
