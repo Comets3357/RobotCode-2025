@@ -156,6 +156,8 @@ public:
     double GetDistance(frc::Translation2d target); // in meters 
     frc::Pose2d findNearestTarget(bool isLeftSide); 
 
+  
+
 private:
     // Components (e.g. motor controllers and sensors) should generally be
     // declared private and exposed only through public methods.
@@ -173,6 +175,7 @@ private:
     GyroWrapper m_gyro; 
 
     frc::Field2d m_mirrorField; 
+    frc::Field2d NearestTarget;
 
     void SetPointPositions(); 
 
@@ -225,6 +228,19 @@ private:
     frc::Pose2d right10{};
     frc::Pose2d left11{};
     frc::Pose2d right11{};
+    
+    frc::Pose2d left6L{};
+    frc::Pose2d right6L{};
+    frc::Pose2d left7L{};
+    frc::Pose2d right7L{};
+    frc::Pose2d left8L{};
+    frc::Pose2d right8L{};
+    frc::Pose2d left9L{};
+    frc::Pose2d right9L{};
+    frc::Pose2d left10L{};
+    frc::Pose2d right10L{};
+    frc::Pose2d left11L{};
+    frc::Pose2d right11L{};
 
     // BLUE POINTS
     frc::Pose2d right17{};
@@ -239,6 +255,19 @@ private:
     frc::Pose2d left21{};
     frc::Pose2d right22{};
     frc::Pose2d left22{};
+    
+    frc::Pose2d right17L{};
+    frc::Pose2d left17L{};
+    frc::Pose2d right18L{}; 
+    frc::Pose2d left18L{};
+    frc::Pose2d right19L{};
+    frc::Pose2d left19L{};
+    frc::Pose2d right20L{};
+    frc::Pose2d left20L{};
+    frc::Pose2d right21L{};
+    frc::Pose2d left21L{};
+    frc::Pose2d right22L{};
+    frc::Pose2d left22L{};
 
      frc::Pose2d AutoAlignPose{}; 
 

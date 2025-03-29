@@ -502,8 +502,37 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
         }
     }
 
-    double heading = GetGyroHeading().Degrees();
-    temp.r
+    double angleDiff = (double)(GetGyroHeading().Degrees() - temp.Rotation().Degrees()); 
+
+    if (angleDiff > 90)
+    {
+    if (temp == right6) temp = right6L;
+    else if (temp == left6) temp = left6L;
+    else if (temp == right7) temp = right7L;
+    else if (temp == left7) temp = left7L;
+    else if (temp == right8) temp = right8L;
+    else if (temp == left8) temp = left8L;
+    else if (temp == right9) temp = right9L;
+    else if (temp == left9) temp = left9L;
+    else if (temp == right10) temp = right10L;
+    else if (temp == left10) temp = left10L;
+    else if (temp == right11) temp = right11L;
+    else if (temp == left11) temp = left11L;
+    else if (temp == right17) temp = right17L;
+    else if (temp == left17) temp = left17L;
+    else if (temp == right18) temp = right18L;
+    else if (temp == left18) temp = left18L;
+    else if (temp == right19) temp = right19L;
+    else if (temp == left19) temp = left19L;
+    else if (temp == right20) temp = right20L;
+    else if (temp == left20) temp = left20L;
+    else if (temp == right21) temp = right21L;
+    else if (temp == left21) temp = left21L;
+    else if (temp == right22) temp = right22L;
+    else if (temp == left22) temp = left22L;
+    }
+    NearestTarget.SetRobotPose(temp); // Update the field with temp pose
+    frc::SmartDashboard::PutData("Nearest Target", &NearestTarget);
 
     return temp; 
  }
@@ -514,11 +543,42 @@ void DriveSubsystem::SetPointPositions()
     TopLeftRed = frc::Pose2d{12.48_m, 2.6848_m, frc::Rotation2d{150_deg}}; 
     BottomLeftRed =  frc::Pose2d{13.554352_m, 2.7912_m, frc::Rotation2d{-150_deg}}; 
 
-    left9 = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{30_deg}};
-    right8 = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{-30_deg}};
 
+    // set points on red side
+    left7 = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{210_deg}};      
+    right7 = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{150_deg}};
+
+    left7L = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{210_deg}};
+    right7L = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{150_deg}};
+
+    left8 = left7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    right8 = right7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    left9 = left7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    right9 = right7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    left10 = left7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    right10 = right7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    left11 = left7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    right11 = right7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    left6 = left7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    right6 = right7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
+    left8L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    right8L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    left9L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    right9L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    left10L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    right10L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    left11L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    right11L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    left6L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    right6L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
+    // set points on blue side
     right18 = frc::Pose2d{3.08_m, 3.85_m, frc::Rotation2d{90_deg}};     // set points on blue side right
     left20 = frc::Pose2d{5.354_m, 5.197_m, frc::Rotation2d{-30_deg}};   // set points on blue side left
+
+    right18L = frc::Pose2d{3.08_m, 3.85_m, frc::Rotation2d{90_deg}};
+    left20L = frc::Pose2d{5.354_m, 5.197_m, frc::Rotation2d{-30_deg}};
 
     right17 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
     right22 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg});
@@ -531,6 +591,32 @@ void DriveSubsystem::SetPointPositions()
     left22 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
     left21 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
 
+    right17L = right18L.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
+    right22L = right18L.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg});
+    right21L = right18L.RotateAround(reefCenterBlue, frc::Rotation2d{180_deg});  
+    right20L = right18L.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
+    right19L = right18L.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
+    left19L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
+    left18L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg}); 
+    left17L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{180_deg}); 
+    left22L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
+    left21L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
+    
+    // creates vector for closest tag function
+    rightRedPoses.push_back(right6);
+    rightRedPoses.push_back(right7);
+    rightRedPoses.push_back(right8);
+    rightRedPoses.push_back(right9);
+    rightRedPoses.push_back(right10);
+    rightRedPoses.push_back(right11);
+
+    leftRedPoses.push_back(left6);
+    leftRedPoses.push_back(left7);
+    leftRedPoses.push_back(left8);
+    leftRedPoses.push_back(left9);
+    leftRedPoses.push_back(left10);
+    leftRedPoses.push_back(left11);
+    
     rightBluePoses.push_back(right17); 
     rightBluePoses.push_back(right18); 
     rightBluePoses.push_back(right19); 
@@ -544,4 +630,6 @@ void DriveSubsystem::SetPointPositions()
     leftBluePoses.push_back(left20); 
     leftBluePoses.push_back(left21); 
     leftBluePoses.push_back(left22); 
+
+
 }

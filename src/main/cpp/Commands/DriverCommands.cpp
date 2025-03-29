@@ -71,7 +71,7 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     m_driverController->POVUp().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY += 0.02_m * 0.5; m_drive->visionPoseOffsetX -= 0.02_m * 0.866;}));
     m_driverController->POVDown().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY -= 0.02_m * 0.5; m_drive->visionPoseOffsetX += 0.02_m * 0.866;}));
     m_driverController->POVLeft().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetX += 0.02_m * 0.5; m_drive->visionPoseOffsetY -= 0.02_m * 0.866;}));
-    m_driverController->POVRight().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetx -= 0.02_m * 0.5; m_drive->visionPoseOffsetY += 0.02_m * 0.866;}));
+    m_driverController->POVRight().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetX -= 0.02_m * 0.5; m_drive->visionPoseOffsetY += 0.02_m * 0.866;}));
     //   ____  _   _                 ____        _   _             
     //  / __ \| | | |               |  _ \      | | | |                 
     // | |  | | |_| |__   ___ _ __  | |_) |_   _| |_| |_ ___  _ __  ___ 
