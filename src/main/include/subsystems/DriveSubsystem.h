@@ -42,6 +42,7 @@ public:
     DriveSubsystem();
     bool halfSpeed = false; 
     bool gyroZero = false; 
+    bool isAutoAligning = false; 
 
     /**
      * Will be called periodically whenever the CommandScheduler runs.
@@ -239,6 +240,8 @@ private:
     frc::Pose2d right22{};
     frc::Pose2d left22{};
 
+     frc::Pose2d AutoAlignPose{}; 
+
     units::meter_t MOE{0.03}; //= 0.03_m; 
     units::degree_t MOErotation{1.5}; // = 1.5_deg; 
     units::time::second_t bufferTime{5.0};
@@ -249,5 +252,6 @@ private:
     frc::Translation2d reefCenterRed = reefCenterBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
 
     bool isBlueAlliance = true; 
+   
   
 };
