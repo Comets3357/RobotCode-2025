@@ -502,10 +502,11 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
         }
     }
 
-    double angleDiff = (double)(GetGyroHeading().Degrees() - temp.Rotation().Degrees()); 
+    double angleDiff = std::abs((double)(GetGyroHeading().Degrees() - temp.Rotation().Degrees())); 
 
     if (angleDiff > 90)
     {
+        frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", true); 
     if (temp == right6) temp = right6L;
     else if (temp == left6) temp = left6L;
     else if (temp == right7) temp = right7L;
@@ -532,6 +533,7 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
     else if (temp == left22) temp = left22L;
     }
     NearestTarget.SetRobotPose(temp); // Update the field with temp pose
+    frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", false); 
     frc::SmartDashboard::PutData("Nearest Target", &NearestTarget);
 
     return temp; 
@@ -577,8 +579,8 @@ void DriveSubsystem::SetPointPositions()
     right18 = frc::Pose2d{3.08_m, 3.85_m, frc::Rotation2d{90_deg}};     // set points on blue side right
     left20 = frc::Pose2d{5.354_m, 5.197_m, frc::Rotation2d{-30_deg}};   // set points on blue side left
 
-    right18L = frc::Pose2d{3.08_m, 3.85_m, frc::Rotation2d{90_deg}};
-    left20L = frc::Pose2d{5.354_m, 5.197_m, frc::Rotation2d{-30_deg}};
+    right18L = frc::Pose2d{3.08_m, 3.85_m, frc::Rotation2d{270_deg}};
+    left20L = frc::Pose2d{5.354_m, 5.197_m, frc::Rotation2d{150_deg}};
 
     right17 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
     right22 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg});
