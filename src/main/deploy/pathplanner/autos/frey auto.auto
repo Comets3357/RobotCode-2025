@@ -11,15 +11,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "HPpick UP"
+            "name": "Intake Piece"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Intake Piece"
+            "name": "PID Go to HP"
           }
         },
         {
@@ -31,13 +31,19 @@
         {
           "type": "named",
           "data": {
+            "name": "Stop Intake Piece"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Human Player Score Reef"
           }
         }
       ]
     }
   },
-  "resetOdom": true,
+  "resetOdom": false,
   "folder": null,
   "choreoAuto": false
 }

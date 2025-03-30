@@ -28,7 +28,7 @@ frc2::CommandPtr GoToAndScore(
     units::second_t bufferTime = 3.0_s, units::meter_t MOE = 0.03_m,  units::degree_t MOErotation = 1.5_deg); 
 
 frc2::CommandPtr BetterGoToScore(frc::Pose2d targetPose, DriveSubsystem* m_drive, ElbowSubsystem* m_elbow, ElevatorSubsystem* m_elevator,
-    units::meter_t MOE = 0.12_m,  units::degree_t MOErotation = 5.0_deg);
+    units::meter_t MOE = 0.01_m,  units::degree_t MOErotation = 1_deg);
 
 
 
