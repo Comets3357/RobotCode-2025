@@ -146,7 +146,7 @@ public:
 
     void UpdateNonVisionPose();
 
-    void GoToPos(frc::Pose2d targetPos);
+    void GoToPos(frc::Pose2d targetPos, double max_output = 0.75);
 
     // void AutoAlignAroundReef();
 

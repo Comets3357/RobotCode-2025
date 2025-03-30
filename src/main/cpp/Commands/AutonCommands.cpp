@@ -64,6 +64,9 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("Stop Intake Piece", std::move(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180); })
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<181;}))));
 
+    NamedCommands::registerCommand("right20 Score", std::move(BetterGoToScore(m_drive->right20, m_drive, m_elbow, m_elevator, 0.4))); 
+    NamedCommands::registerCommand("right19 Score", std::move(BetterGoToScore(m_drive->right19, m_drive, m_elbow, m_elevator, 0.6))); 
+
     NamedCommands::registerCommand("Attempt L4 Sequence", std::move(BetterGoToScore(m_drive->right20, m_drive, m_elbow, m_elevator))/*GoToAndScore((frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) ? m_drive->TopLeftBlue : m_drive->TopLeftRed, m_drive, m_elbow, m_elevator))*/); 
     NamedCommands::registerCommand("Human Player Score Reef", std::move(BetterGoToScore(m_drive->left19, m_drive, m_elbow, m_elevator))); 
     NamedCommands::registerCommand("left22 Score", std::move(BetterGoToScore(m_drive->left22, m_drive, m_elbow, m_elevator))); 
@@ -73,7 +76,7 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("left9 Score", std::move(BetterGoToScore(m_drive->left9, m_drive, m_elbow, m_elevator))); 
     NamedCommands::registerCommand("left9 Score", std::move(BetterGoToScore(m_drive->left9, m_drive, m_elbow, m_elevator))); 
     NamedCommands::registerCommand("left9 Score", std::move(BetterGoToScore(m_drive->left9, m_drive, m_elbow, m_elevator))); 
-    NamedCommands::registerCommand("PID Go to HP", frc2::cmd::Run([=]{m_drive->GoToPos(m_drive->HumanPlayerIntakeAuto);}, {m_drive}).RaceWith(frc2::cmd::WaitUntil([=]{return m_drive->inRange(m_drive->GetPose(), m_drive->HumanPlayerIntakeAuto, 0.01_m, 1_deg);}))); 
+    NamedCommands::registerCommand("PID Go to HP", frc2::cmd::Run([=]{m_drive->GoToPos(m_drive->HumanPlayerIntakeAuto, 0.8);}, {m_drive}).RaceWith(frc2::cmd::WaitUntil([=]{return m_drive->inRange(m_drive->GetPose(), m_drive->HumanPlayerIntakeAuto, 0.03_m, 1_deg);})).AndThen(frc2::cmd::RunOnce([=]{m_drive->Drive(0_mps, 0_mps, 0_rpm, true);}, {m_drive}))); 
 
 
 }
@@ -117,10 +120,10 @@ frc2::CommandPtr GoToAndScore(frc::Pose2d targetPose, DriveSubsystem* m_drive, E
        // .RaceWith();
 }
 
-frc2::CommandPtr BetterGoToScore(frc::Pose2d targetPose, DriveSubsystem* m_drive, ElbowSubsystem* m_elbow, ElevatorSubsystem* m_elevator, units::meter_t MOE,  units::degree_t MOErotation)
+frc2::CommandPtr BetterGoToScore(frc::Pose2d targetPose, DriveSubsystem* m_drive, ElbowSubsystem* m_elbow, ElevatorSubsystem* m_elevator, double max_output, units::meter_t MOE,  units::degree_t MOErotation)
     {
         return 
-        frc2::cmd::Run([=]{m_drive->GoToPos(targetPose);}, {m_drive})
+        frc2::cmd::Run([=]{m_drive->GoToPos(targetPose, max_output);}, {m_drive})
      
         .RaceWith(frc2::cmd::WaitUntil([=]{return m_drive->inRange(m_drive->GetPose(), targetPose, MOE, MOErotation);})
         .AndThen((frc2::cmd::RunOnce([=]{ m_elevator->setPosition((50));}))                              // if true it runs the l4 aim and score sequence
