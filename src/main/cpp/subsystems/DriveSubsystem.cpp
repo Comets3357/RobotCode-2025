@@ -369,7 +369,7 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
     //     p = 1; 
     // } 
     frc::PIDController positionPID(1.25,0,0);
-    frc::PIDController rotationPID(1,0,0);
+    frc::PIDController rotationPID(0.7,0,0);
 
     double speedX = positionPID.Calculate(deltaX, 0);
     double speedY = positionPID.Calculate(deltaY, 0);
@@ -504,6 +504,8 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
 
     double angleDiff = std::abs((double)(GetGyroHeading().Degrees() - temp.Rotation().Degrees())); 
 
+    if (angleDiff > 180) angleDiff = 360 - angleDiff; 
+
     if (angleDiff > 90)
     {
         frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", true); 
@@ -576,11 +578,11 @@ void DriveSubsystem::SetPointPositions()
     right6L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
 
     // set points on blue side
-    right18 = frc::Pose2d{3.08_m, 3.85_m, frc::Rotation2d{90_deg}};     // set points on blue side right
+    right18 = frc::Pose2d{3.02_m, 3.86_m, frc::Rotation2d{90_deg}};     // set points on blue side right
     left20 = frc::Pose2d{5.354_m, 5.197_m, frc::Rotation2d{-30_deg}};   // set points on blue side left
 
-    right18L = frc::Pose2d{3.08_m, 3.85_m, frc::Rotation2d{270_deg}};
-    left20L = frc::Pose2d{5.354_m, 5.197_m, frc::Rotation2d{150_deg}};
+    right18L = frc::Pose2d{3.04_m, 3.82_m, frc::Rotation2d{270_deg}};
+    left20L = frc::Pose2d{5.3007_m, 5.18932_m, frc::Rotation2d{150_deg}};
 
     right17 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
     right22 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg});

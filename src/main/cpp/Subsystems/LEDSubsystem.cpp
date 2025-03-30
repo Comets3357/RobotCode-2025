@@ -144,7 +144,7 @@ void LEDSubsystem::Periodic()
         else
         {
             LED = "Enabled";
-        white.ApplyTo(LED_DATA);
+        teamColorsGradient.ApplyTo(LED_DATA);
         LED1.SetData(LED_DATA);
         }
     }

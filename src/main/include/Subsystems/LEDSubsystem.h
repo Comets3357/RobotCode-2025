@@ -48,7 +48,7 @@ class LEDSubsystem : public frc2::SubsystemBase
     frc::Color orangeColor{64,255,0}; // probably not right
     frc::Color yellowColor{255,255,0};
     frc::Color silverColor{169, 169, 169};
-    std::array<frc::Color, 2> colors{orangeColor, silverColor};
+    std::array<frc::Color, 2> colors{frc::Color{0,0,0}, orangeColor};
 
 
     // different colors // 

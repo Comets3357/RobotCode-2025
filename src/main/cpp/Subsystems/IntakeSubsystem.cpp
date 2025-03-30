@@ -14,6 +14,7 @@ IntakeSubsystem::IntakeSubsystem() {
 
 void IntakeSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("Algae angle", GetAngle());
+    SetAngle(100_deg); 
 }
 
 
