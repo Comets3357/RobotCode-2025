@@ -341,7 +341,7 @@ frc::ChassisSpeeds DriveSubsystem::GetRobotRelativeSpeeds()
                                              m_rearLeft.GetState(), m_rearRight.GetState()});
 }
 
-void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
+void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
 {
 
     
@@ -368,8 +368,8 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
     // {
     //     p = 1; 
     // } 
-    frc::PIDController positionPID(1.5,0,0);
-    frc::PIDController rotationPID(0.85,0,0);
+    frc::PIDController positionPID(5.0,0,0);
+    frc::PIDController rotationPID(3.0,0,0);
 
     double speedX = positionPID.Calculate(deltaX, 0);
     double speedY = positionPID.Calculate(deltaY, 0);
@@ -381,25 +381,11 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
         speedY *= -1;
     }
     
-    if (std::abs(speedX) < 0.02 && std::abs(speedY) < 0.02) {
-       speedX = 0;
-       speedY = 0;  
-    }
-    if (std::abs(angVel) < 0.005) {
-        angVel = 0;
-    }
-
-    if (speedX > 0.75) {
-        speedX = 0.75;
-    }
-    if (speedY > 0.75) {
-        speedY = 0.75;
-    }
-    if (speedX < -0.75) {
-        speedX = -0.75;
-    }
-    if (speedY < -0.75) {
-        speedY = -0.75;
+    double commanded_speed = std::sqrt(speedX * speedX + speedY * speedY);
+    if (commanded_speed > max_output)
+    {
+        speedX = speedX * max_output / commanded_speed;
+        speedY = speedY * max_output / commanded_speed;
     }
 
     Drive(units::meters_per_second_t{(speedX)}, units::meters_per_second_t{(speedY)}, -units::degrees_per_second_t{angVel}, true);
