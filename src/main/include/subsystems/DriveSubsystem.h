@@ -217,6 +217,7 @@ private:
     frc::Pose2d BottomLeftRed{}; // auton score from human player
     frc::Pose2d TopLeftRed{};
     frc::Pose2d HumanPlayerIntakeAuto{};
+    frc::Pose2d HumanPlayerIntakeRight{};
 
     // RED POINTS
     frc::Pose2d left6{};

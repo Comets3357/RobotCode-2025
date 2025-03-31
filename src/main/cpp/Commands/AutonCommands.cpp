@@ -67,6 +67,12 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("right20 Score", std::move(BetterGoToScore(m_drive->right20, m_drive, m_elbow, m_elevator, 0.4))); 
     NamedCommands::registerCommand("right19 Score", std::move(BetterGoToScore(m_drive->right19, m_drive, m_elbow, m_elevator, 0.6))); 
 
+    NamedCommands::registerCommand("right22 Score", std::move(BetterGoToScore(m_drive->right22, m_drive, m_elbow, m_elevator, 0.6))); 
+    NamedCommands::registerCommand("right17 Score", std::move(BetterGoToScore(m_drive->right17, m_drive, m_elbow, m_elevator, 0.6))); 
+
+    NamedCommands::registerCommand("right21 Score", std::move(BetterGoToScore(m_drive->right21, m_drive, m_elbow, m_elevator, 0.6))); 
+
+
     NamedCommands::registerCommand("Attempt L4 Sequence", std::move(BetterGoToScore(m_drive->right20, m_drive, m_elbow, m_elevator))/*GoToAndScore((frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) ? m_drive->TopLeftBlue : m_drive->TopLeftRed, m_drive, m_elbow, m_elevator))*/); 
     NamedCommands::registerCommand("Human Player Score Reef", std::move(BetterGoToScore(m_drive->left19, m_drive, m_elbow, m_elevator))); 
     NamedCommands::registerCommand("left22 Score", std::move(BetterGoToScore(m_drive->left22, m_drive, m_elbow, m_elevator))); 
@@ -77,6 +83,8 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("left9 Score", std::move(BetterGoToScore(m_drive->left9, m_drive, m_elbow, m_elevator))); 
     NamedCommands::registerCommand("left9 Score", std::move(BetterGoToScore(m_drive->left9, m_drive, m_elbow, m_elevator))); 
     NamedCommands::registerCommand("PID Go to HP", frc2::cmd::Run([=]{m_drive->GoToPos(m_drive->HumanPlayerIntakeAuto, 0.8);}, {m_drive}).RaceWith(frc2::cmd::WaitUntil([=]{return m_drive->inRange(m_drive->GetPose(), m_drive->HumanPlayerIntakeAuto, 0.03_m, 1_deg);})).AndThen(frc2::cmd::RunOnce([=]{m_drive->Drive(0_mps, 0_mps, 0_rpm, true);}, {m_drive}))); 
+    NamedCommands::registerCommand("PID Go to HP Right", frc2::cmd::Run([=]{m_drive->GoToPos(m_drive->HumanPlayerIntakeRight, 0.8);}, {m_drive}).RaceWith(frc2::cmd::WaitUntil([=]{return m_drive->inRange(m_drive->GetPose(), m_drive->HumanPlayerIntakeRight, 0.03_m, 1_deg);})).AndThen(frc2::cmd::RunOnce([=]{m_drive->Drive(0_mps, 0_mps, 0_rpm, true);}, {m_drive}))); 
+
 
 
 }
