@@ -139,13 +139,13 @@ void DriveSubsystem::PoseEstimation() {
 
     if (percentSpeed < 0.1)
     {
-        StdDev = 2.0; 
+        StdDev = 0.35; 
     }
     else if (percentSpeed < 0.2){
-        StdDev = 0.1 * pow(10, distancePose);
+        StdDev = 0.2 * pow(10, distancePose);
     } else if (percentSpeed < 0.40)
     {
-        StdDev = 0.5 * pow(10, distancePose);
+        StdDev = pow(15, distancePose);
     } else{
         StdDev = 1000; 
     }
@@ -341,7 +341,7 @@ frc::ChassisSpeeds DriveSubsystem::GetRobotRelativeSpeeds()
                                              m_rearLeft.GetState(), m_rearRight.GetState()});
 }
 
-void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
+void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
 {
 
     
@@ -368,8 +368,8 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
     // {
     //     p = 1; 
     // } 
-    frc::PIDController positionPID(5.0,0,0);
-    frc::PIDController rotationPID(3.0,0,0);
+    frc::PIDController positionPID(1.5,0,0);
+    frc::PIDController rotationPID(0.85,0,0);
 
     double speedX = positionPID.Calculate(deltaX, 0);
     double speedY = positionPID.Calculate(deltaY, 0);
@@ -389,11 +389,17 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
         angVel = 0;
     }
 
-    double commanded_speed = std::sqrt(speedX * speedX + speedY * speedY);
-    if (commanded_speed > max_output)
-    {
-        speedX = speedX * max_output / commanded_speed;
-        speedY = speedY * max_output / commanded_speed;
+    if (speedX > 0.75) {
+        speedX = 0.75;
+    }
+    if (speedY > 0.75) {
+        speedY = 0.75;
+    }
+    if (speedX < -0.75) {
+        speedX = -0.75;
+    }
+    if (speedY < -0.75) {
+        speedY = -0.75;
     }
 
     Drive(units::meters_per_second_t{(speedX)}, units::meters_per_second_t{(speedY)}, -units::degrees_per_second_t{angVel}, true);
@@ -569,7 +575,9 @@ void DriveSubsystem::SetPointPositions()
     TopLeftRed = frc::Pose2d{12.48_m, 2.6848_m, frc::Rotation2d{150_deg}}; 
     BottomLeftRed =  frc::Pose2d{13.554352_m, 2.7912_m, frc::Rotation2d{-150_deg}}; 
 
-    HumanPlayerIntakeAuto = frc::Pose2d{1.723_m, 6.851_m, frc::Rotation2d{35_deg}};
+    HumanPlayerIntakeAuto = frc::Pose2d{1.773_m, 7.271_m, frc::Rotation2d{35_deg}};
+    HumanPlayerIntakeRight = frc::Pose2d{1.773_m, 0.858_m, frc::Rotation2d{145_deg}};
+
     // set points on red side
     left7 = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{210_deg}};      
     right7 = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{150_deg}};
