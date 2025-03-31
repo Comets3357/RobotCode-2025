@@ -542,15 +542,10 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
 
 bool DriveSubsystem::ArmGoToLeftSide()
 {
-//     frc::Pose2d targetPos = isBlueAlliance ? reefCenterBlue : reefCenterRed;
+    frc::Translation2d transPos = (GetPose().Translation() - (isBlueAlliance ? reefCenterBlue : reefCenterRed));  
+    double radians = GetPose().Rotation().Radians().value(); // Get heading in radians
 
-//     frc::Translation2d transPose = targetPos.Translation().Distance(targetPos.Translation()); 
-
-//      double radians = GetPose().Rotation().Radians().value(); // Get heading in radians
-// .
-//     return (std::cos(radians) * transPos.Y().value() - std::sin(radians) * transPos.X().value() > 0);
-
-return true;
+    return (std::cos(radians) * transPos.Y().value() - std::sin(radians) * transPos.X().value()) > 0;
 
     //  (x1 * y2) - (y1 * x2) // get the determinant of the two vectors and return if it is positive or negative (booelean)
 }
