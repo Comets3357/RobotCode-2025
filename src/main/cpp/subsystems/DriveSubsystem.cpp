@@ -564,34 +564,6 @@ void DriveSubsystem::SetPointPositions()
     HumanPlayerIntakeAuto = frc::Pose2d{1.773_m, 7.271_m, frc::Rotation2d{35_deg}};
     HumanPlayerIntakeRight = frc::Pose2d{1.773_m, 0.858_m, frc::Rotation2d{145_deg}};
 
-    // set points on red side
-    left7 = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{210_deg}};      
-    right7 = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{150_deg}};
-
-    left7L = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{210_deg}};
-    right7L = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{150_deg}};
-
-    left8 = left7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    right8 = right7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    left9 = left7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    right9 = right7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    left10 = left7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    right10 = right7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    left11 = left7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    right11 = right7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    left6 = left7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
-    right6 = right7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
-
-    left8L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    right8L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    left9L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    right9L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    left10L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    right10L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    left11L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    right11L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    left6L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
-    right6L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
 
     // set points on blue side
     right18 = frc::Pose2d{3.02_m, 3.86_m, frc::Rotation2d{90_deg}};     // set points on blue side right
@@ -621,6 +593,36 @@ void DriveSubsystem::SetPointPositions()
     left17L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{180_deg}); 
     left22L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
     left21L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
+
+        // set points on red side
+    left7 =  left18.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); 
+    right7 = right18.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+
+    left7L = left18L.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+    right7L = right18L.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+
+    left8 = left7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    right8 = right7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    left9 = left7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    right9 = right7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    left10 = left7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    right10 = right7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    left11 = left7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    right11 = right7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    left6 = left7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    right6 = right7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
+    left8L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    right8L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    left9L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    right9L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    left10L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    right10L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    left11L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    right11L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    left6L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    right6L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
     
     // creates vector for closest tag function
     rightRedPoses.push_back(right6);
