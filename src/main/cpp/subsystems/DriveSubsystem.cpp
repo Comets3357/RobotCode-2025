@@ -40,9 +40,9 @@ DriveSubsystem::DriveSubsystem()
     redux::canand::EnsureCANLinkServer();
 
     frc::SmartDashboard::PutData("Field", &m_field);
-    frc::SmartDashboard::PutData("Field No Vision", &m_fieldNoVision);
+   // frc::SmartDashboard::PutData("Field No Vision", &m_fieldNoVision);
 
-    frc::SmartDashboard::PutData("Mirror Field", &m_mirrorField); 
+   // frc::SmartDashboard::PutData("Mirror Field", &m_mirrorField); 
 
     
 
@@ -99,8 +99,8 @@ void DriveSubsystem::Periodic()
     }
     PoseEstimation();
     PoseEstimationNoVisionTest();
-    frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
-    frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
+   // frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
+    //frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
 
     // frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
     
@@ -157,8 +157,8 @@ void DriveSubsystem::PoseEstimation() {
     
         
 
-    frc::SmartDashboard::PutNumber("STDDEV", StdDev); 
-    frc::SmartDashboard::PutNumber("distancePose", distancePose); 
+   // frc::SmartDashboard::PutNumber("STDDEV", StdDev); 
+    //frc::SmartDashboard::PutNumber("distancePose", distancePose); 
 
 
     
@@ -507,7 +507,7 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
 
     if (angleDiff > 90)
     {
-        frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", true); 
+       // frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", true); 
     if (temp == right6) temp = right6L;
     else if (temp == left6) temp = left6L;
     else if (temp == right7) temp = right7L;
@@ -533,9 +533,9 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
     else if (temp == right22) temp = right22L;
     else if (temp == left22) temp = left22L;
     }
-    NearestTarget.SetRobotPose(temp); // Update the field with temp pose
-    frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", false); 
-    frc::SmartDashboard::PutData("Nearest Target", &NearestTarget);
+   // NearestTarget.SetRobotPose(temp); // Update the field with temp pose
+  //  frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", false); 
+    //frc::SmartDashboard::PutData("Nearest Target", &NearestTarget);
 
     return temp; 
  }
@@ -545,7 +545,7 @@ bool DriveSubsystem::ArmGoToLeftSide()
     frc::Translation2d transPos = (GetPose().Translation() - (isBlueAlliance ? reefCenterBlue : reefCenterRed));  
     double radians = GetPose().Rotation().Radians().value(); // Get heading in radians
     bool scoreLeftSide =  (std::cos(radians) * transPos.Y().value() - std::sin(radians) * transPos.X().value()) < 0;
-    frc::SmartDashboard::SmartDashboard::PutBoolean("SCORE LEFT SIDE", scoreLeftSide); 
+   // frc::SmartDashboard::SmartDashboard::PutBoolean("SCORE LEFT SIDE", scoreLeftSide); 
 
     return scoreLeftSide; 
 

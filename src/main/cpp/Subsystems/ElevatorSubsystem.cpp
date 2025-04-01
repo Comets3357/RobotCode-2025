@@ -111,8 +111,8 @@ void ElevatorSubsystem::Periodic()
 {
     frc::SmartDashboard::PutNumber("elevatorPos", MainElevatorMotor.GetAbsolutePosition());
     frc::SmartDashboard::PutNumber("elevatorZeroOffset", MainElevatorMotor.GetZeroOffset());
-    frc::SmartDashboard::PutNumber("Elevator Current Draw", MainElevatorMotor.GetOutputCurrent()); 
-    frc::SmartDashboard::PutNumber("elev follow cur draw", FollowElevatorMotor.GetOutputCurrent()); 
+    //frc::SmartDashboard::PutNumber("Elevator Current Draw", MainElevatorMotor.GetOutputCurrent()); 
+    //frc::SmartDashboard::PutNumber("elev follow cur draw", FollowElevatorMotor.GetOutputCurrent()); 
 }
 
 // bool ElevatorSubsystem::LimitSwitch()

@@ -125,10 +125,10 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(90); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
 
      // test for correct arm position // 
-     m_secondaryController->POVUp().OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
-     .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
-     .AndThen(wristRotateRight(m_elbow, m_driverController, m_secondaryController, 120))
-     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(m_drive->ArmGoToLeftSide() ? 270 : 90); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
+    //  m_secondaryController->POVUp().OnTrue( frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
+    //  .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
+    //  .AndThen(wristRotateRight(m_elbow, m_driverController, m_secondaryController, 120))
+    //  .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(m_drive->ArmGoToLeftSide() ? 270 : 90); m_elbow->setRollerSpeed(-0.15);},{m_elbow})));
 
     m_secondaryController->RightBumper().OnFalse(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185 && m_elbow->getElbowAngle()>=175;}))
