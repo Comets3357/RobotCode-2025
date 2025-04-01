@@ -146,11 +146,11 @@ public:
 
     void UpdateNonVisionPose();
 
-    void GoToPos(frc::Pose2d targetPos);
+    void GoToPos(frc::Pose2d targetPos, double max_output = 0.75);
 
     // void AutoAlignAroundReef();
 
-    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE = 0.03_m, units::angle::degree_t MOEangle = 1.5_deg); 
+    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE = 0.01_m, units::angle::degree_t MOEangle = 1_deg); 
 
     double GetDistance(frc::Pose2d target); // in meters
     double GetDistance(frc::Translation2d target); // in meters 
@@ -216,6 +216,11 @@ private:
 
     frc::Pose2d BottomLeftRed{}; // auton score from human player
     frc::Pose2d TopLeftRed{};
+    frc::Pose2d HumanPlayerIntakeAuto{};
+    frc::Pose2d HumanPlayerIntakeRight{};
+
+    frc::Pose2d HumanPlayerIntakeAutoRed{};
+    frc::Pose2d HumanPlayerIntakeRightRed{};
 
     // RED POINTS
     frc::Pose2d left6{};

@@ -139,13 +139,13 @@ void DriveSubsystem::PoseEstimation() {
 
     if (percentSpeed < 0.1)
     {
-        StdDev = 2.0; 
+        StdDev = 0.35; 
     }
     else if (percentSpeed < 0.2){
-        StdDev = 0.1 * pow(10, distancePose);
+        StdDev = 0.2 * pow(10, distancePose);
     } else if (percentSpeed < 0.40)
     {
-        StdDev = 0.5 * pow(10, distancePose);
+        StdDev = pow(15, distancePose);
     } else{
         StdDev = 1000; 
     }
@@ -341,7 +341,7 @@ frc::ChassisSpeeds DriveSubsystem::GetRobotRelativeSpeeds()
                                              m_rearLeft.GetState(), m_rearRight.GetState()});
 }
 
-void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
+void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
 {
 
     
@@ -368,8 +368,8 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
     // {
     //     p = 1; 
     // } 
-    frc::PIDController positionPID(1.25,0,0);
-    frc::PIDController rotationPID(0.7,0,0);
+    frc::PIDController positionPID(5.0,0,0);
+    frc::PIDController rotationPID(3.0,0,0);
 
     double speedX = positionPID.Calculate(deltaX, 0);
     double speedY = positionPID.Calculate(deltaY, 0);
@@ -381,12 +381,11 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
         speedY *= -1;
     }
     
-    if (std::abs(speedX) < 0.02 && std::abs(speedY) < 0.02) {
-       speedX = 0;
-       speedY = 0;  
-    }
-    if (std::abs(angVel) < 0.005) {
-        angVel = 0;
+    double commanded_speed = std::sqrt(speedX * speedX + speedY * speedY);
+    if (commanded_speed > max_output)
+    {
+        speedX = speedX * max_output / commanded_speed;
+        speedY = speedY * max_output / commanded_speed;
     }
 
     Drive(units::meters_per_second_t{(speedX)}, units::meters_per_second_t{(speedY)}, -units::degrees_per_second_t{angVel}, true);
@@ -543,15 +542,12 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
 
 bool DriveSubsystem::ArmGoToLeftSide()
 {
-//     frc::Pose2d targetPos = isBlueAlliance ? reefCenterBlue : reefCenterRed;
+    frc::Translation2d transPos = (GetPose().Translation() - (isBlueAlliance ? reefCenterBlue : reefCenterRed));  
+    double radians = GetPose().Rotation().Radians().value(); // Get heading in radians
+    bool scoreLeftSide =  (std::cos(radians) * transPos.Y().value() - std::sin(radians) * transPos.X().value()) < 0;
+    frc::SmartDashboard::SmartDashboard::PutBoolean("SCORE LEFT SIDE", scoreLeftSide); 
 
-//     frc::Translation2d transPose = targetPos.Translation().Distance(targetPos.Translation()); 
-
-//      double radians = GetPose().Rotation().Radians().value(); // Get heading in radians
-// .
-//     return (std::cos(radians) * transPos.Y().value() - std::sin(radians) * transPos.X().value() > 0);
-
-return true;
+    return scoreLeftSide; 
 
     //  (x1 * y2) - (y1 * x2) // get the determinant of the two vectors and return if it is positive or negative (booelean)
 }
@@ -562,35 +558,15 @@ void DriveSubsystem::SetPointPositions()
     TopLeftRed = frc::Pose2d{12.48_m, 2.6848_m, frc::Rotation2d{150_deg}}; 
     BottomLeftRed =  frc::Pose2d{13.554352_m, 2.7912_m, frc::Rotation2d{-150_deg}}; 
 
+    HumanPlayerIntakeAuto = frc::Pose2d{1.773_m, 7.0_m, frc::Rotation2d{35_deg}};
+    HumanPlayerIntakeRight = frc::Pose2d{1.626_m, 1.026_m, frc::Rotation2d{145_deg}};
 
-    // set points on red side
-    left7 = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{210_deg}};      
-    right7 = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{150_deg}};
+    HumanPlayerIntakeAutoRed =  frc::Pose2d{1.773_m, 7.0_m, frc::Rotation2d{35_deg}}.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+    HumanPlayerIntakeRightRed = frc::Pose2d{1.626_m, 1.026_m, frc::Rotation2d{145_deg}}.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
 
-    left7L = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{210_deg}};
-    right7L = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{150_deg}};
 
-    left8 = left7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    right8 = right7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    left9 = left7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    right9 = right7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    left10 = left7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    right10 = right7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    left11 = left7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    right11 = right7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    left6 = left7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
-    right6 = right7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
 
-    left8L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    right8L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    left9L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    right9L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    left10L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    right10L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    left11L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    right11L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    left6L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
-    right6L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
 
     // set points on blue side
     right18 = frc::Pose2d{3.02_m, 3.86_m, frc::Rotation2d{90_deg}};     // set points on blue side right
@@ -620,6 +596,36 @@ void DriveSubsystem::SetPointPositions()
     left17L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{180_deg}); 
     left22L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
     left21L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
+
+        // set points on red side
+    left7 =  left18.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); 
+    right7 = right18.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+
+    left7L = left18L.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+    right7L = right18L.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+
+    left8 = left7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    right8 = right7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    left9 = left7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    right9 = right7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    left10 = left7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    right10 = right7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    left11 = left7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    right11 = right7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    left6 = left7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    right6 = right7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
+    left8L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    right8L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    left9L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    right9L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    left10L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    right10L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    left11L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    right11L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    left6L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    right6L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
     
     // creates vector for closest tag function
     rightRedPoses.push_back(right6);
