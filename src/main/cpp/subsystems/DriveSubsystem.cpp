@@ -40,9 +40,9 @@ DriveSubsystem::DriveSubsystem()
     redux::canand::EnsureCANLinkServer();
 
     frc::SmartDashboard::PutData("Field", &m_field);
-    frc::SmartDashboard::PutData("Field No Vision", &m_fieldNoVision);
+   // frc::SmartDashboard::PutData("Field No Vision", &m_fieldNoVision);
 
-    frc::SmartDashboard::PutData("Mirror Field", &m_mirrorField); 
+   // frc::SmartDashboard::PutData("Mirror Field", &m_mirrorField); 
 
     
 
@@ -93,22 +93,16 @@ double DriveSubsystem::GetChassisSpeed()
 void DriveSubsystem::Periodic()
 {
     // Implementation of subsystem periodic method goes here.
-     if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed && initVisionUse < 1)
+     if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed)
     {
-        reefCenterBlue = reefCenterBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); 
-        initVisionUse += 1; 
+        isBlueAlliance = false; 
     }
     PoseEstimation();
     PoseEstimationNoVisionTest();
-    frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
-    frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
-    // frc::SmartDashboard::PutNumber("Bottom red left X", (double)BottomLeftRed.X());
-    // frc::SmartDashboard::PutNumber("Bottom red left Y", (double)BottomLeftRed.Y());
+   // frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
+    //frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
 
-    // frc::SmartDashboard::PutNumber("Top red left X", (double)TopLeftRed.X());
-    // frc::SmartDashboard::PutNumber("Top red left Y", (double)TopLeftRed.Y());
     // frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
-    // frc::SmartDashboard::PutNumber("Drive X (m):", m_poseEstimator.GetPose().Translation().X().value());
     
 }
 
@@ -128,6 +122,7 @@ void DriveSubsystem::PoseEstimation() {
                             m_rearLeft.GetPosition(), m_rearRight.GetPosition()});
     }
 
+    // start std calculation
     double chassisSpeedSquared = pow((double) GetRobotRelativeSpeeds().vx, 2) + pow((double) GetRobotRelativeSpeeds().vy, 2); 
     double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
     double percentSpeed = (chassisSpeeds / 4.8); 
@@ -140,42 +135,39 @@ void DriveSubsystem::PoseEstimation() {
         StdDev += 5; 
     }
 
-    double distancePose = (double)(GetPose().Translation().Distance(reefCenterBlue) - 2.5_ft/*BLUE REEF*/ ); 
-    
+    double distancePose = (double)(units::meter_t{GetDistance(isBlueAlliance ? reefCenterBlue : reefCenterRed)} - 2.5_ft); 
 
-    if (distancePose > 3)
+    if (percentSpeed < 0.1)
     {
-        StdDev += 500; 
-    } 
-    else if (distancePose > 2)
-    {
-        StdDev += 50;
+        StdDev = 0.35; 
     }
-
-    if (distancePose < 1 && chassisSpeeds < 0.5)
+    else if (percentSpeed < 0.2){
+        StdDev = 0.2 * pow(10, distancePose);
+    } else if (percentSpeed < 0.40)
     {
-        StdDev = 0.9;
+        StdDev = pow(15, distancePose);
+    } else{
+        StdDev = 1000; 
     }
 
     if (frc::DriverStation::IsDisabled())
     {
-        StdDev = 1.2; 
+        StdDev = 0.2; 
     }
+    
         
 
-    frc::SmartDashboard::PutNumber("STDDEV", StdDev); 
-    frc::SmartDashboard::PutNumber("distancePose", distancePose); 
+   // frc::SmartDashboard::PutNumber("STDDEV", StdDev); 
+    //frc::SmartDashboard::PutNumber("distancePose", distancePose); 
 
 
     
     m_poseEstimator.SetVisionMeasurementStdDevs({StdDev, StdDev, 100});
+    // end std dev calculation
                             
     estimatedPoseVector = m_visionSubsystem.getEstimatedGlobalPose(frc::Pose3d{frc::Translation3d(0_m, 0_m, 0_m), frc::Rotation3d(0_rad, 0_rad, 0_rad)});
 
-    if (estimatedPoseVector.size() == 0)
-    {
-
-    } 
+    // UPDATES VISION MEASUREMENTS BASED ON WHICH CAMERAS ARE GETTING UPDATES // 
     if (estimatedPoseVector.size() == 1)
     {
         EstPose1 = estimatedPoseVector.at(0).estimatedPose.ToPose2d();
@@ -349,7 +341,7 @@ frc::ChassisSpeeds DriveSubsystem::GetRobotRelativeSpeeds()
                                              m_rearLeft.GetState(), m_rearRight.GetState()});
 }
 
-void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
+void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
 {
 
     
@@ -376,8 +368,8 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
     // {
     //     p = 1; 
     // } 
-    frc::PIDController positionPID(1.25,0,0);
-    frc::PIDController rotationPID(1,0,0);
+    frc::PIDController positionPID(5.0,0,0);
+    frc::PIDController rotationPID(3.0,0,0);
 
     double speedX = positionPID.Calculate(deltaX, 0);
     double speedY = positionPID.Calculate(deltaY, 0);
@@ -389,17 +381,25 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos)
         speedY *= -1;
     }
     
-    if (std::abs(speedX) < 0.02 && std::abs(speedY) < 0.02) {
-       speedX = 0;
-       speedY = 0;  
-    }
-    if (std::abs(angVel) < 0.005) {
-        angVel = 0;
+    double commanded_speed = std::sqrt(speedX * speedX + speedY * speedY);
+    if (commanded_speed > max_output)
+    {
+        speedX = speedX * max_output / commanded_speed;
+        speedY = speedY * max_output / commanded_speed;
     }
 
     Drive(units::meters_per_second_t{(speedX)}, units::meters_per_second_t{(speedY)}, -units::degrees_per_second_t{angVel}, true);
 }
 
+double DriveSubsystem::GetDistance(frc::Pose2d target)
+{
+    return (double)GetPose().Translation().Distance(target.Translation()); 
+}
+
+double DriveSubsystem::GetDistance(frc::Translation2d target)
+{
+    return (double)GetPose().Translation().Distance(target); 
+}
 
 
 
@@ -439,17 +439,222 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
         return xInRange && yInRange && angleInRange; 
 }
 
+ frc::Pose2d DriveSubsystem::findNearestTarget(bool isLeftSide)
+ {
+    frc::Pose2d temp{}; 
+    double shortestDistance = 100000000; 
+    
+    if (isLeftSide)
+    {
+        if (isBlueAlliance)
+        {
+            double tempDist; 
+            for (frc::Pose2d i: leftBluePoses)
+            {
+                tempDist = GetDistance(i); 
+                
+                if (tempDist < shortestDistance)
+                {
+                    shortestDistance = tempDist;
+                    temp = i; 
+                }
+            }
+        } else {
+             double tempDist; 
+            for (frc::Pose2d i: leftRedPoses)
+            {
+                tempDist = GetDistance(i); 
+                
+                if (tempDist < shortestDistance)
+                {
+                    shortestDistance = tempDist;
+                    temp = i; 
+                }
+            }
+        }
+    } else {
+         if (isBlueAlliance)
+        {
+             double tempDist; 
+            for (frc::Pose2d i: rightBluePoses)
+            {
+                tempDist = GetDistance(i); 
+                
+                if (tempDist < shortestDistance)
+                {
+                    shortestDistance = tempDist;
+                    temp = i; 
+                }
+            }
+        } else {
+             double tempDist; 
+            for (frc::Pose2d i: rightRedPoses)
+            {
+                tempDist = GetDistance(i); 
+                
+                if (tempDist < shortestDistance)
+                {
+                    shortestDistance = tempDist;
+                    temp = i; 
+                }
+            }
+        }
+    }
+
+    double angleDiff = std::abs((double)(GetGyroHeading().Degrees() - temp.Rotation().Degrees())); 
+
+    if (angleDiff > 180) angleDiff = 360 - angleDiff; 
+
+    if (angleDiff > 90)
+    {
+       // frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", true); 
+    if (temp == right6) temp = right6L;
+    else if (temp == left6) temp = left6L;
+    else if (temp == right7) temp = right7L;
+    else if (temp == left7) temp = left7L;
+    else if (temp == right8) temp = right8L;
+    else if (temp == left8) temp = left8L;
+    else if (temp == right9) temp = right9L;
+    else if (temp == left9) temp = left9L;
+    else if (temp == right10) temp = right10L;
+    else if (temp == left10) temp = left10L;
+    else if (temp == right11) temp = right11L;
+    else if (temp == left11) temp = left11L;
+    else if (temp == right17) temp = right17L;
+    else if (temp == left17) temp = left17L;
+    else if (temp == right18) temp = right18L;
+    else if (temp == left18) temp = left18L;
+    else if (temp == right19) temp = right19L;
+    else if (temp == left19) temp = left19L;
+    else if (temp == right20) temp = right20L;
+    else if (temp == left20) temp = left20L;
+    else if (temp == right21) temp = right21L;
+    else if (temp == left21) temp = left21L;
+    else if (temp == right22) temp = right22L;
+    else if (temp == left22) temp = left22L;
+    }
+   // NearestTarget.SetRobotPose(temp); // Update the field with temp pose
+  //  frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", false); 
+    //frc::SmartDashboard::PutData("Nearest Target", &NearestTarget);
+
+    return temp; 
+ }
+
+bool DriveSubsystem::ArmGoToLeftSide()
+{
+    frc::Translation2d transPos = (GetPose().Translation() - (isBlueAlliance ? reefCenterBlue : reefCenterRed));  
+    double radians = GetPose().Rotation().Radians().value(); // Get heading in radians
+    bool scoreLeftSide =  (std::cos(radians) * transPos.Y().value() - std::sin(radians) * transPos.X().value()) < 0;
+   // frc::SmartDashboard::SmartDashboard::PutBoolean("SCORE LEFT SIDE", scoreLeftSide); 
+
+    return scoreLeftSide; 
+
+    //  (x1 * y2) - (y1 * x2) // get the determinant of the two vectors and return if it is positive or negative (booelean)
+}
+
 void DriveSubsystem::SetPointPositions()
 {
-    TopLeftBlue = frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; 
-    BottomLeftBlue = frc::Pose2d{3.61_m, 5.08_m, frc::Rotation2d{30_deg}}; 
-    //BottomLeftBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});//frc::Pose2d{4.982_m, 5.392_m, frc::Rotation2d{30_deg}}; // these are not right
     
-    TopLeftRed = frc::Pose2d{12.48_m, 2.6848_m, frc::Rotation2d{150_deg}}; //TopLeftBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});//frc::Pose2d{5.334_m, 5.197_m, frc::Rotation2d{-30_deg}}; // this is not right 
+    TopLeftRed = frc::Pose2d{12.48_m, 2.6848_m, frc::Rotation2d{150_deg}}; 
     BottomLeftRed =  frc::Pose2d{13.554352_m, 2.7912_m, frc::Rotation2d{-150_deg}}; 
-    //TestingPointRed = frc::Pose2d{15_m, 4.130_m, frc::Rotation2d{90_deg}};
-    TestingPointRed = frc::Pose2d{15.55_m, -5.45_m, -138_deg}; 
 
-    left9 = frc::Pose2d{12.33_m, 5.14_m, frc::Rotation2d{30_deg}};//TopLeftRed.RotateAround(reefCenterRed, frc::Rotation2d{-120_deg}); 
-    right8 = frc::Pose2d{13.63_m, 5.34_m, frc::Rotation2d{-30_deg}};
+    HumanPlayerIntakeAuto = frc::Pose2d{1.773_m, 7.0_m, frc::Rotation2d{35_deg}};
+    HumanPlayerIntakeRight = frc::Pose2d{1.626_m, 1.026_m, frc::Rotation2d{145_deg}};
+
+    HumanPlayerIntakeAutoRed =  frc::Pose2d{1.773_m, 7.0_m, frc::Rotation2d{35_deg}}.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+    HumanPlayerIntakeRightRed = frc::Pose2d{1.626_m, 1.026_m, frc::Rotation2d{145_deg}}.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+
+
+
+
+
+    // set points on blue side
+    right18 = frc::Pose2d{3.02_m, 3.86_m, frc::Rotation2d{90_deg}};     // set points on blue side right
+    left20 = frc::Pose2d{5.354_m, 5.197_m, frc::Rotation2d{-30_deg}};   // set points on blue side left
+
+    right18L = frc::Pose2d{3.04_m, 3.82_m, frc::Rotation2d{270_deg}};
+    left20L = frc::Pose2d{5.3007_m, 5.18932_m, frc::Rotation2d{150_deg}};
+
+    right17 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
+    right22 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg});
+    right21 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{180_deg});  
+    right20 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
+    right19 = right18.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
+    left19 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
+    left18 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg}); 
+    left17 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{180_deg}); 
+    left22 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
+    left21 = left20.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
+
+    right17L = right18L.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
+    right22L = right18L.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg});
+    right21L = right18L.RotateAround(reefCenterBlue, frc::Rotation2d{180_deg});  
+    right20L = right18L.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
+    right19L = right18L.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
+    left19L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{60_deg}); 
+    left18L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{120_deg}); 
+    left17L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{180_deg}); 
+    left22L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{240_deg}); 
+    left21L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
+
+        // set points on red side
+    left7 =  left18.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); 
+    right7 = right18.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+
+    left7L = left18L.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+    right7L = right18L.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+
+    left8 = left7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    right8 = right7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    left9 = left7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    right9 = right7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    left10 = left7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    right10 = right7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    left11 = left7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    right11 = right7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    left6 = left7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    right6 = right7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
+    left8L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    right8L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    left9L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    right9L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    left10L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    right10L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    left11L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    right11L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    left6L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    right6L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
+    
+    // creates vector for closest tag function
+    rightRedPoses.push_back(right6);
+    rightRedPoses.push_back(right7);
+    rightRedPoses.push_back(right8);
+    rightRedPoses.push_back(right9);
+    rightRedPoses.push_back(right10);
+    rightRedPoses.push_back(right11);
+
+    leftRedPoses.push_back(left6);
+    leftRedPoses.push_back(left7);
+    leftRedPoses.push_back(left8);
+    leftRedPoses.push_back(left9);
+    leftRedPoses.push_back(left10);
+    leftRedPoses.push_back(left11);
+    
+    rightBluePoses.push_back(right17); 
+    rightBluePoses.push_back(right18); 
+    rightBluePoses.push_back(right19); 
+    rightBluePoses.push_back(right20); 
+    rightBluePoses.push_back(right21); 
+    rightBluePoses.push_back(right22); 
+
+    leftBluePoses.push_back(left17); 
+    leftBluePoses.push_back(left18); 
+    leftBluePoses.push_back(left19); 
+    leftBluePoses.push_back(left20); 
+    leftBluePoses.push_back(left21); 
+    leftBluePoses.push_back(left22); 
+
+
 }

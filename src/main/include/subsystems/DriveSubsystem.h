@@ -42,6 +42,7 @@ public:
     DriveSubsystem();
     bool halfSpeed = false; 
     bool gyroZero = false; 
+    bool isAutoAligning = false; 
 
     /**
      * Will be called periodically whenever the CommandScheduler runs.
@@ -145,11 +146,19 @@ public:
 
     void UpdateNonVisionPose();
 
-    void GoToPos(frc::Pose2d targetPos);
+    void GoToPos(frc::Pose2d targetPos, double max_output = 0.75);
 
     // void AutoAlignAroundReef();
 
-    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE = 0.03_m, units::angle::degree_t MOEangle = 1.5_deg); 
+    bool inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::meter_t MOE = 0.01_m, units::angle::degree_t MOEangle = 1_deg); 
+
+    double GetDistance(frc::Pose2d target); // in meters
+    double GetDistance(frc::Translation2d target); // in meters 
+    frc::Pose2d findNearestTarget(bool isLeftSide); 
+
+    bool ArmGoToLeftSide(); 
+
+  
 
 private:
     // Components (e.g. motor controllers and sensors) should generally be
@@ -165,13 +174,17 @@ private:
     frc::Pose2d EstPose1;
     frc::Pose2d EstPose2;
 
-    //redux::sensors::canandgyro::Canandgyro m_gyro{9};
     GyroWrapper m_gyro; 
 
     frc::Field2d m_mirrorField; 
+    frc::Field2d NearestTarget;
 
     void SetPointPositions(); 
 
+    std::vector<frc::Pose2d> leftBluePoses; 
+    std::vector<frc::Pose2d> rightBluePoses; 
+    std::vector<frc::Pose2d> leftRedPoses; 
+    std::vector<frc::Pose2d> rightRedPoses;
     public:
     
 
@@ -203,9 +216,13 @@ private:
 
     frc::Pose2d BottomLeftRed{}; // auton score from human player
     frc::Pose2d TopLeftRed{};
-    frc::Pose2d TopLeftBlue{};
-    frc::Pose2d BottomLeftBlue{}; 
-    frc::Pose2d TestingPointRed{};
+    frc::Pose2d HumanPlayerIntakeAuto{};
+    frc::Pose2d HumanPlayerIntakeRight{};
+
+    frc::Pose2d HumanPlayerIntakeAutoRed{};
+    frc::Pose2d HumanPlayerIntakeRightRed{};
+
+    // RED POINTS
     frc::Pose2d left6{};
     frc::Pose2d right6{};
     frc::Pose2d left7{};
@@ -218,7 +235,49 @@ private:
     frc::Pose2d right10{};
     frc::Pose2d left11{};
     frc::Pose2d right11{};
-    frc::Pose2d testPos{};//{6_m, 4_m, frc::Rotation2d{180_deg}}; // initial auton score
+    
+    frc::Pose2d left6L{};
+    frc::Pose2d right6L{};
+    frc::Pose2d left7L{};
+    frc::Pose2d right7L{};
+    frc::Pose2d left8L{};
+    frc::Pose2d right8L{};
+    frc::Pose2d left9L{};
+    frc::Pose2d right9L{};
+    frc::Pose2d left10L{};
+    frc::Pose2d right10L{};
+    frc::Pose2d left11L{};
+    frc::Pose2d right11L{};
+
+    // BLUE POINTS
+    frc::Pose2d right17{};
+    frc::Pose2d left17{};
+    frc::Pose2d right18{}; 
+    frc::Pose2d left18{};
+    frc::Pose2d right19{};
+    frc::Pose2d left19{};
+    frc::Pose2d right20{};
+    frc::Pose2d left20{};
+    frc::Pose2d right21{};
+    frc::Pose2d left21{};
+    frc::Pose2d right22{};
+    frc::Pose2d left22{};
+    
+    frc::Pose2d right17L{};
+    frc::Pose2d left17L{};
+    frc::Pose2d right18L{}; 
+    frc::Pose2d left18L{};
+    frc::Pose2d right19L{};
+    frc::Pose2d left19L{};
+    frc::Pose2d right20L{};
+    frc::Pose2d left20L{};
+    frc::Pose2d right21L{};
+    frc::Pose2d left21L{};
+    frc::Pose2d right22L{};
+    frc::Pose2d left22L{};
+
+     frc::Pose2d AutoAlignPose{}; 
+
     units::meter_t MOE{0.03}; //= 0.03_m; 
     units::degree_t MOErotation{1.5}; // = 1.5_deg; 
     units::time::second_t bufferTime{5.0};
@@ -228,7 +287,7 @@ private:
     frc::Translation2d reefCenterBlue{4.4893_m, 4.0259_m};
     frc::Translation2d reefCenterRed = reefCenterBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
 
-
-    int initVisionUse = 0; 
+    bool isBlueAlliance = true; 
+   
   
 };

@@ -19,8 +19,8 @@ ElevatorSubsystem::ElevatorSubsystem()
         MainElevatorMotor.enableReverseSoftLimit(true);
         MainElevatorMotor.setForwardSoftLimit(40);
         MainElevatorMotor.setReverseSoftLimit(0);
-        MainElevatorMotor.setMinOutput(-0.75);
-        MainElevatorMotor.setMaxOutput(0.75);
+        MainElevatorMotor.setMinOutput(-1);
+        MainElevatorMotor.setMaxOutput(1);
         FollowElevatorMotor.SetFollow(MainElevatorMotor);
         MainElevatorMotor.configure();
         FollowElevatorMotor.configure();  
@@ -46,8 +46,8 @@ ElevatorSubsystem::ElevatorSubsystem()
         MainElevatorMotor.setReverseSoftLimit(3);
         MainElevatorMotor.setForwardSoftLimit(50.5);
         MainElevatorMotor.setReverseSoftLimit(3);
-        MainElevatorMotor.setMinOutput(-0.5);
-        MainElevatorMotor.setMaxOutput(0.5);
+        MainElevatorMotor.setMinOutput(-0.75);
+        MainElevatorMotor.setMaxOutput(0.75);
         FollowElevatorMotor.SetFollow(MainElevatorMotor);
         MainElevatorMotor.setFeedbackSensor(Motor::encoderType::absolute);
         MainElevatorMotor.configure();
@@ -111,6 +111,8 @@ void ElevatorSubsystem::Periodic()
 {
     frc::SmartDashboard::PutNumber("elevatorPos", MainElevatorMotor.GetAbsolutePosition());
     frc::SmartDashboard::PutNumber("elevatorZeroOffset", MainElevatorMotor.GetZeroOffset());
+    //frc::SmartDashboard::PutNumber("Elevator Current Draw", MainElevatorMotor.GetOutputCurrent()); 
+    //frc::SmartDashboard::PutNumber("elev follow cur draw", FollowElevatorMotor.GetOutputCurrent()); 
 }
 
 // bool ElevatorSubsystem::LimitSwitch()

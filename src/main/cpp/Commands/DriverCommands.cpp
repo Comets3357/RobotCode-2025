@@ -50,17 +50,33 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
     m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
 
-  // m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->right8);}, {m_drive})); 
+//   m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left17);}, {m_drive})); 
+//   m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left19);}, {m_drive})); 
+//   m_driverController->X().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left18);}, {m_drive})); 
+//   m_driverController->Y().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left22);}, {m_drive})); 
+  
+   m_driverController->RightBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->AutoAlignPose = m_drive->findNearestTarget(false); m_drive->GoToPos(m_drive->AutoAlignPose); m_drive->isAutoAligning = true; }, {m_drive})); 
+   m_driverController->RightBumper().OnFalse(frc2::cmd::RunOnce([=]{m_drive->AutoAlignPose = frc::Pose2d{}; m_drive->isAutoAligning = false;})); 
+   m_driverController->LeftBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->AutoAlignPose = m_drive->findNearestTarget(true); m_drive->GoToPos(m_drive->AutoAlignPose); m_drive->isAutoAligning = true;}, {m_drive})); 
+   m_driverController->LeftBumper().OnFalse(frc2::cmd::RunOnce([=]{m_drive->AutoAlignPose = frc::Pose2d{}; m_drive->isAutoAligning = false;})); 
+
+
+
    //m_driverController->B().OnTrue(frc2::cmd::RunOnce([=] {m_drive->UpdateNonVisionPose();}, {m_drive}));
     //m_driverController->A().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
 
    // m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos((frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) ? m_drive->TopLeftBlue : m_drive->TopLeftRed);}, {m_drive})); 
     //m_driverController->B().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
 
-    // m_driverController->POVUp().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY += 0.02_m;}));
-    // m_driverController->POVDown().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY -= 0.02_m;}));
-    // m_driverController->POVLeft().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetX -= 0.02_m;}));
-    // m_driverController->POVRight().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetX += 0.02_m;}));
+    // m_driverController->POVUp().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY -= 0.01_m * 0.5; m_drive->visionPoseOffsetX += 0.01_m * 0.866;}));
+    // m_driverController->POVDown().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY += 0.01_m * 0.5; m_drive->visionPoseOffsetX -= 0.01_m * 0.866;}));
+    // m_driverController->POVLeft().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetX += 0.01_m * 0.5; m_drive->visionPoseOffsetY += 0.01_m * 0.866;}));
+    // m_driverController->POVRight().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetX -= 0.01_m * 0.5; m_drive->visionPoseOffsetY -= 0.01_m * 0.866;}));
+
+    //  m_driverController->POVUp().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetX += 0.01_m;}));
+    // m_driverController->POVDown().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetX -= 0.01_m;}));
+    // m_driverController->POVLeft().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY += 0.01_m;}));
+    // m_driverController->POVRight().OnTrue(frc2::cmd::RunOnce([=] {m_drive->visionPoseOffsetY -= 0.01_m;}));
     //   ____  _   _                 ____        _   _             
     //  / __ \| | | |               |  _ \      | | | |                 
     // | |  | | |_| |__   ___ _ __  | |_) |_   _| |_| |_ ___  _ __  ___ 
@@ -83,12 +99,12 @@ void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSu
     //RIGHT BUMPER
     //Auto Aligns robot to a certain angle
     //preferably used to align robot to human player station
-    m_driverController->RightBumper().WhileTrue(rotateTo(m_drive, 144_deg, m_driverController));
+   // m_driverController->RightBumper().WhileTrue(rotateTo(m_drive, 144_deg, m_driverController));
 
     //LEFT BUMPER
     //Auto Aligns robot to a certain angle
     //preferably used to align robot to human player station
-    m_driverController->LeftBumper().WhileTrue(rotateTo(m_drive, 36_deg, m_driverController));
+    //m_driverController->LeftBumper().WhileTrue(rotateTo(m_drive, 36_deg, m_driverController));
 
 }
 
