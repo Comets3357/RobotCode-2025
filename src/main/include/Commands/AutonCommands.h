@@ -30,6 +30,9 @@ frc2::CommandPtr GoToAndScore(
 frc2::CommandPtr BetterGoToScore(frc::Pose2d targetPose, DriveSubsystem* m_drive, ElbowSubsystem* m_elbow, ElevatorSubsystem* m_elevator, double max_output = 0.75,
     units::meter_t MOE = 0.01_m,  units::degree_t MOErotation = 1_deg);
 
+frc2::CommandPtr EvenBetterGoToScore(frc::Pose2d targetPoseRed, frc::Pose2d targetPoseBlue, DriveSubsystem* m_drive, ElbowSubsystem* m_elbow, ElevatorSubsystem* m_elevator, double max_output = 0.75,
+    units::meter_t MOE = 0.01_m,  units::degree_t MOErotation = 1_deg);
+
 
 
 

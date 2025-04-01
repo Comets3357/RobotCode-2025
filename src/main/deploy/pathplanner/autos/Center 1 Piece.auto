@@ -7,6 +7,12 @@
         {
           "type": "named",
           "data": {
+            "name": "Starting Reset"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "right21 Score"
           }
         }

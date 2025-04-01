@@ -7,6 +7,12 @@
         {
           "type": "named",
           "data": {
+            "name": "Starting Reset"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "right20 Score"
           }
         },
@@ -49,6 +55,25 @@
                 "type": "named",
                 "data": {
                   "name": "right19 Score"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Piece"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PID Go to HP"
                 }
               }
             ]

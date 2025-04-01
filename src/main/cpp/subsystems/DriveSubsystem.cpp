@@ -544,8 +544,10 @@ bool DriveSubsystem::ArmGoToLeftSide()
 {
     frc::Translation2d transPos = (GetPose().Translation() - (isBlueAlliance ? reefCenterBlue : reefCenterRed));  
     double radians = GetPose().Rotation().Radians().value(); // Get heading in radians
+    bool scoreLeftSide =  (std::cos(radians) * transPos.Y().value() - std::sin(radians) * transPos.X().value()) < 0;
+    frc::SmartDashboard::SmartDashboard::PutBoolean("SCORE LEFT SIDE", scoreLeftSide); 
 
-    return (std::cos(radians) * transPos.Y().value() - std::sin(radians) * transPos.X().value()) > 0;
+    return scoreLeftSide; 
 
     //  (x1 * y2) - (y1 * x2) // get the determinant of the two vectors and return if it is positive or negative (booelean)
 }
@@ -556,8 +558,14 @@ void DriveSubsystem::SetPointPositions()
     TopLeftRed = frc::Pose2d{12.48_m, 2.6848_m, frc::Rotation2d{150_deg}}; 
     BottomLeftRed =  frc::Pose2d{13.554352_m, 2.7912_m, frc::Rotation2d{-150_deg}}; 
 
-    HumanPlayerIntakeAuto = frc::Pose2d{1.773_m, 7.271_m, frc::Rotation2d{35_deg}};
-    HumanPlayerIntakeRight = frc::Pose2d{1.773_m, 0.858_m, frc::Rotation2d{145_deg}};
+    HumanPlayerIntakeAuto = frc::Pose2d{1.773_m, 7.0_m, frc::Rotation2d{35_deg}};
+    HumanPlayerIntakeRight = frc::Pose2d{1.626_m, 1.026_m, frc::Rotation2d{145_deg}};
+
+    HumanPlayerIntakeAutoRed =  frc::Pose2d{1.773_m, 7.0_m, frc::Rotation2d{35_deg}}.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+    HumanPlayerIntakeRightRed = frc::Pose2d{1.626_m, 1.026_m, frc::Rotation2d{145_deg}}.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+
+
+
 
 
     // set points on blue side

@@ -219,6 +219,9 @@ private:
     frc::Pose2d HumanPlayerIntakeAuto{};
     frc::Pose2d HumanPlayerIntakeRight{};
 
+    frc::Pose2d HumanPlayerIntakeAutoRed{};
+    frc::Pose2d HumanPlayerIntakeRightRed{};
+
     // RED POINTS
     frc::Pose2d left6{};
     frc::Pose2d right6{};
