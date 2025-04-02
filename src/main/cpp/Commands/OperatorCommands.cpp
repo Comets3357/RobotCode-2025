@@ -156,7 +156,7 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
 
         frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})
      .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
-     .AndThen(wristRotateLeft(m_elbow, m_driverController, m_secondaryController, 220))
+     .AndThen(wristRotateLeft(m_elbow, m_driverController, m_secondaryController, 240))
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(270); m_elbow->setRollerSpeed(-0.15);},{m_elbow})),
 
      frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator})

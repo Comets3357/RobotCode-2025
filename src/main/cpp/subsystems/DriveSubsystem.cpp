@@ -561,11 +561,11 @@ void DriveSubsystem::SetPointPositions()
     TopLeftRed = frc::Pose2d{12.48_m, 2.6848_m, frc::Rotation2d{150_deg}}; 
     BottomLeftRed =  frc::Pose2d{13.554352_m, 2.7912_m, frc::Rotation2d{-150_deg}}; 
 
-    HumanPlayerIntakeAuto = frc::Pose2d{1.773_m, 7.0_m, frc::Rotation2d{35_deg}};
-    HumanPlayerIntakeRight = frc::Pose2d{1.626_m, 1.026_m, frc::Rotation2d{145_deg}};
+    HumanPlayerIntakeAuto = frc::Pose2d{1.773_m, 7.0_m, frc::Rotation2d{35_deg}};   // blue
+    HumanPlayerIntakeRight = frc::Pose2d{1.626_m, 1.026_m, frc::Rotation2d{145_deg}};   // blue
 
-    HumanPlayerIntakeAutoRed =  frc::Pose2d{1.773_m, 7.0_m, frc::Rotation2d{35_deg}}.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
-    HumanPlayerIntakeRightRed = frc::Pose2d{1.626_m, 1.026_m, frc::Rotation2d{145_deg}}.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+    HumanPlayerIntakeAutoRed =  frc::Pose2d{1.773_m, 7.0_m, frc::Rotation2d{35_deg}}.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); // red
+    HumanPlayerIntakeRightRed = frc::Pose2d{1.626_m, 1.026_m, frc::Rotation2d{145_deg}}.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); // red
 
 
 
