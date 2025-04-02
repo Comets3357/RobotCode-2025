@@ -93,9 +93,12 @@ double DriveSubsystem::GetChassisSpeed()
 void DriveSubsystem::Periodic()
 {
     // Implementation of subsystem periodic method goes here.
-     if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed)
+    if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed)
     {
         isBlueAlliance = false; 
+    } else if (frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue)
+    {
+        isBlueAlliance = true;
     }
     PoseEstimation();
     PoseEstimationNoVisionTest();

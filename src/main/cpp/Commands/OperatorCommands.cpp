@@ -43,10 +43,10 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     );
 
     m_secondaryController->B().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(235);},{m_elbow})
-    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()>234;}))
+   .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()>234;}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.4);},{m_elbow}))
-    .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->isGamePieceDetected() == true);}))
-    .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setRollerSpeed(0);}, {m_elbow}))
+   // .AlongWith(frc2::cmd::WaitUntil([=] {return (m_elbow->isGamePieceDetected() == true);}))
+    //.AndThen(frc2::cmd::RunOnce([=]{m_elbow->setRollerSpeed(0);}, {m_elbow}))
     );
 
     m_secondaryController->B().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0); m_elbow->setWristAngle(90); m_elbow->setElbowAngle(180);},{m_elbow})
@@ -142,10 +142,10 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
 
     //Moves elevator the L3 position
     //If right trigger is pressed elbow goes down to score.
-    m_secondaryController->POVLeft().OnTrue(frc2::cmd::RunOnce([=] { m_elevator->setPosition(17);}, { m_elevator})
-    .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>16.5;}))
-    .AndThen(wristRotateLeft(m_elbow, m_driverController, m_secondaryController, 220))
-    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(250); m_elbow->setRollerSpeed(-0.15);},{ m_elbow})));
+    // m_secondaryController->POVLeft().OnTrue(frc2::cmd::RunOnce([=] { m_elevator->setPosition(17);}, { m_elevator})
+    // .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>16.5;}))
+    // .AndThen(wristRotateLeft(m_elbow, m_driverController, m_secondaryController, 220))
+    // .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(250); m_elbow->setRollerSpeed(-0.15);},{ m_elbow})));
 
     (m_secondaryController->POVLeft() && m_secondaryController->LeftBumper()).OnTrue(frc2::cmd::RunOnce([=] { m_elevator->setPosition(17);}, { m_elevator})
     .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>16.5;}))
