@@ -64,21 +64,21 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);},{m_elbow})));
 
     //Intake and deploy algae
-    (m_secondaryController->Y() && m_secondaryController->LeftBumper()).OnTrue(
-        DeployAlgae(m_intake)
-    );
+    // (m_secondaryController->Y() && m_secondaryController->LeftBumper()).OnTrue(
+    //     DeployAlgae(m_intake)
+    // );
 
-    (m_secondaryController->Y() && !m_secondaryController->LeftBumper()).OnTrue(
-        IntakeAlgae(m_intake)
-    );
+    // (m_secondaryController->Y() && !m_secondaryController->LeftBumper()).OnTrue(
+    //     IntakeAlgae(m_intake)
+    // );
     
-    (m_secondaryController->Y() && m_secondaryController->LeftBumper()).OnFalse(
-        StopDeploy(m_intake)
-    );
+    // (m_secondaryController->Y() && m_secondaryController->LeftBumper()).OnFalse(
+    //     StopDeploy(m_intake)
+    // );
     
-    (m_secondaryController->Y() && !m_secondaryController->LeftBumper()).OnFalse(
-        StopIntake(m_intake)
-    );
+    // (m_secondaryController->Y() && !m_secondaryController->LeftBumper()).OnFalse(
+    //     StopIntake(m_intake)
+    // );
 
     // elevator zero sequence the new button will be "back" 
 
@@ -239,11 +239,11 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     // OTHER BUTTONS
 
     //Run the rollers when left trigger is pressed, stop on false
-    m_secondaryController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.20);}, {m_elbow}));
-    m_secondaryController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}, {m_elbow}));
+    m_secondaryController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.20);}, {}));
+    m_secondaryController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}, {}));
 
     //Flip rollers 180 degrees
-    m_secondaryController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle( m_elbow->getWristAngle() + 180);}, {m_elbow}));
+   m_secondaryController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle( m_elbow->getWristAngle() + 180);}, {m_elbow}));
 
     m_secondaryController->RightBumper().OnFalse(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);},{m_elbow})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;}))

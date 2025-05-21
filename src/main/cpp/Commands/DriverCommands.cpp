@@ -123,3 +123,46 @@ double shortestRotation(double current, double target) {
     double delta = std::fmod((target-current) + 180, 360) - 180;
     return (delta < -180) ? delta + 360 : delta;
 }
+
+frc2::CommandPtr defaultBenchTest(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
+                    ElbowSubsystem* m_elbowSubsystem, IntakeSubsystem* m_intake,
+                    frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController)
+{
+    return frc2::cmd::Run([=] {
+        m_drive->Drive(
+            -units::meters_per_second_t{frc::ApplyDeadband(
+                m_driverController->GetLeftY(), OIConstants::kDriveDeadband)},
+            -units::meters_per_second_t{frc::ApplyDeadband(
+                m_driverController->GetLeftX(), OIConstants::kDriveDeadband)},
+            -units::radians_per_second_t{frc::ApplyDeadband(
+                m_driverController->GetRightX(), OIConstants::kDriveDeadband)},
+            true);
+    }, {m_drive}).RaceWith(frc2::cmd::Wait(2_s))
+    .AndThen(frc::cmd::Run([=] {m_elevator->setSpeed(0.2), {m_elevator}}))
+    .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
+    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); },{m_elevator}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}))
+    .AndThen(frc2::cmd::RunOnce([=] { m_elevator->setPosition(50);}, {m_elevator}))
+    .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>49.5;}))
+    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); },{m_elevator}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(295); m_elbow->setWristAngle(0); m_elbow->setRollerSpeed(0.4); m_elevator->setPosition(3);}, {m_elbow, m_elevator})
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return (m_elbow->getWristAngle() < 2) && (m_elevator->getAPosition() < 5);}))
+    .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(305);}, {m_elbow}))
+    .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);},{m_elbow}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;}))
+    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); },{m_elevator}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(90);},{m_elbow}))
+    .AlongWith(frc2::cmd::RunOnce([=]{ return m_elbow->getWristAngle()>85.5;}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);},{m_elbow}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0); m_elbow->setElbowAngle(255);}, {m_elbow}))
+    .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setElbowAngle(180);},{m_elbow}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elbow->getElbowAngle()<=185;}))
+    .AndThen(frc2::cmd::RunOnce([=]{ m_elevator->setPosition(3); },{m_elevator}))
+    .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() < (3.5);}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(-0.25);}))
+    .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.25);}))
+    )
+    
+}

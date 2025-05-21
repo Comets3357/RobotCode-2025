@@ -80,6 +80,11 @@ ElbowSubsystem::ElbowSubsystem() {
         wristMotor.configure();
 
         rollerMotor.SetSmartCurrentLimit(20);  
+
+        frc::SmartDashboard::PutNumber("Elbow Current Draw", elbowMotor.GetOutputCurrent());
+        frc::SmartDashboard::PutNumber("Elbow Current Draw", wristMotor.GetOutputCurrent()); 
+
+
     }    
 }
 

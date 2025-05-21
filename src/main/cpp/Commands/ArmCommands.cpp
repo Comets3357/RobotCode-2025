@@ -6,13 +6,16 @@ frc2::CommandPtr wristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxContr
 {
 
     return frc2::FunctionalCommand([=]{},
-        [=]{m_elbow->setElbowAngle(idle + (m_secondaryController->GetRightY() * 20)); 
+        [=]{
+            
+        if (m_secondaryController->GetHID().GetLeftTriggerAxis() > 0) {
+            m_elbow->setRollerSpeed(0.2);
+        }
+            m_elbow->setElbowAngle(idle + (m_secondaryController->GetRightY() * 20)); 
         if (m_driverController->GetHID().GetLeftTriggerAxis() > 0.5) {
             m_elbow->WristRotate();
         }
-        if (m_secondaryController->GetHID().GetLeftTriggerAxis() > 0.2) {
-            m_elbow->setRollerSpeed(0.2);
-        }
+
 
         if (m_elbow->getWristAngle() < 45 || m_elbow->getWristAngle() > 315) {
             m_elbow->setWristAngle(270);
@@ -20,7 +23,9 @@ frc2::CommandPtr wristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxContr
 
         if (m_elbow->getWristAngle() < 225 && m_elbow->getWristAngle() > 135) {
             m_elbow->setWristAngle(90);
-        }},
+        }
+        frc::SmartDashboard::SmartDashboard::PutNumber("LT Axis", m_secondaryController->GetHID().GetLeftTriggerAxis());
+        },
 
     [=](bool interrupt){
     auto cmd = frc2::cmd::RunOnce([=] { 
@@ -40,15 +45,15 @@ frc2::CommandPtr wristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxCont
         [=]{
             bool primaryLT = false;
             bool secondaryLT = false;
-            
-            
+        if (m_secondaryController->GetHID().GetLeftTriggerAxis() > 0) {
+            m_elbow->setRollerSpeed(0.2);
+        }
+
+
             m_elbow->setElbowAngle(idle + (-m_secondaryController->GetRightY() * 20)); 
         if (m_driverController->GetHID().GetLeftTriggerAxis() > 0.5) {
             m_elbow->WristRotate();
             primaryLT = true;
-        }
-        if (m_secondaryController->GetHID().GetLeftTriggerAxis() > 0.2) {
-            m_elbow->setRollerSpeed(0.2);
         }
 
         if (m_elbow->getWristAngle()<45 || m_elbow->getWristAngle()>315) {

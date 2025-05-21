@@ -60,4 +60,6 @@ bool ClimbSubsystem::isRunning()
 
 void ClimbSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("climb position", climbMotor.GetAbsolutePosition());
+    frc::SmartDashboard::PutNumber("Climb Current Draw", climbMotor.GetOutputCurrent()); 
+
 }
