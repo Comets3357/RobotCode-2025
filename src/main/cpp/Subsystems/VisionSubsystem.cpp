@@ -13,6 +13,7 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
   units::second_t currentTime = frc::Timer::GetFPGATimestamp();
 
   if (!unreadResultsOne.empty()) {
+    
     auto cameraResults1 = unreadResultsOne[0];
     //const std::span<const photon::PhotonTrackedTarget> targets1 = cameraResults1.GetTargets();
     units::second_t frameTime1{cameraResults1.GetTimestamp().value()};

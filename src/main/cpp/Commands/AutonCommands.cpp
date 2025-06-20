@@ -28,6 +28,7 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     .AlongWith(frc2::cmd::WaitUntil( [=] {return m_elbow->getElbowAngle() > 265;}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elevator->setPosition(4); m_elbow->setRollerSpeed(0);})))
     .AndThen(frc2::cmd::RunOnce([=]{m_elbow->setWristAngle(90);}))
+    .AndThen(StopDeploy(m_intake))
     );
 
     NamedCommands::registerCommand("L4", std::move(frc2::cmd::RunOnce([=]{ m_elevator->setPosition((50));})
@@ -72,6 +73,9 @@ void AutonCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSub
     NamedCommands::registerCommand("right17 Score", std::move(EvenBetterGoToScore(m_drive->right8, m_drive->right17, m_drive, m_elbow, m_elevator, 0.4))); 
 
     NamedCommands::registerCommand("right21 Score", std::move(EvenBetterGoToScore(m_drive->right10, m_drive->right21, m_drive, m_elbow, m_elevator, 0.3))); 
+    NamedCommands::registerCommand("right21L Score", std::move(EvenBetterGoToScore(m_drive->right10L, m_drive->right21L, m_drive, m_elbow, m_elevator, 0.3))); 
+
+
 
 
     NamedCommands::registerCommand("Attempt L4 Sequence", std::move(BetterGoToScore(m_drive->right20, m_drive, m_elbow, m_elevator))/*GoToAndScore((frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) ? m_drive->TopLeftBlue : m_drive->TopLeftRed, m_drive, m_elbow, m_elevator))*/); 

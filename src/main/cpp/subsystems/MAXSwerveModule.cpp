@@ -85,3 +85,13 @@ void MAXSwerveModule::SetDesiredState(
 }
 
 void MAXSwerveModule::ResetEncoders() { m_drivingSpark.SetRelativePosition(0); }
+
+double MAXSwerveModule::getOutputCurrent()
+{
+    return m_drivingSpark.GetOutputCurrent(); 
+}
+
+double MAXSwerveModule::getOutputCurrentTurningMotor()
+{
+    return m_turningSpark.GetOutputCurrent(); 
+}

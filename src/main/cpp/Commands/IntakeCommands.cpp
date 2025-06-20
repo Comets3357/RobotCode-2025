@@ -28,6 +28,6 @@ frc2::CommandPtr StopIntake(IntakeSubsystem* intake) {
 frc2::CommandPtr StopDeploy(IntakeSubsystem* m_intake) {
     return frc2::cmd::RunOnce([m_intake] {
         m_intake->Stop();
-        m_intake->SetAngle(100_deg);
+        m_intake->SetAngle(99.3_deg);
     });
 }

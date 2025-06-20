@@ -185,11 +185,13 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
 
 
     m_secondaryController->POVDown().OnTrue(frc2::cmd::Either(
-    frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(0); m_elbow->setElbowAngle(255);}, {m_elbow})
+    frc2::cmd::RunOnce([=]{m_elbow->setWristAngle(0);})
+    .AndThen(wristNoRotate(m_elbow, m_drive, m_driverController, m_secondaryController, 255))
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_secondaryController->GetHID().GetRightBumperButton();}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(-0.25);}, {m_elbow})),
 
-    (frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(105);})
+    (frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180);})
+    .AndThen(wristNoRotate(m_elbow, m_drive, m_driverController, m_secondaryController, 105))
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_secondaryController->GetHID().GetRightBumperButton();}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(-0.25);}))),
 
@@ -234,22 +236,22 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
      .AlongWith(frc2::cmd::WaitUntil( [=] { return m_elevator->getAPosition() > (19.5);}))
      .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setElbowAngle(240);}, {m_elbow}))
      .AlongWith(frc2::cmd::WaitUntil([=] {return m_elbow->getElbowAngle() > 235;}))
-     .AndThen(frc2::cmd::RunOnce([=] {m_climb->ClimbSetPercent(-0.85);}))); 
+     .AndThen(frc2::cmd::RunOnce([=] {m_climb->ClimbSetPercent(-1);}))); 
 
     //On start false stop moving the climb
     m_secondaryController->Start().OnFalse(frc2::cmd::RunOnce([=]{m_climb->ClimbSetPercent(0);}, {m_climb})); 
        
     //On Back true slowly recline the climb to get off the ground, on false stop the climb.
 
-    m_secondaryController->Back().OnTrue(frc2::cmd::RunOnce([=] {m_climb->ClimbSetPercent(0.6);}));
+    m_secondaryController->Back().OnTrue(frc2::cmd::RunOnce([=] {m_climb->ClimbSetPercent(1);}));
     m_secondaryController->Back().OnFalse(frc2::cmd::RunOnce( [=] {m_climb->ClimbSetPercent(0);}));
 
 
     // OTHER BUTTONS
 
     //Run the rollers when left trigger is pressed, stop on false
-    m_secondaryController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.20);}, {m_elbow}));
-    m_secondaryController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}, {m_elbow}));
+    m_secondaryController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.20);}, {}));
+    m_secondaryController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}, {}));
 
     //Flip rollers 180 degrees
     m_secondaryController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle( m_elbow->getWristAngle() + 180);}, {m_elbow}));

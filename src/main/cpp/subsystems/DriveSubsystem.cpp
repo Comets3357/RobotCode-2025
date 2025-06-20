@@ -102,8 +102,22 @@ void DriveSubsystem::Periodic()
     }
     PoseEstimation();
     PoseEstimationNoVisionTest();
-   // frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
-    //frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
+    frc::SmartDashboard::SmartDashboard::PutNumber("m_frontLeft ", m_frontLeft.getOutputCurrent()); 
+    frc::SmartDashboard::SmartDashboard::PutNumber("m_frontRight ", m_frontRight.getOutputCurrent()); 
+    frc::SmartDashboard::SmartDashboard::PutNumber("m_rearRight ", m_rearRight.getOutputCurrent()); 
+    frc::SmartDashboard::SmartDashboard::PutNumber("m_rearLeft ", m_rearLeft.getOutputCurrent()); 
+
+    frc::SmartDashboard::SmartDashboard::PutNumber("m_frontLeftTurn ", m_frontLeft.getOutputCurrentTurningMotor()); 
+    frc::SmartDashboard::SmartDashboard::PutNumber("m_frontRightTurn ", m_frontRight.getOutputCurrentTurningMotor()); 
+    frc::SmartDashboard::SmartDashboard::PutNumber("m_rearRightTurn ", m_rearRight.getOutputCurrentTurningMotor()); 
+    frc::SmartDashboard::SmartDashboard::PutNumber("m_rearLeftTurn", m_rearLeft.getOutputCurrentTurningMotor()); 
+     
+
+
+
+
+    frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
+    frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
 
     // frc::SmartDashboard::PutNumber("Gyro Yaw", units::degree_t(m_gyro.GetYaw()).value());
     
@@ -216,6 +230,7 @@ void DriveSubsystem::PoseEstimation() {
     frc::SmartDashboard::PutNumber("Y (in)", ((units::inch_t)m_poseEstimator.GetEstimatedPosition().Y()).value());
     frc::SmartDashboard::PutNumber("Rot (degrees)", ((units::degree_t)m_poseEstimator.GetEstimatedPosition().Rotation().Degrees()).value());
 }
+
 
 void DriveSubsystem::PoseEstimationNoVisionTest()
 {
@@ -601,33 +616,51 @@ void DriveSubsystem::SetPointPositions()
     left21L = left20L.RotateAround(reefCenterBlue, frc::Rotation2d{300_deg}); 
 
         // set points on red side
-    left7 =  left18.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); 
-    right7 = right18.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+   // left7 =  left18.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg}); 
+    //right7 = right18.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
 
-    left7L = left18L.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
-    right7L = right18L.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+    //left7L = left18L.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
+    //right7L = right18L.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
 
-    left8 = left7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    right8 = right7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    left9 = left7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    right9 = right7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    left10 = left7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    right10 = right7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    left11 = left7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    right11 = right7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    left6 = left7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
-    right6 = right7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    left10 = frc::Pose2d{11.62_m, 4.21_m, frc::Rotation2d{90_deg}}; 
+    right10 = frc::Pose2d{11.61_m, 3.89_m, frc::Rotation2d{90_deg}}; 
 
-    left8L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    right8L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
-    left9L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    right9L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
-    left10L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    right10L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
-    left11L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    right11L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
-    left6L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
-    right6L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    right10L = frc::Pose2d{11.61_m, 3.89_m, frc::Rotation2d{270_deg}}; 
+
+    left11 = left10.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    left6 = left10.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    left7 = left10.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    left8 = left10.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    left9 = left10.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+    right11 = right10.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+    right6 = right10.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+    right7 = right10.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+    right8 = right10.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+    right9 = right10.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
+    
+
+//     left8 = left7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+//     right8 = right7.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+//     left9 = left7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+//     right9 = right7.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+//     //left10 = left7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+//    // right10 = right7.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+//     left11 = left7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+//     right11 = right7.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+//     left6 = left7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+//     right6 = right7.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+
+//     left8L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+//     right8L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{60_deg});
+//     left9L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+//     right9L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{120_deg});
+//     left10L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+     //   right10L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{180_deg});
+//     //left11L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+//     right11L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{240_deg});
+//     left6L = left7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
+//     right6L = right7L.RotateAround(reefCenterRed, frc::Rotation2d{300_deg});
 
     
     // creates vector for closest tag function

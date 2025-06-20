@@ -56,6 +56,9 @@ public:
      */
     void ResetEncoders();
 
+    double getOutputCurrent(); 
+    double getOutputCurrentTurningMotor();
+
 private:
     SparkFlexMotor m_drivingSpark;
     SparkMaxMotor m_turningSpark;

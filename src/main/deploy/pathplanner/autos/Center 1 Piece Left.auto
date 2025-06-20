@@ -13,19 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "right21 Score"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center to Right"
+            "name": "right21L Score"
           }
         }
       ]

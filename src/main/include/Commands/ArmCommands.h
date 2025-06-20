@@ -8,8 +8,10 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include "RobotContainer.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 frc2::CommandPtr wristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle);
 frc2::CommandPtr wristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle);
+frc2::CommandPtr wristNoRotate(ElbowSubsystem* m_elbow, DriveSubsystem* m_drive, frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController, double idle);
 
 // frc2::CommandPtr autonWristRotation(ElbowSubsystem* m_elbow, double idle);
