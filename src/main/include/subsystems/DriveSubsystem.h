@@ -158,7 +158,7 @@ public:
 
     bool ArmGoToLeftSide(); 
 
-  
+    bool isBlueAlliance();
 
 private:
     // Components (e.g. motor controllers and sensors) should generally be
@@ -287,7 +287,7 @@ private:
     frc::Translation2d reefCenterBlue{4.4893_m, 4.0259_m};
     frc::Translation2d reefCenterRed = reefCenterBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
 
-    bool isBlueAlliance = true; 
+   // bool isBlueAlliance = true; 
    
   
 };

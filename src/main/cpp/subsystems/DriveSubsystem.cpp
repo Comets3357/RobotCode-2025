@@ -93,13 +93,13 @@ double DriveSubsystem::GetChassisSpeed()
 void DriveSubsystem::Periodic()
 {
     // Implementation of subsystem periodic method goes here.
-    if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed)
-    {
-        isBlueAlliance = false; 
-    } else if (frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue)
-    {
-        isBlueAlliance = true;
-    }
+    // if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed)
+    // {
+    //     isBlueAlliance = false; 
+    // } else if (frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue)
+    // {
+    //     isBlueAlliance = true;
+    // }
     PoseEstimation();
     PoseEstimationNoVisionTest();
    // frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
@@ -138,7 +138,7 @@ void DriveSubsystem::PoseEstimation() {
         StdDev += 5; 
     }
 
-    double distancePose = (double)(units::meter_t{GetDistance(isBlueAlliance ? reefCenterBlue : reefCenterRed)} - 2.5_ft); 
+    double distancePose = (double)(units::meter_t{GetDistance(isBlueAlliance() ? reefCenterBlue : reefCenterRed)} - 2.5_ft); 
 
     if (percentSpeed < 0.1)
     {
@@ -449,7 +449,7 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
     
     if (isLeftSide)
     {
-        if (isBlueAlliance)
+        if (isBlueAlliance())
         {
             double tempDist; 
             for (frc::Pose2d i: leftBluePoses)
@@ -476,7 +476,7 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
             }
         }
     } else {
-         if (isBlueAlliance)
+         if (isBlueAlliance())
         {
              double tempDist; 
             for (frc::Pose2d i: rightBluePoses)
@@ -545,7 +545,7 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
 
 bool DriveSubsystem::ArmGoToLeftSide()
 {
-    frc::Translation2d transPos = (GetPose().Translation() - (isBlueAlliance ? reefCenterBlue : reefCenterRed));  
+    frc::Translation2d transPos = (GetPose().Translation() - (isBlueAlliance() ? reefCenterBlue : reefCenterRed));  
     double radians = GetPose().Rotation().Radians().value(); // Get heading in radians
     bool scoreLeftSide =  (std::cos(radians) * transPos.Y().value() - std::sin(radians) * transPos.X().value()) < 0;
    // frc::SmartDashboard::SmartDashboard::PutBoolean("SCORE LEFT SIDE", scoreLeftSide); 
@@ -660,4 +660,31 @@ void DriveSubsystem::SetPointPositions()
     leftBluePoses.push_back(left22); 
 
 
+}
+
+
+bool DriveSubsystem::isBlueAlliance()
+{
+    std::optional<frc::DriverStation::Alliance> alliance = frc::DriverStation::GetAlliance();
+
+    if (!alliance.has_value())
+    {
+        frc::SmartDashboard::PutString("Alliance", "None");
+        return false;
+    }
+
+    if (alliance.value() == frc::DriverStation::Alliance::kBlue)
+    {
+        frc::SmartDashboard::PutString("Alliance", "Blue");
+        return true;
+    }
+
+    if (alliance.value() == frc::DriverStation::Alliance::kRed)
+    {
+        frc::SmartDashboard::PutString("Alliance", "Red");
+        return false;
+    }
+
+    frc::SmartDashboard::PutString("Alliance", "Error");
+    return false;
 }
