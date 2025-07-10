@@ -239,8 +239,8 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     // OTHER BUTTONS
 
     //Run the rollers when left trigger is pressed, stop on false
-    m_secondaryController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.20);}, {m_elbow}));
-    m_secondaryController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}, {m_elbow}));
+    m_secondaryController->LeftTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0.20);}, {}));
+    m_secondaryController->LeftTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(0);}, {}));
 
     //Flip rollers 180 degrees
     m_secondaryController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_elbow->setWristAngle( m_elbow->getWristAngle() + 180);}, {m_elbow}));
