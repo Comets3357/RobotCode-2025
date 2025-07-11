@@ -183,7 +183,7 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_secondaryController->GetHID().GetRightBumperButton();}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(-0.25);}, {m_elbow})),
 
-    (frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(105);})
+    (frc2::cmd::RunOnce([=] {m_elbow->setWristAngle(180); m_elbow->setElbowAngle(105); m_elbow->setRollerSpeed(0.2);})
     .AlongWith(frc2::cmd::WaitUntil( [=] { return m_secondaryController->GetHID().GetRightBumperButton();}))
     .AndThen(frc2::cmd::RunOnce([=] {m_elbow->setRollerSpeed(-0.25);}))),
 
