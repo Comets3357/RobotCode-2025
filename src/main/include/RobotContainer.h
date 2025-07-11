@@ -8,11 +8,7 @@
 #include <frc2/command/RunCommand.h>
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
-#include "subsystems/IntakeSubsystem.h"
-#include "subsystems/ElbowSubsystem.h"
-#include "subsystems/ClimbSubsystem.h"
 #include <frc2/command/button/CommandXboxController.h>
-#include "subsystems/ElevatorSubsystem.h"
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/trajectory/Trajectory.h>
@@ -32,13 +28,8 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/Command.h>
 #include "commands/DriverCommands.h"
-#include "Commands/OperatorCommands.h"
-#include "Commands/DriverCommands.h"
-#include "Commands/AutonCommands.h"
 #include <memory>
 
-
-#include "subsystems/LEDSubsystem.h"
 
 
 class RobotContainer
@@ -48,11 +39,7 @@ public:
 
     frc2::Command* GetAutonomousCommand();
     DriveSubsystem m_drive;
-    ElevatorSubsystem m_elevator;
-    IntakeSubsystem m_intake;
-    ElbowSubsystem m_elbow;
-    ClimbSubsystem m_climb;
-    LEDSubsystem m_LED{&m_drive, &m_climb, &m_elbow};
+    
     //frc::SendableChooser<frc2::Command*> autoChooser = pathplanner::AutoBuilder::buildAutoChooser(); 
     //double trimVar = 0;
 

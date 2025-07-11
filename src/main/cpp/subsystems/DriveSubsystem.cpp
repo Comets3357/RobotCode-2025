@@ -55,8 +55,8 @@ DriveSubsystem::DriveSubsystem()
         [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         [this](auto speeds, auto feedforwards){ DriveFromChassisSpeeds(speeds, false); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
         std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
-            PIDConstants(22.5, 0.0, 0.0), // Translation PID constants
-            PIDConstants(10, 0.0, 0.0) // Rotation PID constants
+            PIDConstants(10, 0.0, 0.1), // Translation PID constants
+            PIDConstants(5, 0.0, 0.0) // Rotation PID constants
         ),
         config, // The robot configuration
         []() {
@@ -140,6 +140,9 @@ void DriveSubsystem::PoseEstimation() {
 
     double distancePose = (double)(units::meter_t{GetDistance(isBlueAlliance ? reefCenterBlue : reefCenterRed)} - 2.5_ft); 
 
+    if (percentSpeed < 0.01) {
+        StdDev = 0.05;
+    }
     if (percentSpeed < 0.1)
     {
         StdDev = 0.35; 
@@ -155,7 +158,7 @@ void DriveSubsystem::PoseEstimation() {
 
     if (frc::DriverStation::IsDisabled())
     {
-        StdDev = 0.2; 
+        StdDev = 0; 
     }
     
         
@@ -247,13 +250,11 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            bool fieldRelative)
 {
 
+
     // Convert the commanded speeds into the correct units for the drivetrain
-    units::meters_per_second_t xSpeedDelivered =
-        xSpeed.value() * DriveConstants::kMaxSpeed;
-    units::meters_per_second_t ySpeedDelivered =
-        ySpeed.value() * DriveConstants::kMaxSpeed;
-    units::radians_per_second_t rotDelivered =
-        rot.value() * DriveConstants::kMaxAngularSpeed;
+    units::meters_per_second_t xSpeedDelivered = xLimiter.Calculate(xSpeed*DriveConstants::kMaxSpeed.value());
+    units::meters_per_second_t ySpeedDelivered = yLimiter.Calculate(ySpeed*DriveConstants::kMaxSpeed.value());
+    units::radians_per_second_t rotDelivered = rotLimiter.Calculate(rot*DriveConstants::kMaxAngularSpeed.value());
 
     auto states = kDriveKinematics.ToSwerveModuleStates(
         fieldRelative

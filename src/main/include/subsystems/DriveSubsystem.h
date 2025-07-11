@@ -185,6 +185,12 @@ private:
     std::vector<frc::Pose2d> rightBluePoses; 
     std::vector<frc::Pose2d> leftRedPoses; 
     std::vector<frc::Pose2d> rightRedPoses;
+    frc::SlewRateLimiter<units::meters_per_second> xLimiter{5_mps / 1_s};
+    frc::SlewRateLimiter<units::meters_per_second> yLimiter{5_mps / 1_s};
+    frc::SlewRateLimiter<units::degrees_per_second> rotLimiter{540_deg_per_s / 1_s};
+
+
+
     public:
     
 

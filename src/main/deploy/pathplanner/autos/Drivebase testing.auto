@@ -5,15 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Starting Reset"
+            "pathName": "New New New New Path"
           }
         }
       ]
     }
   },
-  "resetOdom": true,
-  "folder": "Old Autos",
+  "resetOdom": false,
+  "folder": null,
   "choreoAuto": false
 }

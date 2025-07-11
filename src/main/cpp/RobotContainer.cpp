@@ -20,7 +20,6 @@ using namespace pathplanner;
 
 // This will start Redux CANLink manually for C++
 
-#include "commands/IntakeCommands.h"
 
 using namespace DriveConstants;
 
@@ -28,9 +27,8 @@ RobotContainer::RobotContainer()
 {
    // autoChooser = AutoBuilder::buildAutoChooser(); 
 
-    OperatorCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController, offset);
-    DriverCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED, &m_driverController, &m_secondaryController);
-    AutonCommands(&m_drive, &m_climb, &m_elevator, &m_elbow, &m_intake, &m_LED);
+    DriverCommands(&m_drive, &m_driverController, &m_secondaryController);
+
 
     autoChooser = AutoBuilder::buildAutoChooser(); 
     frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);

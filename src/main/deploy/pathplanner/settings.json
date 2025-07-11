@@ -6,11 +6,7 @@
     "COMP Paths",
     "Tests"
   ],
-  "autoFolders": [
-    "Old Autos",
-    "Comp Autos",
-    "Push Autos"
-  ],
+  "autoFolders": [],
   "defaultMaxVel": 4.5,
   "defaultMaxAccel": 4.0,
   "defaultMaxAngVel": 540.0,
