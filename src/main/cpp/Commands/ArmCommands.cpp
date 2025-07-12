@@ -12,6 +12,8 @@ frc2::CommandPtr wristRotateLeft(ElbowSubsystem* m_elbow, frc2::CommandXboxContr
         }
         if (m_secondaryController->GetHID().GetLeftTriggerAxis() > 0.2) {
             m_elbow->setRollerSpeed(0.2);
+        } else {
+            m_elbow->setRollerSpeed(0.0);
         }
 
         if (m_elbow->getWristAngle() < 45 || m_elbow->getWristAngle() > 315) {
@@ -49,6 +51,8 @@ frc2::CommandPtr wristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxCont
         }
         if (m_secondaryController->GetHID().GetLeftTriggerAxis() > 0.2) {
             m_elbow->setRollerSpeed(0.2);
+        } else {
+            m_elbow->setRollerSpeed(0.0);
         }
 
         if (m_elbow->getWristAngle()<45 || m_elbow->getWristAngle()>315) {
@@ -58,10 +62,10 @@ frc2::CommandPtr wristRotateRight(ElbowSubsystem* m_elbow, frc2::CommandXboxCont
         if (m_elbow->getWristAngle()<225 && m_elbow->getWristAngle()>135) {
             m_elbow->setWristAngle(90);
         }
-        if(m_secondaryController->GetHID().GetLeftTriggerAxis() > 0.5) {
-            m_elbow->setWristSpeed(0.2);
-            secondaryLT = true;
-        }
+        // if(m_secondaryController->GetHID().GetLeftTriggerAxis() > 0.5) {
+        //     m_elbow->setWristSpeed(0.2);
+        //     secondaryLT = true;
+        // }
         frc::SmartDashboard::SmartDashboard::PutBoolean("Primary LT", primaryLT);
         frc::SmartDashboard::SmartDashboard::PutBoolean("Secondary LT", secondaryLT);
         },
