@@ -51,7 +51,7 @@ void DriverCommands(DriveSubsystem* m_drive,
     m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
     m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
 
-    m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(frc::Pose2d{3.00_m, 0_m, frc::Rotation2d{0_deg}}, 0.1);}, {m_drive})); 
+    m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(frc::Pose2d{1.00_m, 0_m, frc::Rotation2d{0_deg}}, 1);}, {m_drive})); 
 //   m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left19);}, {m_drive})); 
 //   m_driverController->X().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left18);}, {m_drive})); 
 //   m_driverController->Y().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left22);}, {m_drive})); 
