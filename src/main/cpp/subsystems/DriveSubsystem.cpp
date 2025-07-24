@@ -372,7 +372,7 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
     // {
     //     p = 1; 
     // } 
-    frc::PIDController positionPID(1.5,0,0);
+    frc::PIDController positionPID(0.75,0,0);
     frc::PIDController rotationPID(3.0,0,0);
 
     double speedX = positionPID.Calculate(deltaX, 0);
