@@ -504,38 +504,38 @@ bool DriveSubsystem::inRange(frc::Pose2d driverPose, frc::Pose2d pose1, units::m
         }
     }
 
-    double angleDiff = std::abs((double)(GetGyroHeading().Degrees() - temp.Rotation().Degrees())); 
+    // double angleDiff = std::abs((double)(GetGyroHeading().Degrees() - temp.Rotation().Degrees())); 
 
-    if (angleDiff > 180) angleDiff = 360 - angleDiff; 
+    // if (angleDiff > 180) angleDiff = 360 - angleDiff; 
 
-    if (angleDiff > 90)
-    {
-       // frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", true); 
-    if (temp == right6) temp = right6L;
-    else if (temp == left6) temp = left6L;
-    else if (temp == right7) temp = right7L;
-    else if (temp == left7) temp = left7L;
-    else if (temp == right8) temp = right8L;
-    else if (temp == left8) temp = left8L;
-    else if (temp == right9) temp = right9L;
-    else if (temp == left9) temp = left9L;
-    else if (temp == right10) temp = right10L;
-    else if (temp == left10) temp = left10L;
-    else if (temp == right11) temp = right11L;
-    else if (temp == left11) temp = left11L;
-    else if (temp == right17) temp = right17L;
-    else if (temp == left17) temp = left17L;
-    else if (temp == right18) temp = right18L;
-    else if (temp == left18) temp = left18L;
-    else if (temp == right19) temp = right19L;
-    else if (temp == left19) temp = left19L;
-    else if (temp == right20) temp = right20L;
-    else if (temp == left20) temp = left20L;
-    else if (temp == right21) temp = right21L;
-    else if (temp == left21) temp = left21L;
-    else if (temp == right22) temp = right22L;
-    else if (temp == left22) temp = left22L;
-    }
+    // if (angleDiff > 90)
+    // {
+    //    // frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", true); 
+    // if (temp == right6) temp = right6L;
+    // else if (temp == left6) temp = left6L;
+    // else if (temp == right7) temp = right7L;
+    // else if (temp == left7) temp = left7L;
+    // else if (temp == right8) temp = right8L;
+    // else if (temp == left8) temp = left8L;
+    // else if (temp == right9) temp = right9L;
+    // else if (temp == left9) temp = left9L;
+    // else if (temp == right10) temp = right10L;
+    // else if (temp == left10) temp = left10L;
+    // else if (temp == right11) temp = right11L;
+    // else if (temp == left11) temp = left11L;
+    // else if (temp == right17) temp = right17L;
+    // else if (temp == left17) temp = left17L;
+    // else if (temp == right18) temp = right18L;
+    // else if (temp == left18) temp = left18L;
+    // else if (temp == right19) temp = right19L;
+    // else if (temp == left19) temp = left19L;
+    // else if (temp == right20) temp = right20L;
+    // else if (temp == left20) temp = left20L;
+    // else if (temp == right21) temp = right21L;
+    // else if (temp == left21) temp = left21L;
+    // else if (temp == right22) temp = right22L;
+    // else if (temp == left22) temp = left22L;
+    // }
    // NearestTarget.SetRobotPose(temp); // Update the field with temp pose
   //  frc::SmartDashboard::SmartDashboard::PutBoolean("FLIP SIDE", false); 
     //frc::SmartDashboard::PutData("Nearest Target", &NearestTarget);
