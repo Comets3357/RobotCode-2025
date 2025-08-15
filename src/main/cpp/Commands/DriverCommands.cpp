@@ -1,7 +1,8 @@
 #include "Commands/DriverCommands.h"
 
                                                                     
-void DriverCommands(DriveSubsystem* m_drive, 
+void DriverCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, ElevatorSubsystem* m_elevator,
+                    ElbowSubsystem* m_elbow, IntakeSubsystem* m_intake, LEDSubsystem* m_LED, 
                     frc2::CommandXboxController* m_driverController, frc2::CommandXboxController* m_secondaryController) {
 
     //  _____       _                  ____        _   _                  
@@ -16,8 +17,6 @@ void DriverCommands(DriveSubsystem* m_drive,
     m_driverController->Start().OnTrue(frc2::cmd::RunOnce([=] {m_drive->ZeroHeading();}).IgnoringDisable(true)); 
 
     //Functions to drive the swerve modules, adds a conditional for speed reduction.
-    
-    
     m_drive->SetDefaultCommand(frc2::RunCommand(
     [=] {
 
@@ -51,20 +50,22 @@ void DriverCommands(DriveSubsystem* m_drive,
     m_driverController->RightTrigger().OnTrue(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = true;})); 
     m_driverController->RightTrigger().OnFalse(frc2::cmd::RunOnce([=] {m_drive->halfSpeed = false;}));
 
-    m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(frc::Pose2d{1.00_m, 0_m, frc::Rotation2d{0_deg}}, 1);}, {m_drive})); 
+//   m_driverController->A().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left17);}, {m_drive})); 
 //   m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left19);}, {m_drive})); 
 //   m_driverController->X().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left18);}, {m_drive})); 
 //   m_driverController->Y().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(m_drive->left22);}, {m_drive})); 
   
-//    m_driverController->RightBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->AutoAlignPose = m_drive->findNearestTarget(false); m_drive->GoToPos(m_drive->AutoAlignPose); m_drive->isAutoAligning = true; }, {m_drive})); 
-//    m_driverController->RightBumper().OnFalse(frc2::cmd::RunOnce([=]{m_drive->AutoAlignPose = frc::Pose2d{}; m_drive->isAutoAligning = false;})); 
-//    m_driverController->LeftBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->AutoAlignPose = m_drive->findNearestTarget(true); m_drive->GoToPos(m_drive->AutoAlignPose); m_drive->isAutoAligning = true;}, {m_drive})); 
-//    m_driverController->LeftBumper().OnFalse(frc2::cmd::RunOnce([=]{m_drive->AutoAlignPose = frc::Pose2d{}; m_drive->isAutoAligning = false;})); 
+   m_driverController->RightBumper().WhileTrue(frc2::cmd::Run([=] {
+    m_drive->AutoAlignPose = m_drive->findNearestTarget(false); 
+    m_drive->GoToPos(m_drive->AutoAlignPose); m_drive->isAutoAligning = true; }, {m_drive})); 
+   m_driverController->RightBumper().OnFalse(frc2::cmd::RunOnce([=]{m_drive->AutoAlignPose = frc::Pose2d{}; m_drive->isAutoAligning = false;})); 
+   m_driverController->LeftBumper().WhileTrue(frc2::cmd::Run([=] {m_drive->AutoAlignPose = m_drive->findNearestTarget(true); m_drive->GoToPos(m_drive->AutoAlignPose); m_drive->isAutoAligning = true;}, {m_drive})); 
+   m_driverController->LeftBumper().OnFalse(frc2::cmd::RunOnce([=]{m_drive->AutoAlignPose = frc::Pose2d{}; m_drive->isAutoAligning = false;})); 
 
 
 
-   //m_driverController->B().OnTrue(frc2::cmd::RunOnce([=] {m_drive->UpdateNonVisionPose();}, {m_drive}));
-    //m_driverController->A().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
+    m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos(frc::Pose2d{2.0_m, 0_m, frc::Rotation2d{0_deg}});}, {m_drive}));
+    m_driverController->B().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 
 
    // m_driverController->B().WhileTrue(frc2::cmd::Run([=] {m_drive->GoToPos((frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) ? m_drive->TopLeftBlue : m_drive->TopLeftRed);}, {m_drive})); 
     //m_driverController->B().OnFalse(frc2::cmd::RunOnce([=] {m_drive->Drive(0_mps, 0_mps, 0_deg_per_s, true);}, {m_drive})); 

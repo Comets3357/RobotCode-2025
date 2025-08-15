@@ -42,10 +42,10 @@ namespace DriveConstants
         0.4826_m; // Distance between centers of front and back wheels on robot
 
     // Angular offsets of the modules relative to the chassis in radians
-    constexpr double kFrontLeftChassisAngularOffset = -std::numbers::pi / 2;
+    constexpr double kFrontLeftChassisAngularOffset = std::numbers::pi / 2;
     constexpr double kFrontRightChassisAngularOffset = 0;
-    constexpr double kRearLeftChassisAngularOffset = std::numbers::pi;
-    constexpr double kRearRightChassisAngularOffset = std::numbers::pi / 2;
+    constexpr double kRearLeftChassisAngularOffset = 0;
+    constexpr double kRearRightChassisAngularOffset = -std::numbers::pi / 2;
 
     // SPARK MAX CAN IDs
     constexpr int kFrontLeftDrivingCanId = 1;
