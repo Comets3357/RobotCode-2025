@@ -253,12 +253,16 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
     double currentMotionX = std::cos(m_frontLeft.GetState().angle.Degrees().value())*m_frontLeft.GetState().speed.value();
     double currentMotionY = std::sin(m_frontLeft.GetState().angle.Degrees().value())*m_frontLeft.GetState().speed.value();
 
-    double displacementVectorMagnitude = std::sqrt(std::pow(currentMotionX-xSpeed.value(), 2) + std::pow(currentMotionY-ySpeed.value(), 2));
+    // current motion vector minus target motion vector
+    double difference = std::sqrt(std::pow(currentMotionX-xSpeed.value(), 2) + std::pow(currentMotionY-ySpeed.value(), 2));
+    double e = 5 / (difference + 0.2);
 
-    units::meters_per_second_t limiter{displacementVectorMagnitude == 0 ? 100 : (5/displacementVectorMagnitude)};
+    e = std::clamp(e, 1.0, 7.5);
 
-    xLimiter.ModifyRateLimit(limiter < 5_mps ? 5_mps/1_s : (limiter + 0.1_mps)/ 1_s);
-    yLimiter.ModifyRateLimit(limiter < 5_mps ? 5_mps/1_s : (limiter + 0.1_mps)/ 1_s);
+    units::meters_per_second_t limiter{e};
+
+    xLimiter.ModifyRateLimit(limiter / 1_s);
+    yLimiter.ModifyRateLimit(limiter / 1_s);
 
     // Convert the commanded speeds into the correct units for the drivetrain
     units::meters_per_second_t xSpeedDelivered = xLimiter.Calculate(xSpeed*DriveConstants::kMaxSpeed.value());
