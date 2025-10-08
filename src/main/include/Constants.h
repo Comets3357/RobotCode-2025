@@ -69,9 +69,9 @@ namespace ModuleConstants
     // Calculations required for driving motor conversion factors and feed forward
     constexpr double kDrivingMotorFreeSpeedRps =
         5676.0 / 60; // NEO free speed is 5676 RPM
-    //constexpr units::meter_t kWheelDiameter = 0.1016_m;
-    constexpr units::meter_t kWheelDiameter = 0.0964_m;
-
+    constexpr units::meter_t kWheelDiameter = 0.1316_m *0.878;
+    // constexpr units::meter_t kWheelDiameter = 0.0964_m// * 0.83236994219653179190751445086705;
+;
     constexpr units::meter_t kWheelCircumference =
         kWheelDiameter * std::numbers::pi;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15

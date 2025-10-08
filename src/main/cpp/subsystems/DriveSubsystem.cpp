@@ -130,7 +130,7 @@ void DriveSubsystem::PoseEstimation() {
     double chassisSpeedSquared = pow((double) GetRobotRelativeSpeeds().vx, 2) + pow((double) GetRobotRelativeSpeeds().vy, 2); 
     double chassisSpeeds = pow(chassisSpeedSquared, 0.5); 
     double percentSpeed = (chassisSpeeds / 4.8); 
-    double StdDev = (percentSpeed * (percentSpeed > 0.5) ? 30 : 15) + 0.1;
+    double StdDev = percentSpeed * ((percentSpeed > 0.5) ? 30 : 15) + 0.1;
 
     double angSpeMulti = GetRobotRelativeSpeeds().omega / 0.0610865_rad_per_s; 
 
@@ -253,13 +253,23 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
     double currentMotionX = std::cos(m_frontLeft.GetState().angle.Degrees().value())*m_frontLeft.GetState().speed.value();
     double currentMotionY = std::sin(m_frontLeft.GetState().angle.Degrees().value())*m_frontLeft.GetState().speed.value();
 
+    bool slowingDownX = std::abs(xSpeed.value()) < std::abs(currentMotionX);
+    bool slowingDownY = std::abs(ySpeed.value()) < std::abs(currentMotionY);
+
     // current motion vector minus target motion vector
     double difference = std::sqrt(std::pow(currentMotionX-xSpeed.value(), 2) + std::pow(currentMotionY-ySpeed.value(), 2));
-    double e = 5 / (difference + 0.2);
 
-    e = std::clamp(e, 1.0, 7.5);
+    double k = 1.5;
+    // double midpoint = 2;
 
-    units::meters_per_second_t limiter{e};
+    double r = /*slowingDownX ? */ 10*std::exp(k*std::pow(difference, 2)) /* : (20 / (1.0 + std::exp(k * (difference - midpoint))))*/;
+    // double rY = /*slowingDownY ? 10*std::exp(-std::pow(difference, 2)) :*/ (20 / (1.0 + std::exp(k * (difference - midpoint))));
+
+    r = std::clamp(r, 0.1, 20.0);
+    // rY = std::clamp(rY, 1.0, 20.0);
+
+    units::meters_per_second_t limiter{r};
+    // units::meters_per_second_t limiterY{rY};
 
     xLimiter.ModifyRateLimit(limiter / 1_s);
     yLimiter.ModifyRateLimit(limiter / 1_s);
@@ -289,6 +299,11 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
     frc::SmartDashboard::PutNumber("Front Right Angle", m_frontRight.GetState().angle.Degrees().value());
     frc::SmartDashboard::PutNumber("Back Left Angle", m_rearLeft.GetState().angle.Degrees().value());
     frc::SmartDashboard::PutNumber("Back Right Angle", m_rearRight.GetState().angle.Degrees().value());
+    frc::SmartDashboard::PutNumber("Front Left Position", m_frontLeft.GetPosition().distance.value());
+    frc::SmartDashboard::PutNumber("Front Right Position", m_frontRight.GetPosition().distance.value());
+    frc::SmartDashboard::PutNumber("Back Left Position", m_rearLeft.GetPosition().distance.value());
+    frc::SmartDashboard::PutNumber("Back Right Position", m_rearRight.GetPosition().distance.value());
+
 }
 
 void DriveSubsystem::SetX()
