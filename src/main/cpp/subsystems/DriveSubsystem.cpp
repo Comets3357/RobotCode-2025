@@ -10,6 +10,7 @@
 #include <frc/DriverStation.h>
 
 
+
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/config/RobotConfig.h>
 #include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
@@ -249,8 +250,20 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative)
-{
+{    
+    double currentMotionX = std::cos(m_frontLeft.GetState().angle.Degrees().value())*m_frontLeft.GetState().speed.value();
+    double currentMotionY = std::sin(m_frontLeft.GetState().angle.Degrees().value())*m_frontLeft.GetState().speed.value();
 
+    // current motion vector minus target motion vector
+    double difference = std::sqrt(std::pow(currentMotionX-xSpeed.value(), 2) + std::pow(currentMotionY-ySpeed.value(), 2));
+    double e = 5 / (difference + 0.2);
+
+    e = std::clamp(e, 1.0, 7.5);
+
+    units::meters_per_second_t limiter{e};
+
+    xLimiter.ModifyRateLimit(limiter / 1_s);
+    yLimiter.ModifyRateLimit(limiter / 1_s);
 
     // Convert the commanded speeds into the correct units for the drivetrain
     units::meters_per_second_t xSpeedDelivered = xLimiter.Calculate(xSpeed*DriveConstants::kMaxSpeed.value());
@@ -272,6 +285,11 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
     m_frontRight.SetDesiredState(fr);
     m_rearLeft.SetDesiredState(bl);
     m_rearRight.SetDesiredState(br);
+
+    frc::SmartDashboard::PutNumber("Front Left Angle", m_frontLeft.GetState().angle.Degrees().value());
+    frc::SmartDashboard::PutNumber("Front Right Angle", m_frontRight.GetState().angle.Degrees().value());
+    frc::SmartDashboard::PutNumber("Back Left Angle", m_rearLeft.GetState().angle.Degrees().value());
+    frc::SmartDashboard::PutNumber("Back Right Angle", m_rearRight.GetState().angle.Degrees().value());
 }
 
 void DriveSubsystem::SetX()

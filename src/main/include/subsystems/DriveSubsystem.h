@@ -5,7 +5,7 @@
 #pragma once
 
 // #include <frc/ADIS16470_IMU.h>
-#include <frc/filter/SlewRateLimiter.h>
+#include "library/SlewRateLimiter.h"
 #include <frc/geometry/Pose2d.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/ChassisSpeeds.h>
@@ -189,9 +189,9 @@ private:
     std::vector<frc::Pose2d> rightBluePoses; 
     std::vector<frc::Pose2d> leftRedPoses; 
     std::vector<frc::Pose2d> rightRedPoses;
-    frc::SlewRateLimiter<units::meters_per_second> xLimiter{10_mps / 1_s};
-    frc::SlewRateLimiter<units::meters_per_second> yLimiter{10_mps / 1_s};
-    frc::SlewRateLimiter<units::degrees_per_second> rotLimiter{540_deg_per_s / 1_s};
+    SlewRateLimiter<units::meters_per_second> xLimiter{0.1_mps / 1_s};
+    SlewRateLimiter<units::meters_per_second> yLimiter{0.1_mps / 1_s};
+    SlewRateLimiter<units::degrees_per_second> rotLimiter{540_deg_per_s / 1_s};
 
 
 
