@@ -103,6 +103,7 @@ void DriveSubsystem::Periodic()
     }
     PoseEstimation();
     PoseEstimationNoVisionTest();
+    OutputCurrenttoDashboard();
    // frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
     //frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
 
@@ -360,6 +361,13 @@ double DriveSubsystem::GetTurnRate()
 }
 
 frc::Pose2d DriveSubsystem::GetPose() { return m_poseEstimator.GetEstimatedPosition(); }
+
+void DriveSubsystem::OutputCurrenttoDashboard() {
+    frc::SmartDashboard::PutNumber("FL Current", m_frontLeft.GetCurrent());
+    frc::SmartDashboard::PutNumber("FR Current", m_frontRight.GetCurrent());
+    frc::SmartDashboard::PutNumber("BL Current", m_rearLeft.GetCurrent());
+    frc::SmartDashboard::PutNumber("BR Current", m_rearRight.GetCurrent());
+}
 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose)
 {

@@ -32,6 +32,7 @@ RobotContainer::RobotContainer()
 
     autoChooser = AutoBuilder::buildAutoChooser(); 
     frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
+
 }
  
 frc2::Command* RobotContainer::GetAutonomousCommand()

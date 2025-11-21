@@ -55,6 +55,7 @@ public:
      * Zeroes all the SwerveModule encoders.
      */
     void ResetEncoders();
+    double GetCurrent();
 
 private:
     SparkFlexMotor m_drivingSpark;

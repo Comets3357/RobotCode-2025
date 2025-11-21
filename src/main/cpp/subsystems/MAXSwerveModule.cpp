@@ -61,6 +61,10 @@ frc::SwerveModulePosition MAXSwerveModule::GetPosition()
                             m_chassisAngularOffset}};
 }
 
+double MaxSwerveModule::GetCurrent() {
+    return m_drivingSpark.GetOutputCurrent(); 
+}
+
 void MAXSwerveModule::SetDesiredState(
     const frc::SwerveModuleState &desiredState)
 {

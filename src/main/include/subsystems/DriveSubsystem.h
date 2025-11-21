@@ -111,6 +111,8 @@ public:
      */
     double GetTurnRate();
 
+    
+
     /**
      * Returns the currently-estimated pose of the robot.
      *
@@ -157,6 +159,8 @@ public:
     frc::Pose2d findNearestTarget(bool isLeftSide); 
 
     bool ArmGoToLeftSide(); 
+
+    void OutputCurrenttoDashboard();
 
   
 
