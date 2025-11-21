@@ -26,6 +26,9 @@ class VisionSubsystem : public frc2::SubsystemBase
 
   std::string_view FieldNoBarge = "/home/lvuser/deploy/2025AprilTagsWithoutBargeTags.json";
   const frc::AprilTagFieldLayout kTagLayout{FieldNoBarge};
+
+    photon::PhotonPipelineResult cameraResults1;
+    photon::PhotonPipelineResult cameraResults2;
     
 
 frc::Transform3d robotToCam1 =

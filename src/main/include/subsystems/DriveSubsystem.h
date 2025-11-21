@@ -35,6 +35,8 @@
 #include <frc/system/plant/DCMotor.h>
 #include <frc/system/plant/LinearSystemId.h>
 #include <units/angular_velocity.h>
+#include <frc/BuiltInAccelerometer.h>
+#include <frc/apriltag/AprilTagFieldLayout.h>
 
 class DriveSubsystem : public frc2::SubsystemBase
 {
@@ -141,6 +143,7 @@ public:
 
     frc::Field2d m_field;
     frc::Field2d m_fieldNoVision;
+    frc::BuiltInAccelerometer m_AccelerometerRIO;
 
     void PoseEstimation();
 
@@ -160,7 +163,11 @@ public:
 
     bool ArmGoToLeftSide(); 
 
-    void OutputCurrenttoDashboard();
+    void OutputCurrentAndAccelerationtoDashboard();
+
+    void SlipDetection();
+
+    double DistanceFromTarget();
 
   
 
@@ -192,6 +199,9 @@ private:
     SlewRateLimiter<units::meters_per_second> xLimiter{0.1_mps / 1_s};
     SlewRateLimiter<units::meters_per_second> yLimiter{0.1_mps / 1_s};
     SlewRateLimiter<units::degrees_per_second> rotLimiter{540_deg_per_s / 1_s};
+    
+    
+    frc::AprilTagFieldLayout m_aprilTagFieldLayout{"/home/lvuser/deploy/2025-reefscape-welded.json"};
 
 
 
@@ -298,6 +308,13 @@ private:
     frc::Translation2d reefCenterRed = reefCenterBlue.RotateAround(frc::Translation2d{8.774176_m, 4.0259_m}, frc::Rotation2d{180_deg});
 
     bool isBlueAlliance = true; 
+
+    bool trustWheelOdometry = true;
+
+    bool inRangeOfTarget = false;
+
+    double AccelX;
+    double AccelY;
    
   
 };

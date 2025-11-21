@@ -17,7 +17,9 @@ class GyroWrapper
         void SetAngle(units::degree_t angle);
         frc::Rotation2d Get2DRotation(); 
         units::turn_t GetYaw(); 
-        units::turns_per_second_t GetAngularVelocityYaw(); 
+        units::turns_per_second_t GetAngularVelocityYaw();
+        units::standard_gravity_t GetLinearAccelerationX();
+        units::standard_gravity_t GetLinearAccelerationY();
     private: 
         redux::sensors::canandgyro::Canandgyro m_gyro{9};
         units::degree_t CurrentYaw = units::degree_t{0};

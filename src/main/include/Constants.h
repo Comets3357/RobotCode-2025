@@ -43,7 +43,7 @@ namespace DriveConstants
 
     // Angular offsets of the modules relative to the chassis in radians
     constexpr double kFrontLeftChassisAngularOffset = std::numbers::pi / 2;
-    constexpr double kFrontRightChassisAngularOffset = 0;
+    constexpr double kFrontRightChassisAngularOffset = std::numbers::pi;
     constexpr double kRearLeftChassisAngularOffset = 0;
     constexpr double kRearRightChassisAngularOffset = -std::numbers::pi / 2;
 

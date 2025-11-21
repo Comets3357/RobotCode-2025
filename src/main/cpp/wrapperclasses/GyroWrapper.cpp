@@ -31,3 +31,13 @@ units::turns_per_second_t GyroWrapper::GetAngularVelocityYaw()
 {
     return m_gyro.GetAngularVelocityYaw(); 
 }
+
+units::standard_gravity_t GyroWrapper::GetLinearAccelerationX() 
+{ 
+    return m_gyro.GetAccelerationX(); 
+}
+
+units::standard_gravity_t GyroWrapper::GetLinearAccelerationY() 
+{ 
+    return m_gyro.GetAccelerationY(); 
+}

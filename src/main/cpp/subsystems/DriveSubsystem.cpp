@@ -103,7 +103,8 @@ void DriveSubsystem::Periodic()
     }
     PoseEstimation();
     PoseEstimationNoVisionTest();
-    OutputCurrenttoDashboard();
+    OutputCurrentAndAccelerationtoDashboard();
+    SlipDetection();
    // frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
     //frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
 
@@ -256,7 +257,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 
     // current motion vector minus target motion vector
     double difference = std::sqrt(std::pow(currentMotionX-xSpeed.value(), 2) + std::pow(currentMotionY-ySpeed.value(), 2));
-    double e = 5 / (difference + 0.2);
+    double e = 50 / (difference + 0.2);
 
     e = std::clamp(e, 1.0, 7.5);
 
@@ -347,11 +348,79 @@ double DriveSubsystem::GetTurnRate()
 
 frc::Pose2d DriveSubsystem::GetPose() { return m_poseEstimator.GetEstimatedPosition(); }
 
-void DriveSubsystem::OutputCurrenttoDashboard() {
+void DriveSubsystem::OutputCurrentAndAccelerationtoDashboard() {
     frc::SmartDashboard::PutNumber("FL Current", m_frontLeft.GetCurrent());
     frc::SmartDashboard::PutNumber("FR Current", m_frontRight.GetCurrent());
     frc::SmartDashboard::PutNumber("BL Current", m_rearLeft.GetCurrent());
     frc::SmartDashboard::PutNumber("BR Current", m_rearRight.GetCurrent());
+    frc::SmartDashboard::PutNumber("Accel X", (double)m_gyro.GetLinearAccelerationX().value());
+    frc::SmartDashboard::PutNumber("Accel Y", (double)m_gyro.GetLinearAccelerationY().value());
+    frc::SmartDashboard::PutBoolean("Trust Wheel Odometry", trustWheelOdometry);
+
+}
+
+
+void DriveSubsystem::SlipDetection() {
+    
+    AccelX = std::abs(m_AccelerometerRIO.GetX());
+    AccelY = std::abs(m_AccelerometerRIO.GetY());
+    
+
+
+    if (AccelX > 2.0 || AccelY > 2.0) {
+        trustWheelOdometry = false;
+    }
+    
+    if (!trustWheelOdometry) {
+        // flash LEDS or something
+        if(DistanceFromTarget() < 1.5) {
+            trustWheelOdometry = true;
+            // stop flashing LEDs
+        }
+    }
+
+}
+
+double DriveSubsystem::DistanceFromTarget() {
+    std::optional<frc::Pose3d> targetPose1;
+    std::optional<frc::Pose3d> targetPose2;
+
+    frc::Pose2d target1;
+    frc::Pose2d target2;
+    double distance1;
+    double distance2;
+
+    int NearestTarget1 = m_visionSubsystem.cameraResults1.GetBestTarget().GetFiducialId();
+    int NearestTarget2 = m_visionSubsystem.cameraResults2.GetBestTarget().GetFiducialId();
+
+    if (NearestTarget1 != -1) {
+        targetPose1 = m_aprilTagFieldLayout.GetTagPose(NearestTarget1);
+        
+        if (targetPose1.has_value()) {
+            target1 = targetPose1.value().ToPose2d();
+            distance1 = (double)GetPose().Translation().Distance(target2.Translation());
+
+        }
+    } else if (NearestTarget2 != -1) {
+        targetPose2 = m_aprilTagFieldLayout.GetTagPose(NearestTarget2);
+        
+        if (targetPose2.has_value()) {
+            target2 = targetPose2.value().ToPose2d();
+            distance2 = (double)GetPose().Translation().Distance(target2.Translation());
+
+        }
+    }
+    if (distance1 > 0 && distance2 > 0) {
+        if (distance1 < distance2) {
+            return distance1;
+        } else {
+            return distance2;
+        }
+    }
+    else {
+        return 100;
+    }
+    
 }
 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose)
