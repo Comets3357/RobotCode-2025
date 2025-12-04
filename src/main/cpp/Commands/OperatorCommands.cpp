@@ -191,7 +191,7 @@ void OperatorCommands(DriveSubsystem* m_drive, ClimbSubsystem* m_climb, Elevator
 
     m_secondaryController->POVLeft().OnTrue(frc2::cmd::Either(
     frc2::cmd::RunOnce([=] { m_elevator->setPosition(17);}, { m_elevator})
-    .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevat or->getAPosition()>16.5;}))
+    .AlongWith(frc2::cmd::WaitUntil([=]{ return m_elevator->getAPosition()>16.5;}))
     .AndThen(wristRotateLeft(m_elbow, m_driverController, m_secondaryController, 220, 250)),
 
     frc2::cmd::RunOnce([=] { m_elevator->setPosition(17);}, { m_elevator})
