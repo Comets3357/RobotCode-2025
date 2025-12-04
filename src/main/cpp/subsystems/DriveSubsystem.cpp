@@ -517,7 +517,7 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
         speedY = speedY * max_output / commanded_speed;
     }
 
-    Drive(-units::meters_per_second_t{(speedX)}, -units::meters_per_second_t{(speedY)}, -units::degrees_per_second_t{angVel}, true);
+    Drive(-units::meters_per_second_t{(speedX)}, -units::meters_per_second_t{(speedY)}, units::degrees_per_second_t{angVel}, true);
 }
 
 double DriveSubsystem::GetDistance(frc::Pose2d target)
