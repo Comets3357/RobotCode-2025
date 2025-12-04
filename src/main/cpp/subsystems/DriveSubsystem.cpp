@@ -104,7 +104,9 @@ void DriveSubsystem::Periodic()
     PoseEstimation();
     PoseEstimationNoVisionTest();
     OutputCurrentAndAccelerationtoDashboard();
+    DistanceFromTarget();
     SlipDetection();
+
    // frc::SmartDashboard::PutNumber("Vision Offset X", visionPoseOffsetX.value());
     //frc::SmartDashboard::PutNumber("Vision Offset Y", visionPoseOffsetY.value());
 
@@ -252,41 +254,48 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative)
 {    
-    double currentMotionX = std::cos(m_frontLeft.GetState().angle.Degrees().value())*m_frontLeft.GetState().speed.value();
-    double currentMotionY = std::sin(m_frontLeft.GetState().angle.Degrees().value())*m_frontLeft.GetState().speed.value();
+    // double currentMotionX = std::cos(m_frontLeft.GetState().angle.Degrees().value())*m_frontLeft.GetState().speed.value();
+    // double currentMotionY = std::sin(m_frontLeft.GetState().angle.Degrees().value())*m_frontLeft.GetState().speed.value();
 
-    bool slowingDownX = std::abs(xSpeed.value()) < std::abs(currentMotionX);
-    bool slowingDownY = std::abs(ySpeed.value()) < std::abs(currentMotionY);
+    // bool slowingDownX = std::abs(xSpeed.value()) < std::abs(currentMotionX);
+    // bool slowingDownY = std::abs(ySpeed.value()) < std::abs(currentMotionY);
 
-    // current motion vector minus target motion vector
-    double difference = std::sqrt(std::pow(currentMotionX-xSpeed.value(), 2) + std::pow(currentMotionY-ySpeed.value(), 2));
+    // // current motion vector minus target motion vector
+    // double difference = std::sqrt(std::pow(currentMotionX-xSpeed.value(), 2) + std::pow(currentMotionY-ySpeed.value(), 2));
 
-    double k = 1.5;
-    // double midpoint = 2;
+    // double k = 1.5;
+    // // double midpoint = 2;
 
-    double r = /*slowingDownX ? */ 10*std::exp(k*std::pow(difference, 2)) /* : (20 / (1.0 + std::exp(k * (difference - midpoint))))*/;
-    // double rY = /*slowingDownY ? 10*std::exp(-std::pow(difference, 2)) :*/ (20 / (1.0 + std::exp(k * (difference - midpoint))));
+    // double r = /*slowingDownX ? */ 10*std::exp(k*std::pow(difference, 2)) /* : (20 / (1.0 + std::exp(k * (difference - midpoint))))*/;
+    // // double rY = /*slowingDownY ? 10*std::exp(-std::pow(difference, 2)) :*/ (20 / (1.0 + std::exp(k * (difference - midpoint))));
 
-    r = std::clamp(r, 0.1, 20.0);
-    // rY = std::clamp(rY, 1.0, 20.0);
+    // r = std::clamp(r, 0.1, 20.0);
+    // // rY = std::clamp(rY, 1.0, 20.0);
 
-    units::meters_per_second_t limiter{r};
-    // units::meters_per_second_t limiterY{rY};
+    // units::meters_per_second_t limiter{r};
+    // // units::meters_per_second_t limiterY{rY};
 
-    xLimiter.ModifyRateLimit(limiter / 1_s);
-    yLimiter.ModifyRateLimit(limiter / 1_s);
+    // xLimiter.ModifyRateLimit(limiter / 1_s);
+    // yLimiter.ModifyRateLimit(limiter / 1_s);
 
-    // Convert the commanded speeds into the correct units for the drivetrain
-    units::meters_per_second_t xSpeedDelivered = xLimiter.Calculate(xSpeed*DriveConstants::kMaxSpeed.value());
-    units::meters_per_second_t ySpeedDelivered = yLimiter.Calculate(ySpeed*DriveConstants::kMaxSpeed.value());
-    units::radians_per_second_t rotDelivered = rotLimiter.Calculate(rot*DriveConstants::kMaxAngularSpeed.value());
+    // // Convert the commanded speeds into the correct units for the drivetrain
+    // units::meters_per_second_t xSpeedDelivered = xLimiter.Calculate(xSpeed*DriveConstants::kMaxSpeed.value());
+    // units::meters_per_second_t ySpeedDelivered = yLimiter.Calculate(ySpeed*DriveConstants::kMaxSpeed.value());
+    // units::radians_per_second_t rotDelivered = rotLimiter.Calculate(rot*DriveConstants::kMaxAngularSpeed.value());
+
+    // auto states = kDriveKinematics.ToSwerveModuleStates(
+    //     fieldRelative
+    //         ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
+    //               xSpeedDelivered, ySpeedDelivered, rotDelivered,
+    //               GetGyroHeading())
+    //         : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
 
     auto states = kDriveKinematics.ToSwerveModuleStates(
         fieldRelative
             ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
-                  xSpeedDelivered, ySpeedDelivered, rotDelivered,
+                  xSpeed, ySpeed, rot,
                   GetGyroHeading())
-            : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
+            : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 
     kDriveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);
 
@@ -407,25 +416,31 @@ double DriveSubsystem::DistanceFromTarget() {
 
     int NearestTarget1 = m_visionSubsystem.cameraResults1.GetBestTarget().GetFiducialId();
     int NearestTarget2 = m_visionSubsystem.cameraResults2.GetBestTarget().GetFiducialId();
+    frc::SmartDashboard::PutNumber("Camera1",NearestTarget1);
+    frc::SmartDashboard::PutNumber("Camera2",NearestTarget2);
 
-    if (NearestTarget1 != -1) {
+    
+
+    if (NearestTarget1 != 0) {
         targetPose1 = m_aprilTagFieldLayout.GetTagPose(NearestTarget1);
         
         if (targetPose1.has_value()) {
             target1 = targetPose1.value().ToPose2d();
             distance1 = (double)GetPose().Translation().Distance(target2.Translation());
+            frc::SmartDashboard::PutNumber("Distance1",distance1);
 
         }
-    } else if (NearestTarget2 != -1) {
+    } else if (NearestTarget2 != 0) {
         targetPose2 = m_aprilTagFieldLayout.GetTagPose(NearestTarget2);
         
         if (targetPose2.has_value()) {
             target2 = targetPose2.value().ToPose2d();
             distance2 = (double)GetPose().Translation().Distance(target2.Translation());
+            frc::SmartDashboard::PutNumber("Distance2",distance2);
 
         }
     }
-    if (distance1 > 0 && distance2 > 0) {
+    if (distance1 > 0 || distance2 > 0) {
         if (distance1 < distance2) {
             return distance1;
         } else {
@@ -502,7 +517,7 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
         speedY = speedY * max_output / commanded_speed;
     }
 
-    Drive(units::meters_per_second_t{(speedX)}, units::meters_per_second_t{(speedY)}, -units::degrees_per_second_t{angVel}, true);
+    Drive(-units::meters_per_second_t{(speedX)}, -units::meters_per_second_t{(speedY)}, units::degrees_per_second_t{angVel}, true);
 }
 
 double DriveSubsystem::GetDistance(frc::Pose2d target)
