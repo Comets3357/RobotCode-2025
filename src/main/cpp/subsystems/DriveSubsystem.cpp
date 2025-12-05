@@ -56,8 +56,8 @@ DriveSubsystem::DriveSubsystem()
         [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         [this](auto speeds, auto feedforwards){ DriveFromChassisSpeeds(speeds, false); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
         std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
-            PIDConstants(10, 0.0, 0.1), // Translation PID constants
-            PIDConstants(5, 0.0, 0.0) // Rotation PID constants
+            PIDConstants(22.5, 0.0, 0), // Translation PID constants
+            PIDConstants(10, 0.0, 0.0) // Rotation PID constants
         ),
         config, // The robot configuration
         []() {
@@ -97,9 +97,6 @@ void DriveSubsystem::Periodic()
     if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed)
     {
         isBlueAlliance = false; 
-    } else if (frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue)
-    {
-        isBlueAlliance = true;
     }
     PoseEstimation();
     PoseEstimationNoVisionTest();
@@ -497,7 +494,7 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
     // {
     //     p = 1; 
     // } 
-    frc::PIDController positionPID(0.75,0,0);
+    frc::PIDController positionPID(5,0,0);
     frc::PIDController rotationPID(3.0,0,0);
 
     double speedX = positionPID.Calculate(deltaX, 0);
@@ -517,7 +514,7 @@ void DriveSubsystem::GoToPos(frc::Pose2d targetPos, double max_output)
         speedY = speedY * max_output / commanded_speed;
     }
 
-    Drive(-units::meters_per_second_t{(speedX)}, -units::meters_per_second_t{(speedY)}, units::degrees_per_second_t{angVel}, true);
+    Drive(-units::meters_per_second_t{(speedX)}, -units::meters_per_second_t{(speedY)}, -units::degrees_per_second_t{angVel}, true);
 }
 
 double DriveSubsystem::GetDistance(frc::Pose2d target)
