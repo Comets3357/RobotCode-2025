@@ -12,30 +12,32 @@ std::vector<photon::EstimatedRobotPose> VisionSubsystem::getEstimatedGlobalPose(
   poseEstimatorTwo.SetReferencePose(prevEstimatedRobotPose);
   units::second_t currentTime = frc::Timer::GetFPGATimestamp();
 
-  if (!unreadResultsOne.empty()) {
+
+      frc::SmartDashboard::SmartDashboard::PutNumber("Cam 1 Pose Ambiguity",unreadResultsOne[0].HasTargets() ? unreadResultsOne[0].GetBestTarget().GetPoseAmbiguity() : 0);
+      frc::SmartDashboard::SmartDashboard::PutNumber("Cam 2 Pose Ambiguity",unreadResultsTwo[0].HasTargets() ? unreadResultsTwo[0].GetBestTarget().GetPoseAmbiguity() : 0);
+
+  if (!unreadResultsOne.empty() && unreadResultsOne[0].HasTargets() && unreadResultsOne[0].GetBestTarget().GetPoseAmbiguity() < 0.2) {
     cameraResults1 = unreadResultsOne[0];
     //const std::span<const photon::PhotonTrackedTarget> targets1 = cameraResults1.GetTargets();
     units::second_t frameTime1{cameraResults1.GetTimestamp().value()};
 
     
     if (cameraResults1.GetTimestamp().value() != 0) {
-      // if (targets1[0].GetFiducialId() != 14 && targets1[0].GetFiducialId() != 15 && targets1[0].GetFiducialId() != 4 && targets1[0].GetFiducialId() != 5) {
-            units::second_t frameTime1{cameraResults1.GetTimestamp().value()};
-            
-            if (frameTime1 > lastProcessedTimeOne && frameTime1 <= currentTime) {
-                result1 = poseEstimatorOne.Update(cameraResults1);
-                lastProcessedTimeOne = frameTime1;  // Update last processed time
-                // fmt::print("YAY PROCESSED A FRAME 1\n");
-            } else {
-                // fmt::print("Skipping outdated or duplicate frame from Camera 1\n");
-            }
-        // }
+      units::second_t frameTime1{cameraResults1.GetTimestamp().value()};
+      
+      if (frameTime1 > lastProcessedTimeOne && frameTime1 <= currentTime) {
+          result1 = poseEstimatorOne.Update(cameraResults1);
+          lastProcessedTimeOne = frameTime1;  // Update last processed time
+          // fmt::print("YAY PROCESSED A FRAME 1\n");
+      } else {
+          // fmt::print("Skipping outdated or duplicate frame from Camera 1\n");
+      }
     }
 
   }
   
 
-  if (unreadResultsTwo.size() > 0) {
+  if (!unreadResultsTwo.empty() && unreadResultsTwo[0].HasTargets() && unreadResultsTwo[0].GetBestTarget().GetPoseAmbiguity() < 0.2) {
 
   cameraResults2 = unreadResultsTwo[0];
   //const std::span<const photon::PhotonTrackedTarget> targets2 = cameraResults2.GetTargets();

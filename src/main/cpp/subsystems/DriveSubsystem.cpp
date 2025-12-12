@@ -163,6 +163,7 @@ void DriveSubsystem::PoseEstimation() {
         StdDev = 0; 
     }
     
+
         
 
    // frc::SmartDashboard::PutNumber("STDDEV", StdDev); 
@@ -411,8 +412,15 @@ double DriveSubsystem::DistanceFromTarget() {
     double distance1;
     double distance2;
 
-    int NearestTarget1 = m_visionSubsystem.cameraResults1.GetBestTarget().GetFiducialId();
-    int NearestTarget2 = m_visionSubsystem.cameraResults2.GetBestTarget().GetFiducialId();
+    int NearestTarget1;
+    int NearestTarget2;
+
+    if(m_visionSubsystem.cameraResults1.HasTargets()){
+    NearestTarget1 = m_visionSubsystem.cameraResults1.GetBestTarget().GetFiducialId();
+    }
+    if(m_visionSubsystem.cameraResults2.HasTargets()){
+    NearestTarget2 = m_visionSubsystem.cameraResults2.GetBestTarget().GetFiducialId();
+    }
     frc::SmartDashboard::PutNumber("Camera1",NearestTarget1);
     frc::SmartDashboard::PutNumber("Camera2",NearestTarget2);
 
